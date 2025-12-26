@@ -24,7 +24,7 @@ class Utils : public QObject
     Q_PROPERTY(QString consoleText READ consoleText WRITE setConsoleText NOTIFY consoleTextChanged)
     Q_PROPERTY(QString statusText READ statusText WRITE setStatusText NOTIFY statusTextChanged)
     Q_PROPERTY(int progressLevel READ progressLevel WRITE setProgressLevel NOTIFY progressLevelChanged)
-    Q_PROPERTY(bool updateError READ updateError WRITE setUpdateError NOTIFY updateErrorChanged)
+    Q_PROPERTY(bool blockUpdate READ blockUpdate WRITE setBlockUpdate NOTIFY blockUpdateChanged)
     Q_PROPERTY(bool updateRunning READ updateRunning WRITE setUpdateRunning NOTIFY updateRunningChanged)
     QML_ELEMENT
     QML_SINGLETON
@@ -33,7 +33,11 @@ class Utils : public QObject
     QString m_statusText = i18n("None");
     int m_progressLevel = 0;
     bool m_updateRunning = false;
-    bool m_updateError = false;
+    bool m_blockUpdate = false;
+
+    bool isServicePresent(const QString &service) const;
+    bool isServiceInactive(const QString &service) const;
+    QString getServiceState(const QString &service) const;
 
 public:
     Utils(QObject *parent = nullptr);
@@ -44,6 +48,7 @@ public:
 
     QString consoleText() const;
     void setConsoleText(const QString &consoleText);
+    void appendConsoleText(const QString &consoleText);
     Q_SIGNAL void consoleTextChanged();
 
     QString statusText() const;
@@ -54,9 +59,9 @@ public:
     void setProgressLevel(int progressLevel);
     Q_SIGNAL void progressLevelChanged();
 
-    bool updateError() const;
-    void setUpdateError(bool updateError);
-    Q_SIGNAL void updateErrorChanged();
+    bool blockUpdate() const;
+    void setBlockUpdate(bool updateError);
+    Q_SIGNAL void blockUpdateChanged();
 
     bool updateRunning() const;
     void setUpdateRunning(bool updateRunning);
