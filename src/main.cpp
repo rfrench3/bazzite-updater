@@ -87,14 +87,13 @@ int main(int argc, char *argv[])
 
     // qmlRegisterSingletonInstance("org.kde.bazzite_updater.private", 1, 0, "Config", config);
 
-    qmlRegisterSingletonType(
-        "org.kde.example",  // How the import statement should look like
-        1, 0,               // Major and minor versions of the import
-        "About",            // The name of the QML object
-        [](QQmlEngine* engine, QJSEngine *) -> QJSValue {
-            return engine->toScriptValue(KAboutData::applicationData());
-        }
-    );
+    qmlRegisterSingletonType("org.kde.example", // How the import statement should look like
+                             1,
+                             0, // Major and minor versions of the import
+                             "About", // The name of the QML object
+                             [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
+                                 return engine->toScriptValue(KAboutData::applicationData());
+                             });
 
     Utils utils;
     engine.rootContext()->setContextProperty(QStringLiteral("Utils"), &utils);

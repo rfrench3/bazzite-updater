@@ -51,7 +51,7 @@ public:
     Q_SIGNAL void statusTextChanged();
 
     int progressLevel() const;
-    void setProgressLevel( int progressLevel);
+    void setProgressLevel(int progressLevel);
     Q_SIGNAL void progressLevelChanged();
 
     bool updateError() const;

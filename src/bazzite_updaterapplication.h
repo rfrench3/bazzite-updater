@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include <QQmlEngine>
 #include <AbstractKirigamiApplication>
+#include <QQmlEngine>
 
 using namespace Qt::StringLiterals;
 

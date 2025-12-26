@@ -188,7 +188,6 @@ void Utils::copyToClipboard(const QString &content) const
     QApplication::clipboard()->setText(content);
 }
 
-
 QString Utils::consoleText() const
 {
     return m_consoleText;
