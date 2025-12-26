@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+[Desktop Entry]
+Name=Bazzite Updater
+Comment=Update your system
+Version=1.0
+Exec=bazzite_updater
+Icon=applications-development
+Type=Application
+Terminal=false
+Categories=Qt;KDE;System;
