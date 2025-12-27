@@ -51,7 +51,7 @@ Kirigami.Page {
 
         QQC2.Button {
             Layout.alignment: Qt.AlignHCenter
-            text: i18n("Update System Image")
+            text: i18n("Update System Image and Software")
             onClicked: {
                 showPassiveNotification(i18n("Update Started"), Kirigami.short);
                 Utils.runUpdate(function(callback) {
@@ -68,7 +68,7 @@ Kirigami.Page {
                     }
                 });
             }
-            enabled: !Utils.updateError && !Utils.updateRunning
+            enabled: !Utils.blockUpdate && !Utils.updateRunning
         }
 
         Item {

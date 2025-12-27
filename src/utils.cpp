@@ -72,26 +72,30 @@ void Utils::runUpdate(QJSValue callback)
     systemctl->start(QStringLiteral("systemctl"), {QStringLiteral("start"), QStringLiteral("uupd.service")});
 
     QProcess *journalctl = new QProcess(this);
-    journalctl->start(QStringLiteral("journalctl"), {QStringLiteral("--follow"), QStringLiteral("--unit=uupd.service"), QStringLiteral("--lines=0")});
+    journalctl->start(
+        QStringLiteral("journalctl"),
+        {QStringLiteral("--follow"), QStringLiteral("--unit=uupd.service"), QStringLiteral("--lines=0"), QStringLiteral("-o"), QStringLiteral("json")});
 
     Utils::setProgressLevel(0);
 
-    // Get line-by-line output in real time, useful for updating progress bar
     connect(journalctl, &QProcess::readyReadStandardOutput, [journalctl, this]() {
-        journalctl->deleteLater();
-
         while (journalctl->canReadLine()) {
-            const QString rawLine = QString::fromUtf8(journalctl->readLine());
+            const QByteArray rawLine = journalctl->readLine();
 
-            int jsonStart = rawLine.toUtf8().indexOf('{');
+            // Parse the Journald Wrapper
+            QJsonDocument journalDoc = QJsonDocument::fromJson(rawLine);
+            if (!journalDoc.isObject())
+                continue;
 
-            // If we found a '{', assume the rest of the line is JSON
-            if (jsonStart != -1) {
-                QByteArray jsonData = rawLine.mid(jsonStart).toUtf8();
-                QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+            QJsonObject journalObj = journalDoc.object();
 
-                if (doc.isObject()) {
-                    QJsonObject obj = doc.object();
+            QString message = journalObj.value(QStringLiteral("MESSAGE")).toString();
+
+            // read the uupd json output
+            if (message.trimmed().startsWith(QLatin1Char('{'))) {
+                QJsonDocument sysDoc = QJsonDocument::fromJson(message.toUtf8());
+                if (sysDoc.isObject()) {
+                    QJsonObject obj = sysDoc.object();
                     QString level = obj.value(QStringLiteral("level")).toString();
                     QString msg = obj.value(QStringLiteral("msg")).toString();
                     QString overall = obj.value(QStringLiteral("overall")).toString();
@@ -132,53 +136,36 @@ void Utils::runUpdate(QJSValue callback)
                         qDebug().noquote() << formattedLine;
                         continue;
                     }
-                } else {
-                    qDebug() << "DEBUG: QJsonDocument doc = QJsonDocument::fromJson(jsonData); resulted in doc.isObject() == False"
-                             << "Falling back to standard output...";
+
+                    continue; // Handled
                 }
             }
 
-            // Example of what this is doing:
-            // Dec 23 17:33:36 computername systemd[1]: uupd.service: Deactivated successfully.
-            //    ->   uupd.service: Deactivated successfully.
-            int standardStart = rawLine.toUtf8().indexOf("]: ") + 3; // + 3 to start at the actual message
-            QString standardData = rawLine.mid(standardStart);
-
-            Utils::appendConsoleText(standardData);
-            if (standardData.contains(QStringLiteral("Finished uupd.service")) == true)
-                Utils::setUpdateRunning(false);
+            Utils::appendConsoleText(message);
         }
     });
 
-    // Check the exit code of systemctl start uupd.service
-    // TODO: I am unsure how to use the exit code of the service itself, this should be looked at further
-    connect(systemctl, &QProcess::finished, [=](int exitCode, QProcess::ExitStatus exitStatus) {
-        systemctl->deleteLater();
+    connect(systemctl, &QProcess::finished, [=]() {
+        const QString result = getServiceResult(QStringLiteral("uupd.service"));
 
-        const QString stdout = QString::fromUtf8(systemctl->readAllStandardOutput().trimmed());
-
-        // Successful exit (not successful update)
-        if (exitCode == 0 && exitStatus == QProcess::NormalExit) {
+        if (result == QStringLiteral("success")) {
+            Utils::setUpdateRunning(false);
+            Utils::setStatusText(i18n("Success!"));
+            callback.call({0, result});
+            return;
+        } else if (result == QStringLiteral("start-limit-hit")) {
+            Utils::setBlockUpdate(true);
+            Utils::setUpdateRunning(false);
+            Utils::setStatusText(i18n("Updating too fast! ") + result);
+            Utils::appendConsoleText(i18n("You are updating too many times in a short period!"));
+        } else {
+            Utils::setBlockUpdate(true);
+            Utils::setUpdateRunning(false);
+            Utils::setStatusText(i18n("Error -- ") + result);
+            qDebug() << "Result of uupd.service was not success: " << result;
+            callback.call({1, result});
             return;
         }
-
-        Utils::setProgressLevel(0);
-        // Failure
-        QString intermediateText = QString::fromUtf8(systemctl->readAllStandardError().trimmed());
-        if (intermediateText.isEmpty()) {
-            intermediateText = stdout;
-            if (intermediateText.isEmpty()) {
-                intermediateText = i18nc("@info:progress", "No error message provided");
-            }
-        }
-        const QString finalOutputText = xi18nc("@info:progress %1 is the command being run, and %2 is the human-readable error text returned by the command",
-                                               "The command <command>%1</command> failed: %2",
-                                               QStringLiteral("systemctl start uupd.service"),
-                                               intermediateText);
-
-        qWarning() << "The command systemctl start uupd.service failed:" << intermediateText;
-        qWarning() << finalOutputText;
-        return;
     });
 }
 
@@ -220,14 +207,23 @@ QString Utils::getServiceState(const QString &service) const
     return state;
 }
 
+// Return the result of systemctl show {service} -p Result --value.
+// For example, may return "start-limit-hit" or "success"
+QString Utils::getServiceResult(const QString &service) const
+{
+    QProcess check;
+    check.start(QStringLiteral("systemctl"), {QStringLiteral("show"), service, QStringLiteral("-p"), QStringLiteral("Result"), QStringLiteral("--value")});
+
+    check.waitForFinished();
+
+    const QString output = QString::fromUtf8(check.readAllStandardOutput()).trimmed();
+
+    return output;
+}
+
 void Utils::copyToClipboard(const QString &content) const
 {
     QApplication::clipboard()->setText(content);
-}
-
-QString Utils::consoleText() const
-{
-    return m_consoleText;
 }
 
 void Utils::setConsoleText(const QString &consoleText)
@@ -253,20 +249,10 @@ void Utils::appendConsoleText(const QString &consoleText)
     Q_EMIT consoleTextChanged();
 }
 
-int Utils::progressLevel() const
-{
-    return m_progressLevel;
-}
-
 void Utils::setProgressLevel(int progressLevel)
 {
     m_progressLevel = progressLevel;
     Q_EMIT progressLevelChanged();
-}
-
-QString Utils::statusText() const
-{
-    return m_statusText;
 }
 
 void Utils::setStatusText(const QString &statusText)
@@ -275,25 +261,16 @@ void Utils::setStatusText(const QString &statusText)
     Q_EMIT statusTextChanged();
 }
 
-bool Utils::blockUpdate() const
-{
-    return m_blockUpdate;
-}
-
 void Utils::setBlockUpdate(bool updateError)
 {
     m_blockUpdate = updateError;
     Q_EMIT blockUpdateChanged();
 }
 
-bool Utils::updateRunning() const
-{
-    return m_updateRunning;
-}
-
 void Utils::setUpdateRunning(bool updateRunning)
 {
     m_updateRunning = updateRunning;
+    Q_EMIT updateRunningChanged();
 }
 
 #include "moc_utils.cpp"

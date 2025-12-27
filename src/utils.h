@@ -38,6 +38,7 @@ class Utils : public QObject
     bool isServicePresent(const QString &service) const;
     bool isServiceInactive(const QString &service) const;
     QString getServiceState(const QString &service) const;
+    QString getServiceResult(const QString &service) const;
 
 public:
     Utils(QObject *parent = nullptr);
@@ -46,24 +47,39 @@ public:
 
     Q_INVOKABLE void copyToClipboard(const QString &content) const;
 
-    QString consoleText() const;
+    QString consoleText() const
+    {
+        return m_consoleText;
+    }
     void setConsoleText(const QString &consoleText);
     void appendConsoleText(const QString &consoleText);
     Q_SIGNAL void consoleTextChanged();
 
-    QString statusText() const;
+    QString statusText() const
+    {
+        return m_statusText;
+    }
     void setStatusText(const QString &statusText);
     Q_SIGNAL void statusTextChanged();
 
-    int progressLevel() const;
+    int progressLevel() const
+    {
+        return m_progressLevel;
+    }
     void setProgressLevel(int progressLevel);
     Q_SIGNAL void progressLevelChanged();
 
-    bool blockUpdate() const;
+    bool blockUpdate() const
+    {
+        return m_blockUpdate;
+    }
     void setBlockUpdate(bool updateError);
     Q_SIGNAL void blockUpdateChanged();
 
-    bool updateRunning() const;
+    bool updateRunning() const
+    {
+        return m_updateRunning;
+    }
     void setUpdateRunning(bool updateRunning);
     Q_SIGNAL void updateRunningChanged();
 };
