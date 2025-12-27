@@ -40,16 +40,7 @@ target_link_libraries(bazzite_updater_static PUBLIC
 )
 target_include_directories(bazzite_updater_static PUBLIC ${CMAKE_BINARY_DIR})
 
-if (ANDROID)
-    kirigami_package_breeze_icons(ICONS
-        list-add
-        help-about
-        application-exit
-        applications-graphics
-    )
-else()
-    target_link_libraries(bazzite_updater_static PUBLIC Qt::Widgets)
-endif()
+target_link_libraries(bazzite_updater_static PUBLIC Qt::Widgets)
 
 kconfig_add_kcfg_files(bazzite_updater_static GENERATE_MOC bazzite_updaterconfig.kcfgc)
 

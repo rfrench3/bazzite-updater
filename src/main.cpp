@@ -1,12 +1,8 @@
 // SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include <QtGlobal>
-#ifdef Q_OS_ANDROID
-#include <QGuiApplication>
-#else
 #include <QApplication>
-#endif
+#include <QtGlobal>
 
 #include <QIcon>
 #include <QQmlApplicationEngine>
@@ -23,21 +19,10 @@
 #include "bazzite_updaterconfig.h"
 #include "utils.h"
 
-#ifdef Q_OS_WINDOWS
-#include <Windows.h>
-#endif
-
 using namespace Qt::Literals::StringLiterals;
 
-#ifdef Q_OS_ANDROID
-Q_DECL_EXPORT
-#endif
 int main(int argc, char *argv[])
 {
-#ifdef Q_OS_ANDROID
-    QGuiApplication app(argc, argv);
-    QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
-#else
     KIconTheme::initTheme();
     QIcon::setFallbackThemeName("breeze"_L1);
     QApplication app(argc, argv);
@@ -46,19 +31,6 @@ int main(int argc, char *argv[])
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
     }
-#endif
-
-#ifdef Q_OS_WINDOWS
-    if (AttachConsole(ATTACH_PARENT_PROCESS)) {
-        freopen("CONOUT$", "w", stdout);
-        freopen("CONOUT$", "w", stderr);
-    }
-
-    QApplication::setStyle(QStringLiteral("breeze"));
-    auto font = app.font();
-    font.setPointSize(10);
-    app.setFont(font);
-#endif
 
     KLocalizedString::setApplicationDomain("bazzite_updater");
     QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
@@ -79,7 +51,7 @@ int main(int argc, char *argv[])
 
     KAboutData::setApplicationData(aboutDataApp);
 
-    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"org.kde.bazzite_updater"_s));
+    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.rfrench3.bazzite_updater"_s));
 
     QQmlApplicationEngine engine;
 

@@ -200,12 +200,10 @@ QString Utils::getServiceState(const QString &service) const
     QProcess process;
 
     // We do NOT use "--quiet" because we want the text output
-    // process.start(QStringLiteral("systemctl"), {QStringLiteral("is-active"), service});
     startProcess(process, QStringLiteral("systemctl"), {QStringLiteral("is-active"), service});
 
     process.waitForFinished();
 
-    // Read the output (e.g., "active\n", "failed\n", "activating\n")
     QString state = QString::fromUtf8(process.readAllStandardOutput()).trimmed();
 
     return state;
