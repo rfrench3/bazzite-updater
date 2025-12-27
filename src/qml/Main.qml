@@ -38,6 +38,7 @@ StatefulApp.StatefulWindow {
 
     QQC2.ActionGroup { id: selectedPage }
 
+    // Change the base page by editing pageStack.initialPage, show a popup page menu with pageStack.layers.push
     globalDrawer: Kirigami.GlobalDrawer {
         isMenu: false // Even on desktop, side drawer looks better here
         actions: [

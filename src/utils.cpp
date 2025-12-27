@@ -69,10 +69,11 @@ void Utils::runUpdate(QJSValue callback)
     // No update is currently running, proceed
 
     QProcess *systemctl = new QProcess(this);
-    systemctl->start(QStringLiteral("systemctl"), {QStringLiteral("start"), QStringLiteral("uupd.service")});
+    startProcess(systemctl, QStringLiteral("systemctl"), {QStringLiteral("start"), QStringLiteral("uupd.service")});
 
     QProcess *journalctl = new QProcess(this);
-    journalctl->start(
+    startProcess(
+        journalctl,
         QStringLiteral("journalctl"),
         {QStringLiteral("--follow"), QStringLiteral("--unit=uupd.service"), QStringLiteral("--lines=0"), QStringLiteral("-o"), QStringLiteral("json")});
 
@@ -137,7 +138,7 @@ void Utils::runUpdate(QJSValue callback)
                         continue;
                     }
 
-                    continue; // Handled
+                    continue;
                 }
             }
 
@@ -145,6 +146,8 @@ void Utils::runUpdate(QJSValue callback)
         }
     });
 
+    // When the "systemctl start uupd.service" process completes,
+    // check the service result and update the UI accordingly.
     connect(systemctl, &QProcess::finished, [=]() {
         const QString result = getServiceResult(QStringLiteral("uupd.service"));
 
@@ -154,18 +157,16 @@ void Utils::runUpdate(QJSValue callback)
             callback.call({0, result});
             return;
         } else if (result == QStringLiteral("start-limit-hit")) {
-            Utils::setBlockUpdate(true);
-            Utils::setUpdateRunning(false);
             Utils::setStatusText(i18n("Updating too fast! ") + result);
             Utils::appendConsoleText(i18n("You are updating too many times in a short period!"));
         } else {
-            Utils::setBlockUpdate(true);
-            Utils::setUpdateRunning(false);
             Utils::setStatusText(i18n("Error -- ") + result);
             qDebug() << "Result of uupd.service was not success: " << result;
-            callback.call({1, result});
-            return;
         }
+        Utils::setBlockUpdate(true);
+        Utils::setUpdateRunning(false);
+        callback.call({1, result});
+        return;
     });
 }
 
@@ -183,7 +184,9 @@ bool Utils::isServicePresent(const QString &service) const
 {
     QProcess check_process;
 
-    check_process.start(QStringLiteral("systemctl"), {QStringLiteral("list-unit-files"), QStringLiteral("--no-legend"), QStringLiteral("--no-pager"), service});
+    startProcess(check_process,
+                 QStringLiteral("systemctl"),
+                 {QStringLiteral("list-unit-files"), QStringLiteral("--no-legend"), QStringLiteral("--no-pager"), service});
 
     check_process.waitForFinished();
 
@@ -197,7 +200,8 @@ QString Utils::getServiceState(const QString &service) const
     QProcess process;
 
     // We do NOT use "--quiet" because we want the text output
-    process.start(QStringLiteral("systemctl"), {QStringLiteral("is-active"), service});
+    // process.start(QStringLiteral("systemctl"), {QStringLiteral("is-active"), service});
+    startProcess(process, QStringLiteral("systemctl"), {QStringLiteral("is-active"), service});
 
     process.waitForFinished();
 
@@ -212,13 +216,32 @@ QString Utils::getServiceState(const QString &service) const
 QString Utils::getServiceResult(const QString &service) const
 {
     QProcess check;
-    check.start(QStringLiteral("systemctl"), {QStringLiteral("show"), service, QStringLiteral("-p"), QStringLiteral("Result"), QStringLiteral("--value")});
+    startProcess(check,
+                 QStringLiteral("systemctl"),
+                 {QStringLiteral("show"), service, QStringLiteral("-p"), QStringLiteral("Result"), QStringLiteral("--value")});
 
     check.waitForFinished();
 
     const QString output = QString::fromUtf8(check.readAllStandardOutput()).trimmed();
 
     return output;
+}
+
+// Handles sandboxing such as Flatpak
+void Utils::startProcess(QProcess *process, const QString &cmd, const QStringList &args)
+{
+    if (isFlatpak()) {
+        QStringList hostArgs;
+        hostArgs << QStringLiteral("--host") << cmd << args;
+        process->start(QStringLiteral("flatpak-spawn"), hostArgs);
+    } else {
+        process->start(cmd, args);
+    }
+}
+
+void Utils::startProcess(QProcess &process, const QString &cmd, const QStringList &args)
+{
+    startProcess(&process, cmd, args);
 }
 
 void Utils::copyToClipboard(const QString &content) const

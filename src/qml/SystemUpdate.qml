@@ -80,14 +80,14 @@ Kirigami.Page {
                 anchors.fill: parent
                 from: 0
                 to: 100
-                value: Utils.progressLevel
-                // indeterminate: update_running
+                //TODO: get progress tracker working (utils.cpp, runUpdate, connect journalctl lambda)
+                // value: Utils.progressLevel
+                indeterminate: Utils.updateRunning
             }
         }
 
         QQC2.Label {
             Layout.alignment: Qt.AlignCenter
-            // text: i18n("Current Status: ") + status
             text: i18n("Current Status: ") + Utils.statusText
         }
 

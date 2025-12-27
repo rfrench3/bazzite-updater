@@ -9,12 +9,15 @@
 
 #pragma once
 
+#include <QFileInfo>
 #include <QJSValue>
+#include <QProcess>
 #include <QQmlEngine>
 
 // There are some checks for if current == default
 #define DEFAULT_CONSOLE_TEXT i18n("No output")
 
+// Initially based on the Plasma Welcome page code
 // org.kde.plasma.welcome, Utils
 // Provides utility functionality for Welcome Center, intended for distro pages
 
@@ -39,6 +42,13 @@ class Utils : public QObject
     bool isServiceInactive(const QString &service) const;
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
+
+    static bool isFlatpak()
+    {
+        return QFileInfo::exists(QStringLiteral("/.flatpak-info"));
+    }
+    static void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
+    static void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
 
 public:
     Utils(QObject *parent = nullptr);
