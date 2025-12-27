@@ -15,7 +15,7 @@ import org.kde.bazzite_updater.settings as Settings
 Kirigami.Page {
     id: page
 
-    title: i18n("Main Page")
+    title: i18n("Rebase Helper")
 
     ColumnLayout {
         width: page.width

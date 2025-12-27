@@ -11,6 +11,7 @@ ecm_add_qml_module(bazzite_updater_static
         qml/Main.qml
         qml/SystemUpdate.qml
         qml/RebaseHelper.qml
+        qml/AboutBazzite.qml
     DEPENDENCIES
         org.kde.kirigamiaddons.formcard
         org.kde.kirigamiaddons.statefulapp

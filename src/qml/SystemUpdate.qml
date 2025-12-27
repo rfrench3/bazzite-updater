@@ -15,7 +15,31 @@ import org.kde.bazzite_updater.settings as Settings
 Kirigami.Page {
     id: page
 
-    title: i18n("Main Page")
+    title: i18n("System Update")
+
+    Kirigami.Action {
+        id: updateAction
+        text: i18n("Update System Image and Software")
+        shortcut: "Return"
+        enabled: !Utils.blockUpdate && !Utils.updateRunning
+
+        onTriggered: {
+            showPassiveNotification(i18n("Update Started"), Kirigami.short);
+            Utils.runUpdate(function(callback) {
+                if (callback != 0) {
+                    showPassiveNotification(
+                        i18n("Update Failed. Check console for more details."),
+                                            Kirigami.long,
+                                            i18n("Open console"),
+                                            function() {consoleDrawer.drawerOpen = true;}
+                    );
+                }
+                else {
+                    showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
+                }
+            });
+        }
+    }
 
     ColumnLayout {
         width: page.width
@@ -50,25 +74,10 @@ Kirigami.Page {
         Item { height: Kirigami.Units.gridUnit } // Vertical Spacer
 
         QQC2.Button {
+            focus: true
             Layout.alignment: Qt.AlignHCenter
-            text: i18n("Update System Image and Software")
-            onClicked: {
-                showPassiveNotification(i18n("Update Started"), Kirigami.short);
-                Utils.runUpdate(function(callback) {
-                    if (callback != 0) {
-                        showPassiveNotification(
-                            i18n("Update Failed. Check console for more details."),
-                            Kirigami.long,
-                            i18n("Open console"),
-                            function() {consoleDrawer.drawerOpen = true;}
-                            );
-                    }
-                    else {
-                        showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
-                    }
-                });
-            }
-            enabled: !Utils.blockUpdate && !Utils.updateRunning
+
+            action: updateAction
         }
 
         Item {
@@ -95,7 +104,8 @@ Kirigami.Page {
     actions: [
         Kirigami.Action {
             text: "Toggle Console"
-            onTriggered: {consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen;}
+            shortcut: "F12"
+            onTriggered: { consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen; }
         }
     ]
 
