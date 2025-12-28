@@ -5,6 +5,22 @@ cmake_minimum_required(VERSION 3.22)
 
 project(bazzite_updater VERSION 1.0.0)
 
+
+find_package(SDL3 QUIET)
+
+if (NOT SDL3_FOUND)
+    message(STATUS "SDL3 not found on system, downloading via FetchContent...")
+    include(FetchContent)
+    FetchContent_Declare(
+        SDL3
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+        GIT_TAG release-3.2.28 # Latest stable release at time of adding this
+    )
+    FetchContent_MakeAvailable(SDL3)
+else()
+    message(STATUS "Found system SDL3")
+endif()
+
 include(FeatureSummary)
 
 set(QT6_MIN_VERSION 6.7.0)

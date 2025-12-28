@@ -9,13 +9,12 @@ import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
-import org.kde.bazzite_updater
-import org.kde.bazzite_updater.settings as Settings
+import io.github.rfrench3.bazzite_updater
 
 Kirigami.Page {
     id: page
 
-    title: i18n("Rebase Helper")
+    title: ControllerManager.labels.b + ControllerManager.labels.space + ControllerManager.labels.space + ControllerManager.labels.space + i18n("Rebase Helper")
 
     ColumnLayout {
         width: page.width

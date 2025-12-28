@@ -17,6 +17,7 @@
 #include <KLocalizedString>
 
 #include "bazzite_updaterconfig.h"
+#include "controllers.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -70,8 +71,11 @@ int main(int argc, char *argv[])
     Utils utils;
     engine.rootContext()->setContextProperty(QStringLiteral("Utils"), &utils);
 
+    ControllerManager gamepad;
+    engine.rootContext()->setContextProperty(QStringLiteral("ControllerManager"), &gamepad);
+
     KLocalization::setupLocalizedContext(&engine);
-    engine.loadFromModule("org.kde.bazzite_updater", u"Main"_s);
+    engine.loadFromModule("io.github.rfrench3.bazzite_updater", u"Main"_s);
 
     if (engine.rootObjects().isEmpty()) {
         return -1;

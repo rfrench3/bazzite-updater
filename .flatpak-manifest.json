@@ -12,11 +12,28 @@
         "--socket=fallback-x11",
         "--socket=wayland",
         "--device=dri",
-        "--talk-name=org.freedesktop.Flatpak"
+        "--talk-name=org.freedesktop.Flatpak",
+        "--device=input"
     ],
     "separate-locales": false,
 
     "modules": [
+            {
+            "name": "sdl3",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DSDL_STATIC=OFF",
+                "-DSDL_SHARED=ON",
+                "-DSDL_TEST_LIBRARY=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/libsdl-org/SDL.git",
+                    "tag": "release-3.2.28"
+                }
+            ]
+        },
         {
             "name": "bazzite_updater",
             "buildsystem": "cmake-ninja",

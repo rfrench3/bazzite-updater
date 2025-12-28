@@ -9,17 +9,33 @@ import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
-import org.kde.bazzite_updater
-import org.kde.bazzite_updater.settings as Settings
+import io.github.rfrench3.bazzite_updater
 
 Kirigami.Page {
     id: page
 
-    title: i18n("System Update")
+    // HACK: The global drawer labels are placed on the page titles because it is perfectly adjacent to
+    // the global drawer button, and I do not know how to put the label inside of that button.
+    title: ControllerManager.labels.b + ControllerManager.labels.space + ControllerManager.labels.space + ControllerManager.labels.space + i18n("System Update")
+
+    Connections {
+        target: ControllerManager
+
+        function onButtonPressed(buttonId) {
+            switch (buttonId) {
+                case 0: // A
+                    updateAction.trigger();
+                    break;
+                case 3: // Y
+                    toggleConsole.trigger();
+                    break;
+            }
+        }
+    }
 
     Kirigami.Action {
         id: updateAction
-        text: i18n("Update System Image and Software")
+        text: i18n("Update System Image and Software") + ControllerManager.labels.space + ControllerManager.labels.a
         shortcut: "Return"
         enabled: !Utils.blockUpdate && !Utils.updateRunning
 
@@ -30,7 +46,7 @@ Kirigami.Page {
                     showPassiveNotification(
                         i18n("Update Failed. Check console for more details."),
                                             Kirigami.long,
-                                            i18n("Open console"),
+                                            i18n("Open console") + ControllerManager.labels.space + ControllerManager.labels.y,
                                             function() {consoleDrawer.drawerOpen = true;}
                     );
                 }
@@ -91,6 +107,7 @@ Kirigami.Page {
                 to: 100
                 //TODO: get progress tracker working (utils.cpp, runUpdate, connect journalctl lambda)
                 // value: Utils.progressLevel
+                // use indeterminate until then
                 indeterminate: Utils.updateRunning
             }
         }
@@ -103,7 +120,8 @@ Kirigami.Page {
     }
     actions: [
         Kirigami.Action {
-            text: "Toggle Console"
+            id: toggleConsole
+            text: "Toggle Console" + ControllerManager.labels.space + ControllerManager.labels.y
             shortcut: "F12"
             onTriggered: { consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen; }
         }
@@ -137,6 +155,8 @@ Kirigami.Page {
                     font.family: 'monospace'
                     wrapMode: Text.WordWrap
                     readOnly: true
+
+                    onTextChanged: { cursorPosition = length; }
                 }
             }
 
@@ -145,7 +165,7 @@ Kirigami.Page {
 
                 QQC2.Button {
                     Layout.fillWidth: true
-                    text: "Copy to Clipboard"
+                    text: i18n("Copy to Clipboard")
                     onClicked: {
                         Utils.copyToClipboard(Utils.consoleText);
                         showPassiveNotification(i18n("Text Copied"), Kirigami.short);
@@ -155,7 +175,7 @@ Kirigami.Page {
                 QQC2.Button {
 
                     Layout.fillWidth: true
-                    text: "Close"
+                    text: i18n("Close") + ControllerManager.labels.space + ControllerManager.labels.y
                     onClicked: consoleDrawer.close()
                 }
             }
