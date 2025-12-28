@@ -1,25 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  SPDX-License-Identifier: CC0-1.0
-  SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
- -->
+<?xml version='1.0' encoding='utf-8'?>
 <component type="desktop-application">
+  <!--Created with jdAppStreamEdit 9.2-->
   <id>io.github.rfrench3.bazzite_updater</id>
   <name>Bazzite Updater</name>
   <summary>Update your system</summary>
+  <developer id="io.github.rfrench3">
+    <name>The KDE Community</name>
+  </developer>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
-  <developer id="kde.org">
-    <name>The KDE Community</name>
-    <url>https://kde.org</url>
-  </developer>
   <description>
-    <p>Multiple paragraphs of long description, describing this software component.</p>
-    <p>You can also use ordered and unordered lists:</p>
-    <ul>
-      <li>Feature 1</li>
-      <li>Feature 2</li>
-    </ul>
-    <p>Keep in mind to XML-escape characters, and that this is not HTML markup.</p>
+    <p>Kirigami interface for uupd.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
+  <releases>
+    <release version="0.1.0" date="2025-12-27" type="development">
+      <description>
+        <p>SDL3 implemented for controller support</p>
+      </description>
+    </release>
+  </releases>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+    <control>gamepad</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <keywords>
+    <keyword>Updater</keyword>
+    <keyword>Universal Blue</keyword>
+    <keyword>Kirigami</keyword>
+  </keywords>
 </component>
