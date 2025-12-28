@@ -15,6 +15,15 @@
 
 <br>
 
+<h1 align="center">Icons</h1>
+
+<p>The custom icons used by this app come from Bazzite.</p>
+
+- https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/bazzite/update.svg
+- https://github.com/ublue-os/bazzite/blob/main/system_files/desktop/shared/usr/share/ublue-os/bazzite/logo.svg
+
+<br>
+
 <h1 align="center">Requirements</h1>
 
 This GUI is only useful if you have `uupd` installed. If you are using a Universal Blue based system, you almost certainly do!
@@ -25,7 +34,12 @@ This GUI is only useful if you have `uupd` installed. If you are using a Univers
 
 <h1 align="center">Where to Install the Latest Release</h1>
 
-This interface is still in its early stages, so I have not made it incredibly simple to install yet. If you know how, you can manually compile it or install the flatpak from the flatpak manifest.
+I will publish flatpaks to the GitHub releases to distribute it until I am further in development.
+
+**NOTE: This is not a sandboxed flatpak.** 
+Flatpaks are usually heavily sandboxed, but this one is not for the following reasons:
+--talk-name=org.freedesktop.Flatpak (run arbitrary commands on host system, used for systemctl and journalctl)
+--device=input                      (read all input devices, used for SDL3 controller support)
 
 - https://github.com/rfrench3/bazzite_updater/releases
 
