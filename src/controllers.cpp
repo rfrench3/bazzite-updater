@@ -7,6 +7,8 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 
+#define POLLING_RATE 16 // ~60FPS
+
 ControllerManager::ControllerManager(QObject *parent)
     : QObject(parent)
     , m_timer(new QTimer(this))
@@ -19,10 +21,40 @@ ControllerManager::ControllerManager(QObject *parent)
     }
 
     connect(m_timer, &QTimer::timeout, this, QOverload<>::of(&ControllerManager::pollSDL));
-    m_timer->start(16);
+    m_timer->start(POLLING_RATE);
     qDebug() << "ControllerManager initialized. Waiting for input...";
 
     changeGamepadLabels();
+}
+
+void ControllerManager::setPollController(bool windowActiveState)
+{
+    if (windowActiveState == true) {
+        qDebug() << "Window focused: Starting controller polling.";
+
+        // Clear any events that occurred when unfocused,
+        // except for controller connections/disconnections
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_EVENT_GAMEPAD_ADDED)
+                handleGamepadAdded(event.gdevice.which);
+            else if (event.type == SDL_EVENT_GAMEPAD_REMOVED)
+                handleGamepadRemoved(event.gdevice.which);
+        }
+
+        m_lStickUpActive = false;
+        m_lStickDownActive = false;
+        m_rStickVertical = 0;
+
+        m_timer->start(POLLING_RATE);
+    } else {
+        qDebug() << "Window unfocused: Pausing controller polling.";
+        m_timer->stop();
+
+        m_lStickUpActive = false;
+        m_lStickDownActive = false;
+        m_rStickVertical = 0;
+    }
 }
 
 void ControllerManager::pollSDL()
@@ -81,31 +113,11 @@ void ControllerManager::pollSDL()
             break;
 
         case SDL_EVENT_GAMEPAD_ADDED:
-            qDebug() << "New Device Detected! ID:" << event.gdevice.which;
-
-            if (m_gamepad) {
-                SDL_CloseGamepad(m_gamepad);
-                m_gamepad = nullptr;
-            }
-
-            m_gamepad = SDL_OpenGamepad(event.gdevice.which);
-
-            if (m_gamepad) {
-                qDebug() << "Gamepad Opened Name:" << SDL_GetGamepadName(m_gamepad);
-                m_gamepadPresent = true;
-                changeGamepadLabels();
-            } else {
-                qWarning() << "Could not open gamepad!";
-            }
+            handleGamepadAdded(event.gdevice.which);
             break;
 
         case SDL_EVENT_GAMEPAD_REMOVED:
-            qDebug() << "Device Removed ID:" << event.gdevice.which;
-            if (m_gamepad) {
-                SDL_CloseGamepad(m_gamepad);
-                m_gamepad = nullptr;
-            }
-            changeGamepadLabels();
+            handleGamepadRemoved(event.gdevice.which);
             break;
 
         default:
@@ -113,6 +125,40 @@ void ControllerManager::pollSDL()
             break;
         }
     }
+}
+
+void ControllerManager::handleGamepadAdded(SDL_JoystickID which)
+{
+    qDebug() << "New Device Detected! ID:" << which;
+
+    if (m_gamepad) {
+        SDL_CloseGamepad(m_gamepad);
+        m_gamepad = nullptr;
+    }
+
+    m_gamepad = SDL_OpenGamepad(which);
+
+    if (m_gamepad) {
+        qDebug() << "Gamepad Opened Name:" << SDL_GetGamepadName(m_gamepad);
+        m_gamepadPresent = true;
+        changeGamepadLabels();
+    } else {
+        qWarning() << "Could not open gamepad!";
+    }
+}
+
+void ControllerManager::handleGamepadRemoved(SDL_JoystickID which)
+{
+    qDebug() << "Device Removed ID:" << which;
+    if (m_gamepad) {
+        SDL_CloseGamepad(m_gamepad);
+        m_gamepad = nullptr;
+    }
+    changeGamepadLabels();
+}
+
+void resetInputState()
+{
 }
 
 void ControllerManager::changeGamepadLabels()

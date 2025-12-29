@@ -27,6 +27,10 @@ StatefulApp.StatefulWindow {
 
     visibility: Window.FullScreen
 
+    // Start and stop polling for controller inputs when the window gains/loses focus
+    onActiveChanged: ControllerManager.setPollController(active)
+
+
     Component { // <==== Component that instantiates the Kirigami.AboutPage
         id: aboutApp
 

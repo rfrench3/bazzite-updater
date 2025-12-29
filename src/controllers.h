@@ -20,6 +20,7 @@ struct ControllerLabels {
 
 public:
     // The correct glyphs are initialized by ControllerManager::changeGamepadLabels()
+    // The a-b-x-y names here follow the Xbox layout
     QString m_a;
     QString m_b;
     QString m_x;
@@ -45,6 +46,9 @@ class ControllerManager : public QObject
     SDL_Gamepad *m_gamepad = nullptr;
     void changeGamepadLabels();
     QString getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadButton button);
+    void handleGamepadAdded(SDL_JoystickID which);
+    void handleGamepadRemoved(SDL_JoystickID which);
+    void resetInputState();
 
     ControllerLabels m_labels;
 
@@ -70,6 +74,7 @@ public:
         return m_labels;
     }
 
+    Q_INVOKABLE void setPollController(bool windowActiveState);
     Q_SIGNAL void buttonPressed(uint8_t button);
     Q_SIGNAL void gamepadPresentChanged();
     Q_SIGNAL void labelsChanged();

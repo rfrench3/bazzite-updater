@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include <KLocalizedString>
 #include <QFileInfo>
 #include <QJSValue>
 #include <QProcess>
