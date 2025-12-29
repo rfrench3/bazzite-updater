@@ -4,3 +4,5 @@
 /.kdev4
 bazzite_updater.kdev4
 /.git_backup
+/.qtcreator
+/.cache
