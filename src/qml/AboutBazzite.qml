@@ -10,6 +10,7 @@ import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
+import app.Gamepad 1.0
 
 Kirigami.Page {
     id: page

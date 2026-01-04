@@ -157,10 +157,6 @@ void ControllerManager::handleGamepadRemoved(SDL_JoystickID which)
     changeGamepadLabels();
 }
 
-void resetInputState()
-{
-}
-
 void ControllerManager::changeGamepadLabels()
 {
     if (m_gamepad) {

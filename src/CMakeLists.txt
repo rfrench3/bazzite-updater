@@ -48,6 +48,10 @@ add_executable(bazzite_updater
     resources.qrc
     controllers.cpp
     controllers.h
+    rebase_helper.h
+    rebase_helper.cpp
+    backend.cpp
+    backend.h
 )
 
 target_link_libraries(bazzite_updater PUBLIC

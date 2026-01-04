@@ -10,20 +10,20 @@ import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
+import app.Gamepad 1.0
+import app.RebaseHelper 1.0
 
 Kirigami.Page {
     id: page
 
-    title: ControllerManager.labels.b + ControllerManager.labels.space + ControllerManager.labels.space + ControllerManager.labels.space + i18n("Rebase Helper")
+    title: Gamepad.labels.b + Gamepad.labels.space + Gamepad.labels.space + Gamepad.labels.space + i18n("Rebase Helper")
 
     ColumnLayout {
-        width: page.width
 
         anchors.centerIn: parent
 
-        Kirigami.Heading {
-            Layout.alignment: Qt.AlignCenter
-            text: i18n("Not Yet Implemented!")
+        QQC2.Label {
+            text: "Current Image: " + RebaseHelper.currentImage.name
         }
     }
 }

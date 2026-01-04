@@ -48,7 +48,6 @@ class ControllerManager : public QObject
     QString getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadButton button);
     void handleGamepadAdded(SDL_JoystickID which);
     void handleGamepadRemoved(SDL_JoystickID which);
-    void resetInputState();
 
     ControllerLabels m_labels;
 

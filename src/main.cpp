@@ -16,8 +16,9 @@
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 
-#include "bazzite_updaterconfig.h"
+// #include "bazzite_updaterconfig.h"
 #include "controllers.h"
+#include "rebase_helper.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -56,10 +57,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    // auto config = Bazzite_UpdaterConfig::self();
-
-    // qmlRegisterSingletonInstance("org.kde.bazzite_updater.private", 1, 0, "Config", config);
-
     qmlRegisterSingletonType("org.kde.example", // How the import statement should look like
                              1,
                              0, // Major and minor versions of the import
@@ -69,10 +66,13 @@ int main(int argc, char *argv[])
                              });
 
     Utils utils;
-    engine.rootContext()->setContextProperty(QStringLiteral("Utils"), &utils);
+    qmlRegisterSingletonInstance<Utils>("app.Utils", 1, 0, "Utils", &utils);
 
     ControllerManager gamepad;
-    engine.rootContext()->setContextProperty(QStringLiteral("ControllerManager"), &gamepad);
+    qmlRegisterSingletonInstance<ControllerManager>("app.Gamepad", 1, 0, "Gamepad", &gamepad);
+
+    RebaseHelper rebase_helper;
+    qmlRegisterSingletonInstance<RebaseHelper>("app.RebaseHelper", 1, 0, "RebaseHelper", &rebase_helper);
 
     KLocalization::setupLocalizedContext(&engine);
     engine.loadFromModule("io.github.rfrench3.bazzite_updater", u"Main"_s);

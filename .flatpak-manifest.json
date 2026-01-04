@@ -12,7 +12,8 @@
         "--socket=wayland",
         "--device=dri",
         "--talk-name=org.freedesktop.Flatpak",
-        "--device=input"
+        "--device=input",
+        "--filesystem=/usr/share/ublue-os/image-info.json:ro"
     ],
     "separate-locales": false,
 
