@@ -17,6 +17,7 @@ struct ControllerLabels {
     Q_PROPERTY(QString x MEMBER m_x CONSTANT)
     Q_PROPERTY(QString y MEMBER m_y CONSTANT)
     Q_PROPERTY(QString space MEMBER m_S CONSTANT)
+    Q_PROPERTY(QString space_large MEMBER m_S_big CONSTANT)
 
 public:
     // The correct glyphs are initialized by ControllerManager::changeGamepadLabels()
@@ -26,6 +27,7 @@ public:
     QString m_x;
     QString m_y;
     QString m_S;
+    QString m_S_big; // m_S times three
 };
 
 // 2. Register it for QVariant (Required for Q_GADGET)

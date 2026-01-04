@@ -37,7 +37,7 @@ StatefulApp.StatefulWindow {
 
         Kirigami.AboutPage {
             aboutData: About
-            title: Gamepad.labels.b + Gamepad.labels.space + i18nc("@title", "Bazzite Updater")
+            title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "Bazzite Updater")
         }
     }
 
@@ -51,9 +51,6 @@ StatefulApp.StatefulWindow {
                 case 4: // view, minus
                 case 6: // pause, plus
                     appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
-                    // send focus to global drawer when it opens
-                    if (appGlobalDrawer.drawerOpen == true)
-                        focusGrabber.forceActiveFocus();
                     break;
 
                 case 2: // X
@@ -75,10 +72,6 @@ StatefulApp.StatefulWindow {
         }
     }
 
-    QQC2.ActionGroup { id: selectedPage }
-
-    // NOTE: I change the page by editing pageStack.initialPage instead of using pageStack.layers.push,
-    // it is simpler for getting functional controller/keyboard-only navigation
     globalDrawer: Kirigami.GlobalDrawer {
 
         id: appGlobalDrawer
@@ -87,12 +80,7 @@ StatefulApp.StatefulWindow {
         Shortcut {
             sequences: ["F1", "Ctrl+M", "Escape"]
             context: Qt.ApplicationShortcut
-            onActivated: {
-                appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
-                // send focus to global drawer when it opens
-                if (appGlobalDrawer.drawerOpen == true)
-                    focusGrabber.forceActiveFocus();
-            }
+            onActivated: appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen
         }
 
         property list<Kirigami.Action> navActions: [
@@ -101,11 +89,11 @@ StatefulApp.StatefulWindow {
                 text: i18n("System Update")
                 icon.name: "list-add"
 
-                QQC2.ActionGroup.group: selectedPage
                 checkable: true
                 enabled: !checked
                 checked: true
 
+                property bool isPage: true
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("SystemUpdate.qml")
             },
             Kirigami.Action {
@@ -113,10 +101,10 @@ StatefulApp.StatefulWindow {
                 text: i18n("System Rebase Tool (TODO)")
                 icon.name: "list-add"
 
-                QQC2.ActionGroup.group: selectedPage
                 checkable: true
                 enabled: !checked
 
+                property bool isPage: true
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
             },
 
@@ -126,22 +114,20 @@ StatefulApp.StatefulWindow {
                 text: i18n("About Bazzite")
                 icon.name: "help-about"
 
-                QQC2.ActionGroup.group: selectedPage
                 checkable: true
                 enabled: !checked
-                checked: true
 
+                property bool isPage: true
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutBazzite.qml")
             },
             Kirigami.Action {
                 text: i18n("About Bazzite Updater")
                 icon.name: "help-about"
 
-                QQC2.ActionGroup.group: selectedPage
                 checkable: true
                 enabled: !checked
-                checked: true
 
+                property bool isPage: true
                 onTriggered: pageStack.initialPage = aboutApp
             },
 
@@ -153,60 +139,42 @@ StatefulApp.StatefulWindow {
                 icon.name: "application-exit"
                 shortcut: StandardKey.Quit
                 onTriggered: Qt.quit()
-
-                property bool skipNavigation: true
             }
         ]
 
         function navigateGlobalDrawer(direction) {
 
-            var currentIndex = -1;
-            for (var i = 0; i < navActions.length; i++) {
+            // Find the current page
+            let currentIndex = -1;
+            for (let i = 0; i < navActions.length; i++) {
                 if (navActions[i].checked) {
                     currentIndex = i;
                     break;
                 }
             }
 
-            var newIndex = currentIndex;
-            var found = false;
+            let newIndex = currentIndex;
 
-            for (var j = 0; j < navActions.length; j++) {
+            // Find the next page (skip non-page elements of the list)
+            for (let j = 0; j < navActions.length; j++) {
                 newIndex += direction;
 
                 // Do not wrap around
                 if (newIndex < 0 || newIndex >= navActions.length)
                     return;
 
-                var item = navActions[newIndex];
-
-                // Check if it's a valid navigation target
-                // It must NOT be a separator, and it must be checkable/enabled
-                if (!item.separator
-                    && item.enabled
-                    && item.visible
-                    && item.skipNavigation != true)
-                {
-                    found = true;
+                let item = navActions[newIndex];
+                if (item.isPage)
                     break;
-                }
             }
 
-            // 3. Apply change
-            if (found && newIndex !== currentIndex) {
+            // The next page was found, naviagte to it
+            if (newIndex !== currentIndex) {
                 if (currentIndex >= 0) navActions[currentIndex].checked = false;
                 navActions[newIndex].triggered();
                 navActions[newIndex].checked = true;
             }
         }
-
-
-
-
-        // HACK: Actions do not have the forceActiveFocus() function needed to focus them when the global drawer opens,
-        // so I am using an invisible Item header to initially grab that focus. Not a perfect solution
-        // Once tab has been pressed once, up/down arrow keys can navigate through the global drawer
-        header: Item { id: focusGrabber }
 
         actions: navActions
 

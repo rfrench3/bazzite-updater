@@ -16,7 +16,7 @@ import app.RebaseHelper 1.0
 Kirigami.Page {
     id: page
 
-    title: Gamepad.labels.b + Gamepad.labels.space + Gamepad.labels.space + Gamepad.labels.space + i18n("Rebase Helper")
+    title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper")
 
     ColumnLayout {
 

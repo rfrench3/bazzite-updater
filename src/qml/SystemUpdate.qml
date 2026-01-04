@@ -18,7 +18,7 @@ Kirigami.Page {
 
     // HACK: The global drawer labels are placed on the page titles because it is perfectly adjacent to
     // the global drawer button, and I do not know how to put the label inside of that button.
-    title: Gamepad.labels.b + Gamepad.labels.space + Gamepad.labels.space + Gamepad.labels.space + i18n("System Update")
+    title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("System Update")
 
     Connections {
         target: Gamepad

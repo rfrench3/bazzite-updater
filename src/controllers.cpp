@@ -165,12 +165,14 @@ void ControllerManager::changeGamepadLabels()
         m_labels.m_x = getLabelForButton(m_gamepad, SDL_GAMEPAD_BUTTON_WEST);
         m_labels.m_y = getLabelForButton(m_gamepad, SDL_GAMEPAD_BUTTON_NORTH);
         m_labels.m_S = QStringLiteral(" ");
+        m_labels.m_S_big = m_labels.m_S + m_labels.m_S + m_labels.m_S;
     } else {
         m_labels.m_a = QStringLiteral("");
         m_labels.m_b = QStringLiteral("");
         m_labels.m_x = QStringLiteral("");
         m_labels.m_y = QStringLiteral("");
         m_labels.m_S = QStringLiteral("");
+        m_labels.m_S_big = QStringLiteral("");
     }
 
     Q_EMIT gamepadPresentChanged();
