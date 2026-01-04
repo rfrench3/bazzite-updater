@@ -79,6 +79,31 @@ void Utils::runUpdate(QJSValue callback)
 
     Utils::setProgressLevel(0);
 
+    // When the "systemctl start uupd.service" process completes,
+    // check the service result and update the UI accordingly.
+    connect(systemctl, &QProcess::finished, [=]() {
+        journalctl->terminate();
+
+        const QString result = getServiceResult(QStringLiteral("uupd.service"));
+        if (result == QStringLiteral("success")) {
+            Utils::setUpdateRunning(false);
+            Utils::setStatusText(i18n("Success!"));
+            callback.call({0, result});
+            return;
+        } else if (result == QStringLiteral("start-limit-hit")) {
+            Utils::setStatusText(i18n("Updating too fast! ") + result);
+            Utils::appendConsoleText(i18n("You are updating too many times in a short period!"));
+        } else {
+            Utils::setStatusText(i18n("Error -- ") + result);
+            qDebug() << "Result of uupd.service was not success: " << result;
+        }
+        Utils::setBlockUpdate(true);
+        Utils::setUpdateRunning(false);
+        callback.call({1, result});
+        return;
+    });
+
+    // Read the messages of uupd.service
     connect(journalctl, &QProcess::readyReadStandardOutput, [journalctl, this]() {
         while (journalctl->canReadLine()) {
             const QByteArray rawLine = journalctl->readLine();
@@ -144,29 +169,6 @@ void Utils::runUpdate(QJSValue callback)
 
             Utils::appendConsoleText(message);
         }
-    });
-
-    // When the "systemctl start uupd.service" process completes,
-    // check the service result and update the UI accordingly.
-    connect(systemctl, &QProcess::finished, [=]() {
-        const QString result = getServiceResult(QStringLiteral("uupd.service"));
-
-        if (result == QStringLiteral("success")) {
-            Utils::setUpdateRunning(false);
-            Utils::setStatusText(i18n("Success!"));
-            callback.call({0, result});
-            return;
-        } else if (result == QStringLiteral("start-limit-hit")) {
-            Utils::setStatusText(i18n("Updating too fast! ") + result);
-            Utils::appendConsoleText(i18n("You are updating too many times in a short period!"));
-        } else {
-            Utils::setStatusText(i18n("Error -- ") + result);
-            qDebug() << "Result of uupd.service was not success: " << result;
-        }
-        Utils::setBlockUpdate(true);
-        Utils::setUpdateRunning(false);
-        callback.call({1, result});
-        return;
     });
 }
 
