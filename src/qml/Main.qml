@@ -14,7 +14,7 @@ import app.Gamepad 1.0
 
 import org.kde.example 1.0
 
-// NOTE: ControllerManager.labels.* automatically show/hide themselves depending on the presence of a controller
+// NOTE: Gamepad.labels.* automatically show/hide themselves depending on the presence of a controller
 
 StatefulApp.StatefulWindow {
     id: root
@@ -29,7 +29,7 @@ StatefulApp.StatefulWindow {
     visibility: Window.FullScreen
 
     // Start and stop polling for controller inputs when the window gains/loses focus
-    onActiveChanged: ControllerManager.setPollController(active)
+    onActiveChanged: Gamepad.setPollController(active)
 
 
     Component { // <==== Component that instantiates the Kirigami.AboutPage
@@ -37,13 +37,13 @@ StatefulApp.StatefulWindow {
 
         Kirigami.AboutPage {
             aboutData: About
-            title: ControllerManager.labels.b + ControllerManager.labels.space + i18nc("@title", "Bazzite Updater")
+            title: Gamepad.labels.b + Gamepad.labels.space + i18nc("@title", "Bazzite Updater")
         }
     }
 
     // Handle global drawer navigation
     Connections {
-        target: ControllerManager
+        target: Gamepad
 
         function onButtonPressed(buttonId) {
             switch (buttonId) {
@@ -149,7 +149,7 @@ StatefulApp.StatefulWindow {
 
             Kirigami.Action {
                 id: actionQuit
-                text: i18n("Quit") + ControllerManager.labels.space + ControllerManager.labels.x
+                text: i18n("Quit") + Gamepad.labels.space + Gamepad.labels.x
                 icon.name: "application-exit"
                 shortcut: StandardKey.Quit
                 onTriggered: Qt.quit()

@@ -15,7 +15,7 @@ import app.Gamepad 1.0
 Kirigami.Page {
     id: page
 
-    title: ControllerManager.labels.b + ControllerManager.labels.space + ControllerManager.labels.space + ControllerManager.labels.space + i18n("About Bazzite")
+    title: Gamepad.labels.b + Gamepad.labels.space + Gamepad.labels.space + Gamepad.labels.space + i18n("About Bazzite")
 
     Kirigami.FormLayout {
 

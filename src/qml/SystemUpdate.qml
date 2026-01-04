@@ -11,16 +11,17 @@ import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
 import app.Gamepad 1.0
+import app.Utils 1.0
 
 Kirigami.Page {
     id: page
 
     // HACK: The global drawer labels are placed on the page titles because it is perfectly adjacent to
     // the global drawer button, and I do not know how to put the label inside of that button.
-    title: ControllerManager.labels.b + ControllerManager.labels.space + ControllerManager.labels.space + ControllerManager.labels.space + i18n("System Update")
+    title: Gamepad.labels.b + Gamepad.labels.space + Gamepad.labels.space + Gamepad.labels.space + i18n("System Update")
 
     Connections {
-        target: ControllerManager
+        target: Gamepad
 
         function onButtonPressed(buttonId) {
             switch (buttonId) {
@@ -36,7 +37,7 @@ Kirigami.Page {
 
     Kirigami.Action {
         id: updateAction
-        text: i18n("Update System Image and Software") + ControllerManager.labels.space + ControllerManager.labels.a
+        text: i18n("Update System Image and Software") + Gamepad.labels.space + Gamepad.labels.a
         shortcut: "Return"
         enabled: !Utils.blockUpdate && !Utils.updateRunning
 
@@ -47,7 +48,7 @@ Kirigami.Page {
                     showPassiveNotification(
                         i18n("Update Failed. Check console for more details."),
                                             Kirigami.long,
-                                            i18n("Open console") + ControllerManager.labels.space + ControllerManager.labels.y,
+                                            i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
                                             function() {consoleDrawer.drawerOpen = true;}
                     );
                 }
@@ -122,7 +123,7 @@ Kirigami.Page {
     actions: [
         Kirigami.Action {
             id: toggleConsole
-            text: "Toggle Console" + ControllerManager.labels.space + ControllerManager.labels.y
+            text: "Toggle Console" + Gamepad.labels.space + Gamepad.labels.y
             shortcut: "F12"
             onTriggered: { consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen; }
         }
@@ -176,7 +177,7 @@ Kirigami.Page {
                 QQC2.Button {
 
                     Layout.fillWidth: true
-                    text: i18n("Close") + ControllerManager.labels.space + ControllerManager.labels.y
+                    text: i18n("Close") + Gamepad.labels.space + Gamepad.labels.y
                     onClicked: consoleDrawer.close()
                 }
             }
