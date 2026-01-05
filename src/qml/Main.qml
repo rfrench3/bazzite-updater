@@ -41,7 +41,7 @@ StatefulApp.StatefulWindow {
         }
     }
 
-    // Handle global drawer navigation
+    // Handle global drawer navigation for controllers
     Connections {
         target: Gamepad
 
@@ -75,7 +75,6 @@ StatefulApp.StatefulWindow {
     globalDrawer: Kirigami.GlobalDrawer {
 
         id: appGlobalDrawer
-        isMenu: false // Even on desktop, side drawer looks better here
 
         Shortcut {
             sequences: ["F1", "Ctrl+M", "Escape"]
@@ -83,28 +82,31 @@ StatefulApp.StatefulWindow {
             onActivated: appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen
         }
 
-        property list<Kirigami.Action> navActions: [
+        QQC2.ActionGroup {
+            id: pageSelector
+        }
+
+        actions: [
             Kirigami.Action {
-                id: actionSystemUpdate
+
                 text: i18n("System Update")
-                icon.name: "list-add"
+                icon.name: "list-add" //TODO: new icon
 
                 checkable: true
-                enabled: !checked
+                QQC2.ActionGroup.group: pageSelector
+
                 checked: true
 
-                property bool isPage: true
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("SystemUpdate.qml")
             },
             Kirigami.Action {
-                id: actionRebaseTool
+
                 text: i18n("System Rebase Tool (TODO)")
-                icon.name: "list-add"
+                icon.name: "list-add" //TODO: new icon
 
                 checkable: true
-                enabled: !checked
+                QQC2.ActionGroup.group: pageSelector
 
-                property bool isPage: true
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
             },
 
@@ -115,9 +117,8 @@ StatefulApp.StatefulWindow {
                 icon.name: "help-about"
 
                 checkable: true
-                enabled: !checked
+                QQC2.ActionGroup.group: pageSelector
 
-                property bool isPage: true
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutBazzite.qml")
             },
             Kirigami.Action {
@@ -125,9 +126,8 @@ StatefulApp.StatefulWindow {
                 icon.name: "help-about"
 
                 checkable: true
-                enabled: !checked
+                QQC2.ActionGroup.group: pageSelector
 
-                property bool isPage: true
                 onTriggered: pageStack.initialPage = aboutApp
             },
 
@@ -143,11 +143,12 @@ StatefulApp.StatefulWindow {
         ]
 
         function navigateGlobalDrawer(direction) {
+            // direction = +1 or -1, used to navigate with a controller
 
             // Find the current page
             let currentIndex = -1;
-            for (let i = 0; i < navActions.length; i++) {
-                if (navActions[i].checked) {
+            for (let i = 0; i < appGlobalDrawer.actions.length; i++) {
+                if (appGlobalDrawer.actions[i].checked) {
                     currentIndex = i;
                     break;
                 }
@@ -156,27 +157,25 @@ StatefulApp.StatefulWindow {
             let newIndex = currentIndex;
 
             // Find the next page (skip non-page elements of the list)
-            for (let j = 0; j < navActions.length; j++) {
+            for (let j = 0; j < appGlobalDrawer.actions.length; j++) {
                 newIndex += direction;
 
                 // Do not wrap around
-                if (newIndex < 0 || newIndex >= navActions.length)
+                if (newIndex < 0 || newIndex >= appGlobalDrawer.actions.length)
                     return;
 
-                let item = navActions[newIndex];
-                if (item.isPage)
+                let item = appGlobalDrawer.actions[newIndex];
+                if (item.checkable)
                     break;
             }
 
             // The next page was found, naviagte to it
             if (newIndex !== currentIndex) {
-                if (currentIndex >= 0) navActions[currentIndex].checked = false;
-                navActions[newIndex].triggered();
-                navActions[newIndex].checked = true;
+                if (currentIndex >= 0) appGlobalDrawer.actions[currentIndex].checked = false;
+                appGlobalDrawer.actions[newIndex].triggered();
+                appGlobalDrawer.actions[newIndex].checked = true;
             }
         }
-
-        actions: navActions
 
     }
 
