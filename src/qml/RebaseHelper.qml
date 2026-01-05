@@ -18,12 +18,23 @@ Kirigami.Page {
 
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper")
 
-    ColumnLayout {
-
-        anchors.centerIn: parent
+    Kirigami.FormLayout {
+        anchors.fill: parent
 
         QQC2.Label {
-            text: "Current Image: " + RebaseHelper.currentImage.name
+            Kirigami.FormData.label: "Current Image:"
+            text: RebaseHelper.currentImage.name + ":" + RebaseHelper.currentImage.tag
+        }
+
+        QQC2.Label {
+            Kirigami.FormData.label: "Last Update:"
+            text: {
+                RebaseHelper.currentImage.datePretty["day"]
+                + " "
+                + RebaseHelper.currentImage.datePretty["month"]
+                + ", "
+                + RebaseHelper.currentImage.datePretty["year"];
+            }
         }
     }
 }

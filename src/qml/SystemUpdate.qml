@@ -16,8 +16,7 @@ import app.Utils 1.0
 Kirigami.Page {
     id: page
 
-    // HACK: The global drawer labels are placed on the page titles because it is perfectly adjacent to
-    // the global drawer button, and I do not know how to put the label inside of that button.
+    // HACK: Global drawer gamepad labels are placed in the page titles
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("System Update")
 
     Connections {
@@ -60,9 +59,7 @@ Kirigami.Page {
     }
 
     ColumnLayout {
-        width: page.width
-
-        anchors.centerIn: parent
+        anchors.fill: parent
 
         RowLayout {
 
@@ -118,6 +115,9 @@ Kirigami.Page {
             Layout.alignment: Qt.AlignCenter
             text: i18n("Current Status: ") + Utils.statusText
         }
+
+
+        Item { Layout.fillHeight: true }
 
     }
     actions: [

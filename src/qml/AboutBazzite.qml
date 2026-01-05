@@ -19,7 +19,7 @@ Kirigami.Page {
 
     Kirigami.FormLayout {
 
-        anchors.centerIn: parent
+        anchors.fill: parent
 
 
         Kirigami.Separator {
