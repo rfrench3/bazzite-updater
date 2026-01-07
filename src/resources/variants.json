@@ -1,0 +1,24 @@
+{
+  "variants": [
+    "bazzite",
+    "bazzite-deck",
+    "bazzite-nvidia",
+    "bazzite-nvidia-open",
+    "bazzite-deck-nvidia",
+    "bazzite-gnome",
+    "bazzite-gnome-nvidia",
+    "bazzite-gnome-nvidia-open",
+    "bazzite-deck-gnome",
+    "bazzite-dx",
+    "bazzite-dx-gnome",
+    "bazzite-dx-nvidia",
+    "bazzite-dx-nvidia-gnome"
+  ],
+  "option": [
+    "deck",
+    "dx",
+    "nvidia",
+    "open",
+    "gnome",
+  ]
+}

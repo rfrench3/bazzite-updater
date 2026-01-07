@@ -8,10 +8,10 @@ ecm_add_qml_module(bazzite_updater_static
     URI io.github.rfrench3.bazzite_updater
     GENERATE_PLUGIN_SOURCE
     QML_FILES
-        qml/Main.qml
-        qml/SystemUpdate.qml
-        qml/RebaseHelper.qml
-        qml/AboutBazzite.qml
+        resources/qml/Main.qml
+        resources/qml/SystemUpdate.qml
+        resources/qml/RebaseHelper.qml
+        resources/qml/AboutBazzite.qml
     DEPENDENCIES
         org.kde.kirigamiaddons.formcard
         org.kde.kirigamiaddons.statefulapp
@@ -50,8 +50,6 @@ add_executable(bazzite_updater
     controllers.h
     rebase_helper.h
     rebase_helper.cpp
-    backend.cpp
-    backend.h
 )
 
 target_link_libraries(bazzite_updater PUBLIC

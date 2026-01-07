@@ -129,6 +129,7 @@ Kirigami.Page {
         }
     ]
 
+    //TODO: allow the console to expand vertically to fill empty space
     Kirigami.OverlayDrawer {
         id: consoleDrawer
         edge: Qt.BottomEdge
@@ -158,6 +159,7 @@ Kirigami.Page {
                     wrapMode: Text.WordWrap
                     readOnly: true
 
+                    // Scrolls the TextArea to the bottom
                     onTextChanged: { cursorPosition = length; }
                 }
             }
