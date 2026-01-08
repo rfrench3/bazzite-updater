@@ -17,3 +17,8 @@ jobs:
         bundle: Bazzite-Updater.flatpak
         manifest-path: .flatpak-manifest.json
         cache-key: flatpak-builder-${{ github.sha }}
+    - name: Upload Flatpak Bundle
+      uses: actions/upload-artifact@v4
+      with:
+        name: Bazzite-Updater.flatpak
+        path: Bazzite-Updater.flatpak
