@@ -8,6 +8,7 @@
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
+#include <qcontainerfwd.h>
 
 struct OsImage {
     Q_GADGET
@@ -22,18 +23,23 @@ struct OsImage {
     Q_PROPERTY(QString fedoraVersion MEMBER m_fedoraVersion CONSTANT)
     Q_PROPERTY(QString version MEMBER m_version CONSTANT)
     Q_PROPERTY(QString versionPretty MEMBER m_versionPretty CONSTANT)
+    Q_PROPERTY(QVariantMap datePretty MEMBER m_datePretty CONSTANT)
     Q_PROPERTY(bool load_successful MEMBER m_isValid CONSTANT)
 
 public:
-    QString m_imageName = QStringLiteral("NULL");
-    QString m_imageVendor = QStringLiteral("NULL");
-    QString m_imageRef = QStringLiteral("NULL");
-    QString m_imageTag = QStringLiteral("NULL");
-    QString m_imageBranch = QStringLiteral("NULL");
-    QString m_baseImageName = QStringLiteral("NULL");
-    QString m_fedoraVersion = QStringLiteral("NULL");
-    QString m_version = QStringLiteral("NULL");
-    QString m_versionPretty = QStringLiteral("NULL");
+    OsImage() = default;
+    static OsImage fromJson(const QString &filePath);
+
+    QString m_imageName;
+    QString m_imageVendor;
+    QString m_imageRef;
+    QString m_imageTag;
+    QString m_imageBranch;
+    QString m_baseImageName;
+    QString m_fedoraVersion;
+    QString m_version;
+    QString m_versionPretty;
+    QVariantMap m_datePretty;
     bool m_isValid = false;
 };
 
@@ -45,26 +51,46 @@ class RebaseHelper : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    Q_PROPERTY(OsImage currentImage READ currentImage NOTIFY currentImageInitialized)
+    Q_PROPERTY(OsImage currentImage READ currentImage CONSTANT)
+    // Q_PROPERTY(bool rebaseValid READ rebaseValid WRITE checkRebaseValid NOTIFY rebaseValidChanged)
 
     OsImage m_current;
     OsImage m_new;
+    bool m_rebaseValid = false;
+    bool m_newIsCurrent = true;
 
+    // TODO: put these in a parent class shared with Utils (and rename Utils to SystemUpdate)
+    static void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
+    static void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
     static bool isFlatpak()
     {
         return QFileInfo::exists(QStringLiteral("/.flatpak-info"));
     }
 
-    OsImage parseImageJson(const QByteArray &jsonData);
-
 public:
     RebaseHelper(QObject *parent = nullptr);
 
-    // Q_INVOKABLE void runRebase(QJSValue callback = QJSValue());
+    void compareCurrentNew();
 
-    OsImage currentImage() const;
-    Q_SIGNAL void currentImageInitialized();
+    bool rebaseValid() const
+    {
+        return m_rebaseValid;
+    }
+    void checkRebaseValid();
+    Q_SIGNAL void rebaseValidChanged();
 
-    // void setNewImage(const QString &consoleText);
-    // Q_SIGNAL void newImageChanged();
+    // (QJSValue callback = QJSValue()); callback if needed later
+
+    // NOTE: The image variants are hardcoded like they are in bazzite rollback helper,
+    //       Check src/resources/variants.json
+    Q_INVOKABLE QStringList listImages() const;
+    //
+    // Q_INVOKABLE void rollbackImage();
+    // Q_INVOKABLE void rebaseImage(const QString &new_image);
+    // Q_INVOKABLE void customImage(const QString &new_provider);
+
+    OsImage currentImage() const
+    {
+        return m_current;
+    }
 };

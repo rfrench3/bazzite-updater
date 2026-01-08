@@ -74,7 +74,7 @@ Kirigami.Page {
                     anchors.fill: parent
 
                     antialiasing: true
-                    source: 'qrc:/images/bazzite-logo.svg'
+                    source: 'qrc:/resources/images/bazzite-logo.svg'
                     sourceSize.width: 1024
                     sourceSize.height: 1024
                 }

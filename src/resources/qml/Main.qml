@@ -90,7 +90,7 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
 
                 text: i18n("System Update")
-                icon.name: "list-add" //TODO: new icon
+                icon.name: "system-software-update"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
@@ -101,8 +101,8 @@ StatefulApp.StatefulWindow {
             },
             Kirigami.Action {
 
-                text: i18n("System Rebase Tool (TODO)")
-                icon.name: "list-add" //TODO: new icon
+                text: i18n("System Rebase Tool")
+                icon.name: "system-reboot"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
