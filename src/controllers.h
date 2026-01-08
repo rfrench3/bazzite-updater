@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -8,6 +8,8 @@
 #include <QString>
 #include <QTimer>
 #include <SDL3/SDL.h>
+#include <cstdint>
+#include <map>
 
 struct ControllerLabels {
     Q_GADGET
@@ -40,36 +42,41 @@ class ControllerManager : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(ControllerLabels labels READ labels NOTIFY labelsChanged)
-    Q_PROPERTY(bool gamepadPresent READ gamepadPresent NOTIFY gamepadPresentChanged)
+    // Q_PROPERTY(bool gamepadPresent READ gamepadPresent NOTIFY gamepadPresentChanged)
 
-    bool m_gamepadPresent = false;
+    struct GamepadData {
+        SDL_Gamepad *gamepad = nullptr;
+
+        // left stick emulates d-pad inputs,
+        // range is [x < -DEADZONE, |x| < DEADZONE, x > DEADZONE ]
+        int16_t leftStickVertical = 0;
+
+        // TODO: emulates scrolling for scrollable areas
+        int16_t rightStickVertical = 0;
+    };
+
+    // bool m_gamepadPresent = false;
     void pollSDL();
     QTimer *m_timer;
-    SDL_Gamepad *m_gamepad = nullptr;
-    void changeGamepadLabels();
+
+    // m_focusedJoystick ensures the glyphs don't re-update on every input from one controller
+    SDL_JoystickID m_focusedJoystick = 0;
+    std::map<SDL_JoystickID, GamepadData> m_gamepads;
+
+    void changeGamepadLabels(SDL_JoystickID which);
     QString getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadButton button);
     void handleGamepadAdded(SDL_JoystickID which);
     void handleGamepadRemoved(SDL_JoystickID which);
+    void handleAxisMotion(SDL_Event &event);
+    void axisEmulateDpad(const int16_t &axisPrev, const int16_t &axisNow);
 
     ControllerLabels m_labels;
 
     const int16_t DEADZONE = 12000; // Range: -32768,32768
 
-    // left stick controls menu navigation
-    bool m_lStickUpActive = false;
-    bool m_lStickDownActive = false;
-
-    // right stick controls scrolling (e.g. updater screen console)
-    // TODO: implement this
-    int16_t m_rStickVertical = 0;
-
 public:
     ControllerManager(QObject *parent = nullptr);
 
-    bool gamepadPresent() const
-    {
-        return m_gamepadPresent;
-    }
     ControllerLabels labels() const
     {
         return m_labels;

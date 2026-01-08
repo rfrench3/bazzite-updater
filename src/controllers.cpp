@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "controllers.h"
@@ -22,15 +22,15 @@ ControllerManager::ControllerManager(QObject *parent)
 
     connect(m_timer, &QTimer::timeout, this, QOverload<>::of(&ControllerManager::pollSDL));
     m_timer->start(POLLING_RATE);
-    qDebug() << "ControllerManager initialized. Waiting for input...";
+    qDebug() << "ControllerManager initialized.";
 
-    changeGamepadLabels();
+    changeGamepadLabels(0);
 }
 
 void ControllerManager::setPollController(bool windowActiveState)
 {
     if (windowActiveState == true) {
-        qDebug() << "Window focused: Starting controller polling.";
+        // Window focused: Starting controller polling
 
         // Clear any events that occurred when unfocused,
         // except for controller connections/disconnections
@@ -42,18 +42,20 @@ void ControllerManager::setPollController(bool windowActiveState)
                 handleGamepadRemoved(event.gdevice.which);
         }
 
-        m_lStickUpActive = false;
-        m_lStickDownActive = false;
-        m_rStickVertical = 0;
+        for (auto &[id, data] : m_gamepads) {
+            data.leftStickVertical = 0;
+            data.rightStickVertical = 0;
+        }
 
         m_timer->start(POLLING_RATE);
     } else {
-        qDebug() << "Window unfocused: Pausing controller polling.";
+        // Window unfocused: Pausing controller polling
         m_timer->stop();
 
-        m_lStickUpActive = false;
-        m_lStickDownActive = false;
-        m_rStickVertical = 0;
+        for (auto &[id, data] : m_gamepads) {
+            data.leftStickVertical = 0;
+            data.rightStickVertical = 0;
+        }
     }
 }
 
@@ -63,53 +65,15 @@ void ControllerManager::pollSDL()
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
-            qDebug() << "BUTTON DOWN: " << event.gbutton.button;
             Q_EMIT buttonPressed(event.gbutton.button);
+            changeGamepadLabels(event.gbutton.which);
             break;
 
-        case SDL_EVENT_GAMEPAD_BUTTON_UP:
-            qDebug() << "BUTTON UP: " << event.gbutton.button;
-            break;
+            // case SDL_EVENT_GAMEPAD_BUTTON_UP:
+            //     break;
 
         case SDL_EVENT_GAMEPAD_AXIS_MOTION:
-            qDebug() << "AXIS MOTION";
-
-            // Handle left stick vertical
-            if (event.gaxis.axis == SDL_GAMEPAD_AXIS_LEFTY) {
-                int16_t value = event.gaxis.value;
-
-                // --- HANDLE UP (Negative Value) ---
-                if (value < -DEADZONE) {
-                    if (!m_lStickUpActive) {
-                        m_lStickUpActive = true;
-                        // Pretend the user pressed D-Pad Up (ID 11)
-                        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_UP);
-                    }
-                }
-                // Reset if the stick returns to center (or goes down)
-                else if (value > -DEADZONE && m_lStickUpActive) {
-                    m_lStickUpActive = false;
-                    // Q_EMIT buttonReleased(SDL_GAMEPAD_BUTTON_DPAD_UP);
-                }
-
-                // --- HANDLE DOWN (Positive Value) ---
-                if (value > DEADZONE) {
-                    if (!m_lStickDownActive) {
-                        m_lStickDownActive = true;
-                        // Pretend the user pressed D-Pad Down (ID 12)
-                        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_DOWN);
-                    }
-                }
-                // Reset if the stick returns to center (or goes up)
-                else if (value < DEADZONE && m_lStickDownActive) {
-                    m_lStickDownActive = false;
-                    // Q_EMIT buttonReleased(SDL_GAMEPAD_BUTTON_DPAD_DOWN);
-                }
-            }
-            // handle right stick vertical
-            else if (event.gaxis.axis == SDL_GAMEPAD_AXIS_RIGHTY) {
-                m_rStickVertical = event.gaxis.value;
-            }
+            handleAxisMotion(event);
             break;
 
         case SDL_EVENT_GAMEPAD_ADDED:
@@ -120,50 +84,90 @@ void ControllerManager::pollSDL()
             handleGamepadRemoved(event.gdevice.which);
             break;
 
-        default:
-            qDebug() << "Other Event:" << event.type;
-            break;
+            // default:
+            //     qDebug() << "Other Event:" << event.type;
+            //     break;
         }
     }
 }
 
-void ControllerManager::handleGamepadAdded(SDL_JoystickID which)
+void ControllerManager::handleAxisMotion(SDL_Event &event)
 {
-    qDebug() << "New Device Detected! ID:" << which;
-
-    if (m_gamepad) {
-        SDL_CloseGamepad(m_gamepad);
-        m_gamepad = nullptr;
+    // Handle left stick vertical
+    if (event.gaxis.axis == SDL_GAMEPAD_AXIS_LEFTY) {
+        axisEmulateDpad(m_gamepads[event.gaxis.which].leftStickVertical, event.gaxis.value);
+        m_gamepads[event.gaxis.which].leftStickVertical = event.gaxis.value;
     }
 
-    m_gamepad = SDL_OpenGamepad(which);
+    // TODO: Handle right stick vertical
+    else if (event.gaxis.axis == SDL_GAMEPAD_AXIS_RIGHTY)
+        m_gamepads[event.gaxis.which].rightStickVertical = event.gaxis.value;
 
-    if (m_gamepad) {
-        qDebug() << "Gamepad Opened Name:" << SDL_GetGamepadName(m_gamepad);
-        m_gamepadPresent = true;
-        changeGamepadLabels();
+    changeGamepadLabels(event.gbutton.which);
+}
+
+void ControllerManager::axisEmulateDpad(const int16_t &axisPrev, const int16_t &axisNow)
+{
+    // If the state relative to the controller deadzone has changed, emulate the appropriate Dpad input
+
+    // x < -DEADZONE
+    if (axisNow < -DEADZONE && !(axisPrev < -DEADZONE))
+        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_UP);
+
+    // x > DEADZONE
+    else if (axisNow > DEADZONE && !(axisPrev > DEADZONE))
+        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_DOWN);
+}
+
+void ControllerManager::handleGamepadAdded(SDL_JoystickID which)
+{
+    if (m_gamepads.count(which) > 0) {
+        qWarning() << "A gamepad was connected while already being connected!";
+        return;
+    }
+
+    qDebug() << "New Device Detected! ID:" << which;
+
+    SDL_Gamepad *newGamepad = SDL_OpenGamepad(which);
+
+    if (newGamepad) {
+        m_gamepads[which].gamepad = newGamepad;
+
+        qDebug() << "Gamepad Opened Name:" << SDL_GetGamepadName(newGamepad);
+        changeGamepadLabels(which);
     } else {
-        qWarning() << "Could not open gamepad!";
+        qWarning() << "Could not open gamepad!" << SDL_GetError();
     }
 }
 
 void ControllerManager::handleGamepadRemoved(SDL_JoystickID which)
 {
-    qDebug() << "Device Removed ID:" << which;
-    if (m_gamepad) {
-        SDL_CloseGamepad(m_gamepad);
-        m_gamepad = nullptr;
+    auto find_gamepad = m_gamepads.find(which);
+
+    if (find_gamepad != m_gamepads.end()) {
+        if (find_gamepad->second.gamepad) {
+            qDebug() << "Device Removed ID:" << which;
+            SDL_CloseGamepad(find_gamepad->second.gamepad);
+        }
+        m_gamepads.erase(find_gamepad);
     }
-    changeGamepadLabels();
+    changeGamepadLabels(0);
 }
 
-void ControllerManager::changeGamepadLabels()
+void ControllerManager::changeGamepadLabels(SDL_JoystickID which)
 {
-    if (m_gamepad) {
-        m_labels.m_a = getLabelForButton(m_gamepad, SDL_GAMEPAD_BUTTON_SOUTH);
-        m_labels.m_b = getLabelForButton(m_gamepad, SDL_GAMEPAD_BUTTON_EAST);
-        m_labels.m_x = getLabelForButton(m_gamepad, SDL_GAMEPAD_BUTTON_WEST);
-        m_labels.m_y = getLabelForButton(m_gamepad, SDL_GAMEPAD_BUTTON_NORTH);
+    // Only change labels when necessary
+    if (which == m_focusedJoystick)
+        return;
+
+    m_focusedJoystick = which;
+
+    if (which) {
+        SDL_Gamepad *temp = m_gamepads[which].gamepad;
+        m_labels.m_a = getLabelForButton(temp, SDL_GAMEPAD_BUTTON_SOUTH);
+        m_labels.m_b = getLabelForButton(temp, SDL_GAMEPAD_BUTTON_EAST);
+        m_labels.m_x = getLabelForButton(temp, SDL_GAMEPAD_BUTTON_WEST);
+        m_labels.m_y = getLabelForButton(temp, SDL_GAMEPAD_BUTTON_NORTH);
         m_labels.m_S = QStringLiteral(" ");
         m_labels.m_S_big = m_labels.m_S + m_labels.m_S + m_labels.m_S;
     } else {
@@ -175,7 +179,6 @@ void ControllerManager::changeGamepadLabels()
         m_labels.m_S_big = QStringLiteral("");
     }
 
-    Q_EMIT gamepadPresentChanged();
     Q_EMIT labelsChanged();
 }
 

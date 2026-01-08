@@ -16,7 +16,6 @@
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 
-// #include "bazzite_updaterconfig.h"
 #include "controllers.h"
 #include "rebase_helper.h"
 #include "utils.h"
