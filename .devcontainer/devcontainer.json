@@ -19,7 +19,11 @@
 		"XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
 		"XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}"
 	},
+	"privileged": true,
 	"mounts": [
-		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached"
-	]
+		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached",
+		"source=/usr/share/ublue-os/image-info.json,target=/run/host/usr/share/ublue-os/image-info.json,type=bind,consistency=cached",
+		"source=/dev/input,target=/dev/input,type=bind"
+	],
+	"postCreateCommand": "plasma-apply-desktoptheme breeze-dark || true"
 }

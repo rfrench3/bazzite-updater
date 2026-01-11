@@ -139,7 +139,12 @@ RUN pacman -Syu --noconfirm \
     ki18n \
     kiconthemes \
     kirigami-addons \
-    qqc2-desktop-style
+    qqc2-desktop-style \
+    # Let the app have breeze theme in the container
+    plasma-integration
+    
+
+RUN mkdir -p /run/host/usr/share/ublue-os/
 
 # Create vscode user with sudo access
 RUN groupadd --gid 1000 vscode \
@@ -147,3 +152,9 @@ RUN groupadd --gid 1000 vscode \
     && echo 'vscode ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/vscode \
     && chmod 0440 /etc/sudoers.d/vscode
 
+# Give vscode access to the input group (for testing controllers)
+RUN groupadd -f input \
+    && usermod -a -G input vscode
+
+## Let breeze work while testing (not necessary)
+ENV XDG_CURRENT_DESKTOP=KDE
