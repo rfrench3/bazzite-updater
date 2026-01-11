@@ -23,6 +23,8 @@ Kirigami.Page {
         target: Gamepad
 
         function onButtonPressed(buttonId) {
+            if (appGlobalDrawer.drawerOpen == true)
+                return;
             switch (buttonId) {
                 case 0: // A
                     updateAction.trigger();

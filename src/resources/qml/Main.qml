@@ -46,6 +46,8 @@ StatefulApp.StatefulWindow {
         target: Gamepad
 
         function onButtonPressed(buttonId) {
+            if (appGlobalDrawer.drawerOpen != true)
+                return;
             switch (buttonId) {
                 case 1: // B
                 case 4: // view, minus
@@ -54,18 +56,15 @@ StatefulApp.StatefulWindow {
                     break;
 
                 case 2: // X
-                    if (appGlobalDrawer.drawerOpen == true)
-                        Qt.quit();
+                    Qt.quit();
                     break;
 
                 case 11: // Dpad Up
-                    if (appGlobalDrawer.drawerOpen == true)
-                        appGlobalDrawer.navigateGlobalDrawer(-1);
+                    appGlobalDrawer.navigateGlobalDrawer(-1);
                     break;
 
                 case 12: // Dpad Down
-                    if (appGlobalDrawer.drawerOpen == true)
-                        appGlobalDrawer.navigateGlobalDrawer(1);
+                    appGlobalDrawer.navigateGlobalDrawer(1);
                     break;
 
             }
