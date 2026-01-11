@@ -44,8 +44,10 @@ kconfig_add_kcfg_files(bazzite_updater_static GENERATE_MOC bazzite_updaterconfig
 
 add_executable(bazzite_updater
     main.cpp
-    utils.h
-    utils.cpp
+    # utils.h
+    # utils.cpp
+    system_update.cpp
+    system_update.h
     resources.qrc
     controllers.cpp
     controllers.h

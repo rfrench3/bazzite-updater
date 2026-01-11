@@ -17,7 +17,7 @@
 
 #include <KLocalizedString>
 
-#include "utils.h"
+#include "system_update.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
