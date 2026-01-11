@@ -1,8 +1,10 @@
 /app
 /build
 /build_bazzite
-/.kdev4
-bazzite_updater.kdev4
-/.git_backup
-/.qtcreator
 /.cache
+/.flatpak-builder
+/.git_backup
+/.kdev4
+/.qtcreator
+bazzite_updater.kdev4
+
