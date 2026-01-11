@@ -18,7 +18,7 @@
 
 #include "controllers.h"
 #include "rebase_helper.h"
-#include "utils.h"
+#include "system_update.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -64,8 +64,8 @@ int main(int argc, char *argv[])
                                  return engine->toScriptValue(KAboutData::applicationData());
                              });
 
-    Utils utils;
-    qmlRegisterSingletonInstance<Utils>("app.Utils", 1, 0, "Utils", &utils);
+    SystemUpdate system_update;
+    qmlRegisterSingletonInstance<SystemUpdate>("app.SysUpd", 1, 0, "SysUpd", &system_update);
 
     ControllerManager gamepad;
     qmlRegisterSingletonInstance<ControllerManager>("app.Gamepad", 1, 0, "Gamepad", &gamepad);

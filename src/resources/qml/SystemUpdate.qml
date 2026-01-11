@@ -11,7 +11,7 @@ import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
 import app.Gamepad 1.0
-import app.Utils 1.0
+import app.SysUpd 1.0
 
 Kirigami.Page {
     id: page
@@ -41,11 +41,11 @@ Kirigami.Page {
         id: updateAction
         text: i18n("Update System Image and Software") + Gamepad.labels.space + Gamepad.labels.a
         shortcut: "Return"
-        enabled: !Utils.blockUpdate && !Utils.updateRunning
+        enabled: !SysUpd.blockUpdate && !SysUpd.updateRunning
 
         onTriggered: {
             showPassiveNotification(i18n("Update Started"), Kirigami.short);
-            Utils.runUpdate(function(callback) {
+            SysUpd.runUpdate(function(callback) {
                 if (callback != 0) {
                     showPassiveNotification(
                         i18n("Update Failed. Check console for more details."),
@@ -108,16 +108,16 @@ Kirigami.Page {
                 anchors.fill: parent
                 from: 0
                 to: 100
-                //TODO: get progress tracker working (utils.cpp, runUpdate, connect journalctl lambda)
-                // value: Utils.progressLevel
+                //TODO: get progress tracker working (system_update.cpp, runUpdate, connect journalctl lambda)
+                // value: SysUpd.progressLevel
                 // use indeterminate until then
-                indeterminate: Utils.updateRunning
+                indeterminate: SysUpd.updateRunning
             }
         }
 
         QQC2.Label {
             Layout.alignment: Qt.AlignCenter
-            text: i18n("Current Status: ") + Utils.statusText
+            text: i18n("Current Status: ") + SysUpd.statusText
         }
 
 
@@ -158,7 +158,7 @@ Kirigami.Page {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    text: Utils.consoleText
+                    text: SysUpd.consoleText
                     font.family: 'monospace'
                     wrapMode: Text.WordWrap
                     readOnly: true
@@ -175,7 +175,7 @@ Kirigami.Page {
                     Layout.fillWidth: true
                     text: i18n("Copy to Clipboard")
                     onClicked: {
-                        Utils.copyToClipboard(Utils.consoleText);
+                        SysUpd.copyToClipboard(SysUpd.consoleText);
                         showPassiveNotification(i18n("Text Copied"), Kirigami.short);
                     }
                 }

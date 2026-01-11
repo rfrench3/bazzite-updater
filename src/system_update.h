@@ -15,6 +15,8 @@
 #include <QProcess>
 #include <QQmlEngine>
 
+#include "utils.h"
+
 using namespace Qt::Literals::StringLiterals;
 
 // There are some checks for if current == default
@@ -24,7 +26,7 @@ using namespace Qt::Literals::StringLiterals;
 // org.kde.plasma.welcome, Utils
 // Provides utility functionality for Welcome Center, intended for distro pages
 
-class Utils : public QObject
+class SystemUpdate : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString consoleText READ consoleText WRITE setConsoleText NOTIFY consoleTextChanged)
@@ -46,15 +48,8 @@ class Utils : public QObject
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
 
-    static bool isFlatpak()
-    {
-        return QFileInfo::exists(u"/.flatpak-info"_s);
-    }
-    static void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
-    static void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
-
 public:
-    Utils(QObject *parent = nullptr);
+    SystemUpdate(QObject *parent = nullptr);
 
     Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue());
 

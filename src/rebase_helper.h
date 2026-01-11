@@ -10,6 +10,8 @@
 #include <QQmlEngine>
 #include <qcontainerfwd.h>
 
+#include "utils.h"
+
 using namespace Qt::Literals::StringLiterals;
 
 struct OsImage {
@@ -60,14 +62,6 @@ class RebaseHelper : public QObject
     OsImage m_new;
     bool m_rebaseValid = false;
     bool m_newIsCurrent = true;
-
-    // TODO: put these in a parent class shared with Utils (and rename Utils to SystemUpdate)
-    static void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
-    static void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
-    static bool isFlatpak()
-    {
-        return QFileInfo::exists(u"/.flatpak-info"_s);
-    }
 
 public:
     RebaseHelper(QObject *parent = nullptr);

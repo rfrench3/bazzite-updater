@@ -103,23 +103,6 @@ QStringList RebaseHelper::listImages() const
     return images;
 }
 
-// Handles sandboxing such as Flatpak
-void RebaseHelper::startProcess(QProcess *process, const QString &cmd, const QStringList &args)
-{
-    if (isFlatpak()) {
-        QStringList hostArgs;
-        hostArgs << u"--host"_s << cmd << args;
-        process->start(u"flatpak-spawn"_s, hostArgs);
-    } else {
-        process->start(cmd, args);
-    }
-}
-
-void RebaseHelper::startProcess(QProcess &process, const QString &cmd, const QStringList &args)
-{
-    startProcess(&process, cmd, args);
-}
-
 void RebaseHelper::checkRebaseValid()
 {
     Q_EMIT rebaseValidChanged();

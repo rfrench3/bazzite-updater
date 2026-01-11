@@ -26,20 +26,20 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-Utils::Utils(QObject *parent)
+SystemUpdate::SystemUpdate(QObject *parent)
     : QObject(parent)
 {
 }
 
-void Utils::runUpdate(QJSValue callback)
+void SystemUpdate::runUpdate(QJSValue callback)
 {
     const bool resultHandled = callback.isCallable();
     if (!resultHandled) {
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
-    Utils::setUpdateRunning(true);
-    Utils::setStatusText(i18n("Running (This may take a while!)"));
+    SystemUpdate::setUpdateRunning(true);
+    SystemUpdate::setStatusText(i18n("Running (This may take a while!)"));
 
     if (!isServicePresent(u"uupd.service"_s)) {
         setConsoleText(i18n("The uupd service was not found on the system."));
@@ -71,12 +71,12 @@ void Utils::runUpdate(QJSValue callback)
     // No update is currently running, proceed
 
     QProcess *systemctl = new QProcess(this);
-    startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd.service"_s});
+    Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd.service"_s});
 
     QProcess *journalctl = new QProcess(this);
-    startProcess(journalctl, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
+    Utils::startProcess(journalctl, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
 
-    Utils::setProgressLevel(0);
+    SystemUpdate::setProgressLevel(0);
 
     // When the "systemctl start uupd.service" process completes,
     // check the service result and update the UI accordingly.
@@ -85,19 +85,19 @@ void Utils::runUpdate(QJSValue callback)
 
         const QString result = getServiceResult(u"uupd.service"_s);
         if (result == u"success"_s) {
-            Utils::setUpdateRunning(false);
-            Utils::setStatusText(i18n("Success!"));
+            SystemUpdate::setUpdateRunning(false);
+            SystemUpdate::setStatusText(i18n("Success!"));
             callback.call({0, result});
             return;
         } else if (result == u"start-limit-hit"_s) {
-            Utils::setStatusText(i18n("Updating too fast! ") + result);
-            Utils::appendConsoleText(i18n("You are updating too many times in a short period!"));
+            SystemUpdate::setStatusText(i18n("Updating too fast! ") + result);
+            SystemUpdate::appendConsoleText(i18n("You are updating too many times in a short period!"));
         } else {
-            Utils::setStatusText(i18n("Error -- ") + result);
+            SystemUpdate::setStatusText(i18n("Error -- ") + result);
             qDebug() << "Result of uupd.service was not success: " << result;
         }
-        Utils::setBlockUpdate(true);
-        Utils::setUpdateRunning(false);
+        SystemUpdate::setBlockUpdate(true);
+        SystemUpdate::setUpdateRunning(false);
         callback.call({1, result});
         return;
     });
@@ -130,9 +130,9 @@ void Utils::runUpdate(QJSValue callback)
                     if (!overall.isEmpty()) {
                         // Make sure the progress bar only reaches 100% when the update completes
                         if (overall.toInt() < 95)
-                            Utils::setProgressLevel(overall.toInt());
+                            SystemUpdate::setProgressLevel(overall.toInt());
                         else
-                            Utils::setProgressLevel(95);
+                            SystemUpdate::setProgressLevel(95);
                     }
 
                     if (level == QStringLiteral("INFO")) {
@@ -142,9 +142,9 @@ void Utils::runUpdate(QJSValue callback)
                     } else if (level == QStringLiteral("ERROR")) {
                         // The update has failed
 
-                        Utils::setStatusText(i18n(("ERROR!")));
-                        Utils::setProgressLevel(0);
-                        Utils::setBlockUpdate(true);
+                        SystemUpdate::setStatusText(i18n(("ERROR!")));
+                        SystemUpdate::setProgressLevel(0);
+                        SystemUpdate::setBlockUpdate(true);
                         formattedLine = QStringLiteral("ERROR: ") + msg;
 
                         if (!error_msg.isEmpty()) {
@@ -153,10 +153,10 @@ void Utils::runUpdate(QJSValue callback)
                     }
 
                     if (!formattedLine.isEmpty()) {
-                        if (Utils::consoleText() == DEFAULT_CONSOLE_TEXT)
-                            Utils::setConsoleText(formattedLine);
+                        if (SystemUpdate::consoleText() == DEFAULT_CONSOLE_TEXT)
+                            SystemUpdate::setConsoleText(formattedLine);
                         else
-                            Utils::setConsoleText(Utils::consoleText() + formattedLine);
+                            SystemUpdate::setConsoleText(SystemUpdate::consoleText() + formattedLine);
 
                         qDebug().noquote() << formattedLine;
                         continue;
@@ -166,13 +166,13 @@ void Utils::runUpdate(QJSValue callback)
                 }
             }
 
-            Utils::appendConsoleText(message);
+            SystemUpdate::appendConsoleText(message);
         }
     });
 }
 
 // Return false unless service is inactive.
-bool Utils::isServiceInactive(const QString &service) const
+bool SystemUpdate::isServiceInactive(const QString &service) const
 {
     // Non-zero means it is NOT active (therefore, inactive).
     int exitCode = QProcess::execute(u"systemctl"_s, {u"is-active"_s, u"--quiet"_s, service});
@@ -181,11 +181,11 @@ bool Utils::isServiceInactive(const QString &service) const
 }
 
 // Return false if the service is not present.
-bool Utils::isServicePresent(const QString &service) const
+bool SystemUpdate::isServicePresent(const QString &service) const
 {
     QProcess check_process;
 
-    startProcess(check_process, u"systemctl"_s, {u"list-unit-files"_s, u"--no-legend"_s, u"--no-pager"_s, service});
+    Utils::startProcess(check_process, u"systemctl"_s, {u"list-unit-files"_s, u"--no-legend"_s, u"--no-pager"_s, service});
 
     check_process.waitForFinished();
 
@@ -194,12 +194,12 @@ bool Utils::isServicePresent(const QString &service) const
     return !output.isEmpty();
 }
 
-QString Utils::getServiceState(const QString &service) const
+QString SystemUpdate::getServiceState(const QString &service) const
 {
     QProcess process;
 
     // We do NOT use "--quiet" because we want the text output
-    startProcess(process, u"systemctl"_s, {u"is-active"_s, service});
+    Utils::startProcess(process, u"systemctl"_s, {u"is-active"_s, service});
 
     process.waitForFinished();
 
@@ -210,10 +210,10 @@ QString Utils::getServiceState(const QString &service) const
 
 // Return the result of systemctl show {service} -p Result --value.
 // For example, may return "start-limit-hit" or "success"
-QString Utils::getServiceResult(const QString &service) const
+QString SystemUpdate::getServiceResult(const QString &service) const
 {
     QProcess check;
-    startProcess(check, u"systemctl"_s, {u"show"_s, service, u"-p"_s, u"Result"_s, u"--value"_s});
+    Utils::startProcess(check, u"systemctl"_s, {u"show"_s, service, u"-p"_s, u"Result"_s, u"--value"_s});
 
     check.waitForFinished();
 
@@ -222,29 +222,12 @@ QString Utils::getServiceResult(const QString &service) const
     return output;
 }
 
-// Handles sandboxing such as Flatpak
-void Utils::startProcess(QProcess *process, const QString &cmd, const QStringList &args)
-{
-    if (isFlatpak()) {
-        QStringList hostArgs;
-        hostArgs << u"--host"_s << cmd << args;
-        process->start(u"flatpak-spawn"_s, hostArgs);
-    } else {
-        process->start(cmd, args);
-    }
-}
-
-void Utils::startProcess(QProcess &process, const QString &cmd, const QStringList &args)
-{
-    startProcess(&process, cmd, args);
-}
-
-void Utils::copyToClipboard(const QString &content) const
+void SystemUpdate::copyToClipboard(const QString &content) const
 {
     QApplication::clipboard()->setText(content);
 }
 
-void Utils::setConsoleText(const QString &consoleText)
+void SystemUpdate::setConsoleText(const QString &consoleText)
 {
     m_consoleText = consoleText;
 
@@ -254,7 +237,7 @@ void Utils::setConsoleText(const QString &consoleText)
     Q_EMIT consoleTextChanged();
 }
 
-void Utils::appendConsoleText(const QString &consoleText)
+void SystemUpdate::appendConsoleText(const QString &consoleText)
 {
     if (m_consoleText == DEFAULT_CONSOLE_TEXT)
         m_consoleText = consoleText;
@@ -267,28 +250,28 @@ void Utils::appendConsoleText(const QString &consoleText)
     Q_EMIT consoleTextChanged();
 }
 
-void Utils::setProgressLevel(int progressLevel)
+void SystemUpdate::setProgressLevel(int progressLevel)
 {
     m_progressLevel = progressLevel;
     Q_EMIT progressLevelChanged();
 }
 
-void Utils::setStatusText(const QString &statusText)
+void SystemUpdate::setStatusText(const QString &statusText)
 {
     m_statusText = statusText;
     Q_EMIT statusTextChanged();
 }
 
-void Utils::setBlockUpdate(bool updateError)
+void SystemUpdate::setBlockUpdate(bool updateError)
 {
     m_blockUpdate = updateError;
     Q_EMIT blockUpdateChanged();
 }
 
-void Utils::setUpdateRunning(bool updateRunning)
+void SystemUpdate::setUpdateRunning(bool updateRunning)
 {
     m_updateRunning = updateRunning;
     Q_EMIT updateRunningChanged();
 }
 
-#include "moc_utils.cpp"
+#include "moc_system_update.cpp"
