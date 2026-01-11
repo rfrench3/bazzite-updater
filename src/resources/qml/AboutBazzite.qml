@@ -17,7 +17,12 @@ Kirigami.Page {
 
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("About Bazzite")
 
+    GamepadPageNavigation {
+        targetWindow: page.Window.window
+    }
+
     Kirigami.FormLayout {
+        id: page_content
 
         anchors.fill: parent
 

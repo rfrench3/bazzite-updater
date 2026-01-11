@@ -32,29 +32,42 @@ StatefulApp.StatefulWindow {
     onActiveChanged: Gamepad.setPollController(active)
 
 
-    Component { // <==== Component that instantiates the Kirigami.AboutPage
+    Component {
         id: aboutApp
 
         Kirigami.AboutPage {
+            id: aboutPage
             aboutData: About
             title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "Bazzite Updater")
+            
+            GamepadPageNavigation {
+                targetWindow: aboutPage.Window.window
+            }
         }
     }
 
     // Handle global drawer navigation for controllers
+    // The GamePadNavigation class cannot be used because actions don't have the required properties
     Connections {
         target: Gamepad
 
         function onButtonPressed(buttonId) {
-            if (appGlobalDrawer.drawerOpen != true)
-                return;
             switch (buttonId) {
                 case 1: // B
                 case 4: // view, minus
                 case 6: // pause, plus
                     appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
                     break;
+            }
+            
+            if (appGlobalDrawer.drawerOpen != true)
+                return;
 
+            switch (buttonId) {
+                case 0: // A
+                    appGlobalDrawer.drawerOpen = false;
+                    break;
+                
                 case 2: // X
                     Qt.quit();
                     break;
@@ -66,7 +79,6 @@ StatefulApp.StatefulWindow {
                 case 12: // Dpad Down
                     appGlobalDrawer.navigateGlobalDrawer(1);
                     break;
-
             }
         }
     }

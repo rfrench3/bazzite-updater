@@ -18,6 +18,10 @@ Kirigami.Page {
 
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper (WORK-IN-PROGRESS)")
 
+    GamepadPageNavigation {
+        targetWindow: page.Window.window
+    }
+
     ColumnLayout {
         anchors.fill: parent
 

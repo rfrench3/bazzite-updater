@@ -27,10 +27,11 @@ Kirigami.Page {
                 return;
             switch (buttonId) {
                 case 0: // A
-                    updateAction.trigger();
+                    updateButton.animateClick();
                     break;
                 case 3: // Y
                     toggleConsole.trigger();
+                    // TODO: Close passive notifications
                     break;
             }
         }
@@ -91,6 +92,7 @@ Kirigami.Page {
         Item { height: Kirigami.Units.gridUnit } // Vertical Spacer
 
         QQC2.Button {
+            id: updateButton
             focus: true
             Layout.alignment: Qt.AlignHCenter
 
