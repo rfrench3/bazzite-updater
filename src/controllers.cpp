@@ -7,6 +7,8 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 
+using namespace Qt::Literals::StringLiterals;
+
 #define POLLING_RATE 16 // ~60FPS
 
 ControllerManager::ControllerManager(QObject *parent)
@@ -168,15 +170,15 @@ void ControllerManager::changeGamepadLabels(SDL_JoystickID which)
         m_labels.m_b = getLabelForButton(temp, SDL_GAMEPAD_BUTTON_EAST);
         m_labels.m_x = getLabelForButton(temp, SDL_GAMEPAD_BUTTON_WEST);
         m_labels.m_y = getLabelForButton(temp, SDL_GAMEPAD_BUTTON_NORTH);
-        m_labels.m_S = QStringLiteral(" ");
+        m_labels.m_S = u" "_s;
         m_labels.m_S_big = m_labels.m_S + m_labels.m_S + m_labels.m_S;
     } else {
-        m_labels.m_a = QStringLiteral("");
-        m_labels.m_b = QStringLiteral("");
-        m_labels.m_x = QStringLiteral("");
-        m_labels.m_y = QStringLiteral("");
-        m_labels.m_S = QStringLiteral("");
-        m_labels.m_S_big = QStringLiteral("");
+        m_labels.m_a = u""_s;
+        m_labels.m_b = u""_s;
+        m_labels.m_x = u""_s;
+        m_labels.m_y = u""_s;
+        m_labels.m_S = u""_s;
+        m_labels.m_S_big = u""_s;
     }
 
     Q_EMIT labelsChanged();
@@ -189,13 +191,13 @@ QString ControllerManager::getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadBu
 
     switch (label) {
     case SDL_GAMEPAD_BUTTON_LABEL_A:
-        return QStringLiteral("(A)");
+        return u"(A)"_s;
     case SDL_GAMEPAD_BUTTON_LABEL_B:
-        return QStringLiteral("(B)");
+        return u"(B)"_s;
     case SDL_GAMEPAD_BUTTON_LABEL_X:
-        return QStringLiteral("(X)");
+        return u"(X)"_s;
     case SDL_GAMEPAD_BUTTON_LABEL_Y:
-        return QStringLiteral("(Y)");
+        return u"(Y)"_s;
     case SDL_GAMEPAD_BUTTON_LABEL_CROSS:
         return i18n("(Cross)");
     case SDL_GAMEPAD_BUTTON_LABEL_CIRCLE:
@@ -205,6 +207,6 @@ QString ControllerManager::getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadBu
     case SDL_GAMEPAD_BUTTON_LABEL_TRIANGLE:
         return i18n("(Triangle)");
     default:
-        return QStringLiteral("(?)"); // Unknown
+        return u"(?)"_s; // Unknown
     }
 }

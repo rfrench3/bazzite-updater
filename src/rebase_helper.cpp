@@ -45,36 +45,36 @@ OsImage OsImage::fromJson(const QString &filePath)
 
     QJsonObject obj = doc.object();
 
-    img.m_imageName = obj.value(QStringLiteral("image-name")).toString();
-    img.m_imageVendor = obj.value(QStringLiteral("image-vendor")).toString();
-    img.m_imageRef = obj.value(QStringLiteral("image-ref")).toString();
-    img.m_imageTag = obj.value(QStringLiteral("image-tag")).toString();
-    img.m_imageBranch = obj.value(QStringLiteral("image-branch")).toString();
-    img.m_baseImageName = obj.value(QStringLiteral("base-image-name")).toString();
-    img.m_fedoraVersion = obj.value(QStringLiteral("fedora-version")).toString();
-    img.m_version = obj.value(QStringLiteral("version")).toString();
-    img.m_versionPretty = obj.value(QStringLiteral("version-pretty")).toString();
+    img.m_imageName = obj.value(u"image-name"_s).toString();
+    img.m_imageVendor = obj.value(u"image-vendor"_s).toString();
+    img.m_imageRef = obj.value(u"image-ref"_s).toString();
+    img.m_imageTag = obj.value(u"image-tag"_s).toString();
+    img.m_imageBranch = obj.value(u"image-branch"_s).toString();
+    img.m_baseImageName = obj.value(u"base-image-name"_s).toString();
+    img.m_fedoraVersion = obj.value(u"fedora-version"_s).toString();
+    img.m_version = obj.value(u"version"_s).toString();
+    img.m_versionPretty = obj.value(u"version-pretty"_s).toString();
     {
         QString temp_year, temp_month, temp_day;
 
         // m_version has format of fedora-version.yyyyMMdd
 
         QString datePart = img.m_version.right(8);
-        QDate date = QDate::fromString(datePart, QStringLiteral("yyyyMMdd"));
+        QDate date = QDate::fromString(datePart, u"yyyyMMdd"_s);
 
         if (date.isValid()) {
-            temp_year = date.toString(QStringLiteral("yyyy"));
-            temp_month = date.toString(QStringLiteral("MMMM"));
-            temp_day = date.toString(QStringLiteral("d"));
+            temp_year = date.toString(u"yyyy"_s);
+            temp_month = date.toString(u"MMMM"_s);
+            temp_day = date.toString(u"d"_s);
         } else {
-            temp_year = QStringLiteral("ERROR!");
-            temp_month = QStringLiteral("ERROR!");
-            temp_day = QStringLiteral("ERROR!");
+            temp_year = u"ERROR!"_s;
+            temp_month = u"ERROR!"_s;
+            temp_day = u"ERROR!"_s;
         }
 
-        img.m_datePretty.insert(QStringLiteral("year"), temp_year);
-        img.m_datePretty.insert(QStringLiteral("month"), temp_month);
-        img.m_datePretty.insert(QStringLiteral("day"), temp_day);
+        img.m_datePretty.insert(u"year"_s, temp_year);
+        img.m_datePretty.insert(u"month"_s, temp_month);
+        img.m_datePretty.insert(u"day"_s, temp_day);
     }
     img.m_isValid = true;
     return img;
@@ -85,12 +85,12 @@ RebaseHelper::RebaseHelper(QObject *parent)
 {
     QString path;
     {
-        const QString primaryPath = QStringLiteral("/usr/share/ublue-os/image-info.json");
+        const QString primaryPath = u"/usr/share/ublue-os/image-info.json"_s;
 
         if (QFile::exists(primaryPath))
             path = primaryPath;
         else
-            path = QStringLiteral("/run/host/usr/share/ublue-os/image-info.json");
+            path = u"/run/host/usr/share/ublue-os/image-info.json"_s;
     }
     m_current = OsImage::fromJson(path);
 }
@@ -108,8 +108,8 @@ void RebaseHelper::startProcess(QProcess *process, const QString &cmd, const QSt
 {
     if (isFlatpak()) {
         QStringList hostArgs;
-        hostArgs << QStringLiteral("--host") << cmd << args;
-        process->start(QStringLiteral("flatpak-spawn"), hostArgs);
+        hostArgs << u"--host"_s << cmd << args;
+        process->start(u"flatpak-spawn"_s, hostArgs);
     } else {
         process->start(cmd, args);
     }

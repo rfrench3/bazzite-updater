@@ -34,9 +34,9 @@ int main(int argc, char *argv[])
     }
 
     KLocalizedString::setApplicationDomain("bazzite_updater");
-    QCoreApplication::setOrganizationName(QStringLiteral("KDE"));
+    QCoreApplication::setOrganizationName(u"KDE"_s);
 
-    KAboutData aboutDataApp(QStringLiteral("bazzite_updater"),
+    KAboutData aboutDataApp(u"bazzite_updater"_s,
                             i18nc("@title", "Bazzite Updater"),
                             QStringLiteral(BAZZITE_UPDATER_VERSION_STRING),
                             i18n("Updating and rebasing utility for Bazzite"),
@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
 
     aboutDataApp.addAuthor(i18nc("@info:credit", "Robert French"),
                            i18nc("@info:credit", "Maintainer"),
-                           QStringLiteral("frenchrobertm@outlook.com"),
-                           QStringLiteral("https://rfrench3.github.io/personal-site/"));
+                           u"frenchrobertm@outlook.com"_s,
+                           u"https://rfrench3.github.io/personal-site/"_s);
 
     aboutDataApp.setTranslator(i18nc("NAME OF TRANSLATORS", "Your names"), i18nc("EMAIL OF TRANSLATORS", "Your emails"));
 

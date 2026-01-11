@@ -15,6 +15,8 @@
 #include <QProcess>
 #include <QQmlEngine>
 
+using namespace Qt::Literals::StringLiterals;
+
 // There are some checks for if current == default
 #define DEFAULT_CONSOLE_TEXT i18n("No output")
 
@@ -46,7 +48,7 @@ class Utils : public QObject
 
     static bool isFlatpak()
     {
-        return QFileInfo::exists(QStringLiteral("/.flatpak-info"));
+        return QFileInfo::exists(u"/.flatpak-info"_s);
     }
     static void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
     static void startProcess(QProcess &process, const QString &cmd, const QStringList &args);

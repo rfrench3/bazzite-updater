@@ -24,6 +24,8 @@
 #include <QRegularExpression>
 #include <QtDebug>
 
+using namespace Qt::Literals::StringLiterals;
+
 Utils::Utils(QObject *parent)
     : QObject(parent)
 {
@@ -39,21 +41,21 @@ void Utils::runUpdate(QJSValue callback)
     Utils::setUpdateRunning(true);
     Utils::setStatusText(i18n("Running (This may take a while!)"));
 
-    if (!isServicePresent(QStringLiteral("uupd.service"))) {
+    if (!isServicePresent(u"uupd.service"_s)) {
         setConsoleText(i18n("The uupd service was not found on the system."));
         setStatusText(i18n("ERROR!"));
         setBlockUpdate(true);
         setUpdateRunning(false);
 
-        const QString finalOutput = QStringLiteral("uupd.service was not found");
+        const QString finalOutput = u"uupd.service was not found"_s;
         callback.call({1, finalOutput});
         return;
     }
 
     // TODO: if an update is being detected, ideally the app would link to that update and show its progress.
     //       for now, anything but "inactive" will give an error.
-    if (!isServiceInactive(QStringLiteral("uupd.service"))) {
-        QString state = getServiceState(QStringLiteral("uupd.service"));
+    if (!isServiceInactive(u"uupd.service"_s)) {
+        QString state = getServiceState(u"uupd.service"_s);
 
         setConsoleText(i18n("The status of uupd.service is not inactive!"));
         appendConsoleText(i18n("State of uupd.service: ") + state);
@@ -61,7 +63,7 @@ void Utils::runUpdate(QJSValue callback)
         setBlockUpdate(true);
         setUpdateRunning(true);
 
-        const QString finalOutput = QStringLiteral("uupd.service state: ") + state;
+        const QString finalOutput = u"uupd.service state: "_s + state;
         callback.call({1, finalOutput});
         return;
     }
@@ -69,13 +71,10 @@ void Utils::runUpdate(QJSValue callback)
     // No update is currently running, proceed
 
     QProcess *systemctl = new QProcess(this);
-    startProcess(systemctl, QStringLiteral("systemctl"), {QStringLiteral("start"), QStringLiteral("uupd.service")});
+    startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd.service"_s});
 
     QProcess *journalctl = new QProcess(this);
-    startProcess(
-        journalctl,
-        QStringLiteral("journalctl"),
-        {QStringLiteral("--follow"), QStringLiteral("--unit=uupd.service"), QStringLiteral("--lines=0"), QStringLiteral("-o"), QStringLiteral("json")});
+    startProcess(journalctl, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
 
     Utils::setProgressLevel(0);
 
@@ -84,13 +83,13 @@ void Utils::runUpdate(QJSValue callback)
     connect(systemctl, &QProcess::finished, [=]() {
         journalctl->terminate();
 
-        const QString result = getServiceResult(QStringLiteral("uupd.service"));
-        if (result == QStringLiteral("success")) {
+        const QString result = getServiceResult(u"uupd.service"_s);
+        if (result == u"success"_s) {
             Utils::setUpdateRunning(false);
             Utils::setStatusText(i18n("Success!"));
             callback.call({0, result});
             return;
-        } else if (result == QStringLiteral("start-limit-hit")) {
+        } else if (result == u"start-limit-hit"_s) {
             Utils::setStatusText(i18n("Updating too fast! ") + result);
             Utils::appendConsoleText(i18n("You are updating too many times in a short period!"));
         } else {
@@ -115,17 +114,17 @@ void Utils::runUpdate(QJSValue callback)
 
             QJsonObject journalObj = journalDoc.object();
 
-            QString message = journalObj.value(QStringLiteral("MESSAGE")).toString();
+            QString message = journalObj.value(u"MESSAGE"_s).toString();
 
             // read the uupd json output
             if (message.trimmed().startsWith(QLatin1Char('{'))) {
                 QJsonDocument sysDoc = QJsonDocument::fromJson(message.toUtf8());
                 if (sysDoc.isObject()) {
                     QJsonObject obj = sysDoc.object();
-                    QString level = obj.value(QStringLiteral("level")).toString();
-                    QString msg = obj.value(QStringLiteral("msg")).toString();
-                    QString overall = obj.value(QStringLiteral("overall")).toString();
-                    QString error_msg = obj.value(QStringLiteral("error")).toString();
+                    QString level = obj.value(u"level"_s).toString();
+                    QString msg = obj.value(u"msg"_s).toString();
+                    QString overall = obj.value(u"overall"_s).toString();
+                    QString error_msg = obj.value(u"error"_s).toString();
                     QString formattedLine;
 
                     if (!overall.isEmpty()) {
@@ -176,7 +175,7 @@ void Utils::runUpdate(QJSValue callback)
 bool Utils::isServiceInactive(const QString &service) const
 {
     // Non-zero means it is NOT active (therefore, inactive).
-    int exitCode = QProcess::execute(QStringLiteral("systemctl"), {QStringLiteral("is-active"), QStringLiteral("--quiet"), service});
+    int exitCode = QProcess::execute(u"systemctl"_s, {u"is-active"_s, u"--quiet"_s, service});
 
     return exitCode != 0;
 }
@@ -186,9 +185,7 @@ bool Utils::isServicePresent(const QString &service) const
 {
     QProcess check_process;
 
-    startProcess(check_process,
-                 QStringLiteral("systemctl"),
-                 {QStringLiteral("list-unit-files"), QStringLiteral("--no-legend"), QStringLiteral("--no-pager"), service});
+    startProcess(check_process, u"systemctl"_s, {u"list-unit-files"_s, u"--no-legend"_s, u"--no-pager"_s, service});
 
     check_process.waitForFinished();
 
@@ -202,7 +199,7 @@ QString Utils::getServiceState(const QString &service) const
     QProcess process;
 
     // We do NOT use "--quiet" because we want the text output
-    startProcess(process, QStringLiteral("systemctl"), {QStringLiteral("is-active"), service});
+    startProcess(process, u"systemctl"_s, {u"is-active"_s, service});
 
     process.waitForFinished();
 
@@ -216,9 +213,7 @@ QString Utils::getServiceState(const QString &service) const
 QString Utils::getServiceResult(const QString &service) const
 {
     QProcess check;
-    startProcess(check,
-                 QStringLiteral("systemctl"),
-                 {QStringLiteral("show"), service, QStringLiteral("-p"), QStringLiteral("Result"), QStringLiteral("--value")});
+    startProcess(check, u"systemctl"_s, {u"show"_s, service, u"-p"_s, u"Result"_s, u"--value"_s});
 
     check.waitForFinished();
 
@@ -232,8 +227,8 @@ void Utils::startProcess(QProcess *process, const QString &cmd, const QStringLis
 {
     if (isFlatpak()) {
         QStringList hostArgs;
-        hostArgs << QStringLiteral("--host") << cmd << args;
-        process->start(QStringLiteral("flatpak-spawn"), hostArgs);
+        hostArgs << u"--host"_s << cmd << args;
+        process->start(u"flatpak-spawn"_s, hostArgs);
     } else {
         process->start(cmd, args);
     }
