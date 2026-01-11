@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.22)
 
-project(bazzite_updater VERSION 0.1.0)
+project(bazzite_updater VERSION 0.2.1)
 
 
 find_package(SDL3 QUIET)
@@ -65,11 +65,22 @@ set_package_properties(KF6KirigamiAddons PROPERTIES
 ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard)
 ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp)
 
+
 add_subdirectory(src)
 
-install(FILES io.github.rfrench3.bazzite_updater.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+string(TIMESTAMP TODAY_DATE "%Y-%m-%d")
+
+set(METAINFO_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/io.github.rfrench3.bazzite_updater.metainfo.xml.in")
+set(METAINFO_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/io.github.rfrench3.bazzite_updater.metainfo.xml")
+configure_file(${METAINFO_INPUT} ${METAINFO_OUTPUT} @ONLY)
+
+set(DESKTOP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/io.github.rfrench3.bazzite_updater.desktop.in")
+set(DESKTOP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/io.github.rfrench3.bazzite_updater.desktop")
+configure_file(${DESKTOP_INPUT} ${DESKTOP_OUTPUT} @ONLY)
+
+install(FILES ${DESKTOP_OUTPUT} DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES io.github.rfrench3.bazzite_updater.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
-install(FILES io.github.rfrench3.bazzite_updater.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES ${METAINFO_OUTPUT} DESTINATION ${KDE_INSTALL_METAINFODIR})
 ki18n_install(po)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
