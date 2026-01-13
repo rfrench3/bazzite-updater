@@ -33,8 +33,7 @@ SystemUpdate::SystemUpdate(QObject *parent)
 
 void SystemUpdate::runUpdate(QJSValue callback)
 {
-    const bool resultHandled = callback.isCallable();
-    if (!resultHandled) {
+    if (!callback.isCallable()) {
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
@@ -52,16 +51,16 @@ void SystemUpdate::runUpdate(QJSValue callback)
         return;
     }
 
-    // TODO: if an update is being detected, ideally the app would link to that update and show its progress.
-    //       for now, anything but "inactive" will give an error.
+    // If uupd.service is already running, use journalctl to display its progress
     if (!isServiceInactive(u"uupd.service"_s)) {
         QString state = getServiceState(u"uupd.service"_s);
 
-        setConsoleText(i18n("The status of uupd.service is not inactive!"));
+        setConsoleText(i18n("uupd.service is not inactive! Linking console to running update..."));
         appendConsoleText(i18n("State of uupd.service: ") + state);
-        setStatusText(i18n("ERROR!"));
+        setStatusText(i18n("Update already running!"));
         setBlockUpdate(true);
-        setUpdateRunning(true);
+
+        logToConsole();
 
         const QString finalOutput = u"uupd.service state: "_s + state;
         callback.call({1, finalOutput});
@@ -73,16 +72,12 @@ void SystemUpdate::runUpdate(QJSValue callback)
     QProcess *systemctl = new QProcess(this);
     Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd.service"_s});
 
-    QProcess *journalctl = new QProcess(this);
-    Utils::startProcess(journalctl, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
-
-    SystemUpdate::setProgressLevel(0);
+    // display progress of systemctl to in-GUI console
+    logToConsole();
 
     // When the "systemctl start uupd.service" process completes,
     // check the service result and update the UI accordingly.
     connect(systemctl, &QProcess::finished, [=]() {
-        journalctl->terminate();
-
         const QString result = getServiceResult(u"uupd.service"_s);
         if (result == u"success"_s) {
             SystemUpdate::setUpdateRunning(false);
@@ -90,10 +85,10 @@ void SystemUpdate::runUpdate(QJSValue callback)
             callback.call({0, result});
             return;
         } else if (result == u"start-limit-hit"_s) {
-            SystemUpdate::setStatusText(i18n("Updating too fast! ") + result);
-            SystemUpdate::appendConsoleText(i18n("You are updating too many times in a short period!"));
+            setStatusText(i18n("Updating too fast! ") + result);
+            appendConsoleText(i18n("You are updating too many times in a short period!"));
         } else {
-            SystemUpdate::setStatusText(i18n("Error -- ") + result);
+            setStatusText(i18n("Error -- ") + result);
             qDebug() << "Result of uupd.service was not success: " << result;
         }
         SystemUpdate::setBlockUpdate(true);
@@ -101,11 +96,19 @@ void SystemUpdate::runUpdate(QJSValue callback)
         callback.call({1, result});
         return;
     });
+}
 
-    // Read the messages of uupd.service
-    connect(journalctl, &QProcess::readyReadStandardOutput, [journalctl, this]() {
-        while (journalctl->canReadLine()) {
-            const QByteArray rawLine = journalctl->readLine();
+void SystemUpdate::logToConsole()
+{
+    // Journalctl only needs to be running once
+    if (m_journalctlProcess.state() == QProcess::Running)
+        return;
+
+    Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
+
+    connect(&m_journalctlProcess, &QProcess::readyReadStandardOutput, [this]() {
+        while (m_journalctlProcess.canReadLine()) {
+            const QByteArray rawLine = m_journalctlProcess.readLine();
 
             // Parse the Journald Wrapper
             QJsonDocument journalDoc = QJsonDocument::fromJson(rawLine);
@@ -116,68 +119,56 @@ void SystemUpdate::runUpdate(QJSValue callback)
 
             QString message = journalObj.value(u"MESSAGE"_s).toString();
 
-            // read the uupd json output
-            if (message.trimmed().startsWith(QLatin1Char('{'))) {
+            // read the output
+            if (!message.trimmed().startsWith(QLatin1Char('{'))) {
+                // handle strings like "Starting uupd.service - Universal Blue Update Oneshot Service..."
+                appendConsoleText(message);
+            } else {
+                // handle json strings
                 QJsonDocument sysDoc = QJsonDocument::fromJson(message.toUtf8());
-                if (sysDoc.isObject()) {
-                    QJsonObject obj = sysDoc.object();
-                    QString level = obj.value(u"level"_s).toString();
-                    QString msg = obj.value(u"msg"_s).toString();
-                    QString overall = obj.value(u"overall"_s).toString();
-                    QString error_msg = obj.value(u"error"_s).toString();
-                    QString formattedLine;
+                if (!sysDoc.isObject())
+                    return;
 
-                    if (!overall.isEmpty()) {
-                        // Make sure the progress bar only reaches 100% when the update completes
-                        if (overall.toInt() < 95)
-                            SystemUpdate::setProgressLevel(overall.toInt());
-                        else
-                            SystemUpdate::setProgressLevel(95);
+                QJsonObject obj = sysDoc.object();
+                QString level = obj.value(u"level"_s).toString();
+                QString msg = obj.value(u"msg"_s).toString();
+                QString error_msg = obj.value(u"error"_s).toString();
+                QString formattedLine;
+
+                if (level == u"INFO"_s) {
+                    formattedLine = msg;
+                } else if (level == u"DEBUG"_s) {
+                    formattedLine = u"debug: "_s + msg;
+                } else if (level == u"ERROR"_s) {
+                    formattedLine = u"ERROR! "_s + msg;
+
+                    setStatusText(i18n(("ERROR!")));
+                    setBlockUpdate(true);
+
+                    if (!error_msg.isEmpty()) {
+                        formattedLine += u": "_s + error_msg;
                     }
+                }
 
-                    if (level == QStringLiteral("INFO")) {
-                        formattedLine = msg;
-                    } else if (level == QStringLiteral("DEBUG")) {
-                        formattedLine = QStringLiteral("DEBUG: ") + msg;
-                    } else if (level == QStringLiteral("ERROR")) {
-                        // The update has failed
-
-                        SystemUpdate::setStatusText(i18n(("ERROR!")));
-                        SystemUpdate::setProgressLevel(0);
-                        SystemUpdate::setBlockUpdate(true);
-                        formattedLine = QStringLiteral("ERROR: ") + msg;
-
-                        if (!error_msg.isEmpty()) {
-                            formattedLine += QStringLiteral(": ") + error_msg;
-                        }
-                    }
-
-                    if (!formattedLine.isEmpty()) {
-                        if (SystemUpdate::consoleText() == DEFAULT_CONSOLE_TEXT)
-                            SystemUpdate::setConsoleText(formattedLine);
-                        else
-                            SystemUpdate::setConsoleText(SystemUpdate::consoleText() + formattedLine);
-
-                        qDebug().noquote() << formattedLine;
-                        continue;
-                    }
-
-                    continue;
+                if (!formattedLine.isEmpty()) {
+                    appendConsoleText(formattedLine);
+                    qDebug().noquote() << formattedLine;
                 }
             }
-
-            SystemUpdate::appendConsoleText(message);
         }
     });
 }
 
 // Return false unless service is inactive.
+// FIXME: Make sure this works
 bool SystemUpdate::isServiceInactive(const QString &service) const
 {
-    // Non-zero means it is NOT active (therefore, inactive).
-    int exitCode = QProcess::execute(u"systemctl"_s, {u"is-active"_s, u"--quiet"_s, service});
+    QProcess process;
+    Utils::startProcess(process, u"systemctl"_s, {u"is-active"_s, u"--quiet"_s, service});
+    process.waitForFinished();
 
-    return exitCode != 0;
+    // Non-zero means it is NOT active (therefore, inactive).
+    return process.exitCode() != 0;
 }
 
 // Return false if the service is not present.
@@ -197,12 +188,8 @@ bool SystemUpdate::isServicePresent(const QString &service) const
 QString SystemUpdate::getServiceState(const QString &service) const
 {
     QProcess process;
-
-    // We do NOT use "--quiet" because we want the text output
     Utils::startProcess(process, u"systemctl"_s, {u"is-active"_s, service});
-
     process.waitForFinished();
-
     QString state = QString::fromUtf8(process.readAllStandardOutput()).trimmed();
 
     return state;

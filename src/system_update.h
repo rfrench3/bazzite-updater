@@ -42,11 +42,13 @@ class SystemUpdate : public QObject
     int m_progressLevel = 0;
     bool m_updateRunning = false;
     bool m_blockUpdate = false;
+    QProcess m_journalctlProcess;
 
     bool isServicePresent(const QString &service) const;
     bool isServiceInactive(const QString &service) const;
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
+    void logToConsole();
 
 public:
     SystemUpdate(QObject *parent = nullptr);
