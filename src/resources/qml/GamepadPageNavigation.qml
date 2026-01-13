@@ -4,9 +4,16 @@
 import QtQuick
 import app.Gamepad 1.0
 
-// Component that adds basic controller support to a page.
-// (Xbox Layout for example) A selects, dpad up emulates shift+tab, dpad down emulates tab.
-
+/**
+ * @brief GamepadPageNavigation - Adds very basic controller support to a page.
+ * 
+ * This support is applied by emulating tab navigation.
+ * - Dpad up: shift+tab
+ * - Dpad down: tab
+ * - Xbox A (or equivalent): select highlighted element
+ * 
+ * @note This is disabled when the global drawer is opened
+ */
 Item {
     id: root
     
@@ -15,6 +22,11 @@ Item {
     Connections {
         target: Gamepad
 
+        /**
+         * @brief onButtonPressed - Reimplement this separately from GamepadPageNavigation for custom controller navigation.
+         * 
+         * @param buttonId - SDL3 mapping for controller buttons.
+         */
         function onButtonPressed(buttonId) {
             if (appGlobalDrawer.drawerOpen == true)
                 return;
