@@ -13,6 +13,9 @@ import io.github.rfrench3.bazzite_updater
 import app.Gamepad 1.0
 import app.SysUpd 1.0
 
+// For "time since last update"
+import app.RebaseHelper 1.0
+
 Kirigami.Page {
     id: page
 
@@ -120,6 +123,19 @@ Kirigami.Page {
             text: i18n("Current Status: ") + SysUpd.statusText
         }
 
+        Item { height: Kirigami.Units.gridUnit } // Vertical Spacer
+
+        QQC2.Label {
+            Layout.alignment: Qt.AlignCenter
+            text: {
+                i18n("Last Update: ") 
+                + RebaseHelper.currentImage.datePretty["day"]
+                + " "
+                + RebaseHelper.currentImage.datePretty["month"]
+                + ", "
+                + RebaseHelper.currentImage.datePretty["year"];
+            }
+        }
 
         Item { Layout.fillHeight: true }
 
