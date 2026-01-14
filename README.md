@@ -47,13 +47,18 @@ Flatpaks are usually heavily sandboxed, but this one is not for the following re
 
 <h1 align="center">License</h1>
 
-<p>GPL-2.0-or-later. See LICENSE for details.</p>
+<p>GPL-2.0-or-later. See LICENSES for details.</p>
 
 <br>
 
 <h1 align="center">Developer Instructions</h1>
 
-I develop this project primarily in an Arch Linux distrobox. These are the instructions I use to recreate it:
+I develop this project in a devcontainer with vscode and test it on bazzite by installing it as a flatpak through github artifacts, or locally with the following command:
+```bash
+flatpak-builder --install --user --force-clean app .flatpak-manifest.json
+```
+
+Before I set up the devcontainer, I developed this project primarily in an Arch Linux distrobox. These are the instructions I used to recreate it:
 ```
 // in distroshelf, use dockers arch latest with init system and custom home directory
 
