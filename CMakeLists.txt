@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
 # SPDX-License-Identifier: BSD-3-Clause
 
+# TODO: implement the proper/modern standard https://doc.qt.io/qt-6/qt6-port-to-qt-add-qml-module.html
+
 cmake_minimum_required(VERSION 3.22)
 
 project(bazzite_updater VERSION 0.2.1)

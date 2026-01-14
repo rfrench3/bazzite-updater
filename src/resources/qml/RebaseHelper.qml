@@ -26,12 +26,19 @@ Kirigami.ScrollablePage {
         anchors.fill: parent
 
         Kirigami.AbstractCard {            
+            Layout.fillWidth: false
+            Layout.preferredWidth: card_test.preferredWidth
+            Layout.preferredHeight: card_test.preferredHeight + card_header.preferredHeight
+            Layout.alignment: Qt.AlignHCenter
+
             header: Kirigami.Heading {
+                id: card_header
                 horizontalAlignment: Text.AlignHCenter
                 text: i18n("System Image Information")
                 level: 2
             }
             contentItem: GridLayout {
+                id: card_test
                 columns: 2
                 uniformCellWidths: true
 
@@ -76,9 +83,11 @@ Kirigami.ScrollablePage {
                 QQC2.Label {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.columnSpan: 2
-                    Layout.fillWidth: true
+                    // attempt to fill 3 rows, if set to exactly 3 then a word usually overhangs into a 4th row
+                    Layout.preferredWidth: implicitWidth / 2.5
 
-                    wrapMode: Text.WordWrap
+                    wrapMode: Text.Wrap
+                    horizontalAlignment: Text.AlignJustify
                     text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
                 }
 
@@ -110,12 +119,12 @@ Kirigami.ScrollablePage {
                 Layout.alignment: Qt.AlignHCenter
 
                 QQC2.CheckBox {
-                    Layout.alignment: Qt.AlignHCenter
+                    // Layout.alignment: Qt.AlignHCenter
                     text: i18n("Steam Gaming Mode")
                 }
 
                 QQC2.CheckBox {
-                    Layout.alignment: Qt.AlignHCenter
+                    // Layout.alignment: Qt.AlignHCenter
                     text: i18n("Developer eXperience")
                 }
 

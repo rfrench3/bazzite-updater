@@ -12,7 +12,7 @@ import org.kde.kirigamiaddons.formcard as FormCard
 import io.github.rfrench3.bazzite_updater
 import app.Gamepad 1.0
 
-import org.kde.example 1.0
+import org.kde.about 1.0
 
 // NOTE: Gamepad.labels.* automatically show/hide themselves depending on the presence of a controller
 
@@ -31,11 +31,11 @@ StatefulApp.StatefulWindow {
     // Start and stop polling for controller inputs when the window gains/loses focus
     onActiveChanged: Gamepad.setPollController(active)
 
-
     Component {
         id: aboutApp
 
-        Kirigami.AboutPage {
+        // Kirigami.AboutPage {
+        FormCard.AboutPage {
             id: aboutPage
             aboutData: About
             title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "Bazzite Updater")
@@ -130,7 +130,8 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutBazzite.qml")
+                // onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutBazzite.qml")
+                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataBazzite.qml")
             },
             Kirigami.Action {
                 text: i18n("About Bazzite Updater")
@@ -139,7 +140,8 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = aboutApp
+                // onTriggered: pageStack.initialPage = aboutApp
+                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataApp.qml")
             },
 
             Kirigami.Action { separator: true },

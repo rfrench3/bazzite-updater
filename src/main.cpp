@@ -36,27 +36,11 @@ int main(int argc, char *argv[])
     KLocalizedString::setApplicationDomain("bazzite_updater");
     QCoreApplication::setOrganizationName(u"KDE"_s);
 
-    KAboutData aboutDataApp(u"bazzite_updater"_s,
-                            i18nc("@title", "Bazzite Updater"),
-                            QStringLiteral(BAZZITE_UPDATER_VERSION_STRING),
-                            i18n("Updating and rebasing utility for Bazzite"),
-                            KAboutLicense::GPL,
-                            i18n("(c) 2025"));
-
-    aboutDataApp.addAuthor(i18nc("@info:credit", "Robert French"),
-                           i18nc("@info:credit", "Maintainer"),
-                           u"frenchrobertm@outlook.com"_s,
-                           u"https://rfrench3.github.io/personal-site/"_s);
-
-    aboutDataApp.setTranslator(i18nc("NAME OF TRANSLATORS", "Your names"), i18nc("EMAIL OF TRANSLATORS", "Your emails"));
-
-    KAboutData::setApplicationData(aboutDataApp);
-
     QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.rfrench3.bazzite_updater"_s));
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterSingletonType("org.kde.example", // How the import statement should look like
+    qmlRegisterSingletonType("org.kde.about", // How the import statement should look like
                              1,
                              0, // Major and minor versions of the import
                              "About", // The name of the QML object

@@ -11,7 +11,8 @@ ecm_add_qml_module(bazzite_updater_static
         resources/qml/Main.qml
         resources/qml/SystemUpdate.qml
         resources/qml/RebaseHelper.qml
-        resources/qml/AboutBazzite.qml
+        resources/qml/AboutDataBazzite.qml
+        resources/qml/AboutDataApp.qml
         resources/qml/components/GamepadPageNavigation.qml
     DEPENDENCIES
         org.kde.kirigamiaddons.formcard
