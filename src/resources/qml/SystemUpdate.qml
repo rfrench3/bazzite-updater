@@ -171,6 +171,7 @@ Kirigami.Page {
                 QQC2.ScrollBar.horizontal.policy: QQC2.ScrollBar.AlwaysOff
 
                 QQC2.TextArea {
+                    id: consoleTextArea
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
@@ -178,7 +179,9 @@ Kirigami.Page {
                     font.family: 'monospace'
                     wrapMode: Text.WordWrap
                     readOnly: true
+                    textFormat: TextEdit.RichText
 
+                    // TODO: only scroll if the user was already at the bottom before more text was added
                     // Scrolls the TextArea to the bottom
                     onTextChanged: { cursorPosition = length; }
                 }

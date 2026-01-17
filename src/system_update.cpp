@@ -37,32 +37,38 @@ void SystemUpdate::runUpdate(QJSValue callback)
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
+
     SystemUpdate::setUpdateRunning(true);
     SystemUpdate::setStatusText(i18n("Running (This may take a while!)"));
 
-    if (!isServicePresent(u"uupd.service"_s)) {
-        setConsoleText(i18n("The uupd service was not found on the system."));
+    if (!isServicePresent(u"uupd-manual.service"_s)) {
+        setConsoleText(i18n("The uupd manual service was not found on the system."));
         setStatusText(i18n("ERROR!"));
         setBlockUpdate(true);
         setUpdateRunning(false);
 
-        const QString finalOutput = u"uupd.service was not found"_s;
+        // This should only appear when using a build of uupd from before the manual start was added
+        if (isServicePresent(u"uupd.service"_s))
+            appendConsoleText(i18n("Run \"ujust update\" in a terminal window to ensure you are on the latest build.\nIf you are, the manual update feature "
+                                   "has not been added yet!"),
+                              LogLevel::ERROR);
+        const QString finalOutput = u"uupd-manual.service was not found"_s;
         callback.call({1, finalOutput});
         return;
     }
 
-    // If uupd.service is already running, use journalctl to display its progress
-    if (!isServiceInactive(u"uupd.service"_s)) {
-        QString state = getServiceState(u"uupd.service"_s);
+    // If uupd-manual.service is already running, use journalctl to display its progress
+    if (!isServiceInactive(u"uupd-manual.service"_s)) {
+        QString state = getServiceState(u"uupd-manual.service"_s);
 
-        setConsoleText(i18n("uupd.service is not inactive! Linking console to running update..."));
-        appendConsoleText(i18n("State of uupd.service: ") + state);
+        setConsoleText(i18n("uupd-manual.service is not inactive! Linking console to running update..."));
+        appendConsoleText(i18n("State of uupd-manual.service: ") + state, LogLevel::INFO);
         setStatusText(i18n("Update already running!"));
         setBlockUpdate(true);
 
         logToConsole();
 
-        const QString finalOutput = u"uupd.service state: "_s + state;
+        const QString finalOutput = u"uupd-manual.service state: "_s + state;
         callback.call({1, finalOutput});
         return;
     }
@@ -70,15 +76,15 @@ void SystemUpdate::runUpdate(QJSValue callback)
     // No update is currently running, proceed
 
     QProcess *systemctl = new QProcess(this);
-    Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd.service"_s});
+    Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd-manual.service"_s});
 
     // display progress of systemctl to in-GUI console
     logToConsole();
 
-    // When the "systemctl start uupd.service" process completes,
+    // When the "systemctl start uupd-manual.service" process completes,
     // check the service result and update the UI accordingly.
     connect(systemctl, &QProcess::finished, [=]() {
-        const QString result = getServiceResult(u"uupd.service"_s);
+        const QString result = getServiceResult(u"uupd-manual.service"_s);
         if (result == u"success"_s) {
             SystemUpdate::setUpdateRunning(false);
             SystemUpdate::setStatusText(i18n("Success!"));
@@ -86,10 +92,10 @@ void SystemUpdate::runUpdate(QJSValue callback)
             return;
         } else if (result == u"start-limit-hit"_s) {
             setStatusText(i18n("Updating too fast! ") + result);
-            appendConsoleText(i18n("You are updating too many times in a short period!"));
+            appendConsoleText(i18n("You are updating too many times in a short period!"), LogLevel::ERROR);
         } else {
             setStatusText(i18n("Error -- ") + result);
-            qDebug() << "Result of uupd.service was not success: " << result;
+            qDebug() << "Result of uupd-manual.service was not success: " << result;
         }
         SystemUpdate::setBlockUpdate(true);
         SystemUpdate::setUpdateRunning(false);
@@ -104,7 +110,7 @@ void SystemUpdate::logToConsole()
     if (m_journalctlProcess.state() == QProcess::Running)
         return;
 
-    Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
+    Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd-manual.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
 
     connect(&m_journalctlProcess, &QProcess::readyReadStandardOutput, [this]() {
         while (m_journalctlProcess.canReadLine()) {
@@ -121,8 +127,8 @@ void SystemUpdate::logToConsole()
 
             // read the output
             if (!message.trimmed().startsWith(QLatin1Char('{'))) {
-                // handle strings like "Starting uupd.service - Universal Blue Update Oneshot Service..."
-                appendConsoleText(message);
+                // handle strings like "Starting uupd-manual.service - Universal Blue Update Oneshot Service..."
+                appendConsoleText(message, LogLevel::INFO);
             } else {
                 // handle json strings
                 QJsonDocument sysDoc = QJsonDocument::fromJson(message.toUtf8());
@@ -132,27 +138,39 @@ void SystemUpdate::logToConsole()
                 QJsonObject obj = sysDoc.object();
                 QString level = obj.value(u"level"_s).toString();
                 QString msg = obj.value(u"msg"_s).toString();
-                QString error_msg = obj.value(u"error"_s).toString();
                 QString formattedLine;
 
-                if (level == u"INFO"_s) {
-                    formattedLine = msg;
-                } else if (level == u"DEBUG"_s) {
-                    formattedLine = u"debug: "_s + msg;
-                } else if (level == u"ERROR"_s) {
-                    formattedLine = u"ERROR! "_s + msg;
+                qDebug().noquote() << msg;
+
+                // WARN by default in case the level wasn't accounted for
+                LogLevel log_level = LogLevel::WARN;
+
+                if (level == u"DEBUG"_s)
+                    log_level = LogLevel::DEBUG;
+                else if (level == u"INFO"_s)
+                    log_level = LogLevel::INFO;
+                else if (level == u"WARN"_s)
+                    log_level = LogLevel::WARN;
+                else if (level == u"ERROR"_s) {
+                    log_level = LogLevel::ERROR;
 
                     setStatusText(i18n(("ERROR!")));
                     setBlockUpdate(true);
 
-                    if (!error_msg.isEmpty()) {
-                        formattedLine += u": "_s + error_msg;
+                    if (msg == u"module_fail"_s) {
+                        QJsonObject output = obj.value(u"output"_s).toObject();
+                        msg = i18n("Module Failed: ") + output.value(u"Context"_s).toString();
                     }
                 }
+                // TODO: remove these color themes
+                // debug: [1;31m Upgrading ubuntu...
+                // debug: [0m[1;31m Upgrading fedora...
+                // debug: [0m[1;31m Upgrading kde-dev...
+                // debug: [0m[1;31m Upgrading arch...
+                // debug: [0m[1;31m Upgrading arch-kde...
 
-                if (!formattedLine.isEmpty()) {
-                    appendConsoleText(formattedLine);
-                    qDebug().noquote() << formattedLine;
+                if (!msg.isEmpty()) {
+                    appendConsoleText(msg, log_level);
                 }
             }
         }
@@ -177,12 +195,9 @@ bool SystemUpdate::isServicePresent(const QString &service) const
     QProcess check_process;
 
     Utils::startProcess(check_process, u"systemctl"_s, {u"list-unit-files"_s, u"--no-legend"_s, u"--no-pager"_s, service});
-
     check_process.waitForFinished();
 
-    const QByteArray output = check_process.readAllStandardOutput().trimmed();
-
-    return !output.isEmpty();
+    return check_process.exitCode() == 0;
 }
 
 QString SystemUpdate::getServiceState(const QString &service) const
@@ -218,21 +233,50 @@ void SystemUpdate::setConsoleText(const QString &consoleText)
 {
     m_consoleText = consoleText;
 
-    if (!m_consoleText.endsWith(QLatin1Char('\n')))
-        m_consoleText.append(QLatin1Char('\n'));
+    if (!m_consoleText.endsWith(u"<br>"_s))
+        m_consoleText.append(u"<br>"_s);
 
     Q_EMIT consoleTextChanged();
 }
 
-void SystemUpdate::appendConsoleText(const QString &consoleText)
+void SystemUpdate::appendConsoleText(const QString &consoleText, LogLevel level)
 {
-    if (m_consoleText == DEFAULT_CONSOLE_TEXT)
-        m_consoleText = consoleText;
-    else
-        m_consoleText += consoleText;
+    auto formatBold = [](const QString &text) {
+        return u"<b>"_s + text + u"</b>"_s;
+    };
 
-    if (!m_consoleText.endsWith(QLatin1Char('\n')))
-        m_consoleText.append(QLatin1Char('\n'));
+    auto formatColorPlaceholder = [this](const QString &text) {
+        return u"<font color='"_s + m_placeholderTextColor + u"'>"_s + text + u"</font>"_s;
+    };
+
+    QString tempText;
+    // display debug lines in placeholder text color
+    switch (level) {
+    case LogLevel::DEBUG:
+        tempText.append(formatColorPlaceholder(u"debug: "_s + consoleText));
+        break;
+    case LogLevel::INFO:
+        tempText.append(consoleText);
+        break;
+    case LogLevel::WARN:
+        tempText.append(formatBold(u"WARNING: "_s + consoleText));
+        break;
+    case LogLevel::ERROR:
+        tempText.append(formatBold(u"ERROR: "_s + consoleText));
+        break;
+    default:
+        // Should never happen
+        tempText.append(formatBold(u"UNKNOWN LOG LEVEL: "_s + consoleText));
+        break;
+    }
+
+    if (m_consoleText == DEFAULT_CONSOLE_TEXT)
+        m_consoleText = tempText;
+    else
+        m_consoleText += tempText;
+
+    if (!m_consoleText.endsWith(u"<br>"_s))
+        m_consoleText.append(u"<br>"_s);
 
     Q_EMIT consoleTextChanged();
 }
@@ -259,6 +303,11 @@ void SystemUpdate::setUpdateRunning(bool updateRunning)
 {
     m_updateRunning = updateRunning;
     Q_EMIT updateRunningChanged();
+}
+
+void SystemUpdate::setPlaceholderColor(QString placeholderText)
+{
+    m_placeholderTextColor = placeholderText;
 }
 
 #include "moc_system_update.cpp"

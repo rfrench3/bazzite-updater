@@ -10,8 +10,11 @@
 #pragma once
 
 #include <KLocalizedString>
+#include <QBrush>
+#include <QColor>
 #include <QFileInfo>
 #include <QJSValue>
+#include <QPalette>
 #include <QProcess>
 #include <QQmlEngine>
 
@@ -49,6 +52,14 @@ class SystemUpdate : public QObject
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
     void logToConsole();
+    QString m_placeholderTextColor;
+
+    enum class LogLevel {
+        INFO,
+        WARN,
+        ERROR,
+        DEBUG
+    };
 
 public:
     SystemUpdate(QObject *parent = nullptr);
@@ -57,12 +68,14 @@ public:
 
     Q_INVOKABLE void copyToClipboard(const QString &content) const;
 
+    void setPlaceholderColor(QString placeholderText);
+
     QString consoleText() const
     {
         return m_consoleText;
     }
     void setConsoleText(const QString &consoleText);
-    void appendConsoleText(const QString &consoleText);
+    void appendConsoleText(const QString &consoleText, LogLevel level);
     Q_SIGNAL void consoleTextChanged();
 
     QString statusText() const

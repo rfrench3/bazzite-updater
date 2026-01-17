@@ -10,6 +10,9 @@
 #include <QQuickStyle>
 #include <QUrl>
 
+#include <QBrush>
+#include <QPalette>
+
 #include "version-bazzite_updater.h"
 #include <KAboutData>
 #include <KIconTheme>
@@ -33,6 +36,9 @@ int main(int argc, char *argv[])
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
     }
 
+    // Used to display debug text
+    QString placeholder_text_color = app.palette().placeholderText().color().name();
+
     KLocalizedString::setApplicationDomain("bazzite_updater");
     QCoreApplication::setOrganizationName(u"KDE"_s);
 
@@ -49,6 +55,8 @@ int main(int argc, char *argv[])
                              });
 
     SystemUpdate system_update;
+    // set placeholder color so GUI terminal has a good "background text" color for debug lines
+    system_update.setPlaceholderColor(placeholder_text_color);
     qmlRegisterSingletonInstance<SystemUpdate>("app.SysUpd", 1, 0, "SysUpd", &system_update);
 
     ControllerManager gamepad;
