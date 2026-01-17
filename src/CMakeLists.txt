@@ -1,49 +1,15 @@
 # SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+# SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 
-# add_subdirectory(settings)
+add_executable(bazzite_updater)
 
-qt_add_library(bazzite_updater_static STATIC)
-ecm_add_qml_module(bazzite_updater_static
-    URI io.github.rfrench3.bazzite_updater
-    GENERATE_PLUGIN_SOURCE
-    QML_FILES
-        resources/qml/Main.qml
-        resources/qml/SystemUpdate.qml
-        resources/qml/RebaseHelper.qml
-        resources/qml/AboutDataBazzite.qml
-        resources/qml/AboutDataApp.qml
-        resources/qml/components/GamepadPageNavigation.qml
-    DEPENDENCIES
-        org.kde.kirigamiaddons.formcard
-        org.kde.kirigamiaddons.statefulapp
-        org.kde.kirigami
-        # org.kde.bazzite_updater.settings
+ecm_add_qml_module(bazzite_updater
+    URI
+    io.github.rfrench3.bazzite_updater
 )
 
-target_link_libraries(bazzite_updater_static PUBLIC
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Qml
-    Qt6::Quick
-    Qt6::QuickControls2
-    Qt6::Svg
-    KF6::I18n
-    KF6::I18nQml
-    KF6::IconThemes
-    KF6::CoreAddons
-    KF6::ConfigCore
-    KF6::ConfigGui
-    KirigamiAddonsStatefulApp
-    SDL3::SDL3
-)
-target_include_directories(bazzite_updater_static PUBLIC ${CMAKE_BINARY_DIR})
-
-target_link_libraries(bazzite_updater_static PUBLIC Qt::Widgets)
-
-kconfig_add_kcfg_files(bazzite_updater_static GENERATE_MOC bazzite_updaterconfig.kcfgc)
-
-add_executable(bazzite_updater
+target_sources(bazzite_updater
+    PRIVATE
     main.cpp
     utils.h
     utils.cpp
@@ -56,10 +22,41 @@ add_executable(bazzite_updater
     rebase_helper.cpp
 )
 
-target_link_libraries(bazzite_updater PUBLIC
-    bazzite_updater_static
-    bazzite_updater_staticplugin
-    # bazzite_updater_settings
-    # bazzite_updater_settingsplugin
+set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml/AboutDataApp.qml")
+set(ABOUTAPP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/resources/qml/AboutDataApp.qml")
+configure_file(${ABOUTAPP_INPUT} ${ABOUTAPP_OUTPUT} @ONLY)
+
+set(ABOUTBAZZITE_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml/AboutDataBazzite.qml")
+set(ABOUTBAZZITE_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/resources/qml/AboutDataBazzite.qml")
+configure_file(${ABOUTBAZZITE_INPUT} ${ABOUTBAZZITE_OUTPUT} @ONLY)
+
+ecm_target_qml_sources(bazzite_updater
+    SOURCES
+    resources/qml/Main.qml
+    resources/qml/SystemUpdate.qml
+    resources/qml/RebaseHelper.qml
+    ${ABOUTBAZZITE_OUTPUT}
+    ${ABOUTAPP_OUTPUT}
+    resources/qml/components/GamepadPageNavigation.qml
 )
+
+target_link_libraries(bazzite_updater
+    PRIVATE
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Widgets
+    Qt6::Quick
+    Qt6::QuickControls2
+    Qt6::Svg
+    KF6::I18n
+    KF6::I18nQml
+    KF6::IconThemes
+    KF6::CoreAddons
+    KF6::ConfigCore
+    KF6::ConfigGui
+    KirigamiAddonsStatefulApp
+    SDL3::SDL3
+)
+
 install(TARGETS bazzite_updater ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

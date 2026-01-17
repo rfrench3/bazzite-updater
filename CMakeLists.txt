@@ -1,12 +1,11 @@
-# SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+# SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 # SPDX-License-Identifier: BSD-3-Clause
-
-# TODO: implement the proper/modern standard https://doc.qt.io/qt-6/qt6-port-to-qt-add-qml-module.html
 
 cmake_minimum_required(VERSION 3.22)
 
 project(bazzite_updater VERSION 0.2.1)
 
+### Install SDL3 ###
 
 find_package(SDL3 QUIET)
 
@@ -23,7 +22,7 @@ else()
     message(STATUS "Found system SDL3")
 endif()
 
-include(FeatureSummary)
+### Set up and install Qt/KDE dependencies ###
 
 set(QT6_MIN_VERSION 6.7.0)
 set(KF6_MIN_VERSION 6.12.0)
@@ -38,39 +37,52 @@ include(FeatureSummary)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
-
-include(ECMSetupVersion)
 include(ECMFindQmlModule)
 include(ECMQmlModule)
-include(ECMAddAndroidApk)
+
+find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS 
+    Core 
+    Gui 
+    Qml 
+    Widgets 
+    QuickControls2 
+    Svg 
+)
+
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS 
+    Kirigami 
+    CoreAddons 
+    Config 
+    I18n 
+    IconThemes
+)
+
+find_package(KF6KirigamiAddons ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
 
 include(KDEGitCommitHooks)
 include(KDEClangFormat)
 
+include(ECMSetupVersion)
 ecm_setup_version(${PROJECT_VERSION}
     VARIABLE_PREFIX BAZZITE_UPDATER
     VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-bazzite_updater.h"
 )
 
-set(QT_EXTRA_COMPONENTS)
-#list(APPEND QT_EXTRA_COMPONENTS Widgets)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp REQUIRED)
 
-find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Core Gui Qml Widgets QuickControls2 Svg ${QT_EXTRA_COMPONENTS})
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Kirigami CoreAddons Config I18n IconThemes)
+### Define macros for later use ###
 
-find_package(KF6KirigamiAddons ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
-set_package_properties(KF6KirigamiAddons PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Required application components and runtime dependency"
-)
-
-ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp)
+string(TIMESTAMP TODAY_DATE "%Y-%m-%d")
+string(TIMESTAMP CURRENT_YEAR "%Y")
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/LICENSES/APACHELICENSE-2.0.txt" APACHE2_LICENSE_RAW)
+string(REPLACE "\n" "\\n" APACHE2_LICENSE "${APACHE2_LICENSE_RAW}")
+string(REPLACE "\"" "\\\"" APACHE2_LICENSE "${APACHE2_LICENSE}")
 
 
 add_subdirectory(src)
 
-string(TIMESTAMP TODAY_DATE "%Y-%m-%d")
+### Install desktop files ###
 
 set(METAINFO_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/io.github.rfrench3.bazzite_updater.metainfo.xml.in")
 set(METAINFO_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/io.github.rfrench3.bazzite_updater.metainfo.xml")
