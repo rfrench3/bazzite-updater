@@ -2,6 +2,8 @@ import org.kde.kirigamiaddons.formcard as FormCard
 import org.kde.about 1.0
 // import app.Gamepad 1.0
 
+// TODO: Fix controller support, especially when the license is openend
+
 FormCard.AboutPage {
     title: i18nc("@action:button", "About Application")
     // title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@action:button", "About Application")
@@ -17,10 +19,11 @@ FormCard.AboutPage {
         "homepage" : "https://github.com/rfrench3/bazzite_updater",
         "bugAddress" : "https://github.com/rfrench3/bazzite_updater/issues",
         "version" : "@PROJECT_VERSION@",
+        "otherText" : i18n("This interface can be used to update Bazzite, rollback from a bad update, and rebase to entirely separate versions of Bazzite!"),
         "authors" : [
             {
                 "name" : "Robert French",
-                "task" : "Maintainer",
+                "task" : "Developer",
                 "emailAddress" : "frenchrobertm@outlook.com",
                 "webAddress" : "https://rfrench3.github.io/personal-site/",
                 "ocsUsername" : "rfrench3"
@@ -31,22 +34,21 @@ FormCard.AboutPage {
         "licenses" : [
             {
                 "name" : "GPL v2",
-                "text" : "Long license text goes here",
+                "text" : "@GPL2_ONLY_LICENSE@",
                 "spdx" : "GPL-2.0"
             },
             {
                 "name" : "GPL v3",
-                "text" : "Long license text goes here",
+                "text" : "@GPL3_ONLY_LICENSE@",
                 "spdx" : "GPL-3.0"
             },
             {
                 "name" : "KDE Accepted",
-                "text" : "Long license text goes here",
+                "text" : "@KDE_ACCEPTED_GPL_LICENSE@",
                 "spdx" : "LicenseRef-KDE-Accepted-GPL"
             }
         ],
         "copyrightStatement" : "© 2025-2026",
-        "desktopFileName" : "automatethis Bazzite Updater (Nightly)"
+        "desktopFileName" : "io.github.rfrench3.bazzite_updater"
     }
-
 }

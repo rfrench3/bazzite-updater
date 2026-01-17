@@ -1,6 +1,9 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import org.kde.about 1.0
 // import app.Gamepad 1.0
+import app.RebaseHelper 1.0
+
+// TODO: Fix controller support, especially when the license is openend
 
 FormCard.AboutPage {
     title: i18nc("@action:button", "About Bazzite")
@@ -9,20 +12,20 @@ FormCard.AboutPage {
     // GamepadPageNavigation {
     //     targetWindow: parent.Window.window
     // }
-    
+
     aboutData: {
-        "displayName" : "Addons Example",
-        "productName" : "product",
+        "displayName" : "Bazzite",
+        "productName" : "bazzite",
         "componentName" : "addonsexample",
-        "shortDescription" : "This program shows how to use AboutKDE and AboutPage",
-        "homepage" : "https://kde.org",
+        "shortDescription" : i18n("The operating system for the next generation of gamers"),
+        "homepage" : "https://bazzite.gg/",
         "bugAddress" : "",
-        "version" : "1.0",
-        "otherText" : "Optional text shown in the About",
+        "version" : RebaseHelper.currentImage.version,
+        "otherText" : i18n("Bazzite makes gaming and everyday use smoother and simpler across desktop PCs, handhelds, tablets, and home theater PCs."),
         "authors" : [
-            {
+            { // TODO: Make this an actual credits section
                 "name" : "John Bazzite",
-                "task" : "Maintainer",
+                "task" : "Developer",
                 "emailAddress" : "",
                 "webAddress" : "",
                 "ocsUsername" : ""
@@ -32,13 +35,11 @@ FormCard.AboutPage {
         "translators" : [],
         "licenses" : [
             {
-                "name" : "GPL v3",
-                "text" : "Long license text goes here",
-                "spdx" : "GPL-3.0"
+                "name" : "Apache License Version 2.0",
+                "text" : "@APACHE2_LICENSE@",
+                "spdx" : "Apache-2.0"
             }
         ],
-        "copyrightStatement" : "© 2023",
-        "desktopFileName" : ""
+        "copyrightStatement" : "© 2023-@CURRENT_YEAR@",
     }
-
 }
