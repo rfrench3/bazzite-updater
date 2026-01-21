@@ -52,9 +52,9 @@ Kirigami.Page {
                 if (callback != 0) {
                     showPassiveNotification(
                         i18n("Update Failed. Check console for more details."),
-                                            Kirigami.long,
-                                            i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
-                                            function() {consoleDrawer.drawerOpen = true;}
+                        Kirigami.long,
+                        i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
+                        function() {consoleDrawer.drawerOpen = true;}
                     );
                 }
                 else {

@@ -22,279 +22,197 @@ Kirigami.ScrollablePage {
         targetWindow: page.Window.window
     }
 
-    ColumnLayout {
+    Kirigami.FormLayout {
         anchors.fill: parent
 
-        Kirigami.AbstractCard {            
-            Layout.fillWidth: false
-            Layout.preferredWidth: card_test.preferredWidth
-            Layout.preferredHeight: card_test.preferredHeight + card_header.preferredHeight
+        // System Image Information
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            // horizontalAlignment: Text.AlignHCenter
+            Kirigami.FormData.label: i18n("System Image Information")
+            // level: 2
+        }
+
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Current Image:")
+            text: RebaseHelper.currentImage.name + ":" + RebaseHelper.currentImage.tag
+        }
+
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Last Update:")
+            text: {
+                RebaseHelper.currentImage.datePretty["day"]
+                + " "
+                + RebaseHelper.currentImage.datePretty["month"]
+                + ", "
+                + RebaseHelper.currentImage.datePretty["year"];
+            }
+        }
+
+        // Rollback Last Update
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Rollback Last Update")
+            // level: 2
+        }
+
+        QQC2.Label {
+            Kirigami.FormData.isSection: true
+
+            // attempt to fill 3 rows, if set to exactly 3 then a word usually overhangs into a 4th row
+            Layout.preferredWidth: implicitWidth / 2.5
+
+            wrapMode: Text.Wrap
+            // horizontalAlignment: Text.AlignJustify
+            text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
+        }
+
+        QQC2.CheckBox {
+            id: confirmRollback
+            // Layout.alignment: Qt.AlignRight
+            text: i18n("Confirm")
+
+            enabled: !rollbackButton.activated
+        }
+
+        QQC2.Button {
+            id: rollbackButton
+            property bool activated: false
+            text: i18n("Rollback")
+            
+            onClicked: {
+                rollbackButton.activated = true;
+                showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
+
+                RebaseHelper.rollbackImage(function(callback) {
+                    if (callback != 0) {
+                        showPassiveNotification(i18n("Rollback Failed."), Kirigami.long);
+                    }
+                    else {
+                        showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
+                    }
+                });
+            }
+
+            enabled: confirmRollback.checked && !rollbackButton.activated
+        }
+
+        // System Rebase
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Rebase to New Image")
+            // level: 2
+            Kirigami.FormData.isSection: true
+        }
+
+        QQC2.CheckBox {
+            id: gaming_mode
+            text: i18n("Steam Gaming Mode")
+        }
+
+        QQC2.CheckBox {
+            id: developer_mode
+            text: i18n("Developer eXperience")
+        }
+
+        QQC2.ButtonGroup {
+            id: gpu_drivers
+        }
+        Kirigami.Heading {
             Layout.alignment: Qt.AlignHCenter
-
-            header: Kirigami.Heading {
-                id: card_header
-                horizontalAlignment: Text.AlignHCenter
-                text: i18n("System Image Information")
-                level: 2
-            }
-            contentItem: GridLayout {
-                id: card_test
-                columns: 2
-                uniformCellWidths: true
-
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Current Image:")
-                }
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    text: RebaseHelper.currentImage.name + ":" + RebaseHelper.currentImage.tag
-                }
-
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Last Update:")
-                }
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    text: {
-                        RebaseHelper.currentImage.datePretty["day"]
-                        + " "
-                        + RebaseHelper.currentImage.datePretty["month"]
-                        + ", "
-                        + RebaseHelper.currentImage.datePretty["year"];
-                    }
-                }
-            }
+            text: i18n("Nvidia Drivers")
+            level: 4
         }
 
-        Kirigami.AbstractCard {            
-            header: Kirigami.Heading {
-                horizontalAlignment: Text.AlignHCenter
-                text: i18n("Rollback Last Update")
-                level: 2
-            }
-            contentItem: GridLayout {
-                columns: 2
-                uniformCellWidths: true
-
-                QQC2.Label {
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.columnSpan: 2
-                    // attempt to fill 3 rows, if set to exactly 3 then a word usually overhangs into a 4th row
-                    Layout.preferredWidth: implicitWidth / 2.5
-
-                    wrapMode: Text.Wrap
-                    horizontalAlignment: Text.AlignJustify
-                    text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
-                }
-
-                QQC2.CheckBox {
-                    id: confirmRollback
-                    Layout.alignment: Qt.AlignRight
-                    text: i18n("Confirm")
-
-                    enabled: false
-                }
-
-                QQC2.Button {
-                    id: rollbackButton
-                    text: i18n("Rollback")
-                    // enabled: confirmRollback.checked
-
-                    enabled: false
-                }
-            }
+        QQC2.RadioButton {
+            id: nvidia_none
+            Layout.alignment: Qt.AlignHCenter
+            text: i18n("Not Needed")
+            QQC2.ButtonGroup.group: gpu_drivers
         }
 
-        Kirigami.AbstractCard {            
-            header: Kirigami.Heading {
-                horizontalAlignment: Text.AlignHCenter
-                text: i18n("Rebase to New Image")
-                level: 2
-            }
-            contentItem: ColumnLayout {
-                Layout.alignment: Qt.AlignHCenter
-
-                QQC2.CheckBox {
-                    // Layout.alignment: Qt.AlignHCenter
-                    text: i18n("Steam Gaming Mode")
-                }
-
-                QQC2.CheckBox {
-                    // Layout.alignment: Qt.AlignHCenter
-                    text: i18n("Developer eXperience")
-                }
-
-
-                QQC2.ButtonGroup {
-                    id: gpu_drivers
-                }
-                Kirigami.Heading {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("GPU Drivers")
-                    level: 4
-                }
-
-                QQC2.RadioButton {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("Not Nvidia")
-                    QQC2.ButtonGroup.group: gpu_drivers
-                }
-
-                QQC2.RadioButton {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("Nvidia")
-                    QQC2.ButtonGroup.group: gpu_drivers
-                }
-
-                QQC2.RadioButton {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("Nvidia Open")
-                    QQC2.ButtonGroup.group: gpu_drivers
-                }
-
-                QQC2.ButtonGroup {
-                    id: desktop_environment
-                }
-                Kirigami.Heading {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("Desktop Environment")
-                    level: 4
-                }
-
-                QQC2.RadioButton {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("KDE")
-                    QQC2.ButtonGroup.group: desktop_environment
-                }
-
-                QQC2.RadioButton {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("GNOME")
-                    QQC2.ButtonGroup.group: desktop_environment
-                }
-
-                QQC2.Button {
-                    id: rebaseButton
-                    Layout.alignment: Qt.AlignHCenter
-                    text: i18n("Rebase")
-                    // enabled: rebaseValid && !newIsCurrent
-
-                    enabled: false
-                }
-
-            }
+        QQC2.RadioButton {
+            id: nvidia_closed
+            Layout.alignment: Qt.AlignHCenter
+            text: i18n("Nvidia")
+            QQC2.ButtonGroup.group: gpu_drivers
         }
 
-        Kirigami.AbstractCard {            
-            header: Kirigami.Heading {
-                horizontalAlignment: Text.AlignHCenter
-                text: i18n("Current Image Information (Detailed)")
-                level: 2
-            }
-            contentItem: GridLayout {
-                columns: 2
-                uniformCellWidths: true
+        QQC2.RadioButton {
+            id: nvidia_open
+            Layout.alignment: Qt.AlignHCenter
+            text: i18n("Nvidia Open")
+            QQC2.ButtonGroup.group: gpu_drivers
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Image:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.name
-                }
+        QQC2.Button {
+            id: rebaseButton
+            Layout.alignment: Qt.AlignHCenter
+            text: i18n("Rebase")
+            // enabled: rebaseValid && !newIsCurrent
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Vendor:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.vendor
-                }
+            enabled: false
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Ref:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.ref
-                }
+        // Current Image Information (Detailed)
+        Kirigami.Separator {
+            Kirigami.FormData.label: i18n("Current Image Information (Detailed)")
+            Kirigami.FormData.isSection: true
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Tag:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.tag
-                }
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Image:")
+            text: RebaseHelper.currentImage.name
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Branch:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.branch
-                }
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Vendor:")
+            text: RebaseHelper.currentImage.vendor
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Base Name:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.baseName
-                }
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Ref:")
+            text: RebaseHelper.currentImage.ref
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Fedora Version:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.fedoraVersion
-                }
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Tag:")
+            text: RebaseHelper.currentImage.tag
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Version:")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.version
-                }
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Branch:")
+            text: RebaseHelper.currentImage.branch
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Version (Pretty):")
-                }
-                QQC2.Label {
-                    text: RebaseHelper.currentImage.versionPretty
-                }
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Base Name:")
+            text: RebaseHelper.currentImage.baseName
+        }
 
-                QQC2.Label {
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignRight
-                    text: i18n("Release Date:")
-                }
-                QQC2.Label {
-                    text: {
-                        RebaseHelper.currentImage.datePretty["day"]
-                        + " "
-                        + RebaseHelper.currentImage.datePretty["month"]
-                        + ", "
-                        + RebaseHelper.currentImage.datePretty["year"];
-                    }
-                }
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Fedora Version:")
+            text: RebaseHelper.currentImage.fedoraVersion
+        }
+
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Version:")
+            text: RebaseHelper.currentImage.version
+        }
+
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Version (Pretty):")
+            text: RebaseHelper.currentImage.versionPretty
+        }
+
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Release Date:")
+            text: {
+                RebaseHelper.currentImage.datePretty["day"]
+                + " "
+                + RebaseHelper.currentImage.datePretty["month"]
+                + ", "
+                + RebaseHelper.currentImage.datePretty["year"];
             }
         }
-    }    
+    }
 }
