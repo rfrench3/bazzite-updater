@@ -34,7 +34,10 @@ Kirigami.Page {
                     break;
                 case 3: // Y
                     toggleConsole.trigger();
-                    // TODO: Close passive notifications
+                    // Closes up to 5 passive notifications
+                    for (let i = 0; i < 5; ++i) {
+                        hidePassiveNotification();
+                    }
                     break;
             }
         }
