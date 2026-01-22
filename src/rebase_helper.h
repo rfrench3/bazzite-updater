@@ -8,15 +8,14 @@
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
-#include <qcontainerfwd.h>
 
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-struct OsImage {
+struct osImage {
     Q_GADGET
-    QML_VALUE_TYPE(OsImage)
+    QML_VALUE_TYPE(osImage)
 
     Q_PROPERTY(QString name MEMBER m_imageName CONSTANT)
     Q_PROPERTY(QString vendor MEMBER m_imageVendor CONSTANT)
@@ -31,8 +30,8 @@ struct OsImage {
     Q_PROPERTY(bool load_successful MEMBER m_isValid CONSTANT)
 
 public:
-    OsImage() = default;
-    static OsImage fromJson(const QString &filePath);
+    osImage() = default;
+    static osImage fromJson(const QString &filePath);
 
     QString m_imageName;
     QString m_imageVendor;
@@ -47,46 +46,30 @@ public:
     bool m_isValid = false;
 };
 
-Q_DECLARE_METATYPE(OsImage);
-
 class RebaseHelper : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
 
-    Q_PROPERTY(OsImage currentImage READ currentImage CONSTANT)
+    Q_PROPERTY(osImage currentImage READ currentImage CONSTANT)
     // Q_PROPERTY(bool rebaseValid READ rebaseValid WRITE checkRebaseValid NOTIFY rebaseValidChanged)
 
-    OsImage m_current;
-    OsImage m_new;
+    osImage m_osImage_current;
+    osImage m_osImage_new;
     bool m_rebaseValid = false;
     bool m_newIsCurrent = true;
 
 public:
     RebaseHelper(QObject *parent = nullptr);
 
-    void compareCurrentNew();
-
-    bool rebaseValid() const
+    osImage currentImage() const
     {
-        return m_rebaseValid;
+        return m_osImage_current;
     }
-    void checkRebaseValid();
-    Q_SIGNAL void rebaseValidChanged();
 
-    // (QJSValue callback = QJSValue()); callback if needed later
+    // ROLLBACK
+    Q_INVOKABLE void rollbackImage(QJSValue callback);
 
-    // NOTE: The image variants are hardcoded like they are in bazzite rollback helper,
-    //       Check src/resources/variants.json
-    Q_INVOKABLE QStringList listImages() const;
-    //
-    // Q_INVOKABLE void rollbackImage();
-    // Q_INVOKABLE void rebaseImage(const QString &new_image);
-    // Q_INVOKABLE void customImage(const QString &new_provider);
-
-    OsImage currentImage() const
-    {
-        return m_current;
-    }
+    // REBASE
 };

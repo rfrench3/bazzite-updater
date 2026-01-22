@@ -7,25 +7,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-// cat /usr/share/ublue-os/image-info.json
-// {
-//     "image-name": "bazzite-dx",
-//     "image-vendor": "ublue-os",
-//     "image-ref": "ostree-image-signed:docker://ghcr.io/ublue-os/bazzite-dx",
-//     "image-tag": "stable",
-//     "image-branch": "stable",
-//     "base-image-name": "kinoite",
-//     "fedora-version": "43",
-//     "version": "43.20251210",
-//     "version-pretty": "Stable (F43.20251210)"
-// }
-
-// skopeo list-tags docker://ghcr.io/ublue-os/bazzite | grep -- "stable-" | sort -rV
-
-OsImage OsImage::fromJson(const QString &filePath)
+osImage osImage::fromJson(const QString &filePath)
 {
     QFile json_file(filePath);
-    OsImage img;
+    osImage img;
 
     if (!json_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Failed to open image-info.json at" << filePath;
@@ -92,26 +77,22 @@ RebaseHelper::RebaseHelper(QObject *parent)
         else
             path = u"/run/host/usr/share/ublue-os/image-info.json"_s;
     }
-    m_current = OsImage::fromJson(path);
+    m_osImage_current = osImage::fromJson(path);
 }
 
-QStringList RebaseHelper::listImages() const
+// ROLLBACK
+
+void RebaseHelper::rollbackImage(QJSValue callback)
 {
-    QStringList images;
+    if (!callback.isCallable()) {
+        qDebug() << "Callback is not callable, command run refused";
+        return;
+    }
 
-    // TODO: make this
-    return images;
+    QProcess rollback;
+    Utils::startProcess(rollback, u"brh"_s, {u"rollback"_s, u"-y"_s});
+    rollback.waitForFinished();
+    callback.call({rollback.exitCode()});
 }
 
-void RebaseHelper::checkRebaseValid()
-{
-    Q_EMIT rebaseValidChanged();
-}
-
-void RebaseHelper::compareCurrentNew()
-{
-    if (m_current.m_imageName == m_new.m_imageName && m_current.m_imageVendor == m_new.m_imageVendor && m_current.m_imageTag == m_new.m_imageTag)
-        m_newIsCurrent = true;
-    else
-        m_newIsCurrent = false;
-}
+// REBASE

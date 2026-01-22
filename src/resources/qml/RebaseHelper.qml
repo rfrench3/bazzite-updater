@@ -98,59 +98,94 @@ Kirigami.ScrollablePage {
         }
 
         // System Rebase
+        
         Kirigami.Separator {
-            Kirigami.FormData.label: i18n("Rebase to New Image")
+            Kirigami.FormData.label: i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Rebase to New Image")
             // level: 2
             Kirigami.FormData.isSection: true
         }
 
-        QQC2.CheckBox {
-            id: gaming_mode
-            text: i18n("Steam Gaming Mode")
+        QQC2.ComboBox {
+            id: rebase_selection
+            Kirigami.FormData.label: i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Image Options:")
+            property var allImages: [
+            "bazzite",
+            "bazzite-deck",
+            "bazzite-nvidia",
+            "bazzite-nvidia-open",
+            "bazzite-deck-nvidia",
+            "bazzite-gnome",
+            "bazzite-gnome-nvidia",
+            "bazzite-gnome-nvidia-open",
+            "bazzite-deck-gnome",
+            "bazzite-dx",
+            "bazzite-dx-gnome",
+            "bazzite-dx-nvidia",
+            "bazzite-dx-nvidia-gnome"
+            ]
+            property var filteredImages: []
+
+            model: filteredImages
+
+            // Load all available images with the same DE, set the initial selection to the current image.
+            Component.onCompleted: {
+                if (RebaseHelper.currentImage.name.indexOf("-gnome") !== -1) {
+                    filteredImages = allImages.filter(function(img) { return img.indexOf("-gnome") !== -1; });
+                } else {
+                    filteredImages = allImages.filter(function(img) { return img.indexOf("-gnome") === -1; });
+                }
+                let current_image = filteredImages.indexOf(RebaseHelper.currentImage.name);
+                if (current_image !== -1) {
+                    currentIndex = current_image;
+                }
+            }
         }
 
-        QQC2.CheckBox {
-            id: developer_mode
-            text: i18n("Developer eXperience")
-        }
+        // QQC2.CheckBox {
+        //     id: gaming_mode
+        //     text: i18n("Steam Gaming Mode")
+        // }
 
-        QQC2.ButtonGroup {
-            id: gpu_drivers
-        }
-        Kirigami.Heading {
-            Layout.alignment: Qt.AlignHCenter
-            text: i18n("Nvidia Drivers")
-            level: 4
-        }
+        // QQC2.CheckBox {
+        //     id: developer_mode
+        //     text: i18n("Developer eXperience")
+        // }
 
-        QQC2.RadioButton {
-            id: nvidia_none
-            Layout.alignment: Qt.AlignHCenter
-            text: i18n("Not Needed")
-            QQC2.ButtonGroup.group: gpu_drivers
-        }
+        // QQC2.ButtonGroup {
+        //     id: gpu_drivers
+        // }
+        // Kirigami.Heading {
+        //     Layout.alignment: Qt.AlignHCenter
+        //     text: i18n("Nvidia Drivers")
+        //     level: 4
+        // }
 
-        QQC2.RadioButton {
-            id: nvidia_closed
-            Layout.alignment: Qt.AlignHCenter
-            text: i18n("Nvidia")
-            QQC2.ButtonGroup.group: gpu_drivers
-        }
+        // QQC2.RadioButton {
+        //     id: nvidia_none
+        //     Layout.alignment: Qt.AlignHCenter
+        //     text: i18n("Not Needed")
+        //     QQC2.ButtonGroup.group: gpu_drivers
+        // }
 
-        QQC2.RadioButton {
-            id: nvidia_open
-            Layout.alignment: Qt.AlignHCenter
-            text: i18n("Nvidia Open")
-            QQC2.ButtonGroup.group: gpu_drivers
-        }
+        // QQC2.RadioButton {
+        //     id: nvidia_closed
+        //     Layout.alignment: Qt.AlignHCenter
+        //     text: i18n("Nvidia")
+        //     QQC2.ButtonGroup.group: gpu_drivers
+        // }
+
+        // QQC2.RadioButton {
+        //     id: nvidia_open
+        //     Layout.alignment: Qt.AlignHCenter
+        //     text: i18n("Nvidia Open")
+        //     QQC2.ButtonGroup.group: gpu_drivers
+        // }
 
         QQC2.Button {
             id: rebaseButton
             Layout.alignment: Qt.AlignHCenter
             text: i18n("Rebase")
-            // enabled: rebaseValid && !newIsCurrent
-
-            enabled: false
+            enabled: RebaseHelper.currentImage.name != rebase_selection.currentText
         }
 
         // Current Image Information (Detailed)
