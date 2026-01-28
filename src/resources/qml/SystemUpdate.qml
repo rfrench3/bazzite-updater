@@ -12,6 +12,7 @@ import org.kde.kirigamiaddons.formcard as FormCard
 import io.github.rfrench3.bazzite_updater
 import app.Gamepad 1.0
 import app.SysUpd 1.0
+import app.State 1.0
 
 // For "time since last update"
 import app.RebaseHelper 1.0
@@ -47,22 +48,22 @@ Kirigami.Page {
         id: updateAction
         text: i18n("Update System Image and Software") + Gamepad.labels.space + Gamepad.labels.a
         shortcut: "Return"
-        enabled: !SysUpd.blockUpdate && !SysUpd.updateRunning
+        enabled: AppState.allowCommands && !SysUpd.blockUpdate
 
         onTriggered: {
             showPassiveNotification(i18n("Update Started"), Kirigami.short);
             SysUpd.runUpdate(function(callback) {
-                if (callback != 0) {
-                    showPassiveNotification(
-                        i18n("Update Failed. Check console for more details."),
-                        Kirigami.long,
-                        i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
-                        function() {consoleDrawer.drawerOpen = true;}
-                    );
-                }
-                else {
+                if (callback == 0) {
                     showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
+                    return;
                 }
+
+                showPassiveNotification(
+                    i18n("Update Failed. Check console for more details."),
+                    Kirigami.long,
+                    i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
+                    function() {consoleDrawer.drawerOpen = true;}
+                    ); 
             });
         }
     }
@@ -114,10 +115,8 @@ Kirigami.Page {
                 anchors.fill: parent
                 from: 0
                 to: 100
-                //TODO: get progress tracker working (system_update.cpp, runUpdate, connect journalctl lambda)
-                // value: SysUpd.progressLevel
-                // use indeterminate until then
-                indeterminate: SysUpd.updateRunning
+                //TODO: replace indeterminate with progress level
+                indeterminate: AppState.updateRunning
             }
         }
 
@@ -148,7 +147,7 @@ Kirigami.Page {
             id: toggleConsole
             text: "Toggle Console" + Gamepad.labels.space + Gamepad.labels.y
             shortcut: "F12"
-            onTriggered: { consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen; }
+            onTriggered: consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen
         }
     ]
 

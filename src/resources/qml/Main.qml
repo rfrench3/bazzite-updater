@@ -10,9 +10,12 @@ import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
-import app.Gamepad 1.0
 
 import org.kde.about 1.0
+import app.Gamepad 1.0
+import app.SysUpd 1.0
+import app.RebaseHelper 1.0
+
 
 // NOTE: Gamepad.labels.* automatically show/hide themselves depending on the presence of a controller
 
@@ -130,7 +133,6 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                // onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutBazzite.qml")
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataBazzite.qml")
             },
             Kirigami.Action {
@@ -140,7 +142,6 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                // onTriggered: pageStack.initialPage = aboutApp
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataApp.qml")
             },
 

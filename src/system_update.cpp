@@ -37,43 +37,16 @@ void SystemUpdate::runUpdate(QJSValue callback)
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
-
-    SystemUpdate::setUpdateRunning(true);
-    SystemUpdate::setStatusText(i18n("Running (This may take a while!)"));
-
-    if (!isServicePresent(u"uupd-manual.service"_s)) {
-        setConsoleText(i18n("The uupd manual service was not found on the system."));
+    if (!Utils::isServicePresent(u"uupd-manual.service"_s)) {
+        setBlockUpdate(true);
+        appendConsoleText(i18n("The uupd manual service was not found on the system."), LogLevel::ERROR_CRITICAL);
         setStatusText(i18n("ERROR!"));
-        setBlockUpdate(true);
-        setUpdateRunning(false);
-
-        // This should only appear when using a build of uupd from before the manual start was added
-        if (isServicePresent(u"uupd.service"_s))
-            appendConsoleText(i18n("Run \"ujust update\" in a terminal window to ensure you are on the latest build.\nIf you are, the manual update feature "
-                                   "has not been added yet!"),
-                              LogLevel::ERROR);
-        const QString finalOutput = u"uupd-manual.service was not found"_s;
-        callback.call({1, finalOutput});
+        callback.call({127});
         return;
     }
 
-    // If uupd-manual.service is already running, use journalctl to display its progress
-    if (!isServiceInactive(u"uupd-manual.service"_s)) {
-        QString state = getServiceState(u"uupd-manual.service"_s);
-
-        setConsoleText(i18n("uupd-manual.service is not inactive! Linking console to running update..."));
-        appendConsoleText(i18n("State of uupd-manual.service: ") + state, LogLevel::INFO);
-        setStatusText(i18n("Update already running!"));
-        setBlockUpdate(true);
-
-        logToConsole();
-
-        const QString finalOutput = u"uupd-manual.service state: "_s + state;
-        callback.call({1, finalOutput});
-        return;
-    }
-
-    // No update is currently running, proceed
+    m_appState->setUpdateRunning(true);
+    SystemUpdate::setStatusText(i18n("Running (This may take a while!)"));
 
     QProcess *systemctl = new QProcess(this);
     Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd-manual.service"_s});
@@ -86,20 +59,24 @@ void SystemUpdate::runUpdate(QJSValue callback)
     connect(systemctl, &QProcess::finished, [=]() {
         const QString result = getServiceResult(u"uupd-manual.service"_s);
         if (result == u"success"_s) {
-            SystemUpdate::setUpdateRunning(false);
-            SystemUpdate::setStatusText(i18n("Success!"));
+            m_appState->setUpdateRunning(false);
+            m_appState->setCommandSucceeded(true);
+
+            setStatusText(i18n("Success!"));
             callback.call({0, result});
+            systemctl->deleteLater();
             return;
         } else if (result == u"start-limit-hit"_s) {
             setStatusText(i18n("Updating too fast! ") + result);
             appendConsoleText(i18n("You are updating too many times in a short period!"), LogLevel::ERROR);
         } else {
-            setStatusText(i18n("Error -- ") + result);
+            setStatusText(i18n("Error: ") + result);
             qDebug() << "Result of uupd-manual.service was not success: " << result;
         }
-        SystemUpdate::setBlockUpdate(true);
-        SystemUpdate::setUpdateRunning(false);
+        m_appState->setUpdateRunning(false);
         callback.call({1, result});
+
+        systemctl->deleteLater();
         return;
     });
 }
@@ -155,19 +132,26 @@ void SystemUpdate::logToConsole()
                     log_level = LogLevel::ERROR;
 
                     setStatusText(i18n(("ERROR!")));
-                    setBlockUpdate(true);
 
                     if (msg == u"module_fail"_s) {
                         QJsonObject output = obj.value(u"output"_s).toObject();
-                        msg = i18n("Module Failed: ") + output.value(u"Context"_s).toString();
+                        QString context = output.value(u"Context"_s).toString();
+                        msg = i18n("Module Failed: ") + context;
+
+                        // TODO: make sure one of these is correct
+                        if (context.contains(u"system"_s, Qt::CaseInsensitive) || context.contains(u"ostree"_s, Qt::CaseInsensitive)
+                            || context.contains(u"bootc"_s, Qt::CaseInsensitive)) {
+                            setBlockUpdate(true);
+                            log_level = LogLevel::ERROR_CRITICAL;
+                            setStatusText(i18n(("CRITICAL ERROR!")));
+                        }
                     }
                 }
-                // TODO: remove these color themes
-                // debug: [1;31m Upgrading ubuntu...
-                // debug: [0m[1;31m Upgrading fedora...
-                // debug: [0m[1;31m Upgrading kde-dev...
-                // debug: [0m[1;31m Upgrading arch...
-                // debug: [0m[1;31m Upgrading arch-kde...
+
+                { // Remove ANSI color codes from msg (e.g. [0m[1;31m)
+                    static QRegularExpression ansiEscapePattern(QStringLiteral(R"(\x1b\[[0-9;]*m)"));
+                    msg.replace(ansiEscapePattern, u""_s);
+                }
 
                 if (!msg.isEmpty()) {
                     appendConsoleText(msg, log_level);
@@ -175,29 +159,6 @@ void SystemUpdate::logToConsole()
             }
         }
     });
-}
-
-// Return false unless service is inactive.
-// FIXME: Make sure this works
-bool SystemUpdate::isServiceInactive(const QString &service) const
-{
-    QProcess process;
-    Utils::startProcess(process, u"systemctl"_s, {u"is-active"_s, u"--quiet"_s, service});
-    process.waitForFinished();
-
-    // Non-zero means it is NOT active (therefore, inactive).
-    return process.exitCode() != 0;
-}
-
-// Return false if the service is not present.
-bool SystemUpdate::isServicePresent(const QString &service) const
-{
-    QProcess check_process;
-
-    Utils::startProcess(check_process, u"systemctl"_s, {u"list-unit-files"_s, u"--no-legend"_s, u"--no-pager"_s, service});
-    check_process.waitForFinished();
-
-    return check_process.exitCode() == 0;
 }
 
 QString SystemUpdate::getServiceState(const QString &service) const
@@ -264,6 +225,9 @@ void SystemUpdate::appendConsoleText(const QString &consoleText, LogLevel level)
     case LogLevel::ERROR:
         tempText.append(formatBold(u"ERROR: "_s + consoleText));
         break;
+    case LogLevel::ERROR_CRITICAL:
+        tempText.append(formatBold(u"CRITICAL ERROR: "_s + consoleText));
+        break;
     default:
         // Should never happen
         tempText.append(formatBold(u"UNKNOWN LOG LEVEL: "_s + consoleText));
@@ -299,15 +263,14 @@ void SystemUpdate::setBlockUpdate(bool updateError)
     Q_EMIT blockUpdateChanged();
 }
 
-void SystemUpdate::setUpdateRunning(bool updateRunning)
-{
-    m_updateRunning = updateRunning;
-    Q_EMIT updateRunningChanged();
-}
-
 void SystemUpdate::setPlaceholderColor(QString placeholderText)
 {
     m_placeholderTextColor = placeholderText;
+}
+
+void SystemUpdate::setAppState(AppState *appState)
+{
+    m_appState = appState;
 }
 
 #include "moc_system_update.cpp"

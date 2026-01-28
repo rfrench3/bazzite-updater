@@ -12,12 +12,13 @@ import org.kde.kirigamiaddons.formcard as FormCard
 import io.github.rfrench3.bazzite_updater
 import app.Gamepad 1.0
 import app.RebaseHelper 1.0
+import app.State 1.0
 
 Kirigami.ScrollablePage {
     id: page
 
-    title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper (WORK-IN-PROGRESS)")
-
+    title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper")
+        
     GamepadPageNavigation {
         targetWindow: page.Window.window
     }
@@ -72,18 +73,15 @@ Kirigami.ScrollablePage {
             // Layout.alignment: Qt.AlignRight
             text: i18n("Confirm")
 
-            enabled: !rollbackButton.activated
+            enabled: !AppState.rollbackRunning
         }
 
         QQC2.Button {
             id: rollbackButton
-            property bool activated: false
             text: i18n("Rollback")
             
             onClicked: {
-                rollbackButton.activated = true;
                 showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
-
                 RebaseHelper.rollbackImage(function(callback) {
                     if (callback != 0) {
                         showPassiveNotification(i18n("Rollback Failed."), Kirigami.long);
@@ -94,34 +92,39 @@ Kirigami.ScrollablePage {
                 });
             }
 
-            enabled: confirmRollback.checked && !rollbackButton.activated
+            enabled: AppState.allowCommands && confirmRollback.checked
         }
 
         // System Rebase
         
         Kirigami.Separator {
             Kirigami.FormData.label: i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Rebase to New Image")
-            // level: 2
             Kirigami.FormData.isSection: true
+        }
+        
+        QtObject {
+            id: rebase_selection
+            property string name: RebaseHelper.currentImage.name
+            property string tag: RebaseHelper.currentImage.tag
+            property string image: name + ":" + tag
         }
 
         QQC2.ComboBox {
-            id: rebase_selection
             Kirigami.FormData.label: i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Image Options:")
             property var allImages: [
-            "bazzite",
-            "bazzite-deck",
-            "bazzite-nvidia",
-            "bazzite-nvidia-open",
-            "bazzite-deck-nvidia",
-            "bazzite-gnome",
-            "bazzite-gnome-nvidia",
-            "bazzite-gnome-nvidia-open",
-            "bazzite-deck-gnome",
-            "bazzite-dx",
-            "bazzite-dx-gnome",
-            "bazzite-dx-nvidia",
-            "bazzite-dx-nvidia-gnome"
+                "bazzite",
+                "bazzite-deck",
+                "bazzite-nvidia",
+                "bazzite-nvidia-open",
+                "bazzite-deck-nvidia",
+                "bazzite-gnome",
+                "bazzite-gnome-nvidia",
+                "bazzite-gnome-nvidia-open",
+                "bazzite-deck-gnome",
+                "bazzite-dx",
+                "bazzite-dx-gnome",
+                "bazzite-dx-nvidia",
+                "bazzite-dx-nvidia-gnome"
             ]
             property var filteredImages: []
 
@@ -138,54 +141,78 @@ Kirigami.ScrollablePage {
                 if (current_image !== -1) {
                     currentIndex = current_image;
                 }
+                
+            }
+
+            onActivated: {
+                rebase_selection.name = currentText;
             }
         }
 
-        // QQC2.CheckBox {
-        //     id: gaming_mode
-        //     text: i18n("Steam Gaming Mode")
-        // }
 
-        // QQC2.CheckBox {
-        //     id: developer_mode
-        //     text: i18n("Developer eXperience")
-        // }
+        QQC2.RadioButton {
+            id: rebase_tag_stable
+            Kirigami.FormData.label: i18n("Branch:")
+            text: i18n("stable")
+            Component.onCompleted: {
+                if (RebaseHelper.currentImage.tag == "stable")
+                    checked = true;
+            }
+            onClicked: {
+                rebase_selection.tag = "stable";
+            }
+        }
+        QQC2.RadioButton {
+            id: rebase_tag_testing
+            text: i18n("testing")
+            Component.onCompleted: {
+                if (RebaseHelper.currentImage.tag == "testing")
+                    checked = true;
+            }
+            onClicked: {
+                rebase_selection.tag = "testing";
+            }
+        }
 
-        // QQC2.ButtonGroup {
-        //     id: gpu_drivers
-        // }
-        // Kirigami.Heading {
-        //     Layout.alignment: Qt.AlignHCenter
-        //     text: i18n("Nvidia Drivers")
-        //     level: 4
-        // }
+        // Fallback for misc. other tags
+        QQC2.RadioButton {
+            id: rebase_tag_unknown
+            text: i18n("do not change") + " (" + RebaseHelper.currentImage.tag + ")"
 
-        // QQC2.RadioButton {
-        //     id: nvidia_none
-        //     Layout.alignment: Qt.AlignHCenter
-        //     text: i18n("Not Needed")
-        //     QQC2.ButtonGroup.group: gpu_drivers
-        // }
+            enabled: false
+            visible: false
+            Component.onCompleted: {
+                if (RebaseHelper.currentImage.tag != "stable" 
+                && RebaseHelper.currentImage.tag != "testing") 
+                {
+                    checked = true;
+                    enabled = true;
+                    visible = true;
+                }
+            }
 
-        // QQC2.RadioButton {
-        //     id: nvidia_closed
-        //     Layout.alignment: Qt.AlignHCenter
-        //     text: i18n("Nvidia")
-        //     QQC2.ButtonGroup.group: gpu_drivers
-        // }
+            onClicked: {
+                rebase_selection.tag = RebaseHelper.currentImage.tag;
+            }
+        }
 
-        // QQC2.RadioButton {
-        //     id: nvidia_open
-        //     Layout.alignment: Qt.AlignHCenter
-        //     text: i18n("Nvidia Open")
-        //     QQC2.ButtonGroup.group: gpu_drivers
-        // }
 
         QQC2.Button {
             id: rebaseButton
             Layout.alignment: Qt.AlignHCenter
             text: i18n("Rebase")
-            enabled: RebaseHelper.currentImage.name != rebase_selection.currentText
+            enabled: AppState.allowCommands && (RebaseHelper.currentImage.name != rebase_selection.name || RebaseHelper.currentImage.tag != rebase_selection.tag)
+
+            onClicked: { 
+                showPassiveNotification("Rebase started", Kirigami.short);
+                RebaseHelper.rebaseImage(rebase_selection.image, function (callback) {  
+                    if (callback) {
+                        showPassiveNotification("Rebase failed...", Kirigami.long);
+                    } else {
+                        showPassiveNotification("Rebase success! Reboot to apply changes.", Kirigami.long);
+                    }
+                });
+            }
         }
 
         // Current Image Information (Detailed)

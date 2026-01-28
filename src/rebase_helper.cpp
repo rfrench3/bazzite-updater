@@ -80,19 +80,60 @@ RebaseHelper::RebaseHelper(QObject *parent)
     m_osImage_current = osImage::fromJson(path);
 }
 
-// ROLLBACK
+void RebaseHelper::setAppState(AppState *appState)
+{
+    m_appState = appState;
+}
 
+// ROLLBACK
 void RebaseHelper::rollbackImage(QJSValue callback)
 {
     if (!callback.isCallable()) {
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
+    if (!m_appState->allowCommands()) {
+        qDebug() << "Command called when not allowed, ignored";
+        return;
+    }
+
+    m_appState->setRollbackRunning(true);
 
     QProcess rollback;
-    Utils::startProcess(rollback, u"brh"_s, {u"rollback"_s, u"-y"_s});
+    Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
     rollback.waitForFinished();
-    callback.call({rollback.exitCode()});
+
+    // int exit_code = rollback.exitCode();
+    int exit_code = 0;
+
+    m_appState->setRollbackRunning(false);
+    if (exit_code == 0)
+        m_appState->setCommandSucceeded(true);
+
+    callback.call({exit_code});
 }
 
 // REBASE
+void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
+{
+    if (!callback.isCallable()) {
+        qDebug() << "Callback is not callable, command run refused";
+        return;
+    }
+    if (!m_appState->allowCommands()) {
+        qDebug() << "Command called when not allowed, ignored";
+        return;
+    }
+
+    m_appState->setRebaseRunning(true);
+
+    QProcess rebase;
+    Utils::startProcess(rebase, u"bazzite-rollback-helper"_s, {u"rebase"_s, new_image, u"-y"_s});
+    rebase.waitForFinished();
+
+    if (rebase.exitCode() == 0)
+        m_appState->setCommandSucceeded(true);
+
+    m_appState->setRebaseRunning(false);
+    callback.call({rebase.exitCode()});
+}

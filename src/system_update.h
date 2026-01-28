@@ -32,33 +32,32 @@ using namespace Qt::Literals::StringLiterals;
 class SystemUpdate : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString consoleText READ consoleText WRITE setConsoleText NOTIFY consoleTextChanged)
-    Q_PROPERTY(QString statusText READ statusText WRITE setStatusText NOTIFY statusTextChanged)
-    Q_PROPERTY(int progressLevel READ progressLevel WRITE setProgressLevel NOTIFY progressLevelChanged)
-    Q_PROPERTY(bool blockUpdate READ blockUpdate WRITE setBlockUpdate NOTIFY blockUpdateChanged)
-    Q_PROPERTY(bool updateRunning READ updateRunning WRITE setUpdateRunning NOTIFY updateRunningChanged)
+    Q_PROPERTY(QString consoleText READ consoleText NOTIFY consoleTextChanged)
+    Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
+    Q_PROPERTY(int progressLevel READ progressLevel NOTIFY progressLevelChanged)
+    Q_PROPERTY(bool blockUpdate READ blockUpdate NOTIFY blockUpdateChanged)
     QML_ELEMENT
     QML_SINGLETON
 
     QString m_consoleText = DEFAULT_CONSOLE_TEXT;
     QString m_statusText = i18n("None");
     int m_progressLevel = 0;
-    bool m_updateRunning = false;
     bool m_blockUpdate = false;
     QProcess m_journalctlProcess;
 
-    bool isServicePresent(const QString &service) const;
-    bool isServiceInactive(const QString &service) const;
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
     void logToConsole();
     QString m_placeholderTextColor;
 
+    AppState *m_appState;
+
     enum class LogLevel {
         INFO,
         WARN,
         ERROR,
-        DEBUG
+        DEBUG,
+        ERROR_CRITICAL
     };
 
 public:
@@ -69,6 +68,7 @@ public:
     Q_INVOKABLE void copyToClipboard(const QString &content) const;
 
     void setPlaceholderColor(QString placeholderText);
+    void setAppState(AppState *appState);
 
     QString consoleText() const
     {
@@ -101,8 +101,7 @@ public:
 
     bool updateRunning() const
     {
-        return m_updateRunning;
+        return m_appState->updateRunning();
     }
-    void setUpdateRunning(bool updateRunning);
     Q_SIGNAL void updateRunningChanged();
 };

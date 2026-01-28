@@ -27,6 +27,11 @@ FormCard.AboutPage {
                 "emailAddress" : "frenchrobertm@outlook.com",
                 "webAddress" : "https://rfrench3.github.io/personal-site/",
                 "ocsUsername" : "rfrench3"
+            },
+            {
+                "name" : "Gareth Widlansky",
+                "task" : "Developer",
+                "webAddress" : "https://github.com/gerblesh"
             }
         ],
         "credits" : [],

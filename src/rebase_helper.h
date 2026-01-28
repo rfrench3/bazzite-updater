@@ -53,12 +53,10 @@ class RebaseHelper : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(osImage currentImage READ currentImage CONSTANT)
-    // Q_PROPERTY(bool rebaseValid READ rebaseValid WRITE checkRebaseValid NOTIFY rebaseValidChanged)
 
     osImage m_osImage_current;
-    osImage m_osImage_new;
-    bool m_rebaseValid = false;
-    bool m_newIsCurrent = true;
+
+    AppState *m_appState;
 
 public:
     RebaseHelper(QObject *parent = nullptr);
@@ -67,9 +65,11 @@ public:
     {
         return m_osImage_current;
     }
+    void setAppState(AppState *appState);
 
     // ROLLBACK
     Q_INVOKABLE void rollbackImage(QJSValue callback);
 
     // REBASE
+    Q_INVOKABLE void rebaseImage(const QString new_image, QJSValue callback);
 };

@@ -22,6 +22,7 @@
 #include "controllers.h"
 #include "rebase_helper.h"
 #include "system_update.h"
+#include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -36,11 +37,11 @@ int main(int argc, char *argv[])
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
     }
 
-    // Used to display debug text
-    QString placeholder_text_color = app.palette().placeholderText().color().name();
+    // Used to display debug text in a reliably "background text" color across any theme
+    const QString placeholder_text_color = app.palette().placeholderText().color().name();
 
     KLocalizedString::setApplicationDomain("bazzite_updater");
-    QCoreApplication::setOrganizationName(u"KDE"_s);
+    QCoreApplication::setOrganizationName(u"UniversalBlue"_s);
 
     QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.rfrench3.bazzite_updater"_s));
 
@@ -54,8 +55,11 @@ int main(int argc, char *argv[])
                                  return engine->toScriptValue(KAboutData::applicationData());
                              });
 
+    AppState app_state;
+    qmlRegisterSingletonInstance<AppState>("app.State", 1, 0, "AppState", &app_state);
+
     SystemUpdate system_update;
-    // set placeholder color so GUI terminal has a good "background text" color for debug lines
+    system_update.setAppState(&app_state);
     system_update.setPlaceholderColor(placeholder_text_color);
     qmlRegisterSingletonInstance<SystemUpdate>("app.SysUpd", 1, 0, "SysUpd", &system_update);
 
@@ -63,6 +67,7 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance<ControllerManager>("app.Gamepad", 1, 0, "Gamepad", &gamepad);
 
     RebaseHelper rebase_helper;
+    rebase_helper.setAppState(&app_state);
     qmlRegisterSingletonInstance<RebaseHelper>("app.RebaseHelper", 1, 0, "RebaseHelper", &rebase_helper);
 
     KLocalization::setupLocalizedContext(&engine);
