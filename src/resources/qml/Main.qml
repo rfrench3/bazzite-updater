@@ -15,6 +15,7 @@ import org.kde.about 1.0
 import app.Gamepad 1.0
 import app.SysUpd 1.0
 import app.RebaseHelper 1.0
+import app.State 1.0
 
 
 // NOTE: Gamepad.labels.* automatically show/hide themselves depending on the presence of a controller
@@ -148,6 +149,14 @@ StatefulApp.StatefulWindow {
             Kirigami.Action { separator: true },
 
             Kirigami.Action {
+                id: actionReboot
+                text: i18n("Reboot System")
+                icon.name: AppState.commandSucceeded ? "system-shutdown-update" : "system-shutdown" 
+                
+                onTriggered: confirmReboot.open()
+            },
+
+            Kirigami.Action {
                 id: actionQuit
                 text: i18n("Quit") + Gamepad.labels.space + Gamepad.labels.x
                 icon.name: "application-exit"
@@ -191,6 +200,27 @@ StatefulApp.StatefulWindow {
             }
         }
 
+    }
+
+    Kirigami.Dialog {
+        id: confirmReboot
+        title: i18nc("@title:window", "Reboot System")
+        standardButtons: Kirigami.Dialog.Ok | Kirigami.Dialog.Cancel
+        padding: Kirigami.Units.largeSpacing
+        preferredWidth: Kirigami.Units.gridUnit * 20
+
+        Kirigami.FormLayout {
+            QQC2.Label {
+                text: i18n("This will reboot the system.")
+            }
+        }
+
+        onAccepted: AppState.rebootSystem(function (callback) {
+            if (AppState.commandSucceeded)
+                showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
+            else
+                showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
+        })
     }
 
     pageStack.initialPage: Qt.resolvedUrl("SystemUpdate.qml")

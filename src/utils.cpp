@@ -87,3 +87,11 @@ void AppState::sendUpdateSignals(sendSignals signal)
         break;
     }
 }
+
+void AppState::rebootSystem(QJSValue callback)
+{
+    QProcess reboot;
+    Utils::startProcess(reboot, u"systemctl"_s, {u"reboot"_s});
+    reboot.waitForFinished();
+    callback.call({1});
+}

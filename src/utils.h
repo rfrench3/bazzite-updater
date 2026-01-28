@@ -73,6 +73,8 @@ public:
     void setRebaseRunning(bool running);
     void setCommandSucceeded(bool succeeded);
 
+    Q_INVOKABLE void rebootSystem(QJSValue callback);
+
     Q_SIGNAL void updateRunningChanged();
     Q_SIGNAL void rollbackRunningChanged();
     Q_SIGNAL void rebaseRunningChanged();
