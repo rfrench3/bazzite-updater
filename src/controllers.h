@@ -10,6 +10,7 @@
 #include <SDL3/SDL.h>
 #include <cstdint>
 #include <map>
+// #include <QQuickItem>
 
 struct ControllerLabels {
     Q_GADGET
@@ -32,9 +33,6 @@ public:
     QString m_S_big; // m_S times three
 };
 
-// 2. Register it for QVariant (Required for Q_GADGET)
-Q_DECLARE_METATYPE(ControllerLabels)
-
 class ControllerManager : public QObject
 {
     Q_OBJECT
@@ -42,7 +40,6 @@ class ControllerManager : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(ControllerLabels labels READ labels NOTIFY labelsChanged)
-    // Q_PROPERTY(bool gamepadPresent READ gamepadPresent NOTIFY gamepadPresentChanged)
 
     struct GamepadData {
         SDL_Gamepad *gamepad = nullptr;
@@ -50,12 +47,14 @@ class ControllerManager : public QObject
         // left stick emulates d-pad inputs,
         // range is [x < -DEADZONE, |x| < DEADZONE, x > DEADZONE ]
         int16_t leftStickVertical = 0;
+        // int16_t leftStickHorizontal = 0;
 
         // TODO: emulates scrolling for scrollable areas
+        // while (|x| > DEADZONE, scroll proportionally)
         int16_t rightStickVertical = 0;
+        // int16_t rightStickHorizontal = 0;
     };
 
-    // bool m_gamepadPresent = false;
     void pollSDL();
     QTimer *m_timer;
 
@@ -83,7 +82,11 @@ public:
     }
 
     Q_INVOKABLE void setPollController(bool windowActiveState);
-    Q_SIGNAL void buttonPressed(uint8_t button);
+    Q_SIGNAL void buttonPressed(uint8_t button, bool button_down);
     Q_SIGNAL void gamepadPresentChanged();
     Q_SIGNAL void labelsChanged();
+
+    // TODO: Replace QtTest TestCase
+    // void sendButtonPressed(QQuickItem item, QEvent &input);
+    // void sendButtonReleased(QQuickItem item, QEvent &input);
 };

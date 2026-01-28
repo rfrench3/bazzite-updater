@@ -24,8 +24,8 @@ Item {
     
     // Use QtTest functions to implement controller inputs
     TestCase {
-        id: inputSimulator
-        name: "InputSimulator"
+        id: temporarySolutionReplaceThis
+        name: "TemporarySolutionReplaceThis"
         when: false // Prevents this from running as an actual unit test on startup
         visible: false
     }
@@ -38,17 +38,37 @@ Item {
         /**
          * @brief onButtonPressed - Reimplement this separately from GamepadPageNavigation for custom controller navigation.
          * @param buttonId - SDL3 mapping for controller buttons.
+         * @param button_down - true is button is being pressed, false if button is being released.
          */
-        function onButtonPressed(buttonId) {
+        function onButtonPressed(buttonId, button_down) {
             if (appGlobalDrawer.drawerOpen == true)
                 return;
+
+            function keyPressRelease(key) {
+                if (button_down)
+                    temporarySolutionReplaceThis.keyClick(key);
+                // TODO: Fix this
+                // if (button_down)
+                //     temporarySolutionReplaceThis.keyPress(key);
+                // else
+                //     temporarySolutionReplaceThis.keyRelease(key);
+            }
+            function mousePressRelease(item) {
+                if (button_down)
+                    temporarySolutionReplaceThis.mouseClick(item);
+                // TODO: Fix this
+                // if (button_down)
+                //     temporarySolutionReplaceThis.mousePress(item);
+                // else
+                //     temporarySolutionReplaceThis.mouseRelease(item);
+            }
 
             let item = root.targetWindow.activeFocusItem;
 
             switch (buttonId) {
                 case 0: // A
                     if (_isItemOpenCombobox(item)) {
-                        inputSimulator.keyClick(Qt.Key_Enter);
+                        keyPressRelease(Qt.Key_Enter);
                         break;
                     }
 
@@ -56,7 +76,7 @@ Item {
                     if (typeof item.animateClick === "function") {
                         item.animateClick();
                     } else {
-                        inputSimulator.mouseClick(item);
+                        mousePressRelease(item);
                     }
                     break;
                 
@@ -65,23 +85,25 @@ Item {
                 case 11: // Dpad Up
 
                     if (_isItemOpenCombobox(item)) {
-                        inputSimulator.keyClick(Qt.Key_Up)
+                        keyPressRelease(Qt.Key_Up)
                         break;
                     }
 
                     let itemUp = item.nextItemInFocusChain(false);
                     itemUp.forceActiveFocus(Qt.TabFocusReason);
+                    // temporarySolutionReplaceThis.mouseMove(itemUp);
                     break;
 
                 case 12: // Dpad Down
 
                     if (_isItemOpenCombobox(item)) {
-                        inputSimulator.keyClick(Qt.Key_Down)
+                        keyPressRelease(Qt.Key_Down)
                         break;
                     }
 
                     let itemDown = item.nextItemInFocusChain(true);
                     itemDown.forceActiveFocus(Qt.TabFocusReason);
+                    // temporarySolutionReplaceThis.mouseMove(itemDown);
                     break;
             }
 

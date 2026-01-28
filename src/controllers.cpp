@@ -67,11 +67,12 @@ void ControllerManager::pollSDL()
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
-            Q_EMIT buttonPressed(event.gbutton.button);
+            Q_EMIT buttonPressed(event.gbutton.button, true);
             changeGamepadLabels(event.gbutton.which);
             break;
 
             // case SDL_EVENT_GAMEPAD_BUTTON_UP:
+            //     Q_EMIT buttonPressed(event.gbutton.button, false);
             //     break;
 
         case SDL_EVENT_GAMEPAD_AXIS_MOTION:
@@ -85,10 +86,6 @@ void ControllerManager::pollSDL()
         case SDL_EVENT_GAMEPAD_REMOVED:
             handleGamepadRemoved(event.gdevice.which);
             break;
-
-            // default:
-            //     qDebug() << "Other Event:" << event.type;
-            //     break;
         }
     }
 }
@@ -113,12 +110,20 @@ void ControllerManager::axisEmulateDpad(const int16_t &axisPrev, const int16_t &
     // If the state relative to the controller deadzone has changed, emulate the appropriate Dpad input
 
     // x < -DEADZONE
-    if (axisNow < -DEADZONE && !(axisPrev < -DEADZONE))
-        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_UP);
+    if (axisNow < -DEADZONE && !(axisPrev < -DEADZONE)) {
+        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_UP, true);
+    }
+    if (!(axisNow < -DEADZONE) && axisPrev < -DEADZONE) {
+        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_UP, false);
+    }
 
     // x > DEADZONE
-    else if (axisNow > DEADZONE && !(axisPrev > DEADZONE))
-        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_DOWN);
+    if (axisNow > DEADZONE && !(axisPrev > DEADZONE)) {
+        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_DOWN, true);
+    }
+    if (!(axisNow > DEADZONE) && axisPrev > DEADZONE) {
+        Q_EMIT buttonPressed(SDL_GAMEPAD_BUTTON_DPAD_DOWN, false);
+    }
 }
 
 void ControllerManager::handleGamepadAdded(SDL_JoystickID which)
