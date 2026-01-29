@@ -76,23 +76,41 @@ Kirigami.ScrollablePage {
             enabled: !AppState.rollbackRunning
         }
 
-        QQC2.Button {
-            id: rollbackButton
-            text: i18n("Rollback")
+        Item {
+            Layout.alignment: Qt.AlignHCenter
             
-            onClicked: {
-                showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
-                RebaseHelper.rollbackImage(function(callback) {
-                    if (callback != 0) {
-                        showPassiveNotification(i18n("Rollback Failed."), Kirigami.long);
-                    }
-                    else {
-                        showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
-                    }
-                });
+            implicitWidth: rollbackButton.implicitWidth + (rollbackBusyIndicator.running ? rollbackBusyIndicator.implicitWidth : 0)
+            implicitHeight: rollbackButton.implicitHeight
+            
+            QQC2.Button {
+                id: rollbackButton
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                
+                text: i18n("Rollback")
+                
+                onClicked: {
+                    showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
+                    RebaseHelper.rollbackImage(function(callback) {
+                        if (callback != 0) {
+                            showPassiveNotification(i18n("Rollback Failed."), Kirigami.long);
+                        }
+                        else {
+                            showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
+                        }
+                    });
+                }
+
+                enabled: AppState.allowCommands && confirmRollback.checked
             }
 
-            enabled: AppState.allowCommands && confirmRollback.checked
+            QQC2.BusyIndicator {
+                id: rollbackBusyIndicator
+                anchors.left: rollbackButton.right
+                anchors.leftMargin: Kirigami.Units.smallSpacing
+                anchors.verticalCenter: rollbackButton.verticalCenter
+                running: AppState.rollbackRunning
+            }
         }
 
         // System Rebase
@@ -196,22 +214,38 @@ Kirigami.ScrollablePage {
             }
         }
 
-
-        QQC2.Button {
-            id: rebaseButton
+        Item {
             Layout.alignment: Qt.AlignHCenter
-            text: i18n("Rebase")
-            enabled: AppState.allowCommands && (RebaseHelper.currentImage.name != rebase_selection.name || RebaseHelper.currentImage.tag != rebase_selection.tag)
+            
+            implicitWidth: rebaseButton.implicitWidth + (rebaseBusyIndicator.running ? rebaseBusyIndicator.implicitWidth : 0)
+            implicitHeight: rebaseButton.implicitHeight
+            
+            QQC2.Button {
+                id: rebaseButton
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                
+                text: i18n("Rebase")
+                enabled: AppState.allowCommands && (RebaseHelper.currentImage.name != rebase_selection.name || RebaseHelper.currentImage.tag != rebase_selection.tag)
 
-            onClicked: { 
-                showPassiveNotification("Rebase started", Kirigami.short);
-                RebaseHelper.rebaseImage(rebase_selection.image, function (callback) {  
-                    if (callback) {
-                        showPassiveNotification("Rebase failed...", Kirigami.long);
-                    } else {
-                        showPassiveNotification("Rebase success! Reboot to apply changes.", Kirigami.long);
-                    }
-                });
+                onClicked: { 
+                    showPassiveNotification("Rebase started", Kirigami.short);
+                    RebaseHelper.rebaseImage(rebase_selection.image, function (callback) {  
+                        if (callback) {
+                            showPassiveNotification("Rebase failed...", Kirigami.long);
+                        } else {
+                            showPassiveNotification("Rebase success! Reboot to apply changes.", Kirigami.long);
+                        }
+                    });
+                }
+            }
+
+            QQC2.BusyIndicator {
+                id: rebaseBusyIndicator
+                anchors.left: rebaseButton.right
+                anchors.leftMargin: Kirigami.Units.smallSpacing
+                anchors.verticalCenter: rebaseButton.verticalCenter
+                running: AppState.rebaseRunning
             }
         }
 

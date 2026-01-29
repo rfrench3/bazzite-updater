@@ -148,9 +148,10 @@ void SystemUpdate::logToConsole()
 
                 if (level == u"DEBUG"_s)
                     log_level = LogLevel::DEBUG;
-                else if (level == u"INFO"_s)
+                else if (level == u"INFO"_s) {
                     log_level = LogLevel::INFO;
-                else if (level == u"WARN"_s)
+                    setProgressLevel(obj.value(u"overall"_s).toInt());
+                } else if (level == u"WARN"_s)
                     log_level = LogLevel::WARN;
                 else if (level == u"ERROR"_s) {
                     log_level = LogLevel::ERROR;

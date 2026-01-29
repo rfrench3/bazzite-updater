@@ -131,12 +131,27 @@ Kirigami.Page {
 
         Item { height: Kirigami.Units.gridUnit } // Vertical Spacer
 
-        QQC2.Button {
-            id: updateButton
-            focus: true
+        Item {
             Layout.alignment: Qt.AlignHCenter
+            
+            implicitWidth: updateButton.implicitWidth + (busyIndicator.running ? busyIndicator.implicitWidth : 0)
+            implicitHeight: updateButton.implicitHeight
+            QQC2.Button {
+                id: updateButton
+                focus: true
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
 
-            action: updateAction
+                action: updateAction
+            }
+
+            QQC2.BusyIndicator {
+                id: busyIndicator
+                anchors.left: updateButton.right
+                anchors.leftMargin: Kirigami.Units.smallSpacing
+                anchors.verticalCenter: updateButton.verticalCenter
+                running: AppState.updateRunning
+            }
         }
 
         Item {
@@ -148,8 +163,9 @@ Kirigami.Page {
                 anchors.fill: parent
                 from: 0
                 to: 100
-                //TODO: replace indeterminate with progress level
-                indeterminate: AppState.updateRunning
+
+                // indeterminate: AppState.updateRunning
+                value: SysUpd.progressLevel / 100
             }
         }
 
