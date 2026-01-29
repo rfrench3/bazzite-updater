@@ -45,6 +45,17 @@ class SystemUpdate : public QObject
     bool m_blockUpdate = false;
     QProcess m_journalctlProcess;
 
+    struct UpdateErrors {
+        bool System_Update = false;
+        bool Brew_Update = false;
+        bool System_Apps = false;
+        bool Apps_for_User = false;
+        bool Distroboxes_for_User = false;
+        bool Unknown_Error = false;
+    };
+
+    UpdateErrors m_updateErrorStatus;
+
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
     void logToConsole();
@@ -63,7 +74,7 @@ class SystemUpdate : public QObject
 public:
     SystemUpdate(QObject *parent = nullptr);
 
-    Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue());
+    Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue(), QJSValue callbackErrors = QJSValue());
 
     Q_INVOKABLE void copyToClipboard(const QString &content) const;
 

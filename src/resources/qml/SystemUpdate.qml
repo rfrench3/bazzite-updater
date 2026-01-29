@@ -64,6 +64,39 @@ Kirigami.Page {
                     i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
                     function() {consoleDrawer.drawerOpen = true;}
                     ); 
+            }, function(errorJson) {
+                // This function is only called if part of the update has failed
+                try {
+                    let errors = JSON.parse(errorJson);
+                    let message = i18n("Some update modules failed:\n");
+        
+                    if (errors.System_Update) {
+                        message += i18n("System Update\n");
+                    }
+                    if (errors.Brew_Update) {
+                        message += i18n("Brew Update\n");
+                    }
+                    if (errors.System_Apps) {
+                        message += i18n("System Flatpak Apps\n");
+                    }
+                    if (errors.Apps_for_User) {
+                        message += i18n("User Flatpak Apps\n");
+                    }
+                    if (errors.Distroboxes_for_User) {
+                        message += i18n("User Distroboxes\n");
+                    }
+                    if (errors.Unknown_Error) {
+                        message += i18n("Unknown (Please send the error logs!)\n");
+                    }
+                    
+                    if (message.endsWith("\n")) {
+                        message = message.slice(0, -1);
+                    }
+                    showPassiveNotification(message, Kirigami.long);
+
+                } catch (e) {
+                    console.error("Failed to parse error JSON:", e);
+                }
             });
         }
     }

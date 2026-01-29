@@ -14,6 +14,7 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QTextStream>
+#include <QTimer>
 
 #include <KLocalizedString>
 
@@ -31,7 +32,7 @@ SystemUpdate::SystemUpdate(QObject *parent)
 {
 }
 
-void SystemUpdate::runUpdate(QJSValue callback)
+void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
 {
     if (!callback.isCallable()) {
         qDebug() << "Callback is not callable, command run refused";
@@ -56,28 +57,51 @@ void SystemUpdate::runUpdate(QJSValue callback)
 
     // When the "systemctl start uupd-manual.service" process completes,
     // check the service result and update the UI accordingly.
+    // NOTE: A race condition can likely occur between this and the process in logToConsole()
     connect(systemctl, &QProcess::finished, [=]() {
-        const QString result = getServiceResult(u"uupd-manual.service"_s);
-        if (result == u"success"_s) {
-            m_appState->setUpdateRunning(false);
-            m_appState->setCommandSucceeded(true);
+        QTimer::singleShot(500, this, [=]() {
+            if (m_updateErrorStatus.System_Update || m_updateErrorStatus.Brew_Update || m_updateErrorStatus.System_Apps || m_updateErrorStatus.Apps_for_User
+                || m_updateErrorStatus.Distroboxes_for_User || m_updateErrorStatus.Unknown_Error) {
+                // Used in QML to send notification of which part(s) of the update failed
 
-            setStatusText(i18n("Success!"));
-            callback.call({0, result});
+                QJsonObject errorDetails;
+                errorDetails[u"System_Update"_s] = m_updateErrorStatus.System_Update;
+                errorDetails[u"Brew_Update"_s] = m_updateErrorStatus.Brew_Update;
+                errorDetails[u"System_Apps"_s] = m_updateErrorStatus.System_Apps;
+                errorDetails[u"Apps_for_User"_s] = m_updateErrorStatus.Apps_for_User;
+                errorDetails[u"Distroboxes_for_User"_s] = m_updateErrorStatus.Distroboxes_for_User;
+                errorDetails[u"Unknown_Error"_s] = m_updateErrorStatus.Unknown_Error;
+
+                QJsonDocument errorDoc(errorDetails);
+                QString errorJson = QString::fromUtf8(errorDoc.toJson(QJsonDocument::Compact));
+
+                if (callbackErrors.isCallable()) {
+                    callbackErrors.call({errorJson});
+                }
+            }
+
+            const QString result = getServiceResult(u"uupd-manual.service"_s);
+            if (result == u"success"_s) {
+                m_appState->setUpdateRunning(false);
+                m_appState->setCommandSucceeded(true);
+
+                setStatusText(i18n("Complete"));
+                callback.call({0, result});
+                systemctl->deleteLater();
+                return;
+            } else if (result == u"start-limit-hit"_s) {
+                setStatusText(i18n("Updating too fast! ") + result);
+                appendConsoleText(i18n("You are updating too many times in a short period!"), LogLevel::ERROR);
+            } else {
+                setStatusText(i18n("Error: ") + result);
+                qDebug() << "Result of uupd-manual.service was not success: " << result;
+            }
+            m_appState->setUpdateRunning(false);
+            callback.call({1, result});
+
             systemctl->deleteLater();
             return;
-        } else if (result == u"start-limit-hit"_s) {
-            setStatusText(i18n("Updating too fast! ") + result);
-            appendConsoleText(i18n("You are updating too many times in a short period!"), LogLevel::ERROR);
-        } else {
-            setStatusText(i18n("Error: ") + result);
-            qDebug() << "Result of uupd-manual.service was not success: " << result;
-        }
-        m_appState->setUpdateRunning(false);
-        callback.call({1, result});
-
-        systemctl->deleteLater();
-        return;
+        });
     });
 }
 
@@ -138,12 +162,21 @@ void SystemUpdate::logToConsole()
                         QString context = output.value(u"Context"_s).toString();
                         msg = i18n("Module Failed: ") + context;
 
-                        // TODO: make sure one of these is correct
-                        if (context.contains(u"system"_s, Qt::CaseInsensitive) || context.contains(u"ostree"_s, Qt::CaseInsensitive)
-                            || context.contains(u"bootc"_s, Qt::CaseInsensitive)) {
+                        if (context.contains(u"System Update"_s, Qt::CaseInsensitive)) {
                             setBlockUpdate(true);
                             log_level = LogLevel::ERROR_CRITICAL;
                             setStatusText(i18n(("CRITICAL ERROR!")));
+                            m_updateErrorStatus.System_Update = true;
+                        } else if (context.contains(u"Brew Update"_s, Qt::CaseInsensitive)) {
+                            m_updateErrorStatus.Brew_Update = true;
+                        } else if (context.contains(u"System Apps"_s, Qt::CaseInsensitive)) {
+                            m_updateErrorStatus.System_Apps = true;
+                        } else if (context.contains(u"Apps for User"_s, Qt::CaseInsensitive)) {
+                            m_updateErrorStatus.Apps_for_User = true;
+                        } else if (context.contains(u"Distroboxes for User"_s, Qt::CaseInsensitive)) {
+                            m_updateErrorStatus.Distroboxes_for_User = true;
+                        } else {
+                            m_updateErrorStatus.Unknown_Error = true;
                         }
                     }
                 }
@@ -187,7 +220,13 @@ QString SystemUpdate::getServiceResult(const QString &service) const
 
 void SystemUpdate::copyToClipboard(const QString &content) const
 {
-    QApplication::clipboard()->setText(content);
+    // Remove HTML tags
+    static QRegularExpression htmlTagPattern(QStringLiteral(R"(<[^>]*>)"));
+    QString plainText = content;
+    plainText.replace(u"<br>"_s, u"\n"_s);
+    plainText.replace(htmlTagPattern, u""_s);
+
+    QApplication::clipboard()->setText(plainText);
 }
 
 void SystemUpdate::setConsoleText(const QString &consoleText)
