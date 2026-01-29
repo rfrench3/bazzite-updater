@@ -10,11 +10,15 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
   <description>
-    <p>Kirigami interface for uupd.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
+    <p>Kirigami interface for uupd-manual.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
   <releases>
     <release version="@PROJECT_VERSION@" date="@TODAY_DATE@" type="snapshot"/>
-    <release version="0.2.0" date="2026-1-8" type="development"/>
+    <release version="0.3.0" date="2026-1-29" type="development"/>
+      <description>
+        <p>Full support and error detection for system update (uupd-manual.service), 
+        system rebase (bazzite-rollback-helper), and system rollback (bazzite-rollback-helper).</p>
+      </description>
     <release version="0.1.0" date="2025-12-27" type="development">
       <description>
         <p>SDL3 implemented for controller support</p>
