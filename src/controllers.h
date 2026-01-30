@@ -71,6 +71,8 @@ class ControllerManager : public QObject
 
     ControllerLabels m_labels;
 
+    QQuickItem *m_scrollable;
+
     const int16_t DEADZONE = 12000; // Range: -32768,32768
 
 public:
@@ -86,9 +88,16 @@ public:
     Q_SIGNAL void gamepadPresentChanged();
     Q_SIGNAL void labelsChanged();
 
+    // Each page may only have one scrollable element controller-supported,
+    // This needs to be called in the page's scrollable element's Component.onCompleted{}
+    Q_INVOKABLE void setPageScrollable(QQuickItem *scrollable);
+
     Q_INVOKABLE void sendButtonPressed(QQuickItem *item, Qt::Key key);
     Q_INVOKABLE void sendButtonReleased(QQuickItem *item, Qt::Key key);
 
     Q_INVOKABLE void sendMousePressed(QQuickItem *item);
     Q_INVOKABLE void sendMouseReleased(QQuickItem *item);
+
+    // FIXME: Scrolling currently does not work
+    void sendScrollEvent(int16_t scroll_strength);
 };

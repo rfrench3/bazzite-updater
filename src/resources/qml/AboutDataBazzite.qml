@@ -1,17 +1,16 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import org.kde.about 1.0
-// import app.Gamepad 1.0
+import app.Gamepad 1.0
 import app.RebaseHelper 1.0
-
-// TODO: Fix controller support, especially when the license is openend
+import QtQuick
 
 FormCard.AboutPage {
-    title: i18nc("@action:button", "About Bazzite")
-    // title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@action:button", "About Application")
+    id: page_scrollable
+    title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Bazzite")
 
-    // GamepadPageNavigation {
-    //     targetWindow: parent.Window.window
-    // }
+    Component.onCompleted: {
+        Gamepad.setPageScrollable(page_scrollable.contentItem);
+    }
 
     aboutData: {
         "displayName" : "Bazzite",
@@ -23,12 +22,143 @@ FormCard.AboutPage {
         "version" : RebaseHelper.currentImage.version,
         "otherText" : i18n("Bazzite makes gaming and everyday use smoother and simpler across desktop PCs, handhelds, tablets, and home theater PCs."),
         "authors" : [
-            { // TODO: Make this an actual credits section
-                "name" : "John Bazzite",
-                "task" : "Developer",
+            {
+                "name" : "Kyle Gospodnetich",
+                "task" : "Maintainer",
                 "emailAddress" : "",
-                "webAddress" : "",
-                "ocsUsername" : ""
+                "webAddress" : "https://kylegospodneti.ch/"
+            },
+            {
+                "name": "EyeCantCU",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/EyeCantCU"
+            },
+            {
+                "name": "HikariKnight",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/HikariKnight"
+            },
+            {
+                "name": "aarron-lee",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/aarron-lee"
+            },
+            {
+                "name": "castrojo",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/castrojo"
+            },
+            {
+                "name": "bsherman",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/bsherman"
+            },
+            {
+                "name": "noelmiller",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/noelmiller"
+            },
+            {
+                "name": "nicknamenamenick",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/nicknamenamenick"
+            },
+            {
+                "name": "Zeglius",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/Zeglius"
+            },
+            {
+                "name": "BoukeHaarsma23",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/BoukeHaarsma23"
+            },
+            {
+                "name": "matte-schwartz",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/matte-schwartz"
+            },
+            {
+                "name": "gerblesh",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/gerblesh"
+            },
+            {
+                "name": "abanna",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/abanna"
+            },
+            {
+                "name": "ameliasvg",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/ameliasvg"
+            },
+            {
+                "name": "SuperRiderTH",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/SuperRiderTH"
+            },
+            {
+                "name": "CharlieBros",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/CharlieBros"
+            },
+            {
+                "name": "xXJSONDeruloXx",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/xXJSONDeruloXx"
+            },
+            {
+                "name": "m2Giles",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/m2Giles"
+            },
+            {
+                "name": "fiftydinar",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/fiftydinar"
+            },
+            {
+                "name": "EPOCHvoyager",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/EPOCHvoyager"
+            },
+            {
+                "name": "RodoMa92",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/RodoMa92"
+            },
+            {
+                "name": "renner0e",
+                "task": "Maintainer",
+                "emailAddress" : "",
+                "webAddress": "https://github.com/renner0e"
+            },
+            {
+                "name" : i18nc("context: many more people have contributed to bazzite", "And many more!"),
+                "task" : "Maintainer",
+                "emailAddress" : "",
+                "webAddress" : "https://github.com/ublue-os/bazzite/graphs/contributors"
             }
         ],
         "credits" : [],
@@ -40,6 +170,9 @@ FormCard.AboutPage {
                 "spdx" : "Apache-2.0"
             }
         ],
-        "copyrightStatement" : "© 2023-@CURRENT_YEAR@",
+        "copyrightStatement" : "© 2023-@CURRENT_YEAR@"
     }
+
+    donateUrl: "https://bazzite.gg/#sponsor"
+    getInvolvedUrl: "https://bazzite.gg/#contribute"
 }

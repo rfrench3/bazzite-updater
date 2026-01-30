@@ -1,16 +1,15 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import org.kde.about 1.0
-// import app.Gamepad 1.0
-
-// TODO: Fix controller support, especially when the license is openend
+import app.Gamepad 1.0
+import QtQuick
 
 FormCard.AboutPage {
-    title: i18nc("@action:button", "About Application")
-    // title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@action:button", "About Application")
+    id: page_scrollable
+    title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Application")
 
-    // GamepadPageNavigation {
-    //     targetWindow: parent.Window.window
-    // }
+    Component.onCompleted: {
+        Gamepad.setPageScrollable(page_scrollable.contentItem);
+    }
 
     aboutData: {
         "displayName" : i18nc("@title:window", "Bazzite Updater"),
@@ -31,6 +30,7 @@ FormCard.AboutPage {
             {
                 "name" : "Gareth Widlansky",
                 "task" : "Developer",
+                "emailAddress" : "",
                 "webAddress" : "https://github.com/gerblesh"
             }
         ],

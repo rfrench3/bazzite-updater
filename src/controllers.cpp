@@ -100,8 +100,10 @@ void ControllerManager::handleAxisMotion(SDL_Event &event)
     }
 
     // TODO: Handle right stick vertical
-    else if (event.gaxis.axis == SDL_GAMEPAD_AXIS_RIGHTY)
+    else if (event.gaxis.axis == SDL_GAMEPAD_AXIS_RIGHTY) {
+        sendScrollEvent(m_gamepads[event.gaxis.which].rightStickVertical);
         m_gamepads[event.gaxis.which].rightStickVertical = event.gaxis.value;
+    }
 
     changeGamepadLabels(event.gbutton.which);
 }
@@ -251,4 +253,19 @@ void ControllerManager::sendMouseReleased(QQuickItem *item)
     QMouseEvent event =
         QMouseEvent(QEvent::MouseButtonRelease, QPointF(), point, Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
     QCoreApplication::sendEvent(item, &event);
+}
+
+// FIXME: Scrolling currently does not work
+void ControllerManager::sendScrollEvent(int16_t scroll_strength)
+{
+    int deltaY = -(scroll_strength / 273);
+    QWheelEvent
+        event(QPointF(), QPointF(m_scrollable->x(), m_scrollable->y()), QPoint(), QPoint(0, deltaY), Qt::NoButton, Qt::NoModifier, Qt::NoScrollPhase, false);
+    QCoreApplication::sendEvent(m_scrollable, &event);
+}
+
+// FIXME: Scrolling currently does not work
+void ControllerManager::setPageScrollable(QQuickItem *scrollable)
+{
+    m_scrollable = scrollable;
 }

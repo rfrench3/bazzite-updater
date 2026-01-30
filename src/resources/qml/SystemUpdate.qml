@@ -216,6 +216,12 @@ Kirigami.Page {
             height: parent.height
 
             QQC2.ScrollView {
+                id: page_scrollable
+
+                Component.onCompleted: {
+                    Gamepad.setPageScrollable(page_scrollable);
+                }
+
                 Layout.horizontalStretchFactor: 1
                 width: parent.width
                 height: parent.height
