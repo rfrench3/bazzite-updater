@@ -26,7 +26,10 @@ Kirigami.Page {
     Connections {
         target: Gamepad
 
-        function onButtonPressed(buttonId) {
+        function onButtonPressed(buttonId, button_down) {
+            if (button_down == false)
+                return;
+
             if (appGlobalDrawer.drawerOpen == true)
                 return;
             switch (buttonId) {

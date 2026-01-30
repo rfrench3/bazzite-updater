@@ -103,8 +103,7 @@ void RebaseHelper::rollbackImage(QJSValue callback)
     Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
     rollback.waitForFinished();
 
-    // int exit_code = rollback.exitCode();
-    int exit_code = 0;
+    int exit_code = rollback.exitCode();
 
     m_appState->setRollbackRunning(false);
     if (exit_code == 0)

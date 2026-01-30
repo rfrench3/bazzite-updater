@@ -19,9 +19,7 @@ Kirigami.ScrollablePage {
 
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper")
         
-    GamepadPageNavigation {
-        targetWindow: page.Window.window
-    }
+    GamepadPageNavigation { targetWindow: page.Window.window }
 
     Kirigami.FormLayout {
         anchors.fill: parent
@@ -127,8 +125,9 @@ Kirigami.ScrollablePage {
             property string image: name + ":" + tag
         }
 
-        QQC2.ComboBox {
-            Kirigami.FormData.label: i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Image Options:")
+        // TODO: this works, but ideally it would be a combobox 
+        QtObject {
+            id: imageOptions
             property var allImages: [
                 "bazzite",
                 "bazzite-deck",
@@ -146,32 +145,49 @@ Kirigami.ScrollablePage {
             ]
             property var filteredImages: []
 
-            model: filteredImages
-
-            // Load all available images with the same DE, set the initial selection to the current image.
             Component.onCompleted: {
                 if (RebaseHelper.currentImage.name.indexOf("-gnome") !== -1) {
                     filteredImages = allImages.filter(function(img) { return img.indexOf("-gnome") !== -1; });
                 } else {
                     filteredImages = allImages.filter(function(img) { return img.indexOf("-gnome") === -1; });
                 }
-                let current_image = filteredImages.indexOf(RebaseHelper.currentImage.name);
-                if (current_image !== -1) {
-                    currentIndex = current_image;
+            }
+        }
+        
+        QQC2.ButtonGroup { id:images }
+
+        Repeater {
+            model: imageOptions.filteredImages
+
+            QQC2.RadioButton {
+                Kirigami.FormData.label: index === 0 ? i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Image Options:") : ""
+                text: modelData
+                QQC2.ButtonGroup.group: images
+                
+                Component.onCompleted: {
+                    if (modelData === RebaseHelper.currentImage.name) {
+                        checked = true;
+                    }
                 }
                 
-            }
-
-            onActivated: {
-                rebase_selection.name = currentText;
+                font.bold: modelData === RebaseHelper.currentImage.name
+                
+                onClicked: {
+                    rebase_selection.name = modelData;
+                }
             }
         }
 
+        Item { height: Kirigami.Units.smallSpacing }
+
+        QQC2.ButtonGroup { id:tags }
 
         QQC2.RadioButton {
             id: rebase_tag_stable
+            QQC2.ButtonGroup.group: tags
             Kirigami.FormData.label: i18n("Branch:")
             text: i18n("stable")
+            font.bold: text === RebaseHelper.currentImage.tag
             Component.onCompleted: {
                 if (RebaseHelper.currentImage.tag == "stable")
                     checked = true;
@@ -182,7 +198,9 @@ Kirigami.ScrollablePage {
         }
         QQC2.RadioButton {
             id: rebase_tag_testing
+            QQC2.ButtonGroup.group: tags
             text: i18n("testing")
+            font.bold: text === RebaseHelper.currentImage.tag
             Component.onCompleted: {
                 if (RebaseHelper.currentImage.tag == "testing")
                     checked = true;
@@ -195,7 +213,9 @@ Kirigami.ScrollablePage {
         // Fallback for misc. other tags
         QQC2.RadioButton {
             id: rebase_tag_unknown
+            QQC2.ButtonGroup.group: tags
             text: i18n("do not change") + " (" + RebaseHelper.currentImage.tag + ")"
+            font.bold: true
 
             enabled: false
             visible: false
@@ -230,6 +250,7 @@ Kirigami.ScrollablePage {
 
                 onClicked: { 
                     showPassiveNotification("Rebase started", Kirigami.short);
+                    console.log("Rebasing to: " + rebase_selection.image);
                     RebaseHelper.rebaseImage(rebase_selection.image, function (callback) {  
                         if (callback) {
                             showPassiveNotification("Rebase failed...", Kirigami.long);

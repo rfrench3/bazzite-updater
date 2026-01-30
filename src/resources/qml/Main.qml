@@ -55,7 +55,10 @@ StatefulApp.StatefulWindow {
     Connections {
         target: Gamepad
 
-        function onButtonPressed(buttonId) {
+        function onButtonPressed(buttonId, button_down) {
+            if (button_down == false)
+                return;
+                
             switch (buttonId) {
                 case 1: // B
                 case 4: // view, minus

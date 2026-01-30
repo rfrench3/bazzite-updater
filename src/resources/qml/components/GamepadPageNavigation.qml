@@ -24,6 +24,29 @@ Item {
     Connections {
         target: Gamepad
 
+        function keyEvent(button_down, key) {
+            let item = root.targetWindow.activeFocusItem;
+            if (button_down == true) {
+                // console.log("button down");
+                Gamepad.sendButtonPressed(item, key);
+            }
+            else {
+                // console.log("button up");
+                Gamepad.sendButtonReleased(item, key);
+            }
+        }
+
+        function mouseEvent(button_down, item = root.targetWindow.activeFocusItem) {
+            if (button_down == true) {
+                Gamepad.sendMousePressed(item);
+                // console.log("mouse down");
+            }
+            else {
+                Gamepad.sendMouseReleased(item);
+                // console.log("mouse up");
+            }
+        }
+
         /**
          * @brief onButtonPressed - Reimplement this separately from GamepadPageNavigation for custom controller navigation.
          * @param buttonId - SDL3 mapping for controller buttons.
@@ -35,40 +58,20 @@ Item {
 
             let item = root.targetWindow.activeFocusItem;
 
-            function keyEvent(key) {
-                if (button_down == true) {
-                    console.log("button down");
-                    Gamepad.sendButtonPressed(item, key);
-                }
-                else {
-                    console.log("button up");
-                    Gamepad.sendButtonReleased(item, key);
-                }
-            }
-            function mouseEvent() {
-                if (button_down == true) {
-                    Gamepad.sendMousePressed(item);
-                    console.log("mouse down");
-                }
-                else {
-                    Gamepad.sendMouseReleased(item);
-                    console.log("mouse up");
-                }
-            }
-
             switch (buttonId) {
                 case 0: // A
-
-                    mouseEvent();
+                    mouseEvent(button_down);
                     break;
                 
                 case 11: // Dpad Up
+                    if (!button_down) break;
 
                     let itemUp = item.nextItemInFocusChain(false);
                     itemUp.forceActiveFocus(Qt.TabFocusReason);
                     break;
 
                 case 12: // Dpad Down
+                    if (!button_down) break;
 
                     let itemDown = item.nextItemInFocusChain(true);
                     itemDown.forceActiveFocus(Qt.TabFocusReason);
