@@ -3,7 +3,6 @@
 
 import QtQuick
 import app.Gamepad 1.0
-import QtTest
 
 import QtQuick.Controls
 
@@ -22,16 +21,6 @@ Item {
     
     required property Window targetWindow
     
-    // Use QtTest functions to implement controller inputs
-    TestCase {
-        id: temporarySolutionReplaceThis
-        name: "TemporarySolutionReplaceThis"
-        when: false // Prevents this from running as an actual unit test on startup
-        visible: false
-    }
-
-    // TODO: (minor) instead of just simulating a click, simulate the press and release
-    
     Connections {
         target: Gamepad
 
@@ -44,74 +33,47 @@ Item {
             if (appGlobalDrawer.drawerOpen == true)
                 return;
 
-            function keyPressRelease(key) {
-                if (button_down)
-                    temporarySolutionReplaceThis.keyClick(key);
-                // TODO: Fix this
-                // if (button_down)
-                //     temporarySolutionReplaceThis.keyPress(key);
-                // else
-                //     temporarySolutionReplaceThis.keyRelease(key);
-            }
-            function mousePressRelease(item) {
-                if (button_down)
-                    temporarySolutionReplaceThis.mouseClick(item);
-                // TODO: Fix this
-                // if (button_down)
-                //     temporarySolutionReplaceThis.mousePress(item);
-                // else
-                //     temporarySolutionReplaceThis.mouseRelease(item);
-            }
-
             let item = root.targetWindow.activeFocusItem;
+
+            function keyEvent(key) {
+                if (button_down == true) {
+                    console.log("button down");
+                    Gamepad.sendButtonPressed(item, key);
+                }
+                else {
+                    console.log("button up");
+                    Gamepad.sendButtonReleased(item, key);
+                }
+            }
+            function mouseEvent() {
+                if (button_down == true) {
+                    Gamepad.sendMousePressed(item);
+                    console.log("mouse down");
+                }
+                else {
+                    Gamepad.sendMouseReleased(item);
+                    console.log("mouse up");
+                }
+            }
 
             switch (buttonId) {
                 case 0: // A
-                    if (_isItemOpenCombobox(item)) {
-                        keyPressRelease(Qt.Key_Enter);
-                        break;
-                    }
 
-
-                    if (typeof item.animateClick === "function") {
-                        item.animateClick();
-                    } else {
-                        mousePressRelease(item);
-                    }
+                    mouseEvent();
                     break;
                 
-
-                //TODO: Display tooltips
                 case 11: // Dpad Up
-
-                    if (_isItemOpenCombobox(item)) {
-                        keyPressRelease(Qt.Key_Up)
-                        break;
-                    }
 
                     let itemUp = item.nextItemInFocusChain(false);
                     itemUp.forceActiveFocus(Qt.TabFocusReason);
-                    // temporarySolutionReplaceThis.mouseMove(itemUp);
                     break;
 
                 case 12: // Dpad Down
 
-                    if (_isItemOpenCombobox(item)) {
-                        keyPressRelease(Qt.Key_Down)
-                        break;
-                    }
-
                     let itemDown = item.nextItemInFocusChain(true);
                     itemDown.forceActiveFocus(Qt.TabFocusReason);
-                    // temporarySolutionReplaceThis.mouseMove(itemDown);
                     break;
             }
-
-            function _isItemOpenCombobox(item) {
-                return "currentIndex" in item 
-                        && "down" in item
-                        && item.down == true;
-                }
         }
     }
 }

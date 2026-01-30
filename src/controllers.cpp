@@ -6,6 +6,7 @@
 #include <QCoreApplication>
 #include <QGuiApplication>
 #include <QKeyEvent>
+#include <QQuickWindow>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -71,9 +72,9 @@ void ControllerManager::pollSDL()
             changeGamepadLabels(event.gbutton.which);
             break;
 
-            // case SDL_EVENT_GAMEPAD_BUTTON_UP:
-            //     Q_EMIT buttonPressed(event.gbutton.button, false);
-            //     break;
+        case SDL_EVENT_GAMEPAD_BUTTON_UP:
+            Q_EMIT buttonPressed(event.gbutton.button, false);
+            break;
 
         case SDL_EVENT_GAMEPAD_AXIS_MOTION:
             handleAxisMotion(event);
@@ -214,4 +215,40 @@ QString ControllerManager::getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadBu
     default:
         return u"(?)"_s; // Unknown
     }
+}
+
+void ControllerManager::sendButtonPressed(QQuickItem *item, Qt::Key key)
+{
+    QKeyEvent keyEvent(QEvent::KeyPress, key, Qt::NoModifier, QString(), false, 1);
+    QCoreApplication::sendEvent(item, &keyEvent);
+}
+
+void ControllerManager::sendButtonReleased(QQuickItem *item, Qt::Key key)
+{
+    if (key == Qt::Key::Key_Tab || key == Qt::Key::Key_Up || key == Qt::Key::Key_Down)
+        return;
+    QKeyEvent keyEvent(QEvent::KeyPress, key, Qt::NoModifier, QString(), false, 1);
+    QCoreApplication::sendEvent(item, &keyEvent);
+}
+
+void ControllerManager::sendMousePressed(QQuickItem *item)
+{
+    qreal pos_x = item->x();
+    qreal pos_y = item->y();
+
+    QPointF point = QPointF(pos_x, pos_y);
+    QMouseEvent event =
+        QMouseEvent(QEvent::MouseButtonPress, QPointF(), point, Qt::MouseButton::LeftButton, Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
+    QCoreApplication::sendEvent(item, &event);
+}
+
+void ControllerManager::sendMouseReleased(QQuickItem *item)
+{
+    qreal pos_x = item->x();
+    qreal pos_y = item->y();
+
+    QPointF point = QPointF(pos_x, pos_y);
+    QMouseEvent event =
+        QMouseEvent(QEvent::MouseButtonRelease, QPointF(), point, Qt::MouseButton::LeftButton, Qt::MouseButton::NoButton, Qt::KeyboardModifier::NoModifier);
+    QCoreApplication::sendEvent(item, &event);
 }

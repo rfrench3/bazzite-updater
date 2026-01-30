@@ -5,12 +5,12 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QQuickItem>
 #include <QString>
 #include <QTimer>
 #include <SDL3/SDL.h>
 #include <cstdint>
 #include <map>
-// #include <QQuickItem>
 
 struct ControllerLabels {
     Q_GADGET
@@ -86,7 +86,9 @@ public:
     Q_SIGNAL void gamepadPresentChanged();
     Q_SIGNAL void labelsChanged();
 
-    // TODO: Replace QtTest TestCase
-    // void sendButtonPressed(QQuickItem item, QEvent &input);
-    // void sendButtonReleased(QQuickItem item, QEvent &input);
+    Q_INVOKABLE void sendButtonPressed(QQuickItem *item, Qt::Key key);
+    Q_INVOKABLE void sendButtonReleased(QQuickItem *item, Qt::Key key);
+
+    Q_INVOKABLE void sendMousePressed(QQuickItem *item);
+    Q_INVOKABLE void sendMouseReleased(QQuickItem *item);
 };
