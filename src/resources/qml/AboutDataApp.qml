@@ -7,9 +7,9 @@ FormCard.AboutPage {
     id: page_scrollable
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Application")
 
-    Component.onCompleted: {
-        Gamepad.setPageScrollable(page_scrollable.contentItem);
-    }
+    GamepadPageNavigation {
+        targetWindow: page.Window.window
+    } // TODO: make it easy to escape the License popup
 
     aboutData: {
         "displayName" : i18nc("@title:window", "Bazzite Updater"),

@@ -4,13 +4,14 @@ import app.Gamepad 1.0
 import app.RebaseHelper 1.0
 import QtQuick
 
+// TODO: remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
 FormCard.AboutPage {
-    id: page_scrollable
+    id: page
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Bazzite")
 
-    Component.onCompleted: {
-        Gamepad.setPageScrollable(page_scrollable.contentItem);
-    }
+    GamepadPageNavigation {
+        targetWindow: page.Window.window
+    } // TODO: make it easy to escape the License popup
 
     aboutData: {
         "displayName" : "Bazzite",
