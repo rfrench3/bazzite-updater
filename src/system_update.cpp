@@ -242,6 +242,11 @@ void SystemUpdate::setConsoleText(const QString &consoleText)
 
 void SystemUpdate::appendConsoleText(const QString &consoleText, LogLevel level)
 {
+    // Start with this so that the final line isn't always empty
+    if (!m_consoleText.endsWith(u"<br>"_s)) {
+        m_consoleText.append(u"<br>"_s);
+    }
+
     auto formatBold = [](const QString &text) {
         return u"<b>"_s + text + u"</b>"_s;
     };
@@ -250,37 +255,41 @@ void SystemUpdate::appendConsoleText(const QString &consoleText, LogLevel level)
         return u"<font color='"_s + m_placeholderTextColor + u"'>"_s + text + u"</font>"_s;
     };
 
-    QString tempText;
+    QString newLine;
+    QString temp;
     // display debug lines in placeholder text color
     switch (level) {
     case LogLevel::DEBUG:
-        tempText.append(formatColorPlaceholder(u"debug: "_s + consoleText));
+        temp = u"debug: "_s + consoleText;
+        newLine.append(formatColorPlaceholder(temp));
         break;
     case LogLevel::INFO:
-        tempText.append(consoleText);
+        newLine.append(consoleText);
         break;
     case LogLevel::WARN:
-        tempText.append(formatBold(u"WARNING: "_s + consoleText));
+        temp = u"WARNING: "_s + consoleText;
+        newLine.append(formatBold(temp));
         break;
     case LogLevel::ERROR:
-        tempText.append(formatBold(u"ERROR: "_s + consoleText));
+        temp = u"ERROR: "_s + consoleText;
+        newLine.append(formatBold(temp));
         break;
     case LogLevel::ERROR_CRITICAL:
-        tempText.append(formatBold(u"CRITICAL ERROR: "_s + consoleText));
+        temp = u"CRITICAL ERROR: "_s + consoleText;
+        newLine.append(formatBold(temp));
         break;
     default:
         // Should never happen
-        tempText.append(formatBold(u"UNKNOWN LOG LEVEL: "_s + consoleText));
+        temp = u"UNKNOWN LOG LEVEL: "_s + consoleText;
+        newLine.append(formatBold(temp));
         break;
     }
 
+    // TODO: handle this with line length checker
     if (m_consoleText == DEFAULT_CONSOLE_TEXT)
-        m_consoleText = tempText;
+        m_consoleText = newLine;
     else
-        m_consoleText += tempText;
-
-    if (!m_consoleText.endsWith(u"<br>"_s))
-        m_consoleText.append(u"<br>"_s);
+        m_consoleText += newLine;
 
     Q_EMIT consoleTextChanged();
 }

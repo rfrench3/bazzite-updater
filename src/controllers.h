@@ -12,6 +12,8 @@
 #include <cstdint>
 #include <map>
 
+#define POLLING_RATE 16 // ~60FPS
+
 struct ControllerLabels {
     Q_GADGET
     // Expose members as properties to QML
@@ -40,6 +42,9 @@ class ControllerManager : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(ControllerLabels labels READ labels NOTIFY labelsChanged)
+    Q_PROPERTY(int16_t rStickMagnitude READ RStickMagnitude NOTIFY RStickMagnitudeChanged)
+    Q_PROPERTY(int pollingRate READ getPollingRate CONSTANT)
+    Q_PROPERTY(int16_t deadzone READ getDeadzone CONSTANT)
 
     struct GamepadData {
         SDL_Gamepad *gamepad = nullptr;
@@ -49,7 +54,6 @@ class ControllerManager : public QObject
         int16_t leftStickVertical = 0;
         // int16_t leftStickHorizontal = 0;
 
-        // TODO: emulates scrolling for scrollable areas
         // while (|x| > DEADZONE, scroll proportionally)
         int16_t rightStickVertical = 0;
         // int16_t rightStickHorizontal = 0;
@@ -71,8 +75,6 @@ class ControllerManager : public QObject
 
     ControllerLabels m_labels;
 
-    QQuickItem *m_scrollable;
-
     const int16_t DEADZONE = 12000; // Range: -32768,32768
 
 public:
@@ -83,14 +85,29 @@ public:
         return m_labels;
     }
 
+    int16_t RStickMagnitude() const
+    {
+        auto it = m_gamepads.find(m_focusedJoystick);
+        if (it != m_gamepads.end()) {
+            return it->second.rightStickVertical;
+        }
+        return 0; // Return 0 when no gamepad is connected
+    }
+
+    int getPollingRate() const
+    {
+        return POLLING_RATE;
+    }
+
+    int16_t getDeadzone() const
+    {
+        return DEADZONE;
+    }
+
     Q_INVOKABLE void setPollController(bool windowActiveState);
     Q_SIGNAL void buttonPressed(uint8_t button, bool button_down);
     Q_SIGNAL void gamepadPresentChanged();
     Q_SIGNAL void labelsChanged();
-
-    // Each page may only have one scrollable element controller-supported,
-    // This needs to be called in the page's scrollable element's Component.onCompleted{}
-    Q_INVOKABLE void setPageScrollable(QQuickItem *scrollable);
 
     Q_INVOKABLE void sendButtonPressed(QQuickItem *item, Qt::Key key);
     Q_INVOKABLE void sendButtonReleased(QQuickItem *item, Qt::Key key);
@@ -98,6 +115,5 @@ public:
     Q_INVOKABLE void sendMousePressed(QQuickItem *item);
     Q_INVOKABLE void sendMouseReleased(QQuickItem *item);
 
-    // FIXME: Scrolling currently does not work
-    void sendScrollEvent(int16_t scroll_strength);
+    Q_SIGNAL void RStickMagnitudeChanged();
 };

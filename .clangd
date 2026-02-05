@@ -1,0 +1,13 @@
+CompileFlags:
+  CompilationDatabase: build
+
+If:
+  PathMatch: 
+    - build/.*
+    - app/.*
+    - \.flatpak-builder/.*
+    - \.cache/.*
+Diagnostics:
+  Suppress: '*'
+  ClangTidy:
+    Remove: '*'

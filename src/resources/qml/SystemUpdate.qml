@@ -36,6 +36,10 @@ Kirigami.Page {
                 case 0: // A
                     updateButton.animateClick();
                     break;
+                case 2: // X
+                    if (consoleDrawer.drawerOpen)
+                        copy_button.animateClick();
+                    break;
                 case 3: // Y
                     toggleConsole.trigger();
                     // Closes up to 5 passive notifications
@@ -216,12 +220,6 @@ Kirigami.Page {
             height: parent.height
 
             QQC2.ScrollView {
-                id: page_scrollable
-
-                Component.onCompleted: {
-                    Gamepad.setPageScrollable(page_scrollable);
-                }
-
                 Layout.horizontalStretchFactor: 1
                 width: parent.width
                 height: parent.height
@@ -229,6 +227,26 @@ Kirigami.Page {
                 Layout.fillHeight: true
 
                 QQC2.ScrollBar.horizontal.policy: QQC2.ScrollBar.AlwaysOff
+
+                // TODO: make scroll speed independent of line lengths
+                // TODO: move cursor position to the beginning/end of visible text area so there's no delay scrolling up/down
+                Timer {
+                    interval: Gamepad.pollingRate
+                    running: consoleDrawer.drawerOpen && (Math.abs(Gamepad.rStickMagnitude) > Gamepad.deadzone)
+                    repeat: true
+                    onTriggered: {
+                        let new_pos = consoleTextArea.cursorPosition + Math.round(Gamepad.rStickMagnitude / 270);
+
+                        if (new_pos < 0)
+                            consoleTextArea.cursorPosition = 0;
+                        else if (new_pos >= consoleTextArea.length)
+                            consoleTextArea.cursorPosition = consoleTextArea.length - 1;
+                        else
+                            consoleTextArea.cursorPosition = new_pos;
+
+                        console.log("cursor position: ", consoleTextArea.cursorPosition);
+                    }
+                }
 
                 QQC2.TextArea {
                     id: consoleTextArea
@@ -241,9 +259,14 @@ Kirigami.Page {
                     readOnly: true
                     textFormat: TextEdit.RichText
 
-                    // TODO: only scroll if the user was already at the bottom before more text was added
-                    // Scrolls the TextArea to the bottom
-                    onTextChanged: { cursorPosition = length; }
+                    property int prev_length: 0
+
+                    // Scrolls the TextArea to the bottom when it's already at the bottom
+                    onTextChanged: { 
+                        if (prev_length == cursorPosition)
+                            cursorPosition = length;
+                        prev_length = length;
+                    }
                 }
             }
 
@@ -251,8 +274,9 @@ Kirigami.Page {
                 Layout.alignment: Qt.AlignTop
 
                 QQC2.Button {
+                    id: copy_button
                     Layout.fillWidth: true
-                    text: i18n("Copy to Clipboard")
+                    text: i18n("Copy to Clipboard") + Gamepad.labels.space + Gamepad.labels.x
                     onClicked: {
                         SysUpd.copyToClipboard(SysUpd.consoleText);
                         showPassiveNotification(i18n("Text Copied"), Kirigami.short);
