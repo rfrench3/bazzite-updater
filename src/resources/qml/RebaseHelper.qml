@@ -14,12 +14,9 @@ import app.Gamepad 1.0
 import app.RebaseHelper 1.0
 import app.State 1.0
 
+//TODO: Proper scrolling support (currently, it only scrolls when an off-screen item is focused)
 Kirigami.ScrollablePage {
     id: page
-
-    Component.onCompleted: {
-        Gamepad.setPageScrollable(page);
-    }
 
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper")
         

@@ -3,7 +3,6 @@
 [Desktop Entry]
 Name=Bazzite Updater
 Comment=Update your system
-Version=@PROJECT_VERSION@
 Exec=bazzite_updater
 Icon=io.github.rfrench3.bazzite_updater
 Type=Application

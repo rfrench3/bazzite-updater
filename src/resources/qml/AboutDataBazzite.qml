@@ -4,6 +4,7 @@ import app.Gamepad 1.0
 import app.RebaseHelper 1.0
 import QtQuick
 
+//TODO: Proper scrolling support (currently, it only scrolls when an off-screen item is focused)
 // TODO: remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
 FormCard.AboutPage {
     id: page

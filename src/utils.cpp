@@ -26,6 +26,7 @@ void Utils::startProcess(QProcess &process, const QString &cmd, const QStringLis
     startProcess(&process, cmd, args);
 }
 
+// Returns true if program is found
 bool Utils::isProgramPresent(const QString &cmd)
 {
     QProcess process;
@@ -34,6 +35,7 @@ bool Utils::isProgramPresent(const QString &cmd)
     return process.exitCode() == 0;
 }
 
+// Returns true if service is found
 bool Utils::isServicePresent(const QString &service)
 {
     QProcess check_process;

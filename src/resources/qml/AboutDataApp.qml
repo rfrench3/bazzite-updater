@@ -3,6 +3,7 @@ import org.kde.about 1.0
 import app.Gamepad 1.0
 import QtQuick
 
+//TODO: Proper scrolling support (currently, it only scrolls when an off-screen item is focused)
 FormCard.AboutPage {
     id: page_scrollable
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Application")
