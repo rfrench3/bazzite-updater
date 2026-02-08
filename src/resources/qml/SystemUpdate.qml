@@ -243,8 +243,6 @@ Kirigami.Page {
                             consoleTextArea.cursorPosition = consoleTextArea.length - 1;
                         else
                             consoleTextArea.cursorPosition = new_pos;
-
-                        console.log("cursor position: ", consoleTextArea.cursorPosition);
                     }
                 }
 
@@ -253,19 +251,39 @@ Kirigami.Page {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    text: SysUpd.consoleText
-                    font.family: 'monospace'
+                    placeholderText: i18n("No output")
+                    font.family: "monospace"
                     wrapMode: Text.WordWrap
                     readOnly: true
-                    textFormat: TextEdit.RichText
+                    textFormat: TextEdit.RichText                    
+                    
+                    Component.onCompleted: {
+                        text = SysUpd.consoleText;
+                        cursorPosition = length;
+                    }
 
-                    property int prev_length: 0
+                    // Ensures the cursor position stays either where it is, or locked to the bottom
+                    Connections {
+                        target: SysUpd
+                        function onConsoleTextChanged() {
+                            // Check state before the text updates
+                            
+                            const oldCursorPos = consoleTextArea.cursorPosition;
+                            
+                            const distFromBottom = consoleTextArea.length - consoleTextArea.cursorPosition;
+                            const wasAtBottom = (distFromBottom <= 3);
 
-                    // Scrolls the TextArea to the bottom when it's already at the bottom
-                    onTextChanged: { 
-                        if (prev_length == cursorPosition)
-                            cursorPosition = length;
-                        prev_length = length;
+                            // Resets cursor position to 0
+                            consoleTextArea.text = SysUpd.consoleText;
+
+                            // restore cursor position
+                            if (wasAtBottom) {
+                                consoleTextArea.cursorPosition = consoleTextArea.length;
+                            }
+                            else {
+                                consoleTextArea.cursorPosition = Math.min(oldCursorPos, consoleTextArea.length);
+                            }
+                        }
                     }
                 }
             }
