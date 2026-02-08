@@ -4,8 +4,9 @@ import app.Gamepad 1.0
 import app.RebaseHelper 1.0
 import QtQuick
 
-//TODO: Proper scrolling support (currently, it only scrolls when an off-screen item is focused)
+// TODO: proper scrolling support (currently, it only scrolls when an off-screen item is focused)
 // TODO: remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
+// TODO: replace the app icon for the bazzite icon
 FormCard.AboutPage {
     id: page
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Bazzite")

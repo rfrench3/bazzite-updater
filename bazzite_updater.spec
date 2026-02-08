@@ -33,6 +33,7 @@ BuildRequires:  cmake(KF6KirigamiAddons)
 Requires:       kf6-kuserfeedback%{?_isa}
 Requires:       kf6-kirigami%{?_isa}
 Requires:       kf6-kirigami-addons%{?_isa}
+Requires:       kf6-qqc2-desktop-style%{?_isa}
 
 Provides:       bazzite_updater = %{version}-%{release}
 
@@ -62,6 +63,7 @@ desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{orgname}.deskto
 %{_kf6_bindir}/bazzite_updater
 %{_kf6_datadir}/applications/%{orgname}.desktop
 %{_kf6_metainfodir}/%{orgname}.*.xml
+%{_kf6_datadir}/icons/hicolor/scalable/apps/%{orgname}.svg
 
 
 
