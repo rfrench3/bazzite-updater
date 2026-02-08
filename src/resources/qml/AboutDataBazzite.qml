@@ -1,12 +1,16 @@
 import org.kde.kirigamiaddons.formcard as FormCard
-import org.kde.about 1.0
 import app.Gamepad 1.0
 import app.RebaseHelper 1.0
 import QtQuick
 
-// TODO: proper scrolling support (currently, it only scrolls when an off-screen item is focused)
-// TODO: remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
-// TODO: replace the app icon for the bazzite icon
+// TODO: improve scrolling support (currently, it only scrolls when an off-screen item is focused)
+
+/* TODO: replace this AboutPage with a custom reimplementation to solve the following issues:
+    - remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
+    - use the correct icon in a way that is stable
+    - make the license popup more intuitively escapable
+    - use the proper Bazzite logo on the About Bazzite page
+*/ 
 FormCard.AboutPage {
     id: page
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Bazzite")

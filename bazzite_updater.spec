@@ -1,7 +1,7 @@
 %global orgname io.github.rfrench3.bazzite_updater
 
 Name:           bazzite_updater
-Version:        0.4.0
+Version:        0.4.1
 Release:        1%{?dist}
 Summary:        Update your Bazzite system
 
@@ -38,10 +38,9 @@ Requires:       kf6-qqc2-desktop-style%{?_isa}
 Provides:       bazzite_updater = %{version}-%{release}
 
 %description
-This is a convenient, easy-to-use interface for updating your Universal Blue system.
-- Simple by default, with advanced features still present
-- Full touchscreen support through Kirigami
-- Full controller support through SDL3
+This is a convenient, easy-to-use interface for updating your Bazzite system.
+- Simple and powerful
+- Full support for all input types (keyboard/mouse, controller, touchscreen)
 
 %prep
 %autosetup

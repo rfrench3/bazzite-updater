@@ -17,7 +17,7 @@ run: build
 	./build/bin/bazzite_updater
 
 # run on host
-build-rpm:
+build-rpm: remake-container
 	#!/usr/bin/env bash
 	set -eou pipefail
 	if ! podman image exists rpm-builder; then \
@@ -27,7 +27,7 @@ build-rpm:
 	podman cp rpm-export:/rpms ./output
 	podman rm rpm-export
 
-# run on host
+[private]
 remake-container:
 	podman rmi rpm-builder
 

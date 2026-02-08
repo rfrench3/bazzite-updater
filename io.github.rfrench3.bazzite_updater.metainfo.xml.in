@@ -13,12 +13,23 @@
     <p>Kirigami interface for uupd-manual.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
   <releases>
-    <release version="@PROJECT_VERSION@" date="@TODAY_DATE@" type="snapshot"/>
-    <release version="0.3.0" date="2026-1-29" type="development"/>
+    <!-- <release version="@PROJECT_VERSION@" date="@TODAY_DATE@" type="snapshot"/> -->
+    <release version="0.4.1" date="2026-02-08" type="development">
+      <description>
+        <p>The progress bar for the update now becomes indeterminate while an update is running.</p>
+      </description>
+    </release>
+    <release version="0.4.0" date="2026-02-08" type="development">
+      <description>
+        <p>Initial fully-featured testing release</p>
+      </description>
+    </release>
+    <release version="0.3.0" date="2026-01-29" type="development">
       <description>
         <p>Full support and error detection for system update (uupd-manual.service), 
         system rebase (bazzite-rollback-helper), and system rollback (bazzite-rollback-helper).</p>
       </description>
+    </release>
     <release version="0.1.0" date="2025-12-27" type="development">
       <description>
         <p>SDL3 implemented for controller support</p>
@@ -34,7 +45,7 @@
   <content_rating type="oars-1.1"/>
   <keywords>
     <keyword>Updater</keyword>
-    <keyword>Universal Blue</keyword>
+    <keyword>Bazzite</keyword>
     <keyword>Kirigami</keyword>
   </keywords>
 </component>

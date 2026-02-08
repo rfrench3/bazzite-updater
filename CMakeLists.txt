@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.22)
 
-project(bazzite_updater VERSION 0.4.0)
+project(bazzite_updater VERSION 0.4.1)
 
 ### Install SDL3 ###
 

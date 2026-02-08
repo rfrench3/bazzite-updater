@@ -35,7 +35,8 @@ int main(int argc, char *argv[])
     // Default to org.kde.desktop style unless the user forces another style
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
-        // TODO: setFallbackStyle is not used because it prevents the monospace font from working, but ideally it would fall back to Material
+        // TODO: setFallbackStyle is not used because it prevents the System Update console's monospace font from working,
+        // but ideally it would fall back to Material
     }
 
     // Used to display debug text in a reliably "background text" color across any theme
@@ -47,14 +48,6 @@ int main(int argc, char *argv[])
     QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.rfrench3.bazzite_updater"_s));
 
     QQmlApplicationEngine engine;
-
-    qmlRegisterSingletonType("org.kde.about", // How the import statement should look like
-                             1,
-                             0, // Major and minor versions of the import
-                             "About", // The name of the QML object
-                             [](QQmlEngine *engine, QJSEngine *) -> QJSValue {
-                                 return engine->toScriptValue(KAboutData::applicationData());
-                             });
 
     AppState app_state;
     qmlRegisterSingletonInstance<AppState>("app.State", 1, 0, "AppState", &app_state);

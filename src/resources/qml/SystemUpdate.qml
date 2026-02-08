@@ -171,8 +171,7 @@ Kirigami.Page {
                 from: 0
                 to: 100
 
-                // indeterminate: AppState.updateRunning
-                value: SysUpd.progressLevel / 100
+                indeterminate: AppState.updateRunning
             }
         }
 

@@ -11,7 +11,6 @@ import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
 
-import org.kde.about 1.0
 import app.Gamepad 1.0
 import app.SysUpd 1.0
 import app.RebaseHelper 1.0
