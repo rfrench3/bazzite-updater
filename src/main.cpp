@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
     // Default to org.kde.desktop style unless the user forces another style
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
+        // TODO: setFallbackStyle is not used because it prevents the monospace font from working, but ideally it would fall back to Material
     }
 
     // Used to display debug text in a reliably "background text" color across any theme

@@ -32,8 +32,12 @@ remake-container:
 	podman rmi rpm-builder
 
 # run on host
-build-flatpak:
-	flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install builddir io.github.rfrench3.bazzite_updater
+build-flatpak: output
+	#!/usr/bin/env bash
+	set -eou pipefail
+	flatpak-builder --force-clean --repo=output/repo builddir .flatpak-manifest.json
+	flatpak build-bundle output/repo output/bazzite_updater.flatpak io.github.rfrench3.bazzite_updater
+	rm -r output/repo
 
 # run on host
 install-flatpak:
