@@ -22,9 +22,6 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-// There are some checks for if current == default
-#define DEFAULT_CONSOLE_TEXT i18n("No output")
-
 // Initially based on the Plasma Welcome page code
 // org.kde.plasma.welcome, Utils
 // Provides utility functionality for Welcome Center, intended for distro pages
@@ -39,7 +36,7 @@ class SystemUpdate : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    QString m_consoleText = DEFAULT_CONSOLE_TEXT;
+    QString m_consoleText = u""_s;
     QString m_statusText = i18n("None");
     int m_progressLevel = 0;
     bool m_blockUpdate = false;
@@ -85,7 +82,6 @@ public:
     {
         return m_consoleText;
     }
-    void setConsoleText(const QString &consoleText);
     void appendConsoleText(const QString &consoleText, LogLevel level);
     Q_SIGNAL void consoleTextChanged();
 

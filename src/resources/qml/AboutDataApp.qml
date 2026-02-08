@@ -23,9 +23,8 @@ FormCard.AboutPage {
             {
                 "name" : "Robert French",
                 "task" : "Developer",
-                "emailAddress" : "frenchrobertm@outlook.com",
-                "webAddress" : "https://rfrench3.github.io/personal-site/",
-                "ocsUsername" : "rfrench3"
+                "emailAddress" : "",
+                "webAddress" : "https://rfrench3.github.io/personal-site/"
             },
             {
                 "name" : "Gareth Widlansky",

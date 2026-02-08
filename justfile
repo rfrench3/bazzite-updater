@@ -17,9 +17,10 @@ run: build
 	./build/bin/bazzite_updater
 
 # run on host
-build-rpm: remake-container
+build-rpm:
 	#!/usr/bin/env bash
 	set -eou pipefail
+	just remake-container || true
 	if ! podman image exists rpm-builder; then \
 		podman build -t rpm-builder -f Containerfile.builder; \
 	fi
@@ -58,7 +59,7 @@ spec: output
 
 [private]
 create-source-tarball: output
-	git archive --format=tar.gz --prefix=bazzite_updater-0.4.0/ -o output/0.4.0.tar.gz HEAD
+	git archive --format=tar.gz --prefix=bazzite_updater-0.4.1/ -o output/0.4.1.tar.gz HEAD
 
 [private]
 build-rpm-p:

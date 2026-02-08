@@ -230,20 +230,10 @@ void SystemUpdate::copyToClipboard(const QString &content) const
     QApplication::clipboard()->setText(plainText);
 }
 
-void SystemUpdate::setConsoleText(const QString &consoleText)
-{
-    m_consoleText = consoleText;
-
-    if (!m_consoleText.endsWith(u"<br>"_s))
-        m_consoleText.append(u"<br>"_s);
-
-    Q_EMIT consoleTextChanged();
-}
-
 void SystemUpdate::appendConsoleText(const QString &consoleText, LogLevel level)
 {
     // Start with this so that the final line isn't always empty
-    if (!m_consoleText.endsWith(u"<br>"_s)) {
+    if (!m_consoleText.endsWith(u"<br>"_s) && !m_consoleText.isEmpty()) {
         m_consoleText.append(u"<br>"_s);
     }
 
@@ -285,11 +275,7 @@ void SystemUpdate::appendConsoleText(const QString &consoleText, LogLevel level)
         break;
     }
 
-    // TODO: handle this with line length checker
-    if (m_consoleText == DEFAULT_CONSOLE_TEXT)
-        m_consoleText = newLine;
-    else
-        m_consoleText += newLine;
+    m_consoleText += newLine;
 
     Q_EMIT consoleTextChanged();
 }
