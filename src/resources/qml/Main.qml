@@ -60,7 +60,16 @@ StatefulApp.StatefulWindow {
                 return;
                 
             switch (buttonId) {
+                case 0: // A
+                    if (rebootDialog.isActive) {
+                        confirmReboot.triggered();
+                    }
+                    break;
                 case 1: // B
+                    if (rebootDialog.isActive) {
+                        cancelReboot.triggered();
+                        break;
+                    }
                 case 4: // view, minus
                 case 6: // pause, plus
                     appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
@@ -77,6 +86,10 @@ StatefulApp.StatefulWindow {
                 
                 case 2: // X
                     Qt.quit();
+                    break;
+
+                case 3: // Y
+                    appGlobalDrawer.actions[appGlobalDrawer.actions.indexOf(actionReboot)].triggered();
                     break;
 
                 case 11: // Dpad Up
@@ -153,10 +166,13 @@ StatefulApp.StatefulWindow {
 
             Kirigami.Action {
                 id: actionReboot
-                text: i18n("Reboot System")
+                text: i18n("Reboot System") + Gamepad.labels.space + Gamepad.labels.y
                 icon.name: AppState.commandSucceeded ? "system-shutdown-update" : "system-shutdown" 
                 
-                onTriggered: confirmReboot.open()
+                onTriggered: {
+                    rebootDialog.open();
+                    rebootDialog.isActive = true;
+                }
             },
 
             Kirigami.Action {
@@ -205,24 +221,37 @@ StatefulApp.StatefulWindow {
 
     }
 
-    Kirigami.Dialog {
-        id: confirmReboot
+    Kirigami.PromptDialog {
+        id: rebootDialog
         title: i18nc("@title:window", "Reboot System")
-        standardButtons: Kirigami.Dialog.Ok | Kirigami.Dialog.Cancel
-        padding: Kirigami.Units.largeSpacing
-        preferredWidth: Kirigami.Units.gridUnit * 20
+        standardButtons: Kirigami.Dialog.NoButton
 
-        Kirigami.FormLayout {
-            QQC2.Label {
-                text: i18n("This will reboot the system.")
+        property bool isActive: false
+
+        subtitle: i18n("This will reboot the system.")
+
+        customFooterActions: [
+            Kirigami.Action {
+                id: confirmReboot
+                text: i18n("Confirm") + Gamepad.labels.space + Gamepad.labels.a
+                
+                onTriggered: rebootDialog.accept()
+            },
+            Kirigami.Action {
+                id: cancelReboot
+                text: i18n("Cancel") + Gamepad.labels.space + Gamepad.labels.b
+                onTriggered: rebootDialog.reject()
             }
-        }
+        ]
+
+        onRejected: isActive = false
 
         onAccepted: AppState.rebootSystem(function (callback) {
             if (AppState.commandSucceeded)
                 showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
             else
                 showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
+            isActive = false;
         })
     }
 
