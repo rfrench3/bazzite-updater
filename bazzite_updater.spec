@@ -1,7 +1,7 @@
 %global orgname io.github.rfrench3.bazzite_updater
 
 Name:           bazzite_updater
-Version:        0.4.1
+Version:        %(cat version.txt)
 Release:        1%{?dist}
 Summary:        Update your Bazzite system
 

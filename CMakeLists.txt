@@ -3,24 +3,12 @@
 
 cmake_minimum_required(VERSION 3.22)
 
-project(bazzite_updater VERSION 0.4.1)
+file(READ "version.txt" APP_VERSION)
+project(bazzite_updater VERSION ${APP_VERSION})
 
 ### Install SDL3 ###
 
-find_package(SDL3 QUIET)
-
-if (NOT SDL3_FOUND)
-    message(STATUS "SDL3 not found on system, downloading via FetchContent...")
-    include(FetchContent)
-    FetchContent_Declare(
-        SDL3
-        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-        GIT_TAG release-3.2.28 # Latest stable release at time of adding this
-    )
-    FetchContent_MakeAvailable(SDL3)
-else()
-    message(STATUS "Found system SDL3")
-endif()
+find_package(SDL3 REQUIRED)
 
 ### Set up and install Qt/KDE dependencies ###
 
