@@ -78,6 +78,31 @@ RebaseHelper::RebaseHelper(QObject *parent)
             path = u"/run/host/usr/share/ublue-os/image-info.json"_s;
     }
     m_osImage_current = osImage::fromJson(path);
+
+    m_gpu_drivers = checkNvidiaSupport();
+}
+
+QString RebaseHelper::checkNvidiaSupport()
+{
+    QProcess check_nvidia;
+    Utils::startProcess(check_nvidia, u"/usr/libexec/bazzite_detect_nvidia_support_status"_s, {});
+    check_nvidia.waitForFinished();
+
+    if (check_nvidia.exitCode() != 0)
+        return u""_s;
+
+    QString output = QString::fromStdString(check_nvidia.readAllStandardOutput().toStdString()).trimmed();
+
+    if (output == u"supported"_s)
+        return u"nvidia"_s;
+    if (output == u"legacy"_s)
+        return u"nvidia-open"_s;
+    if (output == u"unsupported"_s)
+        return i18n("unsupported");
+    if (!output.isEmpty())
+        return i18nc("do not translate nvidia or nvidia-open.", "not nvidia or nvidia-open");
+    else
+        return u""_s;
 }
 
 void RebaseHelper::setAppState(AppState *appState)

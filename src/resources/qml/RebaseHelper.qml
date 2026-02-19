@@ -118,6 +118,12 @@ Kirigami.ScrollablePage {
             Kirigami.FormData.label: i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Rebase to New Image")
             Kirigami.FormData.isSection: true
         }
+
+        QQC2.Label {
+            Kirigami.FormData.label: i18n("Recommended images:")
+            text: RebaseHelper.recommendedDriver
+            visible: RebaseHelper.recommendedDriver != ""
+        }
         
         QtObject {
             id: rebase_selection
@@ -162,12 +168,15 @@ Kirigami.ScrollablePage {
 
             QQC2.RadioButton {
                 Kirigami.FormData.label: index === 0 ? i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Image Options:") : ""
-                text: modelData
+                text: modelData + additional_text
                 QQC2.ButtonGroup.group: images
+
+                property string additional_text: ""
                 
                 Component.onCompleted: {
                     if (modelData === RebaseHelper.currentImage.name) {
                         checked = true;
+                        additional_text = i18n(" (Current)");
                     }
                 }
                 

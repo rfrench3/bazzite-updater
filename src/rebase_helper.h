@@ -54,6 +54,10 @@ class RebaseHelper : public QObject
 
     Q_PROPERTY(osImage currentImage READ currentImage CONSTANT)
 
+    Q_PROPERTY(QString recommendedDriver READ gpuDrivers CONSTANT)
+    static QString checkNvidiaSupport();
+    QString m_gpu_drivers;
+
     osImage m_osImage_current;
 
     AppState *m_appState;
@@ -65,6 +69,11 @@ public:
     {
         return m_osImage_current;
     }
+    QString gpuDrivers() const
+    {
+        return m_gpu_drivers;
+    }
+
     void setAppState(AppState *appState);
 
     // ROLLBACK
