@@ -36,6 +36,16 @@ class SystemUpdate : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
+public:
+    enum class LogLevel {
+        INFO,
+        WARN,
+        ERROR,
+        DEBUG,
+        ERROR_CRITICAL
+    };
+
+private:
     QString m_consoleText = u""_s;
     QString m_statusText = i18n("None");
     int m_progressLevel = 0;
@@ -53,20 +63,10 @@ class SystemUpdate : public QObject
 
     UpdateErrors m_updateErrorStatus;
 
-    QString getServiceState(const QString &service) const;
-    QString getServiceResult(const QString &service) const;
     void logToConsole();
     QString m_placeholderTextColor;
 
     AppState *m_appState;
-
-    enum class LogLevel {
-        INFO,
-        WARN,
-        ERROR,
-        DEBUG,
-        ERROR_CRITICAL
-    };
 
 public:
     SystemUpdate(QObject *parent = nullptr);
@@ -74,6 +74,9 @@ public:
     Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue(), QJSValue callbackErrors = QJSValue());
 
     Q_INVOKABLE void copyToClipboard(const QString &content) const;
+
+    QString getServiceState(const QString &service) const;
+    QString getServiceResult(const QString &service) const;
 
     void setPlaceholderColor(QString placeholderText);
     void setAppState(AppState *appState);

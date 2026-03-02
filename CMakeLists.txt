@@ -34,7 +34,8 @@ find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
     Qml 
     Widgets 
     QuickControls2 
-    Svg 
+    Svg
+    Test
 )
 
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS 
@@ -82,6 +83,9 @@ string(REPLACE "\"" "\\\"" APACHE2_LICENSE "${APACHE2_LICENSE}")
 
 
 add_subdirectory(src)
+
+enable_testing()
+add_subdirectory(tests)
 
 ### Install desktop files ###
 

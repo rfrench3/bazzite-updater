@@ -1,6 +1,23 @@
 default:
 	just --list
 
+#devcontainer
+build: 
+    cmake -B build
+    cmake --build build
+
+#devcontainer
+run:
+    just build
+    ./build/bin/bazzite_updater
+
+#devcontainer
+test:
+    just build
+    ctest --test-dir build --output-on-failure
+
+
+#host
 build-rpm:
     #!/usr/bin/env bash
     set -eou pipefail
@@ -43,6 +60,7 @@ build-rpm:
     "
     rm output/$VERSION.tar.gz
 
+#host
 build-flatpak: output
 	#!/usr/bin/env bash
 	set -eou pipefail
