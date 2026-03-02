@@ -314,6 +314,7 @@ private Q_SLOTS:
     }
 
     // Test getServiceState and getServiceResult methods
+    // FIXME: Fails when run in devcontainer
     void testServiceStateMethods()
     {
         // These are integration tests that actually call systemctl

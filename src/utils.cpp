@@ -30,7 +30,7 @@ void Utils::startProcess(QProcess &process, const QString &cmd, const QStringLis
 bool Utils::isProgramPresent(const QString &cmd)
 {
     QProcess process;
-    startProcess(process, u"command"_s, {u"-v"_s, cmd});
+    startProcess(process, u"which"_s, {cmd});
     process.waitForFinished();
     return process.exitCode() == 0;
 }
