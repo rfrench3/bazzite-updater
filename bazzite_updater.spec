@@ -34,6 +34,7 @@ Requires:       kf6-kuserfeedback%{?_isa}
 Requires:       kf6-kirigami%{?_isa}
 Requires:       kf6-kirigami-addons%{?_isa}
 Requires:       kf6-qqc2-desktop-style%{?_isa}
+Requires:       which%{?_isa}
 
 Provides:       bazzite_updater = %{version}-%{release}
 

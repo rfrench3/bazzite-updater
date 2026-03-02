@@ -82,6 +82,8 @@ RebaseHelper::RebaseHelper(QObject *parent)
     m_gpu_drivers = checkNvidiaSupport();
 }
 
+// NOTE: This blocks the UI until there's a return.
+// It should be fast, though
 QString RebaseHelper::checkNvidiaSupport()
 {
     QProcess check_nvidia;
@@ -124,17 +126,19 @@ void RebaseHelper::rollbackImage(QJSValue callback)
 
     m_appState->setRollbackRunning(true);
 
-    QProcess rollback;
+    QProcess *rollback = new QProcess();
     Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
-    rollback.waitForFinished();
 
-    int exit_code = rollback.exitCode();
+    connect(rollback, &QProcess::finished, [=]() {
+        int exit_code = rollback->exitCode();
 
-    m_appState->setRollbackRunning(false);
-    if (exit_code == 0)
-        m_appState->setCommandSucceeded(true);
+        m_appState->setRollbackRunning(false);
+        if (exit_code == 0)
+            m_appState->setCommandSucceeded(true);
 
-    callback.call({exit_code});
+        callback.call({exit_code});
+        rollback->deleteLater();
+    });
 }
 
 // REBASE
@@ -151,13 +155,15 @@ void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
 
     m_appState->setRebaseRunning(true);
 
-    QProcess rebase;
+    QProcess *rebase = new QProcess();
     Utils::startProcess(rebase, u"bazzite-rollback-helper"_s, {u"rebase"_s, new_image, u"-y"_s});
-    rebase.waitForFinished();
 
-    if (rebase.exitCode() == 0)
-        m_appState->setCommandSucceeded(true);
+    connect(rebase, &QProcess::finished, [=]() {
+        if (rebase->exitCode() == 0)
+            m_appState->setCommandSucceeded(true);
 
-    m_appState->setRebaseRunning(false);
-    callback.call({rebase.exitCode()});
+        m_appState->setRebaseRunning(false);
+        callback.call({rebase->exitCode()});
+        rebase->deleteLater();
+    });
 }
