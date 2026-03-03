@@ -1,0 +1,31 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+name: CI
+jobs:
+  rpm:
+    name: "RPM"
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:43
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        dnf install -y rpm-build git
+        dnf builddep -y bazzite_updater.spec
+    - name: Build RPM
+      run: |
+        VERSION=$(cat version.txt)
+        git archive --format=tar.gz --prefix=bazzite_updater-$VERSION/ -o /tmp/$VERSION.tar.gz HEAD
+        mkdir -p ~/rpmbuild/SOURCES
+        cp /tmp/$VERSION.tar.gz ~/rpmbuild/SOURCES/$VERSION.tar.gz
+        rpmbuild -bb bazzite_updater.spec
+      env:
+        HOME: /root
+    - name: Upload RPM
+      uses: actions/upload-artifact@v4
+      with:
+        name: bazzite_updater-rpm
+        path: /root/rpmbuild/RPMS/**/*.rpm
