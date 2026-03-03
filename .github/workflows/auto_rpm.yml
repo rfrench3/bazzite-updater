@@ -11,6 +11,10 @@ jobs:
       image: fedora:43
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full git history
+    - name: Configure git safe directory
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
     - name: Install dependencies
       run: |
         dnf install -y rpm-build git
