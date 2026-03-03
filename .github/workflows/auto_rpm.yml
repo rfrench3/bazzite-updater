@@ -13,12 +13,12 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Fetch full git history
-    - name: Configure git safe directory
-      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
     - name: Install dependencies
       run: |
         dnf install -y rpm-build git
         dnf builddep -y bazzite_updater.spec
+    - name: Configure git safe directory
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
     - name: Build RPM
       run: |
         VERSION=$(cat version.txt)
