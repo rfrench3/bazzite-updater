@@ -1,8 +1,6 @@
 on:
-  push:
-    branches: [main]
-  pull_request:
-name: CI
+  workflow_dispatch:
+name: Build RPM
 jobs:
   rpm:
     name: "RPM"
@@ -13,17 +11,17 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install dependencies
       run: |
-        dnf install -y rpm-build git
+        dnf install -y rpm-build
         dnf builddep -y bazzite_updater.spec
     - name: Build RPM
-      run: |
-        VERSION=$(cat version.txt)
-        git archive --format=tar.gz --prefix=bazzite_updater-$VERSION/ -o /tmp/$VERSION.tar.gz HEAD
-        mkdir -p ~/rpmbuild/SOURCES
-        cp /tmp/$VERSION.tar.gz ~/rpmbuild/SOURCES/$VERSION.tar.gz
-        rpmbuild -bb bazzite_updater.spec
       env:
         HOME: /root
+      run: |
+        VERSION=$(cat version.txt)
+        # Repack the checked-out source into a tarball with the prefix rpmbuild expects
+        mkdir -p ~/rpmbuild/SOURCES
+        tar --transform "s|^\.|bazzite_updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
+        rpmbuild -bb bazzite_updater.spec
     - name: Upload RPM
       uses: actions/upload-artifact@v4
       with:
