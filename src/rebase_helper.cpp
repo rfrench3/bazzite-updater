@@ -139,6 +139,15 @@ void RebaseHelper::rollbackImage(QJSValue callback)
         callback.call({exit_code});
         rollback->deleteLater();
     });
+
+    connect(rollback, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+        if (error == QProcess::FailedToStart) {
+            qWarning() << "bazzite-rollback-helper not found or failed to start";
+            m_appState->setRollbackRunning(false);
+            callback.call({1});
+            rollback->deleteLater();
+        }
+    });
 }
 
 // REBASE
@@ -165,5 +174,14 @@ void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
         m_appState->setRebaseRunning(false);
         callback.call({rebase->exitCode()});
         rebase->deleteLater();
+    });
+
+    connect(rebase, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+        if (error == QProcess::FailedToStart) {
+            qWarning() << "bazzite-rollback-helper not found or failed to start";
+            m_appState->setRebaseRunning(false);
+            callback.call({1});
+            rebase->deleteLater();
+        }
     });
 }
