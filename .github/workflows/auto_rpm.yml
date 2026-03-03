@@ -11,23 +11,19 @@ jobs:
       image: fedora:43
     steps:
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Fetch full git history
     - name: Install dependencies
       run: |
-        dnf install -y rpm-build git
+        dnf install -y rpm-build
         dnf builddep -y bazzite_updater.spec
-    - name: Configure git safe directory
-      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
     - name: Build RPM
-      run: |
-        VERSION=$(cat version.txt)
-        git archive --format=tar.gz --prefix=bazzite_updater-$VERSION/ -o /tmp/$VERSION.tar.gz HEAD
-        mkdir -p ~/rpmbuild/SOURCES
-        cp /tmp/$VERSION.tar.gz ~/rpmbuild/SOURCES/$VERSION.tar.gz
-        rpmbuild -bb bazzite_updater.spec
       env:
         HOME: /root
+      run: |
+        VERSION=$(cat version.txt)
+        # Repack the checked-out source into a tarball with the prefix rpmbuild expects
+        mkdir -p ~/rpmbuild/SOURCES
+        tar --transform "s|^\.|bazzite_updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
+        rpmbuild -bb bazzite_updater.spec
     - name: Upload RPM
       uses: actions/upload-artifact@v4
       with:
