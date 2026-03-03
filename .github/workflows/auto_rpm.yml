@@ -1,8 +1,6 @@
 on:
-  push:
-    branches: [main, GH-Workflow-RPM]
-  pull_request:
-name: CI
+  workflow_dispatch:
+name: Build RPM
 jobs:
   rpm:
     name: "RPM"
