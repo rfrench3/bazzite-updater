@@ -38,14 +38,14 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
-    // FIXME: Make sure the connect errorOccurred succeeds at replacing this
-    // if (!Utils::isServicePresent(u"uupd-manual.service"_s)) {
-    //     setBlockUpdate(true);
-    //     appendConsoleText(i18n("The uupd manual service was not found on the system."), LogLevel::ERROR_CRITICAL);
-    //     setStatusText(i18n("ERROR!"));
-    //     callback.call({127});
-    //     return;
-    // }
+
+    if (!Utils::isServicePresent(u"uupd-manual.service"_s)) {
+        setBlockUpdate(true);
+        appendConsoleText(i18n("The uupd-manual.service used for System Update was not found on the system."), LogLevel::ERROR_CRITICAL);
+        setStatusText(i18n("ERROR!"));
+        callback.call({127});
+        return;
+    }
 
     m_appState->setUpdateRunning(true);
     SystemUpdate::setStatusText(i18n("Running (This may take a while!)"));
@@ -103,32 +103,6 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
             systemctl->deleteLater();
             return;
         });
-    });
-
-    connect(systemctl, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
-        switch (error) {
-        case QProcess::FailedToStart:
-            appendConsoleText(i18n("System update failed to start. Is uupd-manual.service present on the system?"), LogLevel::ERROR_CRITICAL);
-            setStatusText(i18n("Failed to start!"));
-            callback.call({127});
-            setBlockUpdate(true);
-            break;
-
-        case QProcess::Crashed:
-            appendConsoleText(i18n("The system update process crashed."), LogLevel::ERROR_CRITICAL);
-            setStatusText(i18n("Process crashed!"));
-            callback.call({1});
-            break;
-
-        default:
-            appendConsoleText(i18n("Unexpected error. Code:") + QString::number(error), LogLevel::ERROR_CRITICAL);
-            setStatusText(i18n("Unknown error!"));
-            callback.call({1});
-            break;
-        }
-
-        m_appState->setUpdateRunning(false);
-        systemctl->deleteLater();
     });
 }
 
