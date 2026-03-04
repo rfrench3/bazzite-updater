@@ -35,7 +35,7 @@ Kirigami.ScrollablePage {
 
         QQC2.Label {
             Kirigami.FormData.label: i18n("Current Image:")
-            text: RebaseHelper.currentImage.name + ":" + RebaseHelper.currentImage.tag
+            text: RebaseHelper.currentImage.name + ":" + RebaseHelper.currentImage.branch
         }
 
         QQC2.Label {
@@ -128,8 +128,8 @@ Kirigami.ScrollablePage {
         QtObject {
             id: rebase_selection
             property string name: RebaseHelper.currentImage.name
-            property string tag: RebaseHelper.currentImage.tag
-            property string image: name + ":" + tag
+            property string branch: RebaseHelper.currentImage.branch
+            property string image: name + ":" + branch
         }
 
         // TODO: this works, but ideally it would be a combobox 
@@ -190,48 +190,48 @@ Kirigami.ScrollablePage {
 
         Item { height: Kirigami.Units.smallSpacing }
 
-        QQC2.ButtonGroup { id:tags }
+        QQC2.ButtonGroup { id:branches }
 
         QQC2.RadioButton {
-            id: rebase_tag_stable
-            QQC2.ButtonGroup.group: tags
+            id: rebase_branch_stable
+            QQC2.ButtonGroup.group: branches
             Kirigami.FormData.label: i18n("Branch:")
             text: i18n("stable")
-            font.bold: text === RebaseHelper.currentImage.tag
+            font.bold: text === RebaseHelper.currentImage.branch
             Component.onCompleted: {
-                if (RebaseHelper.currentImage.tag == "stable")
+                if (RebaseHelper.currentImage.branch == "stable")
                     checked = true;
             }
             onClicked: {
-                rebase_selection.tag = "stable";
+                rebase_selection.branch = "stable";
             }
         }
         QQC2.RadioButton {
-            id: rebase_tag_testing
-            QQC2.ButtonGroup.group: tags
+            id: rebase_branch_testing
+            QQC2.ButtonGroup.group: branches
             text: i18n("testing")
-            font.bold: text === RebaseHelper.currentImage.tag
+            font.bold: text === RebaseHelper.currentImage.branch
             Component.onCompleted: {
-                if (RebaseHelper.currentImage.tag == "testing")
+                if (RebaseHelper.currentImage.branch == "testing")
                     checked = true;
             }
             onClicked: {
-                rebase_selection.tag = "testing";
+                rebase_selection.branch = "testing";
             }
         }
 
-        // Fallback for misc. other tags
+        // Fallback for misc. other branches
         QQC2.RadioButton {
-            id: rebase_tag_unknown
-            QQC2.ButtonGroup.group: tags
-            text: i18n("do not change") + " (" + RebaseHelper.currentImage.tag + ")"
+            id: rebase_branch_unknown
+            QQC2.ButtonGroup.group: branches
+            text: i18n("do not change") + " (" + RebaseHelper.currentImage.branch + ")"
             font.bold: true
 
             enabled: false
             visible: false
             Component.onCompleted: {
-                if (RebaseHelper.currentImage.tag != "stable" 
-                && RebaseHelper.currentImage.tag != "testing") 
+                if (RebaseHelper.currentImage.branch != "stable" 
+                && RebaseHelper.currentImage.branch != "testing") 
                 {
                     checked = true;
                     enabled = true;
@@ -240,7 +240,7 @@ Kirigami.ScrollablePage {
             }
 
             onClicked: {
-                rebase_selection.tag = RebaseHelper.currentImage.tag;
+                rebase_selection.branch = RebaseHelper.currentImage.branch;
             }
         }
 
@@ -256,7 +256,7 @@ Kirigami.ScrollablePage {
                 anchors.verticalCenter: parent.verticalCenter
                 
                 text: i18n("Rebase")
-                enabled: AppState.allowCommands && (RebaseHelper.currentImage.name != rebase_selection.name || RebaseHelper.currentImage.tag != rebase_selection.tag)
+                enabled: AppState.allowCommands && (RebaseHelper.currentImage.name != rebase_selection.name || RebaseHelper.currentImage.branch != rebase_selection.branch)
 
                 onClicked: { 
                     showPassiveNotification("Rebase started", Kirigami.short);

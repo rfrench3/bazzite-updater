@@ -101,7 +101,7 @@ QString RebaseHelper::checkNvidiaSupport()
         return u"nvidia-open"_s;
     if (output == u"unsupported"_s)
         return i18n("unsupported");
-    if (!output.isEmpty())
+    if (output.isEmpty())
         return i18nc("do not translate nvidia or nvidia-open.", "not nvidia or nvidia-open");
     else
         return u""_s;
@@ -141,12 +141,12 @@ void RebaseHelper::rollbackImage(QJSValue callback)
     });
 
     connect(rollback, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
-        if (error == QProcess::FailedToStart) {
+        if (error == QProcess::FailedToStart)
             qWarning() << "bazzite-rollback-helper not found or failed to start";
-            m_appState->setRollbackRunning(false);
-            callback.call({1});
-            rollback->deleteLater();
-        }
+
+        m_appState->setRollbackRunning(false);
+        callback.call({1});
+        rollback->deleteLater();
     });
 }
 
@@ -177,11 +177,11 @@ void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
     });
 
     connect(rebase, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
-        if (error == QProcess::FailedToStart) {
+        if (error == QProcess::FailedToStart)
             qWarning() << "bazzite-rollback-helper not found or failed to start";
-            m_appState->setRebaseRunning(false);
-            callback.call({1});
-            rebase->deleteLater();
-        }
+
+        m_appState->setRebaseRunning(false);
+        callback.call({1});
+        rebase->deleteLater();
     });
 }
