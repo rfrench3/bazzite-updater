@@ -4,6 +4,8 @@ on:
       - '*'
   workflow_dispatch:
 name: Build RPM
+permissions:
+  contents: write
 jobs:
   rpm:
     name: "RPM"

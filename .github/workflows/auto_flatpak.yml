@@ -4,6 +4,8 @@ on:
       - '*'
   workflow_dispatch:
 name: Build Flatpak
+permissions:
+  contents: write
 jobs:
   flatpak:
     name: "Flatpak"
