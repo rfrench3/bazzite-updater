@@ -1,4 +1,7 @@
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
 name: Build Flatpak
 jobs:
@@ -15,8 +18,13 @@ jobs:
         bundle: Bazzite-Updater.flatpak
         manifest-path: .flatpak-manifest.json
         cache-key: flatpak-builder-${{ github.sha }}
-    - name: Upload Flatpak Bundle
+    - name: Upload Flatpak artifact
       uses: actions/upload-artifact@v4
       with:
         name: Bazzite-Updater.flatpak
         path: Bazzite-Updater.flatpak
+    - name: Attach Flatpak to release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: Bazzite-Updater.flatpak

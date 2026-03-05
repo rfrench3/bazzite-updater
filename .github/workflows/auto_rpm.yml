@@ -1,4 +1,7 @@
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
 name: Build RPM
 jobs:
@@ -22,8 +25,13 @@ jobs:
         mkdir -p ~/rpmbuild/SOURCES
         tar --transform "s|^\.|bazzite_updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
         rpmbuild -bb bazzite_updater.spec
-    - name: Upload RPM
+    - name: Upload RPM artifact
       uses: actions/upload-artifact@v4
       with:
         name: bazzite_updater-rpm
         path: /root/rpmbuild/RPMS/**/*.rpm
+    - name: Attach RPM to release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: /root/rpmbuild/RPMS/**/*.rpm

@@ -3,7 +3,9 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}",
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/tests/**",
                 "/usr/include/qt6",
                 "/usr/include/qt6/QtWidgets",
                 "/usr/include/qt6/QtCore",
@@ -15,7 +17,12 @@
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "linux-clang-x64"
+            "intelliSenseMode": "linux-clang-x64",
+
+
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+
+
         }
     ],
     "version": 4
