@@ -4,7 +4,7 @@
 add_library(gamepad-support)
 
 ecm_add_qml_module(gamepad-support
-    URI "app.Gamepad" # in the QML: import (the URI)
+    URI "app.Gamepad"
     GENERATE_PLUGIN_SOURCE
 )
 
@@ -21,19 +21,9 @@ ecm_target_qml_sources(gamepad-support
 
 target_link_libraries(gamepad-support
     PRIVATE
-    Qt6::Core
-    Qt6::Gui
     Qt6::Qml
-    Qt6::Widgets
     Qt6::Quick
-    Qt6::QuickControls2
-    Qt6::Svg
     KF6::I18n
-    KF6::I18nQml
-    KF6::IconThemes
-    KF6::CoreAddons
-    KF6::ConfigCore
-    KF6::ConfigGui
     SDL3::SDL3
 )
 

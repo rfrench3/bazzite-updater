@@ -53,7 +53,6 @@ target_link_libraries(bazzite_updater
     KF6::ConfigCore
     KF6::ConfigGui
     KirigamiAddonsStatefulApp
-    SDL3::SDL3
     gamepad-support
 )
 
