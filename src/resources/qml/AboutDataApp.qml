@@ -1,5 +1,5 @@
 import org.kde.kirigamiaddons.formcard as FormCard
-import app.Gamepad 1.0
+import app.Gamepad
 import QtQuick
 
 //TODO: Proper scrolling support (currently, it only scrolls when an off-screen item is focused)

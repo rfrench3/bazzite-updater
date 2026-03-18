@@ -19,7 +19,7 @@
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 
-#include "controllers.h"
+// #include "controllers.h"
 #include "rebase_helper.h"
 #include "system_update.h"
 #include "utils.h"
@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
     system_update.setPlaceholderColor(placeholder_text_color);
     qmlRegisterSingletonInstance<SystemUpdate>("app.SysUpd", 1, 0, "SysUpd", &system_update);
 
-    ControllerManager gamepad;
-    qmlRegisterSingletonInstance<ControllerManager>("app.Gamepad", 1, 0, "Gamepad", &gamepad);
+    // Gamepad gamepad;
+    // qmlRegisterSingletonInstance<Gamepad>("app.Gamepad", 1, 0, "Gamepad", &gamepad);
 
     RebaseHelper rebase_helper;
     rebase_helper.setAppState(&app_state);

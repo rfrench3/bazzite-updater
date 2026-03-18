@@ -10,7 +10,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-ControllerManager::ControllerManager(QObject *parent)
+Gamepad::Gamepad(QObject *parent)
     : QObject(parent)
     , m_timer(new QTimer(this))
 {
@@ -21,14 +21,14 @@ ControllerManager::ControllerManager(QObject *parent)
         return;
     }
 
-    connect(m_timer, &QTimer::timeout, this, QOverload<>::of(&ControllerManager::pollSDL));
+    connect(m_timer, &QTimer::timeout, this, QOverload<>::of(&Gamepad::pollSDL));
     m_timer->start(POLLING_RATE);
-    qDebug() << "ControllerManager initialized.";
+    qDebug() << "Gamepad initialized.";
 
     changeGamepadLabels(0);
 }
 
-void ControllerManager::setPollController(bool windowActiveState)
+void Gamepad::setPollController(bool windowActiveState)
 {
     if (windowActiveState == true) {
         // Window focused: Starting controller polling
@@ -60,7 +60,7 @@ void ControllerManager::setPollController(bool windowActiveState)
     }
 }
 
-void ControllerManager::pollSDL()
+void Gamepad::pollSDL()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -89,7 +89,7 @@ void ControllerManager::pollSDL()
     }
 }
 
-void ControllerManager::handleAxisMotion(SDL_Event &event)
+void Gamepad::handleAxisMotion(SDL_Event &event)
 {
     // Handle left stick vertical
     if (event.gaxis.axis == SDL_GAMEPAD_AXIS_LEFTY) {
@@ -106,7 +106,7 @@ void ControllerManager::handleAxisMotion(SDL_Event &event)
     changeGamepadLabels(event.gbutton.which);
 }
 
-void ControllerManager::axisEmulateDpad(const int16_t &axisPrev, const int16_t &axisNow)
+void Gamepad::axisEmulateDpad(const int16_t &axisPrev, const int16_t &axisNow)
 {
     // If the state relative to the controller deadzone has changed, emulate the appropriate Dpad input
 
@@ -127,7 +127,7 @@ void ControllerManager::axisEmulateDpad(const int16_t &axisPrev, const int16_t &
     }
 }
 
-void ControllerManager::handleGamepadAdded(SDL_JoystickID which)
+void Gamepad::handleGamepadAdded(SDL_JoystickID which)
 {
     if (m_gamepads.count(which) > 0) {
         qWarning() << "A gamepad was connected while already being connected!";
@@ -148,7 +148,7 @@ void ControllerManager::handleGamepadAdded(SDL_JoystickID which)
     }
 }
 
-void ControllerManager::handleGamepadRemoved(SDL_JoystickID which)
+void Gamepad::handleGamepadRemoved(SDL_JoystickID which)
 {
     auto find_gamepad = m_gamepads.find(which);
 
@@ -162,7 +162,7 @@ void ControllerManager::handleGamepadRemoved(SDL_JoystickID which)
     changeGamepadLabels(0);
 }
 
-void ControllerManager::changeGamepadLabels(SDL_JoystickID which)
+void Gamepad::changeGamepadLabels(SDL_JoystickID which)
 {
     // Only change labels when necessary
     if (which == m_focusedJoystick)
@@ -190,7 +190,7 @@ void ControllerManager::changeGamepadLabels(SDL_JoystickID which)
     Q_EMIT labelsChanged();
 }
 
-QString ControllerManager::getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadButton button)
+QString Gamepad::getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadButton button)
 {
     // Ask SDL what is written on this physical button
     SDL_GamepadButtonLabel label = SDL_GetGamepadButtonLabel(gamepad, button);
@@ -217,13 +217,13 @@ QString ControllerManager::getLabelForButton(SDL_Gamepad *gamepad, SDL_GamepadBu
     }
 }
 
-void ControllerManager::sendButtonPressed(QQuickItem *item, Qt::Key key)
+void Gamepad::sendButtonPressed(QQuickItem *item, Qt::Key key)
 {
     QKeyEvent keyEvent(QEvent::KeyPress, key, Qt::NoModifier, QString(), false, 1);
     QCoreApplication::sendEvent(item, &keyEvent);
 }
 
-void ControllerManager::sendButtonReleased(QQuickItem *item, Qt::Key key)
+void Gamepad::sendButtonReleased(QQuickItem *item, Qt::Key key)
 {
     if (key == Qt::Key::Key_Tab || key == Qt::Key::Key_Up || key == Qt::Key::Key_Down)
         return;
@@ -231,7 +231,7 @@ void ControllerManager::sendButtonReleased(QQuickItem *item, Qt::Key key)
     QCoreApplication::sendEvent(item, &keyEvent);
 }
 
-void ControllerManager::sendMousePressed(QQuickItem *item)
+void Gamepad::sendMousePressed(QQuickItem *item)
 {
     qreal pos_x = item->x();
     qreal pos_y = item->y();
@@ -242,7 +242,7 @@ void ControllerManager::sendMousePressed(QQuickItem *item)
     QCoreApplication::sendEvent(item, &event);
 }
 
-void ControllerManager::sendMouseReleased(QQuickItem *item)
+void Gamepad::sendMouseReleased(QQuickItem *item)
 {
     qreal pos_x = item->x();
     qreal pos_y = item->y();

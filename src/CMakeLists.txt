@@ -16,8 +16,6 @@ target_sources(bazzite_updater
     system_update.cpp
     system_update.h
     resources.qrc
-    controllers.cpp
-    controllers.h
     rebase_helper.h
     rebase_helper.cpp
 )
@@ -37,7 +35,6 @@ ecm_target_qml_sources(bazzite_updater
     resources/qml/RebaseHelper.qml
     ${ABOUTBAZZITE_OUTPUT}
     ${ABOUTAPP_OUTPUT}
-    resources/qml/components/GamepadPageNavigation.qml
 )
 
 target_link_libraries(bazzite_updater
@@ -57,6 +54,9 @@ target_link_libraries(bazzite_updater
     KF6::ConfigGui
     KirigamiAddonsStatefulApp
     SDL3::SDL3
+    gamepad-support
 )
 
 install(TARGETS bazzite_updater ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+add_subdirectory(components)
