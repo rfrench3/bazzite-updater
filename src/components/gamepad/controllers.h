@@ -25,7 +25,7 @@ struct ControllerLabels {
     Q_PROPERTY(QString space_large MEMBER m_S_big CONSTANT)
 
 public:
-    // The correct glyphs are initialized by ControllerManager::changeGamepadLabels()
+    // The correct glyphs are initialized by Gamepad::changeGamepadLabels()
     // The a-b-x-y names here follow the Xbox layout
     QString m_a;
     QString m_b;
@@ -35,7 +35,7 @@ public:
     QString m_S_big; // m_S times three
 };
 
-class ControllerManager : public QObject
+class Gamepad : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -78,7 +78,7 @@ class ControllerManager : public QObject
     const int16_t DEADZONE = 12000; // Range: -32768,32768
 
 public:
-    ControllerManager(QObject *parent = nullptr);
+    Gamepad(QObject *parent = nullptr);
 
     ControllerLabels labels() const
     {

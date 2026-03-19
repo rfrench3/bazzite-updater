@@ -16,18 +16,16 @@ target_sources(bazzite_updater
     system_update.cpp
     system_update.h
     resources.qrc
-    controllers.cpp
-    controllers.h
     rebase_helper.h
     rebase_helper.cpp
 )
 
-set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml/AboutDataApp.qml")
-set(ABOUTAPP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/resources/qml/AboutDataApp.qml")
+set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataApp.qml")
+set(ABOUTAPP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pages/AboutDataApp.qml")
 configure_file(${ABOUTAPP_INPUT} ${ABOUTAPP_OUTPUT} @ONLY)
 
-set(ABOUTBAZZITE_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml/AboutDataBazzite.qml")
-set(ABOUTBAZZITE_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/resources/qml/AboutDataBazzite.qml")
+set(ABOUTBAZZITE_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataBazzite.qml")
+set(ABOUTBAZZITE_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pages/AboutDataBazzite.qml")
 configure_file(${ABOUTBAZZITE_INPUT} ${ABOUTBAZZITE_OUTPUT} @ONLY)
 
 ecm_target_qml_sources(bazzite_updater
@@ -37,7 +35,6 @@ ecm_target_qml_sources(bazzite_updater
     resources/qml/RebaseHelper.qml
     ${ABOUTBAZZITE_OUTPUT}
     ${ABOUTAPP_OUTPUT}
-    resources/qml/components/GamepadPageNavigation.qml
 )
 
 target_link_libraries(bazzite_updater
@@ -56,7 +53,9 @@ target_link_libraries(bazzite_updater
     KF6::ConfigCore
     KF6::ConfigGui
     KirigamiAddonsStatefulApp
-    SDL3::SDL3
+    gamepad-support
 )
 
 install(TARGETS bazzite_updater ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+add_subdirectory(components)
