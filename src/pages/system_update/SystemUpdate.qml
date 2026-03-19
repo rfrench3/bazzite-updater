@@ -51,6 +51,8 @@ Kirigami.Page {
         }
     }
 
+    
+
     Kirigami.Action {
         id: updateAction
         text: i18n("Update System Image and Software") + Gamepad.labels.space + Gamepad.labels.a
@@ -206,7 +208,6 @@ Kirigami.Page {
         }
     ]
 
-    //TODO: allow the console to expand vertically to fill empty space
     Kirigami.OverlayDrawer {
         id: consoleDrawer
         edge: Qt.BottomEdge
@@ -214,77 +215,32 @@ Kirigami.Page {
         modal: false
         drawerOpen: false
 
+        height: page.height / 2
+        
+
         contentItem: RowLayout {
+            Timer {
+                interval: Gamepad.pollingRate
+                running: consoleDrawer.drawerOpen && (Math.abs(Gamepad.rStickMagnitude) > Gamepad.deadzone)
+                repeat: true
+                onTriggered: {
+                    let new_pos = consoleView.currentIndex + Math.round(Gamepad.rStickMagnitude / 27000);
 
-            height: parent.height
-
-            QQC2.ScrollView {
-                Layout.horizontalStretchFactor: 1
-                width: parent.width
-                height: parent.height
+                    if (new_pos < 0)
+                        consoleView.currentIndex = 0;
+                    else if (new_pos >= consoleView.length)
+                        consoleView.currentIndex = consoleView.length - 1;
+                    else
+                        consoleView.currentIndex = new_pos;
+                }
+            }
+            
+            ConsoleView {
+                id: consoleView
+                model: SysUpd.consoleModel
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
-                QQC2.ScrollBar.horizontal.policy: QQC2.ScrollBar.AlwaysOff
-
-                // TODO: make scroll speed independent of line lengths
-                // TODO: move cursor position to the beginning/end of visible text area so there's no delay scrolling up/down
-                Timer {
-                    interval: Gamepad.pollingRate
-                    running: consoleDrawer.drawerOpen && (Math.abs(Gamepad.rStickMagnitude) > Gamepad.deadzone)
-                    repeat: true
-                    onTriggered: {
-                        let new_pos = consoleTextArea.cursorPosition + Math.round(Gamepad.rStickMagnitude / 270);
-
-                        if (new_pos < 0)
-                            consoleTextArea.cursorPosition = 0;
-                        else if (new_pos >= consoleTextArea.length)
-                            consoleTextArea.cursorPosition = consoleTextArea.length - 1;
-                        else
-                            consoleTextArea.cursorPosition = new_pos;
-                    }
-                }
-
-                QQC2.TextArea {
-                    id: consoleTextArea
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    placeholderText: i18n("No output")
-                    font.family: "monospace"
-                    wrapMode: Text.WordWrap
-                    readOnly: true
-                    textFormat: TextEdit.RichText                    
-                    
-                    Component.onCompleted: {
-                        text = SysUpd.consoleText;
-                        cursorPosition = length;
-                    }
-
-                    // Ensures the cursor position stays either where it is, or locked to the bottom
-                    Connections {
-                        target: SysUpd
-                        function onConsoleTextChanged() {
-                            // Check state before the text updates
-                            
-                            const oldCursorPos = consoleTextArea.cursorPosition;
-                            
-                            const distFromBottom = consoleTextArea.length - consoleTextArea.cursorPosition;
-                            const wasAtBottom = (distFromBottom <= 3);
-
-                            // Resets cursor position to 0
-                            consoleTextArea.text = SysUpd.consoleText;
-
-                            // restore cursor position
-                            if (wasAtBottom) {
-                                consoleTextArea.cursorPosition = consoleTextArea.length;
-                            }
-                            else {
-                                consoleTextArea.cursorPosition = Math.min(oldCursorPos, consoleTextArea.length);
-                            }
-                        }
-                    }
-                }
+                Layout.horizontalStretchFactor: 1
             }
 
             ColumnLayout {
@@ -307,6 +263,8 @@ Kirigami.Page {
                     onClicked: consoleDrawer.close()
                 }
             }
+
         }
     }
+
 }

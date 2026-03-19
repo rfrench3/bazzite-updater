@@ -7,46 +7,31 @@
  *  SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  */
 
+// Robert French: This was initially based on the Plasma Welcome page code. It has little to no resemblance in its current state
+
 #pragma once
 
 #include <KLocalizedString>
-#include <QBrush>
-#include <QColor>
 #include <QFileInfo>
 #include <QJSValue>
-#include <QPalette>
 #include <QProcess>
 #include <QQmlEngine>
 
+#include "console.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-// Initially based on the Plasma Welcome page code
-// org.kde.plasma.welcome, Utils
-// Provides utility functionality for Welcome Center, intended for distro pages
-
 class SystemUpdate : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString consoleText READ consoleText NOTIFY consoleTextChanged)
+    Q_PROPERTY(Console::Model *consoleModel MEMBER m_console NOTIFY consoleTextChanged)
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
     Q_PROPERTY(int progressLevel READ progressLevel NOTIFY progressLevelChanged)
     Q_PROPERTY(bool blockUpdate READ blockUpdate NOTIFY blockUpdateChanged)
     QML_ELEMENT
     QML_SINGLETON
 
-public:
-    enum class LogLevel {
-        INFO,
-        WARN,
-        ERROR,
-        DEBUG,
-        ERROR_CRITICAL
-    };
-
-private:
-    QString m_consoleText = u""_s;
     QString m_statusText = i18n("None");
     int m_progressLevel = 0;
     bool m_blockUpdate = false;
@@ -71,6 +56,9 @@ private:
 public:
     SystemUpdate(QObject *parent = nullptr);
 
+    Console::Model *m_console;
+    Q_SIGNAL void consoleTextChanged();
+
     Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue(), QJSValue callbackErrors = QJSValue());
 
     Q_INVOKABLE void copyToClipboard(const QString &content) const;
@@ -78,15 +66,7 @@ public:
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
 
-    void setPlaceholderColor(QString placeholderText);
     void setAppState(AppState *appState);
-
-    QString consoleText() const
-    {
-        return m_consoleText;
-    }
-    void appendConsoleText(const QString &consoleText, LogLevel level);
-    Q_SIGNAL void consoleTextChanged();
 
     QString statusText() const
     {

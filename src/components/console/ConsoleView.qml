@@ -7,9 +7,10 @@ import QtQuick.Layouts
 import io.github.rfrench3.bazzite_updater
 
 Frame {
+    id: consoleViewRoot
     property alias currentIndex: view.currentIndex
-    property alias length: view.length
-    property alias model: view.model
+    property alias length: view.count
+    required property var model
 
     ListView {
         id: view
@@ -25,18 +26,16 @@ Frame {
         highlightMoveVelocity: -1
 
         
-        model: new Console.Model
+        model: consoleViewRoot.model.lines
 
         delegate: Item {
-            required property string itemText
-            required property var logLevel
-            
+            required property var modelData
 
             height: sysFont.lineSpacing
             Layout.fillWidth: true
             
             Text { 
-                text: __setText(itemText, logLevel)
+                text: __setText(modelData.content, modelData.level)
                 font: "monospace"
                 
                 anchors.verticalCenter: parent.verticalCenter
@@ -50,20 +49,31 @@ Frame {
                             return content;
                             
                         case Console.LogLevel.Warn:
-                            return content;
+                            return i18n("Warning: ") + content;
                         
                         case Console.LogLevel.Error:
-                            return content;
+                            font.bold = true;
+                            return i18n("Error: ") + content;
                         
                         case Console.LogLevel.Debug:
-                            return content;
+                            color = palette.placeholderText;
+                            return i18n("Debug: ") + content;
                         
                         case Console.LogLevel.ErrorCritical:
-                            return content;
+                            font.bold = true;
+                            return i18n("Critical Error: ") + content;
+
+                        default:
+                            return content || "";
                     }
                 }
             }
         }
+    }
+
+    SystemPalette {
+        id: palette
+        colorGroup: SystemPalette.Active 
     }
 
     FontMetrics {

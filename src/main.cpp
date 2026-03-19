@@ -10,15 +10,13 @@
 #include <QQuickStyle>
 #include <QUrl>
 
-#include <QBrush>
-#include <QPalette>
-
 #include "version-bazzite_updater.h"
 #include <KAboutData>
 #include <KIconTheme>
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 
+#include "console.h"
 #include "rebase_helper.h"
 #include "system_update.h"
 #include "utils.h"
@@ -38,9 +36,6 @@ int main(int argc, char *argv[])
         // but ideally it would fall back to Material
     }
 
-    // Used to display debug text in a reliably "background text" color across any theme
-    const QString placeholder_text_color = app.palette().placeholderText().color().name();
-
     KLocalizedString::setApplicationDomain("bazzite_updater");
     QCoreApplication::setOrganizationName(u"UniversalBlue"_s);
 
@@ -53,11 +48,7 @@ int main(int argc, char *argv[])
 
     SystemUpdate system_update;
     system_update.setAppState(&app_state);
-    system_update.setPlaceholderColor(placeholder_text_color);
     qmlRegisterSingletonInstance<SystemUpdate>("app.SysUpd", 1, 0, "SysUpd", &system_update);
-
-    // Gamepad gamepad;
-    // qmlRegisterSingletonInstance<Gamepad>("app.Gamepad", 1, 0, "Gamepad", &gamepad);
 
     RebaseHelper rebase_helper;
     rebase_helper.setAppState(&app_state);
