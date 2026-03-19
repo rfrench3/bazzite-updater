@@ -20,12 +20,12 @@ target_sources(bazzite_updater
     rebase_helper.cpp
 )
 
-set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml/AboutDataApp.qml")
-set(ABOUTAPP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/resources/qml/AboutDataApp.qml")
+set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataApp.qml")
+set(ABOUTAPP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pages/AboutDataApp.qml")
 configure_file(${ABOUTAPP_INPUT} ${ABOUTAPP_OUTPUT} @ONLY)
 
-set(ABOUTBAZZITE_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml/AboutDataBazzite.qml")
-set(ABOUTBAZZITE_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/resources/qml/AboutDataBazzite.qml")
+set(ABOUTBAZZITE_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataBazzite.qml")
+set(ABOUTBAZZITE_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pages/AboutDataBazzite.qml")
 configure_file(${ABOUTBAZZITE_INPUT} ${ABOUTBAZZITE_OUTPUT} @ONLY)
 
 ecm_target_qml_sources(bazzite_updater

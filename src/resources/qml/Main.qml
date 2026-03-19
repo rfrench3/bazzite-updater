@@ -51,30 +51,43 @@ StatefulApp.StatefulWindow {
 
     // Handle global drawer navigation for controllers
     // The GamePadNavigation class cannot be used because actions don't have the required properties
+    // TODO: currently, inputs are sent directly to each individual page as well as to this section. Consider passing inputs to pages through this instead.
+    /*
+    something like this?
+
+        property list[location] [drawer, page, dialog]
+        property focused_location
+
+        sendInputPressed(location, buttonId)    
+            location.onButtonPressed(buttonId)
+    */
     Connections {
         target: Gamepad
 
         function onButtonPressed(buttonId, button_down) {
+            // NOTE: button_down is a press. not button_down is a release. Only the press input is used in places
             if (button_down == false)
                 return;
-                
+
+            // INPUT PRIORITY: Active dialogs, toggle global drawer, global drawer itself.
+            // FIXME: pages independently recieve and handle inputs entirely separate to this logic
+
+            // SECTION: Check for active dialogs            
+            if (rebootDialog.isActive) {
+                rebootDialog.handleInput(buttonId);
+                return;
+            }   
+
+            // SECTION: No dialogs, activate global drawer
             switch (buttonId) {
-                case 0: // A
-                    if (rebootDialog.isActive) {
-                        confirmReboot.triggered();
-                    }
-                    break;
                 case 1: // B
-                    if (rebootDialog.isActive) {
-                        cancelReboot.triggered();
-                        break;
-                    }
                 case 4: // view, minus
                 case 6: // pause, plus
                     appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
                     break;
             }
             
+            // SECTION: Global Drawer
             if (appGlobalDrawer.drawerOpen != true)
                 return;
 
@@ -225,6 +238,7 @@ StatefulApp.StatefulWindow {
         title: i18nc("@title:window", "Reboot System")
         standardButtons: Kirigami.Dialog.NoButton
 
+        // used by controller input system to determine if dialog gets inputs or not
         property bool isActive: false
 
         subtitle: i18n("This will reboot the system.")
@@ -251,7 +265,20 @@ StatefulApp.StatefulWindow {
             else
                 showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
             isActive = false;
+            console.log("Reboot callback: " + callback);
         })
+
+        function handleInput(buttonId) {
+            switch (buttonId) {
+                case 0: // A
+                    confirmReboot.triggered();    
+                    break;
+
+                case 1: // B
+                    cancelReboot.triggered();
+                    break;
+            }
+        }
     }
 
     pageStack.initialPage: Qt.resolvedUrl("SystemUpdate.qml")
