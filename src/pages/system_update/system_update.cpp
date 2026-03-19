@@ -221,15 +221,18 @@ QString SystemUpdate::getServiceResult(const QString &service) const
     return output;
 }
 
-void SystemUpdate::copyToClipboard(const QString &content) const
+void SystemUpdate::copyToClipboard() const
 {
-    // Remove HTML tags
-    static QRegularExpression htmlTagPattern(QStringLiteral(R"(<[^>]*>)"));
-    QString plainText = content;
-    plainText.replace(u"<br>"_s, u"\n"_s);
-    plainText.replace(htmlTagPattern, u""_s);
+    QString plainText;
 
-    QApplication::clipboard()->setText(plainText);
+    for (QObject *line : m_console->lines) {
+        Console::Entry *entry = qobject_cast<Console::Entry *>(line);
+
+        plainText += entry->m_content + u"\n"_s;
+    }
+
+    if (!plainText.isEmpty())
+        QApplication::clipboard()->setText(plainText);
 }
 
 void SystemUpdate::setProgressLevel(int progressLevel)

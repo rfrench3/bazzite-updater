@@ -251,7 +251,7 @@ Kirigami.Page {
                     Layout.fillWidth: true
                     text: i18n("Copy to Clipboard") + Gamepad.labels.space + Gamepad.labels.x
                     onClicked: {
-                        SysUpd.copyToClipboard(SysUpd.consoleText);
+                        SysUpd.copyToClipboard();
                         showPassiveNotification(i18n("Text Copied"), Kirigami.short);
                     }
                 }
