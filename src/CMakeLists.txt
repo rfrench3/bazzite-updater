@@ -13,11 +13,17 @@ target_sources(bazzite_updater
     main.cpp
     utils.h
     utils.cpp
-    system_update.cpp
-    system_update.h
     resources.qrc
-    rebase_helper.h
-    rebase_helper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/system_update.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/system_update.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/rebase_helper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/rebase_helper.cpp
+)
+
+target_include_directories(bazzite_updater 
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper
 )
 
 set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataApp.qml")
@@ -30,9 +36,9 @@ configure_file(${ABOUTBAZZITE_INPUT} ${ABOUTBAZZITE_OUTPUT} @ONLY)
 
 ecm_target_qml_sources(bazzite_updater
     SOURCES
-    resources/qml/Main.qml
-    resources/qml/SystemUpdate.qml
-    resources/qml/RebaseHelper.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/Main.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/SystemUpdate.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebaseHelper.qml
     ${ABOUTBAZZITE_OUTPUT}
     ${ABOUTAPP_OUTPUT}
 )

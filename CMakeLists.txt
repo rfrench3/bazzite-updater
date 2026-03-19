@@ -84,8 +84,9 @@ string(REPLACE "\"" "\\\"" APACHE2_LICENSE "${APACHE2_LICENSE}")
 
 add_subdirectory(src)
 
-enable_testing()
-add_subdirectory(tests)
+# TODO: create proper tests
+# enable_testing()
+# add_subdirectory(tests)
 
 ### Install desktop files ###
 

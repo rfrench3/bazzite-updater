@@ -19,7 +19,6 @@
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 
-// #include "controllers.h"
 #include "rebase_helper.h"
 #include "system_update.h"
 #include "utils.h"
