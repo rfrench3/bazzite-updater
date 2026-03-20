@@ -28,13 +28,12 @@ ScrollView {
 
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
-
-
         
-        model: root.model.lines
+        model: root.model
 
         delegate: Item {
-            required property var modelData
+            required property string display
+            required property int decoration
 
             height: textItem.implicitHeight
             width: view.width - scrollView.ScrollBar.vertical.width
@@ -43,7 +42,7 @@ ScrollView {
             
             Text {
                 id: textItem
-                text: __setText(modelData.content, modelData.level)
+                text: __setText(display, decoration)
                 font: "monospace"
                 width: parent.width - 10
                 wrapMode: Text.Wrap

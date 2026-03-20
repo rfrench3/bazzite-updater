@@ -225,10 +225,8 @@ void SystemUpdate::copyToClipboard() const
 {
     QString plainText;
 
-    for (QObject *line : m_console->lines) {
-        Console::Entry *entry = qobject_cast<Console::Entry *>(line);
-
-        plainText += entry->m_content + u"\n"_s;
+    for (int row = 0; row < m_console->rowCount(); ++row) {
+        plainText += m_console->data(m_console->index(row, 0), Qt::DisplayRole).toString() + u"\n"_s;
     }
 
     if (!plainText.isEmpty())

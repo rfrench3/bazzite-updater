@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <QObject>
+#include <QAbstractListModel>
 #include <QtCore>
 #include <qqmlintegration.h>
 
@@ -21,35 +21,29 @@ enum class LogLevel {
 };
 Q_ENUM_NS(LogLevel)
 
-class Entry : public QObject
-{
-    Q_OBJECT
-
-    Q_PROPERTY(QString content MEMBER m_content CONSTANT)
-    Q_PROPERTY(LogLevel level MEMBER m_level CONSTANT)
-public:
-    Entry(const QString &content, LogLevel level)
-        : m_content(content)
-        , m_level(level)
-    {
-    }
-
-    QString m_content;
-    LogLevel m_level;
-};
-
-class Model : public QObject
+class Model : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-
-    Q_PROPERTY(QObjectList lines MEMBER lines NOTIFY linesChanged)
 public:
-    QObjectList lines;
+    explicit Model(QObject *parent = nullptr)
+        : QAbstractListModel(parent)
+    {
+    }
 
-    Q_INVOKABLE void newLine(QString content, LogLevel level);
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    Q_SIGNAL void linesChanged();
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+    void newLine(const QString &content, LogLevel level);
+
+private:
+    struct Line {
+        QString content;
+        LogLevel level;
+    };
+
+    QVector<Line> m_lines;
 };
 
 }
