@@ -77,6 +77,10 @@ StatefulApp.StatefulWindow {
                 rebootDialog.handleInput(buttonId);
                 return;
             }   
+            if (exitDialog.isActive) {
+                exitDialog.handleInput(buttonId);
+                return;
+            }   
 
             // SECTION: No dialogs, activate global drawer
             switch (buttonId) {
@@ -97,7 +101,7 @@ StatefulApp.StatefulWindow {
                     break;
                 
                 case 2: // X
-                    Qt.quit();
+                    actionQuit.triggered();
                     break;
 
                 case 3: // Y
@@ -192,7 +196,14 @@ StatefulApp.StatefulWindow {
                 text: i18n("Quit") + Gamepad.labels.space + Gamepad.labels.x
                 icon.name: "application-exit"
                 shortcut: StandardKey.Quit
-                onTriggered: Qt.quit()
+                onTriggered: {
+                    if (AppState.commandRunning) {
+                        exitDialog.open(); 
+                        exitDialog.isActive = true;
+                    }
+                    else
+                        Qt.quit();
+                }
             }
         ]
 
@@ -241,7 +252,16 @@ StatefulApp.StatefulWindow {
         // used by controller input system to determine if dialog gets inputs or not
         property bool isActive: false
 
-        subtitle: i18n("This will reboot the system.")
+        subtitle: AppState.commandRunning
+            ? i18n("This will reboot the system,\nbut %1 is still in progress!\nRebooting now will cause it to not apply.",
+                AppState.rollbackRunning
+                    ? i18n("a rollback")
+                    : AppState.rebaseRunning
+                        ? i18n("a rebase")
+                        : AppState.updateRunning
+                            ? i18n("an update")
+                            : i18n("a command"))
+            : i18n("This will reboot the system.")
 
         customFooterActions: [
             Kirigami.Action {
@@ -259,14 +279,17 @@ StatefulApp.StatefulWindow {
 
         onRejected: isActive = false
 
-        onAccepted: AppState.rebootSystem(function (callback) {
-            if (AppState.commandSucceeded)
-                showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
-            else
-                showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
+        onAccepted: {
             isActive = false;
-            console.log("Reboot callback: " + callback);
-        })
+            AppState.rebootSystem(function (callback) {
+                if (AppState.commandSucceeded)
+                    showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
+                else
+                    showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
+            
+                console.log("Reboot callback: " + callback);
+            });
+        }
 
         function handleInput(buttonId) {
             switch (buttonId) {
@@ -279,6 +302,59 @@ StatefulApp.StatefulWindow {
                     break;
             }
         }
+
+    }
+
+    Kirigami.PromptDialog {
+        id: exitDialog
+        title: i18nc("@title:window", "Exit Application")
+        standardButtons: Kirigami.Dialog.NoButton
+
+        // used by controller input system to determine if dialog gets inputs or not
+        property bool isActive: false
+
+        subtitle: i18n("%1\nIt will continue in the background if you exit.",
+                    AppState.rollbackRunning
+                        ? i18n("A rollback is still in progress!")
+                        : AppState.rebaseRunning
+                            ? i18n("A rebase is still in progress!")
+                            : AppState.updateRunning
+                                ? i18n("An update is still in progress!")
+                                : i18n("A command is still in progress!"))
+
+        customFooterActions: [
+            Kirigami.Action {
+                id: confirmExit
+                text: i18n("Confirm") + Gamepad.labels.space + Gamepad.labels.a
+                
+                onTriggered: exitDialog.accept()
+            },
+            Kirigami.Action {
+                id: cancelExit
+                text: i18n("Cancel") + Gamepad.labels.space + Gamepad.labels.b
+                onTriggered: exitDialog.reject()
+            }
+        ]
+
+        onRejected: isActive = false
+
+        onAccepted: {
+            isActive = false; 
+            Qt.quit();
+        }
+
+        function handleInput(buttonId) {
+            switch (buttonId) {
+                case 0: // A
+                    confirmExit.triggered();    
+                    break;
+
+                case 1: // B
+                    cancelExit.triggered();
+                    break;
+            }
+        }
+
     }
 
     pageStack.initialPage: Qt.resolvedUrl("SystemUpdate.qml")
