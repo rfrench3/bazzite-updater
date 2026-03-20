@@ -12,13 +12,13 @@ Frame {
     property alias length: view.count
     required property var model
 
+ScrollView {
+    id: scrollView
+    anchors.fill: parent
+
     ListView {
         id: view
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: scrollBar.left
-        rightMargin: scrollBar.width
+        anchors.fill: parent
         
         // This vertically cuts off the text slightly too early
         clip: true
@@ -29,21 +29,26 @@ Frame {
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
 
-        ScrollBar.vertical: scrollBar
+
         
         model: root.model.lines
 
         delegate: Item {
             required property var modelData
 
-            height: sysFont.lineSpacing
-            Layout.fillWidth: true
+            height: textItem.implicitHeight
+            width: view.width - scrollView.ScrollBar.vertical.width
+
+            clip: true
             
-            Text { 
+            Text {
+                id: textItem
                 text: __setText(modelData.content, modelData.level)
                 font: "monospace"
+                width: parent.width - 10
+                wrapMode: Text.Wrap
                 
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 5
 
@@ -81,12 +86,6 @@ Frame {
         }
     }
 
-    ScrollBar { 
-        id: scrollBar 
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-    }
 
     SystemPalette {
         id: palette
@@ -97,4 +96,6 @@ Frame {
         id: sysFont
         font: Qt.application.font
     }
+}
+
 }
