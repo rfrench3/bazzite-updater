@@ -7,14 +7,18 @@ import QtQuick.Layouts
 import io.github.rfrench3.bazzite_updater
 
 Frame {
-    id: consoleViewRoot
+    id: root
     property alias currentIndex: view.currentIndex
     property alias length: view.count
     required property var model
 
     ListView {
         id: view
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: scrollBar.left
+        rightMargin: scrollBar.width
         
         // This vertically cuts off the text slightly too early
         clip: true
@@ -25,10 +29,9 @@ Frame {
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
 
-        // Make sure this works
-        ScrollBar.vertical: ScrollBar {}
+        ScrollBar.vertical: scrollBar
         
-        model: consoleViewRoot.model.lines
+        model: root.model.lines
 
         delegate: Item {
             required property var modelData
@@ -76,6 +79,13 @@ Frame {
                 }
             }
         }
+    }
+
+    ScrollBar { 
+        id: scrollBar 
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
     }
 
     SystemPalette {
