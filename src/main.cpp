@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    // NOTE: This is a weird way to register and link singletons, but it works for now
     AppState app_state;
     qmlRegisterSingletonInstance<AppState>("app.State", 1, 0, "AppState", &app_state);
 
