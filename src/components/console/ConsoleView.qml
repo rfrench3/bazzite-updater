@@ -25,6 +25,8 @@ Frame {
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
 
+        // Make sure this works
+        ScrollBar.vertical: ScrollBar {}
         
         model: consoleViewRoot.model.lines
 
@@ -46,12 +48,15 @@ Frame {
                     switch(loglevel)
                     {
                         case Console.LogLevel.Info:
+                            color = palette.text;
                             return content;
                             
                         case Console.LogLevel.Warn:
+                            color = palette.text;
                             return i18n("Warning: ") + content;
                         
                         case Console.LogLevel.Error:
+                            color = palette.text;
                             font.bold = true;
                             return i18n("Error: ") + content;
                         
@@ -60,10 +65,12 @@ Frame {
                             return i18n("Debug: ") + content;
                         
                         case Console.LogLevel.ErrorCritical:
+                            color = palette.text;
                             font.bold = true;
                             return i18n("Critical Error: ") + content;
 
                         default:
+                            color = palette.text;
                             return content || "";
                     }
                 }
