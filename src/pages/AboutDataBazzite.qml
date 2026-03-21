@@ -20,36 +20,8 @@ FormCard.AboutPage {
 
     GamepadPageNavigation {
         targetWindow: page.Window.window
-        targetScrollbar: page.vBar
+        targetScrollable: page
     } // TODO: make it easy to escape the License popup
-
-    property var vBar: null
-
-    Component.onCompleted: {
-        grabScrollbar(page);
-    }
-
-    function grabScrollbar(item) {
-        if (item instanceof Kirigami.ScrollablePage) {
-
-            if (
-                item.contentItem
-                && item.contentItem.ScrollBar
-                && item.contentItem.ScrollBar.vertical
-            ) {
-                // page.vBar = item.contentItem.ScrollBar.vertical;
-                Qt.callLater(() => {page.vBar = item.contentItem.ScrollBar.vertical;});
-            } 
-            else
-                console.log("Parent scrollbar not found, controller scrolling will not function!");
-        }
-        else {
-            if (item.parent)
-                grabScrollbar(item.parent);
-            else 
-                console.log("Parent Kirigami.ScrollablePage not found, controller scrolling will not function!");
-        }
-    }
 
     aboutData: {
         "displayName" : "Bazzite",
