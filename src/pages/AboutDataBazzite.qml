@@ -3,6 +3,9 @@ import app.Gamepad
 import app.RebaseHelper 1.0
 import QtQuick
 
+import QtQuick.Controls
+import org.kde.kirigami as Kirigami
+
 // TODO: improve scrolling support (currently, it only scrolls when an off-screen item is focused)
 
 /* TODO: replace this AboutPage with a custom reimplementation to solve the following issues:
@@ -17,6 +20,7 @@ FormCard.AboutPage {
 
     GamepadPageNavigation {
         targetWindow: page.Window.window
+        targetScrollable: page
     } // TODO: make it easy to escape the License popup
 
     aboutData: {

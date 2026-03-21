@@ -5,6 +5,7 @@ import QtQuick
 import app.Gamepad
 
 import QtQuick.Controls
+import org.kde.kirigami as Kirigami
 
 /**
  * @brief GamepadPageNavigation - Adds very basic controller support to a page.
@@ -20,6 +21,37 @@ Item {
     id: root
     
     required property Window targetWindow
+
+    // When given a scroll bar, the right stick will smoothly scroll through it
+    property ScrollBar targetScrollbar: null
+
+    property var targetScrollable: null
+
+    Component.onCompleted: {
+        grabScrollbar(targetScrollable);
+    }
+
+    // NOTE: If scrolling breaks in the future, its probably this
+    function grabScrollbar(item) {
+        if (item instanceof Kirigami.ScrollablePage) {
+
+            if (
+                item.contentItem
+                && item.contentItem.ScrollBar
+                && item.contentItem.ScrollBar.vertical
+            ) {
+                Qt.callLater(() => {root.targetScrollbar = item.contentItem.ScrollBar.vertical;});
+            } 
+            else
+                console.log("Parent scrollbar not found, controller scrolling will not function!");
+        }
+        else {
+            if (item.parent)
+                grabScrollbar(item.parent);
+            else 
+                console.log("Parent Kirigami.ScrollablePage not found, controller scrolling will not function!");
+        }
+    }
     
     Connections {
         target: Gamepad
@@ -77,6 +109,22 @@ Item {
                     itemDown.forceActiveFocus(Qt.TabFocusReason);
                     break;
             }
+        }
+    }
+
+    Timer {
+        interval: Gamepad.pollingRate
+        running: root.targetScrollbar && (Math.abs(Gamepad.rStickMagnitude) > Gamepad.deadzone)
+        repeat: true
+        onTriggered: {
+
+            const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
+            const min_pos = 0;
+            const max_pos = 1 - root.targetScrollbar.size;
+            const new_pos = root.targetScrollbar.position + (Gamepad.rStickMagnitude / 2700000);
+
+            root.targetScrollbar.position = clamp(new_pos, min_pos, max_pos);
         }
     }
 }

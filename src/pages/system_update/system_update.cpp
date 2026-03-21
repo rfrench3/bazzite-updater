@@ -30,6 +30,7 @@ using namespace Qt::Literals::StringLiterals;
 SystemUpdate::SystemUpdate(QObject *parent)
     : QObject(parent)
 {
+    m_console = new Console::Model();
 }
 
 void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
@@ -41,7 +42,7 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
 
     if (!Utils::isServicePresent(u"uupd-manual.service"_s)) {
         setBlockUpdate(true);
-        appendConsoleText(i18n("The uupd-manual.service used for System Update was not found on the system."), LogLevel::ERROR_CRITICAL);
+        m_console->newLine(i18n("The uupd-manual.service used for this application was not found on the system."), Console::LogLevel::ErrorCritical);
         setStatusText(i18n("ERROR!"));
         callback.call({127});
         return;
@@ -92,7 +93,7 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
                 return;
             } else if (result == u"start-limit-hit"_s) {
                 setStatusText(i18n("Updating too fast! ") + result);
-                appendConsoleText(i18n("You are updating too many times in a short period!"), LogLevel::ERROR);
+                m_console->newLine(i18n("You are updating too many times in a short period!"), Console::LogLevel::Error);
             } else {
                 setStatusText(i18n("Error: ") + result);
                 qDebug() << "Result of uupd-manual.service was not success: " << result;
@@ -130,7 +131,7 @@ void SystemUpdate::logToConsole()
             // read the output
             if (!message.trimmed().startsWith(QLatin1Char('{'))) {
                 // handle strings like "Starting uupd-manual.service - Universal Blue Update Oneshot Service..."
-                appendConsoleText(message, LogLevel::INFO);
+                m_console->newLine(message, Console::LogLevel::Info);
             } else {
                 // handle json strings
                 QJsonDocument sysDoc = QJsonDocument::fromJson(message.toUtf8());
@@ -145,17 +146,17 @@ void SystemUpdate::logToConsole()
                 qDebug().noquote() << msg;
 
                 // WARN by default in case the level wasn't accounted for
-                LogLevel log_level = LogLevel::WARN;
+                Console::LogLevel log_level = Console::LogLevel::Warn;
 
                 if (level == u"DEBUG"_s)
-                    log_level = LogLevel::DEBUG;
+                    log_level = Console::LogLevel::Debug;
                 else if (level == u"INFO"_s) {
-                    log_level = LogLevel::INFO;
+                    log_level = Console::LogLevel::Info;
                     setProgressLevel(obj.value(u"overall"_s).toInt());
                 } else if (level == u"WARN"_s)
-                    log_level = LogLevel::WARN;
+                    log_level = Console::LogLevel::Warn;
                 else if (level == u"ERROR"_s) {
-                    log_level = LogLevel::ERROR;
+                    log_level = Console::LogLevel::Error;
 
                     setStatusText(i18n(("ERROR!")));
 
@@ -166,7 +167,7 @@ void SystemUpdate::logToConsole()
 
                         if (context.contains(u"System Update"_s, Qt::CaseInsensitive)) {
                             setBlockUpdate(true);
-                            log_level = LogLevel::ERROR_CRITICAL;
+                            log_level = Console::LogLevel::ErrorCritical;
                             setStatusText(i18n(("CRITICAL ERROR!")));
                             m_updateErrorStatus.System_Update = true;
                         } else if (context.contains(u"Brew Update"_s, Qt::CaseInsensitive)) {
@@ -189,7 +190,7 @@ void SystemUpdate::logToConsole()
                 }
 
                 if (!msg.isEmpty()) {
-                    appendConsoleText(msg, log_level);
+                    m_console->newLine(msg, log_level);
                 }
             }
         }
@@ -220,65 +221,16 @@ QString SystemUpdate::getServiceResult(const QString &service) const
     return output;
 }
 
-void SystemUpdate::copyToClipboard(const QString &content) const
+void SystemUpdate::copyToClipboard() const
 {
-    // Remove HTML tags
-    static QRegularExpression htmlTagPattern(QStringLiteral(R"(<[^>]*>)"));
-    QString plainText = content;
-    plainText.replace(u"<br>"_s, u"\n"_s);
-    plainText.replace(htmlTagPattern, u""_s);
+    QString plainText;
 
-    QApplication::clipboard()->setText(plainText);
-}
-
-void SystemUpdate::appendConsoleText(const QString &consoleText, LogLevel level)
-{
-    // Start with this so that the final line isn't always empty
-    if (!m_consoleText.endsWith(u"<br>"_s) && !m_consoleText.isEmpty()) {
-        m_consoleText.append(u"<br>"_s);
+    for (int row = 0; row < m_console->rowCount(); ++row) {
+        plainText += m_console->data(m_console->index(row, 0), Qt::DisplayRole).toString() + u"\n"_s;
     }
 
-    auto formatBold = [](const QString &text) {
-        return u"<b>"_s + text + u"</b>"_s;
-    };
-
-    auto formatColorPlaceholder = [this](const QString &text) {
-        return u"<font color='"_s + m_placeholderTextColor + u"'>"_s + text + u"</font>"_s;
-    };
-
-    QString newLine;
-    QString temp;
-    // display debug lines in placeholder text color
-    switch (level) {
-    case LogLevel::DEBUG:
-        temp = u"debug: "_s + consoleText;
-        newLine.append(formatColorPlaceholder(temp));
-        break;
-    case LogLevel::INFO:
-        newLine.append(consoleText);
-        break;
-    case LogLevel::WARN:
-        temp = u"WARNING: "_s + consoleText;
-        newLine.append(formatBold(temp));
-        break;
-    case LogLevel::ERROR:
-        temp = u"ERROR: "_s + consoleText;
-        newLine.append(formatBold(temp));
-        break;
-    case LogLevel::ERROR_CRITICAL:
-        temp = u"CRITICAL ERROR: "_s + consoleText;
-        newLine.append(formatBold(temp));
-        break;
-    default:
-        // Should never happen
-        temp = u"UNKNOWN LOG LEVEL: "_s + consoleText;
-        newLine.append(formatBold(temp));
-        break;
-    }
-
-    m_consoleText += newLine;
-
-    Q_EMIT consoleTextChanged();
+    if (!plainText.isEmpty())
+        QApplication::clipboard()->setText(plainText);
 }
 
 void SystemUpdate::setProgressLevel(int progressLevel)
@@ -297,11 +249,6 @@ void SystemUpdate::setBlockUpdate(bool updateError)
 {
     m_blockUpdate = updateError;
     Q_EMIT blockUpdateChanged();
-}
-
-void SystemUpdate::setPlaceholderColor(QString placeholderText)
-{
-    m_placeholderTextColor = placeholderText;
 }
 
 void SystemUpdate::setAppState(AppState *appState)

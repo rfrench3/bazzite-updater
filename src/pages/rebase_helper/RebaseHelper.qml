@@ -20,7 +20,10 @@ Kirigami.ScrollablePage {
 
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper")
         
-    GamepadPageNavigation { targetWindow: page.Window.window }
+    GamepadPageNavigation { 
+        targetWindow: page.Window.window 
+        targetScrollable: page
+    }
 
     Kirigami.FormLayout {
         anchors.fill: parent
