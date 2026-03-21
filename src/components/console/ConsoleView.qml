@@ -24,7 +24,7 @@ ScrollView {
         clip: true
         
         highlightFollowsCurrentItem: true
-        highlightRangeMode: ListView.StrictlyEnforceRange
+        highlightRangeMode: ListView.ApplyRange
 
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
@@ -82,6 +82,13 @@ ScrollView {
                     }
                 }
             }
+        }
+
+        onCountChanged: {
+            if (view.currentIndex > view.count - 5)
+                Qt.callLater(() => {
+                    view.currentIndex = view.count - 1;
+                });
         }
     }
 
