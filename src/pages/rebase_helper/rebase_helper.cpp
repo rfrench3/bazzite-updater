@@ -127,6 +127,7 @@ void RebaseHelper::rollbackImage(QJSValue callback)
     m_appState->setRollbackRunning(true);
 
     QProcess *rollback = new QProcess();
+    rollback->setProcessChannelMode(QProcess::ForwardedChannels);
     Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
 
     connect(rollback, &QProcess::finished, [=]() {
@@ -165,6 +166,7 @@ void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
     m_appState->setRebaseRunning(true);
 
     QProcess *rebase = new QProcess();
+    rebase->setProcessChannelMode(QProcess::ForwardedChannels);
     Utils::startProcess(rebase, u"bazzite-rollback-helper"_s, {u"rebase"_s, new_image, u"-y"_s});
 
     connect(rebase, &QProcess::finished, [=]() {
