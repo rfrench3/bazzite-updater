@@ -28,7 +28,8 @@ Item {
     property var targetScrollable: null
 
     Component.onCompleted: {
-        grabScrollbar(targetScrollable);
+        if (targetScrollable && !targetScrollbar)
+            grabScrollbar(targetScrollable);
     }
 
     // NOTE: If scrolling breaks in the future, its probably this
