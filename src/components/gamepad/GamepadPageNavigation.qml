@@ -20,6 +20,8 @@ Item {
     id: root
     
     required property Window targetWindow
+
+    property ScrollBar targetScrollbar: null
     
     Connections {
         target: Gamepad
@@ -77,6 +79,18 @@ Item {
                     itemDown.forceActiveFocus(Qt.TabFocusReason);
                     break;
             }
+        }
+    }
+
+    Timer {
+        interval: Math.abs(270000 / Gamepad.rStickMagnitude)
+        running: root.targetScrollbar && (Math.abs(Gamepad.rStickMagnitude) > Gamepad.deadzone)
+        repeat: true
+        onTriggered: {
+            if (Gamepad.rStickMagnitude > 0)
+                targetScrollbar.increase();
+            else
+                targetScrollbar.decrease();
         }
     }
 }

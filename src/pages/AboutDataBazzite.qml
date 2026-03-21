@@ -3,6 +3,9 @@ import app.Gamepad
 import app.RebaseHelper 1.0
 import QtQuick
 
+import QtQuick.Controls
+import org.kde.kirigami as Kirigami
+
 // TODO: improve scrolling support (currently, it only scrolls when an off-screen item is focused)
 
 /* TODO: replace this AboutPage with a custom reimplementation to solve the following issues:
@@ -17,7 +20,36 @@ FormCard.AboutPage {
 
     GamepadPageNavigation {
         targetWindow: page.Window.window
+        targetScrollbar: page.vBar
     } // TODO: make it easy to escape the License popup
+
+    property var vBar: null
+
+    Component.onCompleted: {
+        grabScrollbar(page);
+    }
+
+    function grabScrollbar(item) {
+        if (item instanceof Kirigami.ScrollablePage) {
+
+            if (
+                item.contentItem
+                && item.contentItem.ScrollBar
+                && item.contentItem.ScrollBar.vertical
+            ) {
+                // page.vBar = item.contentItem.ScrollBar.vertical;
+                Qt.callLater(() => {page.vBar = item.contentItem.ScrollBar.vertical;});
+            } 
+            else
+                console.log("Parent scrollbar not found, controller scrolling will not function!");
+        }
+        else {
+            if (item.parent)
+                grabScrollbar(item.parent);
+            else 
+                console.log("Parent Kirigami.ScrollablePage not found, controller scrolling will not function!");
+        }
+    }
 
     aboutData: {
         "displayName" : "Bazzite",
