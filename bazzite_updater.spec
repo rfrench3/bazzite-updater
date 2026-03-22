@@ -64,6 +64,7 @@ desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{orgname}.deskto
 %{_kf6_datadir}/applications/%{orgname}.desktop
 %{_kf6_metainfodir}/%{orgname}.*.xml
 %{_kf6_datadir}/icons/hicolor/scalable/apps/%{orgname}.svg
+%{_kf6_libdir}/libgamepad-supportplugin.so
 
 
 
