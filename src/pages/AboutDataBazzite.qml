@@ -1,5 +1,5 @@
 import org.kde.kirigamiaddons.formcard as FormCard
-import app.Gamepad
+import io.github.rfrench3.Gamepad
 import app.RebaseHelper 1.0
 import QtQuick
 

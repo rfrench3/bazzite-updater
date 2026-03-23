@@ -4,7 +4,7 @@
 add_library(gamepad-support)
 
 ecm_add_qml_module(gamepad-support
-    URI "app.Gamepad"
+    URI "io.github.rfrench3.Gamepad"
     GENERATE_PLUGIN_SOURCE
 )
 

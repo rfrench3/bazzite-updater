@@ -10,7 +10,7 @@ import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
-import app.Gamepad
+import io.github.rfrench3.Gamepad
 import app.SysUpd 1.0
 import app.State 1.0
 

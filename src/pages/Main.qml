@@ -11,7 +11,7 @@ import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
 
-import app.Gamepad
+import io.github.rfrench3.Gamepad
 import app.SysUpd 1.0
 import app.RebaseHelper 1.0
 import app.State 1.0
@@ -33,21 +33,6 @@ StatefulApp.StatefulWindow {
 
     // Start and stop polling for controller inputs when the window gains/loses focus
     onActiveChanged: Gamepad.setPollController(active)
-
-    Component {
-        id: aboutApp
-
-        // Kirigami.AboutPage {
-        FormCard.AboutPage {
-            id: aboutPage
-            aboutData: About
-            title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "Bazzite Updater")
-            
-            GamepadPageNavigation {
-                targetWindow: aboutPage.Window.window
-            }
-        }
-    }
 
     // Handle global drawer navigation for controllers
     // The GamePadNavigation class cannot be used because actions don't have the required properties
@@ -105,7 +90,7 @@ StatefulApp.StatefulWindow {
                     break;
 
                 case 3: // Y
-                    appGlobalDrawer.actions[appGlobalDrawer.actions.indexOf(actionReboot)].triggered();
+                    actionReboot.triggered();
                     break;
 
                 case 11: // Dpad Up

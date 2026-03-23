@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import QtQuick
-import app.Gamepad
+import io.github.rfrench3.Gamepad
 
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
