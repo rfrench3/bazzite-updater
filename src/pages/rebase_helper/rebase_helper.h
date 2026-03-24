@@ -46,7 +46,7 @@ public:
     bool m_isValid = false;
 };
 
-class RebaseHelper : public QObject
+class RebaseHelperBackend : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -60,10 +60,8 @@ class RebaseHelper : public QObject
 
     osImage m_osImage_current;
 
-    AppState *m_appState;
-
 public:
-    RebaseHelper(QObject *parent = nullptr);
+    RebaseHelperBackend(QObject *parent = nullptr);
 
     osImage currentImage() const
     {
@@ -73,8 +71,6 @@ public:
     {
         return m_gpu_drivers;
     }
-
-    void setAppState(AppState *appState);
 
     // ROLLBACK
     Q_INVOKABLE void rollbackImage(QJSValue callback);

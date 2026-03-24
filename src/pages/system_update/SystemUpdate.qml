@@ -11,11 +11,6 @@ import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.Gamepad
-import app.SysUpd 1.0
-import app.State 1.0
-
-// For "time since last update"
-import app.RebaseHelper 1.0
 
 Kirigami.Page {
     id: page
@@ -57,11 +52,11 @@ Kirigami.Page {
         id: updateAction
         text: i18n("Update System Image and Software") + Gamepad.labels.space + Gamepad.labels.a
         shortcut: "Return"
-        enabled: AppState.allowCommands && !SysUpd.blockUpdate
+        enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate
 
         onTriggered: {
             showPassiveNotification(i18n("Update Started"), Kirigami.short);
-            SysUpd.runUpdate(function(callback) {
+            SystemUpdateBackend.runUpdate(function(callback) {
                 if (callback == 0) {
                     showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
                     return;
@@ -179,7 +174,7 @@ Kirigami.Page {
 
         QQC2.Label {
             Layout.alignment: Qt.AlignCenter
-            text: i18n("Current Status: ") + SysUpd.statusText
+            text: i18n("Current Status: ") + SystemUpdateBackend.statusText
         }
 
         Item { height: Kirigami.Units.gridUnit } // Vertical Spacer
@@ -188,11 +183,11 @@ Kirigami.Page {
             Layout.alignment: Qt.AlignCenter
             text: {
                 i18n("Last Update: ") 
-                + RebaseHelper.currentImage.datePretty["day"]
+                + RebaseHelperBackend.currentImage.datePretty["day"]
                 + " "
-                + RebaseHelper.currentImage.datePretty["month"]
+                + RebaseHelperBackend.currentImage.datePretty["month"]
                 + ", "
-                + RebaseHelper.currentImage.datePretty["year"];
+                + RebaseHelperBackend.currentImage.datePretty["year"];
             }
         }
 
@@ -237,7 +232,7 @@ Kirigami.Page {
             
             ConsoleView {
                 id: consoleView
-                model: SysUpd.consoleModel
+                model: SystemUpdateBackend.consoleModel
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.horizontalStretchFactor: 1
@@ -251,7 +246,7 @@ Kirigami.Page {
                     Layout.fillWidth: true
                     text: i18n("Copy to Clipboard") + Gamepad.labels.space + Gamepad.labels.x
                     onClicked: {
-                        SysUpd.copyToClipboard();
+                        SystemUpdateBackend.copyToClipboard();
                         showPassiveNotification(i18n("Text Copied"), Kirigami.short);
                     }
                 }

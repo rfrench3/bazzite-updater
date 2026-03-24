@@ -11,8 +11,6 @@ import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.Gamepad
-import app.RebaseHelper 1.0
-import app.State 1.0
 
 FC.FormCardPage {
     id: page
@@ -70,7 +68,7 @@ FC.FormCardPage {
                 
                 onClicked: {
                     showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
-                    RebaseHelper.rollbackImage(function(callback) {
+                    RebaseHelperBackend.rollbackImage(function(callback) {
                         if (callback != 0) {
                             showPassiveNotification(i18n("Rollback Failed."), Kirigami.long);
                         }
@@ -101,14 +99,14 @@ FC.FormCardPage {
 
         QQC2.Label {
             Kirigami.FormData.label: i18n("Recommended images:")
-            text: RebaseHelper.recommendedDriver
-            visible: RebaseHelper.recommendedDriver != ""
+            text: RebaseHelperBackend.recommendedDriver
+            visible: RebaseHelperBackend.recommendedDriver != ""
         }
         
         QtObject {
             id: rebase_selection
-            property string name: RebaseHelper.currentImage.name
-            property string branch: RebaseHelper.currentImage.branch
+            property string name: RebaseHelperBackend.currentImage.name
+            property string branch: RebaseHelperBackend.currentImage.branch
             property string image: name + ":" + branch
         }
 
@@ -133,7 +131,7 @@ FC.FormCardPage {
             property var filteredImages: []
 
             Component.onCompleted: {
-                if (RebaseHelper.currentImage.name.indexOf("-gnome") !== -1) {
+                if (RebaseHelperBackend.currentImage.name.indexOf("-gnome") !== -1) {
                     filteredImages = allImages.filter(function(img) { return img.indexOf("-gnome") !== -1; });
                 } else {
                     filteredImages = allImages.filter(function(img) { return img.indexOf("-gnome") === -1; });
@@ -154,13 +152,13 @@ FC.FormCardPage {
                 property string additional_text: ""
                 
                 Component.onCompleted: {
-                    if (modelData === RebaseHelper.currentImage.name) {
+                    if (modelData === RebaseHelperBackend.currentImage.name) {
                         checked = true;
                         additional_text = i18n(" (Current)");
                     }
                 }
                 
-                font.bold: modelData === RebaseHelper.currentImage.name
+                font.bold: modelData === RebaseHelperBackend.currentImage.name
                 
                 onClicked: {
                     rebase_selection.name = modelData;
@@ -177,9 +175,9 @@ FC.FormCardPage {
             QQC2.ButtonGroup.group: branches
             Kirigami.FormData.label: i18n("Branch:")
             text: i18n("stable")
-            font.bold: text === RebaseHelper.currentImage.branch
+            font.bold: text === RebaseHelperBackend.currentImage.branch
             Component.onCompleted: {
-                if (RebaseHelper.currentImage.branch == "stable")
+                if (RebaseHelperBackend.currentImage.branch == "stable")
                     checked = true;
             }
             onClicked: {
@@ -190,9 +188,9 @@ FC.FormCardPage {
             id: rebase_branch_testing
             QQC2.ButtonGroup.group: branches
             text: i18n("testing")
-            font.bold: text === RebaseHelper.currentImage.branch
+            font.bold: text === RebaseHelperBackend.currentImage.branch
             Component.onCompleted: {
-                if (RebaseHelper.currentImage.branch == "testing")
+                if (RebaseHelperBackend.currentImage.branch == "testing")
                     checked = true;
             }
             onClicked: {
@@ -204,14 +202,14 @@ FC.FormCardPage {
         QQC2.RadioButton {
             id: rebase_branch_unknown
             QQC2.ButtonGroup.group: branches
-            text: i18n("do not change") + " (" + RebaseHelper.currentImage.branch + ")"
+            text: i18n("do not change") + " (" + RebaseHelperBackend.currentImage.branch + ")"
             font.bold: true
 
             enabled: false
             visible: false
             Component.onCompleted: {
-                if (RebaseHelper.currentImage.branch != "stable" 
-                && RebaseHelper.currentImage.branch != "testing") 
+                if (RebaseHelperBackend.currentImage.branch != "stable" 
+                && RebaseHelperBackend.currentImage.branch != "testing") 
                 {
                     checked = true;
                     enabled = true;
@@ -220,7 +218,7 @@ FC.FormCardPage {
             }
 
             onClicked: {
-                rebase_selection.branch = RebaseHelper.currentImage.branch;
+                rebase_selection.branch = RebaseHelperBackend.currentImage.branch;
             }
         }
 
@@ -236,12 +234,12 @@ FC.FormCardPage {
                 anchors.verticalCenter: parent.verticalCenter
                 
                 text: i18n("Rebase")
-                enabled: AppState.allowCommands && (RebaseHelper.currentImage.name != rebase_selection.name || RebaseHelper.currentImage.branch != rebase_selection.branch)
+                enabled: AppState.allowCommands && (RebaseHelperBackend.currentImage.name != rebase_selection.name || RebaseHelperBackend.currentImage.branch != rebase_selection.branch)
 
                 onClicked: { 
                     showPassiveNotification("Rebase started", Kirigami.short);
                     console.log("Rebasing to: " + rebase_selection.image);
-                    RebaseHelper.rebaseImage(rebase_selection.image, function (callback) {  
+                    RebaseHelperBackend.rebaseImage(rebase_selection.image, function (callback) {  
                         if (callback) {
                             showPassiveNotification("Rebase failed...", Kirigami.long);
                         } else {
@@ -268,7 +266,7 @@ FC.FormCardPage {
     FC.FormCard {
         FC.FormTextDelegate {
             textItem.wrapMode: Text.WordWrap
-            text: RebaseHelper.currentImage.name + ":" + RebaseHelper.currentImage.branch
+            text: RebaseHelperBackend.currentImage.name + ":" + RebaseHelperBackend.currentImage.branch
 
             description: i18n("Current Image")
         }
@@ -278,11 +276,11 @@ FC.FormCardPage {
         FC.FormTextDelegate {
             textItem.wrapMode: Text.WordWrap
             text: {
-                RebaseHelper.currentImage.datePretty["day"] 
+                RebaseHelperBackend.currentImage.datePretty["day"] 
                 + " " 
-                + RebaseHelper.currentImage.datePretty["month"] 
+                + RebaseHelperBackend.currentImage.datePretty["month"] 
                 + ", " 
-                + RebaseHelper.currentImage.datePretty["year"];
+                + RebaseHelperBackend.currentImage.datePretty["year"];
             }
 
             description: i18n("Last Update") 
@@ -294,70 +292,70 @@ FC.FormCardPage {
     FC.FormCard {
         Layout.topMargin: Kirigami.Units.largeSpacing * 4
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.name
+            text: RebaseHelperBackend.currentImage.name
             description: i18n("Image")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.vendor
+            text: RebaseHelperBackend.currentImage.vendor
             description: i18n("Vendor")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.ref
+            text: RebaseHelperBackend.currentImage.ref
             description: i18n("Ref")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.tag
+            text: RebaseHelperBackend.currentImage.tag
             description: i18n("Tag")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.branch
+            text: RebaseHelperBackend.currentImage.branch
             description: i18n("Branch")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.baseName
+            text: RebaseHelperBackend.currentImage.baseName
             description: i18n("Base Name")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.fedoraVersion
+            text: RebaseHelperBackend.currentImage.fedoraVersion
             description: i18n("Fedora Version")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.version
+            text: RebaseHelperBackend.currentImage.version
             description: i18n("Version")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.versionPretty
+            text: RebaseHelperBackend.currentImage.versionPretty
             description: i18n("Version (Pretty)")
         }
 
         FC.FormDelegateSeparator { }
 
         FC.FormTextDelegate {
-            text: RebaseHelper.currentImage.datePretty["day"] + " " + RebaseHelper.currentImage.datePretty["month"] + ", " + RebaseHelper.currentImage.datePretty["year"]
+            text: RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"]
             description: i18n("Release Date")
         }
     }

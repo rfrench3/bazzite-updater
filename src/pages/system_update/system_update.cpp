@@ -27,13 +27,13 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SystemUpdate::SystemUpdate(QObject *parent)
+SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
     : QObject(parent)
 {
     m_console = new Console::Model();
 }
 
-void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
+void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
 {
     if (!callback.isCallable()) {
         qDebug() << "Callback is not callable, command run refused";
@@ -48,8 +48,8 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
         return;
     }
 
-    m_appState->setUpdateRunning(true);
-    SystemUpdate::setStatusText(i18n("Running (This may take a while!)"));
+    AppState::instance()->setUpdateRunning(true);
+    SystemUpdateBackend::setStatusText(i18n("Running (This may take a while!)"));
 
     QProcess *systemctl = new QProcess(this);
     Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd-manual.service"_s});
@@ -84,8 +84,8 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
 
             const QString result = getServiceResult(u"uupd-manual.service"_s);
             if (result == u"success"_s) {
-                m_appState->setUpdateRunning(false);
-                m_appState->setCommandSucceeded(true);
+                AppState::instance()->setUpdateRunning(false);
+                AppState::instance()->setCommandSucceeded(true);
 
                 setStatusText(i18n("Complete"));
                 callback.call({0, result});
@@ -98,7 +98,7 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
                 setStatusText(i18n("Error: ") + result);
                 qDebug() << "Result of uupd-manual.service was not success: " << result;
             }
-            m_appState->setUpdateRunning(false);
+            AppState::instance()->setUpdateRunning(false);
             callback.call({1, result});
 
             systemctl->deleteLater();
@@ -107,7 +107,7 @@ void SystemUpdate::runUpdate(QJSValue callback, QJSValue callbackErrors)
     });
 }
 
-void SystemUpdate::logToConsole()
+void SystemUpdateBackend::logToConsole()
 {
     // Journalctl only needs to be running once
     if (m_journalctlProcess.state() == QProcess::Running)
@@ -197,7 +197,7 @@ void SystemUpdate::logToConsole()
     });
 }
 
-QString SystemUpdate::getServiceState(const QString &service) const
+QString SystemUpdateBackend::getServiceState(const QString &service) const
 {
     QProcess process;
     Utils::startProcess(process, u"systemctl"_s, {u"is-active"_s, service});
@@ -209,7 +209,7 @@ QString SystemUpdate::getServiceState(const QString &service) const
 
 // Return the result of systemctl show {service} -p Result --value.
 // For example, may return "start-limit-hit" or "success"
-QString SystemUpdate::getServiceResult(const QString &service) const
+QString SystemUpdateBackend::getServiceResult(const QString &service) const
 {
     QProcess check;
     Utils::startProcess(check, u"systemctl"_s, {u"show"_s, service, u"-p"_s, u"Result"_s, u"--value"_s});
@@ -221,7 +221,7 @@ QString SystemUpdate::getServiceResult(const QString &service) const
     return output;
 }
 
-void SystemUpdate::copyToClipboard() const
+void SystemUpdateBackend::copyToClipboard() const
 {
     QString plainText;
 
@@ -233,27 +233,22 @@ void SystemUpdate::copyToClipboard() const
         QApplication::clipboard()->setText(plainText);
 }
 
-void SystemUpdate::setProgressLevel(int progressLevel)
+void SystemUpdateBackend::setProgressLevel(int progressLevel)
 {
     m_progressLevel = progressLevel;
     Q_EMIT progressLevelChanged();
 }
 
-void SystemUpdate::setStatusText(const QString &statusText)
+void SystemUpdateBackend::setStatusText(const QString &statusText)
 {
     m_statusText = statusText;
     Q_EMIT statusTextChanged();
 }
 
-void SystemUpdate::setBlockUpdate(bool updateError)
+void SystemUpdateBackend::setBlockUpdate(bool updateError)
 {
     m_blockUpdate = updateError;
     Q_EMIT blockUpdateChanged();
-}
-
-void SystemUpdate::setAppState(AppState *appState)
-{
-    m_appState = appState;
 }
 
 #include "moc_system_update.cpp"

@@ -1,12 +1,10 @@
 import org.kde.kirigamiaddons.formcard as FormCard
-import io.github.rfrench3.Gamepad
-import app.RebaseHelper 1.0
 import QtQuick
-
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
 
-// TODO: improve scrolling support (currently, it only scrolls when an off-screen item is focused)
+import io.github.rfrench3.bazzite_updater
+import io.github.rfrench3.Gamepad
 
 /* TODO: replace this AboutPage with a custom reimplementation to solve the following issues:
     - remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
@@ -21,8 +19,8 @@ FormCard.AboutPage {
     GamepadPageNavigation {
         targetWindow: page.Window.window
         targetScrollable: page
-    } // TODO: make it easy to escape the License popup
-
+    }
+    
     aboutData: {
         "displayName" : "Bazzite",
         "productName" : "bazzite",
@@ -30,7 +28,7 @@ FormCard.AboutPage {
         "shortDescription" : i18n("The operating system for the next generation of gamers"),
         "homepage" : "https://bazzite.gg/",
         "bugAddress" : "",
-        "version" : RebaseHelper.currentImage.version,
+        "version" : RebaseHelperBackend.currentImage.version,
         "otherText" : i18n("Bazzite makes gaming and everyday use smoother and simpler across desktop PCs, handhelds, tablets, and home theater PCs."),
         "authors" : [
             {

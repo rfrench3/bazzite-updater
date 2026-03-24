@@ -10,11 +10,7 @@ import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
-
 import io.github.rfrench3.Gamepad
-import app.SysUpd 1.0
-import app.RebaseHelper 1.0
-import app.State 1.0
 
 
 // NOTE: Gamepad.labels.* automatically show/hide themselves depending on the presence of a controller

@@ -48,6 +48,21 @@ bool Utils::isServicePresent(const QString &service)
 
 // AppState
 
+AppState *AppState::m_instance = nullptr;
+
+AppState::AppState()
+{
+    if (m_instance == nullptr)
+        m_instance = this;
+    else
+        qWarning() << "AppState was constructed when an instance already exists!";
+}
+
+AppState *AppState::instance()
+{
+    return m_instance;
+}
+
 void AppState::setUpdateRunning(bool running)
 {
     m_updateRunning = running;
