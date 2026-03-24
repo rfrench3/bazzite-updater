@@ -41,15 +41,21 @@ ScrollView {
             clip: true
             
             Text {
+                readonly property int __margins: 5
                 id: textItem
                 text: __setText(display, decoration)
-                font: "monospace"
-                width: parent.width - 10
+                font.family: "monospace"
+                font.bold: decoration === Console.LogLevel.Error 
+                        || decoration === Console.LogLevel.ErrorCritical 
+                        ? true
+                        : false 
+
+                width: parent.width - __margins * 2
                 wrapMode: Text.Wrap
                 
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 5
+                anchors.leftMargin: __margins
 
                 function __setText(content, loglevel) {
                     switch(loglevel)
@@ -85,10 +91,13 @@ ScrollView {
         }
 
         onCountChanged: {
-            if (view.currentIndex > view.count - 5)
+            const maxContentY = Math.max(0, view.contentHeight - view.height);
+
+            if (view.contentY >= maxContentY - 1) {
                 Qt.callLater(() => {
-                    view.currentIndex = view.count - 1;
+                    view.contentY = Math.max(0, view.contentHeight - view.height);
                 });
+            }
         }
     }
 
