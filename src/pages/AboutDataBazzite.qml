@@ -20,6 +20,8 @@ FormCard.AboutPage {
         targetWindow: page.Window.window
         targetScrollable: page
     }
+
+    showLibraries: false
     
     aboutData: {
         "displayName" : "Bazzite",
@@ -179,7 +181,8 @@ FormCard.AboutPage {
                 "spdx" : "Apache-2.0"
             }
         ],
-        "copyrightStatement" : "© 2023-@CURRENT_YEAR@"
+        "copyrightStatement" : "© 2023-@CURRENT_YEAR@",
+        "programLogo": "qrc:/osLogo"
     }
 
     donateUrl: "https://bazzite.gg/#sponsor"
