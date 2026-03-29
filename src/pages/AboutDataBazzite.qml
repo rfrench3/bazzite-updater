@@ -16,12 +16,44 @@ FormCard.AboutPage {
     id: page
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Bazzite")
 
+    // The application's own icon fully overrides normal attempts to set the icon
+    function findAboutLogoItem(item) {
+        if (!item) {
+            return null;
+        }
+
+        if (item instanceof Kirigami.Icon) {
+            return item;
+        }
+
+        if (!item.children) {
+            return null;
+        }
+
+        for (let i = 0; i < item.children.length; ++i) {
+            const found = findAboutLogoItem(item.children[i]);
+            if (found) {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    Component.onCompleted: {
+        const logoItem = findAboutLogoItem(page);
+        if (logoItem) {
+            logoItem.source = "qrc:/osLogo";
+        }
+    }
+
     GamepadPageNavigation {
         targetWindow: page.Window.window
         targetScrollable: page
     }
 
-    showLibraries: false
+    // TODO: Use this property when it's in bazzite and the kde flatpak runtime. Currently it is not.
+    // showLibraries: false
     
     aboutData: {
         "displayName" : "Bazzite",
@@ -183,7 +215,7 @@ FormCard.AboutPage {
         ],
         "copyrightStatement" : "© 2023-@CURRENT_YEAR@",
         "programLogo": "qrc:/osLogo"
-    }
+    } // Unfortunately the programLogo field is internally overwritten in the AboutPage by the application icon itself when found
 
     donateUrl: "https://bazzite.gg/#sponsor"
     getInvolvedUrl: "https://bazzite.gg/#contribute"
