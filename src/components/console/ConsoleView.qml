@@ -90,17 +90,25 @@ ScrollView {
             }
         }
 
-        onCountChanged: {
-            const maxContentY = Math.max(0, view.contentHeight - view.height);
+        // The below section is dedicated to getting nice snapping behavior
 
-            if (view.contentY >= maxContentY - 1) {
-                Qt.callLater(() => {
-                    view.contentY = Math.max(0, view.contentHeight - view.height);
-                });
-            }
+        property bool __snap: true
+        property real __prevContentY: 0
+
+        onCountChanged: { if (__snap) view.positionViewAtEnd(); }
+
+        // If user moves up, disable snapping. otherwise, update __snap when the end is reached
+        onContentYChanged: { 
+            
+            if (__prevContentY > contentY)
+                __snap = false; 
+            else
+                if (atYEnd)
+                    __snap = true; 
+
+            __prevContentY = contentY;
         }
     }
-
 
     SystemPalette {
         id: palette
