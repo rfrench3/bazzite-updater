@@ -25,12 +25,22 @@
 #include <QRegularExpression>
 #include <QtDebug>
 
+#ifdef TESTING_BUILD
+#include <algorithm>
+#endif
+
 using namespace Qt::Literals::StringLiterals;
 
 SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
     : QObject(parent)
 {
     m_console = new Console::Model();
+
+#ifdef TESTING_BUILD
+    connect(&m_testConsoleTimer, &QTimer::timeout, this, [this]() {
+        m_console->newLine(i18n("Test console line %1", ++m_testConsoleLineCounter), Console::LogLevel::Debug);
+    });
+#endif
 }
 
 void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
@@ -250,5 +260,29 @@ void SystemUpdateBackend::setBlockUpdate(bool updateError)
     m_blockUpdate = updateError;
     Q_EMIT blockUpdateChanged();
 }
+
+#ifdef TESTING_BUILD
+void SystemUpdateBackend::setTestConsoleLinesPerSecond(int linesPerSecond)
+{
+    if (linesPerSecond < 0) {
+        linesPerSecond = 0;
+    }
+
+    if (m_testConsoleLinesPerSecond == linesPerSecond) {
+        return;
+    }
+
+    m_testConsoleLinesPerSecond = linesPerSecond;
+
+    if (m_testConsoleLinesPerSecond == 0) {
+        m_testConsoleTimer.stop();
+    } else {
+        const int intervalMs = std::max(1, 1000 / m_testConsoleLinesPerSecond);
+        m_testConsoleTimer.start(intervalMs);
+    }
+
+    Q_EMIT testConsoleLinesPerSecondChanged();
+}
+#endif
 
 #include "moc_system_update.cpp"

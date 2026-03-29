@@ -4,7 +4,7 @@
         {
             "label": "build and run",
             "type": "shell",
-            "command": "cmake -B build && cmake --build build && ./build/bin/bazzite_updater",
+            "command": "cmake -B build -DTESTING_BUILD=ON && cmake --build build && ./build/bin/bazzite_updater",
             "group": {
                 "kind": "build",
                 "isDefault": true

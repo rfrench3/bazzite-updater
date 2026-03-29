@@ -257,6 +257,26 @@ Kirigami.Page {
                     text: i18n("Close") + Gamepad.labels.space + Gamepad.labels.y
                     onClicked: consoleDrawer.close()
                 }
+
+                // Only exists when compiled for development
+                Loader {
+                    id: testingNumberInputLoader
+                    Layout.fillWidth: true
+                    active: typeof TestingMode !== "undefined" && TestingMode
+                    visible: active
+
+                    sourceComponent: QQC2.SpinBox {
+                        Layout.fillWidth: true
+                        from: 0
+                        to: 9999
+                        value: SystemUpdateBackend.testConsoleLinesPerSecond
+                        editable: true
+
+                        onValueModified: {
+                            SystemUpdateBackend.testConsoleLinesPerSecond = value;
+                        }
+                    }
+                }
             }
 
         }

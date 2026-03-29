@@ -17,6 +17,10 @@
 #include <QProcess>
 #include <QQmlEngine>
 
+#ifdef TESTING_BUILD
+#include <QTimer>
+#endif
+
 #include "console.h"
 #include "utils.h"
 
@@ -91,4 +95,20 @@ public:
         return AppState::instance()->updateRunning();
     }
     Q_SIGNAL void updateRunningChanged();
+
+#ifdef TESTING_BUILD
+private:
+    Q_PROPERTY(int testConsoleLinesPerSecond READ testConsoleLinesPerSecond WRITE setTestConsoleLinesPerSecond NOTIFY testConsoleLinesPerSecondChanged)
+public:
+    int m_testConsoleLinesPerSecond = 0;
+    int m_testConsoleLineCounter = 0;
+    QTimer m_testConsoleTimer;
+
+    int testConsoleLinesPerSecond() const
+    {
+        return m_testConsoleLinesPerSecond;
+    }
+    void setTestConsoleLinesPerSecond(int linesPerSecond);
+    Q_SIGNAL void testConsoleLinesPerSecondChanged();
+#endif
 };

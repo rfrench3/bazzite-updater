@@ -6,6 +6,12 @@ cmake_minimum_required(VERSION 3.22)
 file(READ "version.txt" APP_VERSION)
 project(bazzite_updater VERSION ${APP_VERSION})
 
+option(TESTING_BUILD "Enable testing features like filler text in the console view." OFF)
+
+if(TESTING_BUILD)
+    add_compile_definitions(TESTING_BUILD=1)
+endif()
+
 ### Install SDL3 ###
 
 find_package(SDL3 REQUIRED)

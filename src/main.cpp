@@ -50,5 +50,11 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+#ifdef TESTING_BUILD
+    engine.rootContext()->setContextProperty(u"TestingMode"_s, true);
+#else
+    engine.rootContext()->setContextProperty(u"TestingMode"_s, false);
+#endif
+
     return app.exec();
 }

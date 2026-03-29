@@ -18,7 +18,7 @@ import io.github.rfrench3.Gamepad
 StatefulApp.StatefulWindow {
     id: root
 
-    title: i18nc("@title:window", "Bazzite Updater")
+    title: TestingMode ? "testing updater" : i18nc("@title:window", "Bazzite Updater")
 
     windowName: "Bazzite Updater"
 

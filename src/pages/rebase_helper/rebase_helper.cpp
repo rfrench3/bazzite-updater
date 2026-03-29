@@ -123,8 +123,13 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
 
     QProcess *rollback = new QProcess();
     rollback->setProcessChannelMode(QProcess::ForwardedChannels);
-    Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
 
+#ifdef TESTING_BUILD
+    qDebug() << "testing build: sleep for 3s instead of rollback";
+    Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
+#else
+    Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
+#endif
     connect(rollback, &QProcess::finished, [=]() {
         int exit_code = rollback->exitCode();
 
