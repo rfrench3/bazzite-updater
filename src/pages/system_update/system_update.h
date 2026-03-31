@@ -17,20 +17,25 @@
 #include <QProcess>
 #include <QQmlEngine>
 
+#ifdef TESTING_BUILD
+#include <QTimer>
+#endif
+
 #include "console.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-class SystemUpdate : public QObject
+class SystemUpdateBackend : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+
     Q_PROPERTY(Console::Model *consoleModel MEMBER m_console NOTIFY consoleTextChanged)
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
     Q_PROPERTY(int progressLevel READ progressLevel NOTIFY progressLevelChanged)
     Q_PROPERTY(bool blockUpdate READ blockUpdate NOTIFY blockUpdateChanged)
-    QML_ELEMENT
-    QML_SINGLETON
 
     QString m_statusText = i18n("None");
     int m_progressLevel = 0;
@@ -51,10 +56,8 @@ class SystemUpdate : public QObject
     void logToConsole();
     QString m_placeholderTextColor;
 
-    AppState *m_appState;
-
 public:
-    SystemUpdate(QObject *parent = nullptr);
+    SystemUpdateBackend(QObject *parent = nullptr);
 
     Console::Model *m_console;
     Q_SIGNAL void consoleTextChanged();
@@ -65,8 +68,6 @@ public:
 
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
-
-    void setAppState(AppState *appState);
 
     QString statusText() const
     {
@@ -91,7 +92,23 @@ public:
 
     bool updateRunning() const
     {
-        return m_appState->updateRunning();
+        return AppState::instance()->updateRunning();
     }
     Q_SIGNAL void updateRunningChanged();
+
+#ifdef TESTING_BUILD
+private:
+    Q_PROPERTY(int testConsoleLinesPerSecond READ testConsoleLinesPerSecond WRITE setTestConsoleLinesPerSecond NOTIFY testConsoleLinesPerSecondChanged)
+public:
+    int m_testConsoleLinesPerSecond = 0;
+    int m_testConsoleLineCounter = 0;
+    QTimer m_testConsoleTimer;
+
+    int testConsoleLinesPerSecond() const
+    {
+        return m_testConsoleLinesPerSecond;
+    }
+    void setTestConsoleLinesPerSecond(int linesPerSecond);
+    Q_SIGNAL void testConsoleLinesPerSecondChanged();
+#endif
 };

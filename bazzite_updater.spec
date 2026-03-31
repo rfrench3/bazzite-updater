@@ -7,7 +7,7 @@ Summary:        Update your Bazzite system
 
 License:        GPL-2.0-or-later
 URL:            https://github.com/rfrench3/bazzite_updater
-Source0:        %{version}.tar.gz
+Source0:        %{url}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
@@ -65,6 +65,7 @@ desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{orgname}.deskto
 %{_kf6_metainfodir}/%{orgname}.*.xml
 %{_kf6_datadir}/icons/hicolor/scalable/apps/%{orgname}.svg
 %{_kf6_libdir}/libgamepad-support.so
+%{_kf6_qmldir}/io/github/rfrench3/Gamepad/*
 
 
 

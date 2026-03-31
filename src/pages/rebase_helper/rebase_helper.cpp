@@ -65,7 +65,7 @@ osImage osImage::fromJson(const QString &filePath)
     return img;
 }
 
-RebaseHelper::RebaseHelper(QObject *parent)
+RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
     : QObject(parent)
 {
     QString path;
@@ -84,7 +84,7 @@ RebaseHelper::RebaseHelper(QObject *parent)
 
 // NOTE: This blocks the UI until there's a return.
 // It should be fast, though
-QString RebaseHelper::checkNvidiaSupport()
+QString RebaseHelperBackend::checkNvidiaSupport()
 {
     QProcess check_nvidia;
     Utils::startProcess(check_nvidia, u"/usr/libexec/bazzite_detect_nvidia_support_status"_s, {});
@@ -107,35 +107,35 @@ QString RebaseHelper::checkNvidiaSupport()
         return u""_s;
 }
 
-void RebaseHelper::setAppState(AppState *appState)
-{
-    m_appState = appState;
-}
-
 // ROLLBACK
-void RebaseHelper::rollbackImage(QJSValue callback)
+void RebaseHelperBackend::rollbackImage(QJSValue callback)
 {
     if (!callback.isCallable()) {
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
-    if (!m_appState->allowCommands()) {
+    if (!AppState::instance()->allowCommands()) {
         qDebug() << "Command called when not allowed, ignored";
         return;
     }
 
-    m_appState->setRollbackRunning(true);
+    AppState::instance()->setRollbackRunning(true);
 
     QProcess *rollback = new QProcess();
     rollback->setProcessChannelMode(QProcess::ForwardedChannels);
-    Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
 
+#ifdef TESTING_BUILD
+    qDebug() << "testing build: sleep for 3s instead of rollback";
+    Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
+#else
+    Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
+#endif
     connect(rollback, &QProcess::finished, [=]() {
         int exit_code = rollback->exitCode();
 
-        m_appState->setRollbackRunning(false);
+        AppState::instance()->setRollbackRunning(false);
         if (exit_code == 0)
-            m_appState->setCommandSucceeded(true);
+            AppState::instance()->setCommandSucceeded(true);
 
         callback.call({exit_code});
         rollback->deleteLater();
@@ -145,25 +145,25 @@ void RebaseHelper::rollbackImage(QJSValue callback)
         if (error == QProcess::FailedToStart)
             qWarning() << "bazzite-rollback-helper not found or failed to start";
 
-        m_appState->setRollbackRunning(false);
+        AppState::instance()->setRollbackRunning(false);
         callback.call({1});
         rollback->deleteLater();
     });
 }
 
 // REBASE
-void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
+void RebaseHelperBackend::rebaseImage(const QString new_image, QJSValue callback)
 {
     if (!callback.isCallable()) {
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
-    if (!m_appState->allowCommands()) {
+    if (!AppState::instance()->allowCommands()) {
         qDebug() << "Command called when not allowed, ignored";
         return;
     }
 
-    m_appState->setRebaseRunning(true);
+    AppState::instance()->setRebaseRunning(true);
 
     QProcess *rebase = new QProcess();
     rebase->setProcessChannelMode(QProcess::ForwardedChannels);
@@ -171,9 +171,9 @@ void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
 
     connect(rebase, &QProcess::finished, [=]() {
         if (rebase->exitCode() == 0)
-            m_appState->setCommandSucceeded(true);
+            AppState::instance()->setCommandSucceeded(true);
 
-        m_appState->setRebaseRunning(false);
+        AppState::instance()->setRebaseRunning(false);
         callback.call({rebase->exitCode()});
         rebase->deleteLater();
     });
@@ -182,7 +182,7 @@ void RebaseHelper::rebaseImage(const QString new_image, QJSValue callback)
         if (error == QProcess::FailedToStart)
             qWarning() << "bazzite-rollback-helper not found or failed to start";
 
-        m_appState->setRebaseRunning(false);
+        AppState::instance()->setRebaseRunning(false);
         callback.call({1});
         rebase->deleteLater();
     });

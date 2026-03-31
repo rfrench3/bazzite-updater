@@ -43,24 +43,18 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    // NOTE: This is a weird way to register and link singletons, but it works for now
-    AppState app_state;
-    qmlRegisterSingletonInstance<AppState>("app.State", 1, 0, "AppState", &app_state);
-
-    SystemUpdate system_update;
-    system_update.setAppState(&app_state);
-    qmlRegisterSingletonInstance<SystemUpdate>("app.SysUpd", 1, 0, "SysUpd", &system_update);
-
-    RebaseHelper rebase_helper;
-    rebase_helper.setAppState(&app_state);
-    qmlRegisterSingletonInstance<RebaseHelper>("app.RebaseHelper", 1, 0, "RebaseHelper", &rebase_helper);
-
     KLocalization::setupLocalizedContext(&engine);
     engine.loadFromModule("io.github.rfrench3.bazzite_updater", u"Main"_s);
 
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
+
+#ifdef TESTING_BUILD
+    engine.rootContext()->setContextProperty(u"TestingMode"_s, true);
+#else
+    engine.rootContext()->setContextProperty(u"TestingMode"_s, false);
+#endif
 
     return app.exec();
 }

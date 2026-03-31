@@ -41,15 +41,21 @@ ScrollView {
             clip: true
             
             Text {
+                readonly property int __margins: 5
                 id: textItem
                 text: __setText(display, decoration)
-                font: "monospace"
-                width: parent.width - 10
+                font.family: "monospace"
+                font.bold: decoration === Console.LogLevel.Error 
+                        || decoration === Console.LogLevel.ErrorCritical 
+                        ? true
+                        : false 
+
+                width: parent.width - __margins * 2
                 wrapMode: Text.Wrap
                 
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 5
+                anchors.leftMargin: __margins
 
                 function __setText(content, loglevel) {
                     switch(loglevel)
@@ -84,14 +90,25 @@ ScrollView {
             }
         }
 
-        onCountChanged: {
-            if (view.currentIndex > view.count - 5)
-                Qt.callLater(() => {
-                    view.currentIndex = view.count - 1;
-                });
+        // The below section is dedicated to getting nice snapping behavior
+
+        property bool __snap: true
+        property real __prevContentY: 0
+
+        onCountChanged: { if (__snap) view.positionViewAtEnd(); }
+
+        // If user moves up, disable snapping. otherwise, update __snap when the end is reached
+        onContentYChanged: { 
+            
+            if (__prevContentY > contentY)
+                __snap = false; 
+            else
+                if (atYEnd)
+                    __snap = true; 
+
+            __prevContentY = contentY;
         }
     }
-
 
     SystemPalette {
         id: palette

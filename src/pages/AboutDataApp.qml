@@ -1,8 +1,7 @@
 import org.kde.kirigamiaddons.formcard as FormCard
-import app.Gamepad
+import io.github.rfrench3.Gamepad
 import QtQuick
 
-//TODO: Proper scrolling support (currently, it only scrolls when an off-screen item is focused)
 FormCard.AboutPage {
     id: page
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Application")

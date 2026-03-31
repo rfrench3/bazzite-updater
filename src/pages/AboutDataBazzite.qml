@@ -1,12 +1,10 @@
 import org.kde.kirigamiaddons.formcard as FormCard
-import app.Gamepad
-import app.RebaseHelper 1.0
 import QtQuick
-
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
 
-// TODO: improve scrolling support (currently, it only scrolls when an off-screen item is focused)
+import io.github.rfrench3.bazzite_updater
+import io.github.rfrench3.Gamepad
 
 /* TODO: replace this AboutPage with a custom reimplementation to solve the following issues:
     - remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
@@ -18,11 +16,45 @@ FormCard.AboutPage {
     id: page
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Bazzite")
 
+    // The application's own icon fully overrides normal attempts to set the icon
+    function findAboutLogoItem(item) {
+        if (!item) {
+            return null;
+        }
+
+        if (item instanceof Kirigami.Icon) {
+            return item;
+        }
+
+        if (!item.children) {
+            return null;
+        }
+
+        for (let i = 0; i < item.children.length; ++i) {
+            const found = findAboutLogoItem(item.children[i]);
+            if (found) {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    Component.onCompleted: {
+        const logoItem = findAboutLogoItem(page);
+        if (logoItem) {
+            logoItem.source = "qrc:/osLogo";
+        }
+    }
+
     GamepadPageNavigation {
         targetWindow: page.Window.window
         targetScrollable: page
-    } // TODO: make it easy to escape the License popup
+    }
 
+    // TODO: Use this property when it's in bazzite and the kde flatpak runtime. Currently it is not.
+    // showLibraries: false
+    
     aboutData: {
         "displayName" : "Bazzite",
         "productName" : "bazzite",
@@ -30,7 +62,7 @@ FormCard.AboutPage {
         "shortDescription" : i18n("The operating system for the next generation of gamers"),
         "homepage" : "https://bazzite.gg/",
         "bugAddress" : "",
-        "version" : RebaseHelper.currentImage.version,
+        "version" : RebaseHelperBackend.currentImage.version,
         "otherText" : i18n("Bazzite makes gaming and everyday use smoother and simpler across desktop PCs, handhelds, tablets, and home theater PCs."),
         "authors" : [
             {
@@ -181,8 +213,9 @@ FormCard.AboutPage {
                 "spdx" : "Apache-2.0"
             }
         ],
-        "copyrightStatement" : "© 2023-@CURRENT_YEAR@"
-    }
+        "copyrightStatement" : "© 2023-@CURRENT_YEAR@",
+        "programLogo": "qrc:/osLogo"
+    } // Unfortunately the programLogo field is internally overwritten in the AboutPage by the application icon itself when found
 
     donateUrl: "https://bazzite.gg/#sponsor"
     getInvolvedUrl: "https://bazzite.gg/#contribute"

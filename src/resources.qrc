@@ -1,6 +1,5 @@
-<!DOCTYPE RCC>
 <RCC version="1.0">
-  <qresource prefix="/">
-    <file>resources/images/bazzite-logo.svg</file>
-  </qresource>
+    <qresource prefix="/">
+        <file alias="osLogo">resources/images/bazzite-logo.svg</file>
+    </qresource>
 </RCC>

@@ -40,8 +40,13 @@ class AppState : public QObject
         ROLLBACK
     };
 
+    static AppState *m_instance;
+
 public:
-    AppState() = default;
+    AppState();
+
+    // TODO: This method of accessing the sole instance of AppState would ideally be replaced by a more elegant solution.
+    static AppState *instance();
 
     bool updateRunning() const
     {
