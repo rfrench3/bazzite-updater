@@ -7,7 +7,7 @@ Summary:        Update your Bazzite system
 
 License:        GPL-2.0-or-later
 URL:            https://github.com/rfrench3/bazzite_updater
-Source0:        %{version}.tar.gz
+Source0:        %{url}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
