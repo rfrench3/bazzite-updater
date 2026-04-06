@@ -92,7 +92,7 @@ public:
 
     bool updateRunning() const
     {
-        return AppState::instance()->updateRunning();
+        return appState()->updateRunning();
     }
     Q_SIGNAL void updateRunningChanged();
 

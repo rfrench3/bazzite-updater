@@ -58,7 +58,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
         return;
     }
 
-    AppState::instance()->setUpdateRunning(true);
+    appState()->setUpdateRunning(true);
     SystemUpdateBackend::setStatusText(i18n("Running (This may take a while!)"));
 
     QProcess *systemctl = new QProcess(this);
@@ -94,8 +94,8 @@ void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
 
             const QString result = getServiceResult(u"uupd-manual.service"_s);
             if (result == u"success"_s) {
-                AppState::instance()->setUpdateRunning(false);
-                AppState::instance()->setCommandSucceeded(true);
+                appState()->setUpdateRunning(false);
+                appState()->setCommandSucceeded(true);
 
                 setStatusText(i18n("Complete"));
                 callback.call({0, result});
@@ -108,7 +108,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
                 setStatusText(i18n("Error: ") + result);
                 qDebug() << "Result of uupd-manual.service was not success: " << result;
             }
-            AppState::instance()->setUpdateRunning(false);
+            appState()->setUpdateRunning(false);
             callback.call({1, result});
 
             systemctl->deleteLater();
