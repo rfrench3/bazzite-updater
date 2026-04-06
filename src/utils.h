@@ -7,17 +7,18 @@
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
+#include <iostream>
 
 using namespace Qt::Literals::StringLiterals;
 
-class Utils
+namespace Utils
 {
-public:
-    static bool isFlatpak();
-    static void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
-    static void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
-    static bool isProgramPresent(const QString &cmd);
-    static bool isServicePresent(const QString &service);
+bool isFlatpak();
+void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
+void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
+bool isProgramPresent(const QString &cmd);
+bool isServicePresent(const QString &service);
+void connectQProcessOutputs(QProcess *process, QByteArray &stored_out, QByteArray &stored_err);
 };
 
 class AppState : public QObject
@@ -89,9 +90,17 @@ public:
 
     void sendUpdateSignals(sendSignals signal);
 
+    QByteArray cmd_out;
+    QByteArray cmd_err;
+
 private:
     bool m_updateRunning = false;
     bool m_rollbackRunning = false;
     bool m_rebaseRunning = false;
     bool m_commandSucceeded = false;
 };
+
+inline AppState *appState()
+{
+    return AppState::instance();
+}

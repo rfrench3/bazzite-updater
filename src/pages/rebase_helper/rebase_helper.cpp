@@ -122,11 +122,13 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
     AppState::instance()->setRollbackRunning(true);
 
     QProcess *rollback = new QProcess(this);
-    rollback->setProcessChannelMode(QProcess::ForwardedChannels);
+    Utils::connectQProcessOutputs(rollback, AppState::instance()->cmd_out, AppState::instance()->cmd_err);
 
 #ifdef TESTING_BUILD
     qDebug() << "testing build: sleep for 3s instead of rollback";
     Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
+    // Utils::startProcess(rollback, u"cat"_s, {u"ghsjhfsdjhhjs"_s});
+    // Utils::startProcess(rollback, u"echo"_s, {u"ghsjhfsdjhhjs"_s});
 #else
     Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
 #endif
@@ -166,7 +168,8 @@ void RebaseHelperBackend::rebaseImage(const QString new_image, QJSValue callback
     AppState::instance()->setRebaseRunning(true);
 
     QProcess *rebase = new QProcess(this);
-    rebase->setProcessChannelMode(QProcess::ForwardedChannels);
+    Utils::connectQProcessOutputs(rebase, AppState::instance()->cmd_out, AppState::instance()->cmd_err);
+
     Utils::startProcess(rebase, u"bazzite-rollback-helper"_s, {u"rebase"_s, new_image, u"-y"_s});
 
     connect(rebase, &QProcess::finished, [=]() {
