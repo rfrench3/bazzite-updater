@@ -288,20 +288,34 @@ StatefulApp.StatefulWindow {
 
     Kirigami.PromptDialog {
         id: exitDialog
-        title: i18nc("@title:window", "Exit Application")
+        title: i18n("Exit Application")
         standardButtons: Kirigami.Dialog.NoButton
 
         // used by controller input system to determine if dialog gets inputs or not
         property bool isActive: false
 
-        subtitle: i18n("%1\nIt will continue in the background if you exit.",
-                    AppState.rollbackRunning
-                        ? i18n("A rollback is still in progress!")
-                        : AppState.rebaseRunning
-                            ? i18n("A rebase is still in progress!")
-                            : AppState.updateRunning
-                                ? i18n("An update is still in progress!")
-                                : i18n("A command is still in progress!"))
+        subtitle: {
+            if (!AppState.commandRunning)
+                return i18n("It is safe to exit.");
+
+            let statusText;
+
+            if (AppState.rollbackRunning) {
+                statusText = i18n("A rollback is still in progress!");
+            } else if (AppState.rebaseRunning) {
+                statusText = i18n("A rebase is still in progress!");
+            } else if (AppState.updateRunning) {
+                statusText = i18n("An update is still in progress!");
+            } else {
+                statusText = i18n("A command is still in progress!");
+            }
+
+            return i18n(
+                "%1 %2",
+                statusText,
+                i18n("A system update will continue on exit, but a rollback or rebase will be cancelled.")
+            );
+        }
 
         customFooterActions: [
             Kirigami.Action {
