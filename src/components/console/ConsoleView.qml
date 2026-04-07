@@ -12,6 +12,9 @@ Frame {
     property alias length: view.count
     required property var model
 
+    readonly property ScrollBar scrollBar: scrollView.ScrollBar.vertical
+    readonly property Flickable flickable: view
+
 ScrollView {
     id: scrollView
     anchors.fill: parent

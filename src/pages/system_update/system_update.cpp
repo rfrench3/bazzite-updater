@@ -34,7 +34,7 @@ using namespace Qt::Literals::StringLiterals;
 SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
     : QObject(parent)
 {
-    m_console = new Console::Model();
+    m_console = new Console::Model(this);
 
 #ifdef TESTING_BUILD
     connect(&m_testConsoleTimer, &QTimer::timeout, this, [this]() {

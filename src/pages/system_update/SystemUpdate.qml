@@ -204,22 +204,10 @@ Kirigami.Page {
 
         height: page.height / 2
         
-
         contentItem: RowLayout {
-            Timer {
-                interval: Gamepad.pollingRate
-                running: consoleDrawer.drawerOpen && (Math.abs(Gamepad.rStickMagnitude) > Gamepad.deadzone)
-                repeat: true
-                onTriggered: {
-                    let new_pos = consoleView.currentIndex + Math.round(Gamepad.rStickMagnitude / 27000);
 
-                    if (new_pos < 0)
-                        consoleView.currentIndex = 0;
-                    else if (new_pos >= consoleView.length)
-                        consoleView.currentIndex = consoleView.length - 1;
-                    else
-                        consoleView.currentIndex = new_pos;
-                }
+            ScrollHandler {
+                scrollBar: consoleView.scrollBar
             }
             
             ConsoleView {

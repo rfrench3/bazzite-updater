@@ -17,10 +17,38 @@ FC.FormCardPage {
 
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("Rebase Helper")
 
+    // Handle most navigation throughout page
     GamepadPageNavigation { 
         targetWindow: page.Window.window 
         targetScrollable: page
     }
+
+    function handleInput(buttonId, button_down) {
+        // Use normal navigation for everything on the main page
+
+        if (consoleDrawer.drawerOpen) {
+            consoleDrawer.handleInput(buttonId, button_down);
+            return;
+        }
+
+        if (!button_down) return;
+
+        switch (buttonId) {
+            case 3: // Y
+                consoleDrawer.open();
+        }   
+        
+    
+    }
+
+    actions: [
+        Kirigami.Action {
+            id: toggleConsole
+            text: "Toggle Console" + Gamepad.labels.space + Gamepad.labels.y
+            shortcut: "F12"
+            onTriggered: consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen
+        }
+    ]
 
     Layout.topMargin: Kirigami.Units.largeSpacing * 4
 
@@ -370,6 +398,64 @@ FC.FormCardPage {
         FC.FormTextDelegate {
             text: RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"]
             description: i18n("Release Date")
+        }
+    }
+
+    Kirigami.OverlayDrawer {
+        id: consoleDrawer
+        edge: Qt.BottomEdge
+
+        modal: false
+        drawerOpen: false
+
+        height: page.height / 2
+        
+        contentItem: RowLayout {
+
+            ScrollHandler {
+                scrollBar: consoleView.scrollBar
+            }
+            
+            ConsoleView {
+                id: consoleView
+                model: RebaseHelperBackend.consoleModel
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.horizontalStretchFactor: 1
+            }
+
+            ColumnLayout {
+                Layout.alignment: Qt.AlignTop
+
+                QQC2.Button {
+                    id: copy_button
+                    Layout.fillWidth: true
+                    text: i18n("Copy to Clipboard") + Gamepad.labels.space + Gamepad.labels.x
+                    onClicked: {
+                        RebaseHelperBackend.copyToClipboard();
+                        showPassiveNotification(i18n("Text Copied"), Kirigami.short);
+                    }
+                }
+
+                QQC2.Button {
+                    id: close_button
+                    Layout.fillWidth: true
+                    text: i18n("Close") + Gamepad.labels.space + Gamepad.labels.y
+                    onClicked: consoleDrawer.close()
+                }
+            }
+
+        }
+
+        function handleInput(buttonId, button_down) {
+            if (!button_down) return;
+
+            switch (buttonId) {
+                case 2: // X
+                    copy_button.animateClick();
+                case 3: // Y
+                    close_button.animateClick();
+            }
         }
     }
 }

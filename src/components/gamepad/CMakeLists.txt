@@ -17,6 +17,7 @@ target_sources(gamepad-support
 ecm_target_qml_sources(gamepad-support
     SOURCES
     GamepadPageNavigation.qml
+    ScrollHandler.qml
 )
 
 target_link_libraries(gamepad-support

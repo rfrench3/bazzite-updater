@@ -329,32 +329,5 @@ StatefulApp.StatefulWindow {
 
     }
 
-    AppDialog {
-        id: errorDisplayDialog
-        title: i18nc("@title:window", "Error Message")
-        standardButtons: Kirigami.Dialog.Ok
-
-        QQC2.Label {
-            id: errorDisplayDialogText
-            text: AppState.commandError
-        }        
-
-        function handleInput(buttonId, button_down) {
-            if (!button_down) return;
-            
-            switch (buttonId) {
-                case 0: // A
-                case 1: // B
-                    accept();    
-                    break;
-
-                case 2: // X
-                    Qt.application.clipboard.setText(errorDisplayDialogText.text);
-                    showPassiveNotification(i18n("Copied error message to clipboard."), Kirigami.short);
-                    break;
-            }
-        }
-    }
-
     pageStack.initialPage: Qt.resolvedUrl("SystemUpdate.qml")
 }

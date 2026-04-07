@@ -32,7 +32,7 @@ class SystemUpdateBackend : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    Q_PROPERTY(Console::Model *consoleModel MEMBER m_console NOTIFY consoleTextChanged)
+    Q_PROPERTY(Console::Model *consoleModel MEMBER m_console CONSTANT)
     Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
     Q_PROPERTY(int progressLevel READ progressLevel NOTIFY progressLevelChanged)
     Q_PROPERTY(bool blockUpdate READ blockUpdate NOTIFY blockUpdateChanged)
@@ -60,7 +60,6 @@ public:
     SystemUpdateBackend(QObject *parent = nullptr);
 
     Console::Model *m_console;
-    Q_SIGNAL void consoleTextChanged();
 
     Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue(), QJSValue callbackErrors = QJSValue());
 

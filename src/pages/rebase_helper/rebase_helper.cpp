@@ -68,6 +68,8 @@ osImage osImage::fromJson(const QString &filePath)
 RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
     : QObject(parent)
 {
+    m_console = new Console::Model(this);
+
     QString path;
     {
         const QString primaryPath = u"/usr/share/ublue-os/image-info.json"_s;
@@ -120,11 +122,10 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
     }
 
     appState()->setRollbackRunning(true);
-    appState()->cmd_out.clear();
 
     QProcess *rollback = new QProcess(this);
-    Utils::connectQProcessOutputs(rollback, [](const QByteArray &output) {
-        appState()->appendCommandError(output);
+    Utils::connectQProcessOutputs(rollback, [this](const QByteArray &output) {
+        m_console->newLine(QString::fromUtf8(output), Console::LogLevel::Info);
     });
 
 #ifdef TESTING_BUILD
@@ -169,11 +170,10 @@ void RebaseHelperBackend::rebaseImage(const QString new_image, QJSValue callback
     }
 
     appState()->setRebaseRunning(true);
-    appState()->cmd_out.clear();
 
     QProcess *rebase = new QProcess(this);
-    Utils::connectQProcessOutputs(rebase, [](const QByteArray &output) {
-        appState()->appendCommandError(output);
+    Utils::connectQProcessOutputs(rebase, [this](const QByteArray &output) {
+        m_console->newLine(QString::fromUtf8(output), Console::LogLevel::Info);
     });
 
     Utils::startProcess(rebase, u"bazzite-rollback-helper"_s, {u"rebase"_s, new_image, u"-y"_s});
@@ -195,4 +195,16 @@ void RebaseHelperBackend::rebaseImage(const QString new_image, QJSValue callback
         callback.call({1});
         rebase->deleteLater();
     });
+}
+
+void RebaseHelperBackend::copyToClipboard() const
+{
+    QString plainText;
+
+    for (int row = 0; row < m_console->rowCount(); ++row) {
+        plainText += m_console->data(m_console->index(row, 0), Qt::DisplayRole).toString() + u"\n"_s;
+    }
+
+    if (!plainText.isEmpty())
+        QApplication::clipboard()->setText(plainText);
 }

@@ -4,11 +4,14 @@
 #pragma once
 
 #include <KLocalizedString>
+#include <QApplication>
+#include <QClipboard>
 #include <QFileInfo>
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
 
+#include "console.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -53,6 +56,7 @@ class RebaseHelperBackend : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(osImage currentImage READ currentImage CONSTANT)
+    Q_PROPERTY(Console::Model *consoleModel MEMBER m_console CONSTANT)
 
     Q_PROPERTY(QString recommendedDriver READ gpuDrivers CONSTANT)
     static QString checkNvidiaSupport();
@@ -77,4 +81,7 @@ public:
 
     // REBASE
     Q_INVOKABLE void rebaseImage(const QString new_image, QJSValue callback);
+
+    Console::Model *m_console;
+    Q_INVOKABLE void copyToClipboard() const;
 };

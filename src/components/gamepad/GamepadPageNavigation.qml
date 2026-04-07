@@ -113,19 +113,7 @@ Item {
         }
     }
 
-    Timer {
-        interval: Gamepad.pollingRate
-        running: root.targetScrollbar && (Math.abs(Gamepad.rStickMagnitude) > Gamepad.deadzone)
-        repeat: true
-        onTriggered: {
-
-            const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
-
-            const min_pos = 0;
-            const max_pos = 1 - root.targetScrollbar.size;
-            const new_pos = root.targetScrollbar.position + (Gamepad.rStickMagnitude / 2700000);
-
-            root.targetScrollbar.position = clamp(new_pos, min_pos, max_pos);
-        }
+    ScrollHandler {
+        scrollBar: root.targetScrollbar 
     }
 }
