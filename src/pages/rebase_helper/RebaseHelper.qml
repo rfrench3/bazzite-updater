@@ -401,61 +401,8 @@ FC.FormCardPage {
         }
     }
 
-    Kirigami.OverlayDrawer {
+    ConsoleDrawer {
         id: consoleDrawer
-        edge: Qt.BottomEdge
-
-        modal: false
-        drawerOpen: false
-
-        height: page.height / 2
-        
-        contentItem: RowLayout {
-
-            ScrollHandler {
-                scrollBar: consoleView.scrollBar
-            }
-            
-            ConsoleView {
-                id: consoleView
-                model: RebaseHelperBackend.consoleModel
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.horizontalStretchFactor: 1
-            }
-
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-
-                QQC2.Button {
-                    id: copy_button
-                    Layout.fillWidth: true
-                    text: i18n("Copy to Clipboard") + Gamepad.labels.space + Gamepad.labels.x
-                    onClicked: {
-                        RebaseHelperBackend.copyToClipboard();
-                        showPassiveNotification(i18n("Text Copied"), Kirigami.short);
-                    }
-                }
-
-                QQC2.Button {
-                    id: close_button
-                    Layout.fillWidth: true
-                    text: i18n("Close") + Gamepad.labels.space + Gamepad.labels.y
-                    onClicked: consoleDrawer.close()
-                }
-            }
-
-        }
-
-        function handleInput(buttonId, button_down) {
-            if (!button_down) return;
-
-            switch (buttonId) {
-                case 2: // X
-                    copy_button.animateClick();
-                case 3: // Y
-                    close_button.animateClick();
-            }
-        }
+        model: RebaseHelperBackend.consoleModel
     }
 }

@@ -4,6 +4,8 @@
 #pragma once
 
 #include <QAbstractListModel>
+#include <QApplication>
+#include <QClipboard>
 #include <QtCore>
 #include <qqmlintegration.h>
 
@@ -36,6 +38,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     void newLine(const QString &content, LogLevel level);
+
+    Q_INVOKABLE void copyToClipboard() const;
 
 private:
     struct Line {

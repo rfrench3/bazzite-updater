@@ -231,18 +231,6 @@ QString SystemUpdateBackend::getServiceResult(const QString &service) const
     return output;
 }
 
-void SystemUpdateBackend::copyToClipboard() const
-{
-    QString plainText;
-
-    for (int row = 0; row < m_console->rowCount(); ++row) {
-        plainText += m_console->data(m_console->index(row, 0), Qt::DisplayRole).toString() + u"\n"_s;
-    }
-
-    if (!plainText.isEmpty())
-        QApplication::clipboard()->setText(plainText);
-}
-
 void SystemUpdateBackend::setProgressLevel(int progressLevel)
 {
     m_progressLevel = progressLevel;

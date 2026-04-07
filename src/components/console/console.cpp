@@ -39,3 +39,15 @@ void Model::newLine(const QString &content, LogLevel level)
     m_lines.append({content, level});
     endInsertRows();
 }
+
+void Model::copyToClipboard() const
+{
+    QString plainText;
+
+    for (int row = 0; row < rowCount(); ++row) {
+        plainText += data(index(row, 0), Qt::DisplayRole).toString() + QStringLiteral("\n");
+    }
+
+    if (!plainText.isEmpty())
+        QApplication::clipboard()->setText(plainText);
+}

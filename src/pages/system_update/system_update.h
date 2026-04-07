@@ -63,8 +63,6 @@ public:
 
     Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue(), QJSValue callbackErrors = QJSValue());
 
-    Q_INVOKABLE void copyToClipboard() const;
-
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
 

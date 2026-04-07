@@ -195,70 +195,27 @@ Kirigami.Page {
         }
     ]
 
-    Kirigami.OverlayDrawer {
+    ConsoleDrawer {
         id: consoleDrawer
-        edge: Qt.BottomEdge
+        model: SystemUpdateBackend.consoleModel
 
-        modal: false
-        drawerOpen: false
+        Loader {
+            id: testingNumberInputLoader
+            Layout.fillWidth: true
+            active: typeof TestingMode !== "undefined" && TestingMode
+            visible: active
 
-        height: page.height / 2
-        
-        contentItem: RowLayout {
-
-            ScrollHandler {
-                scrollBar: consoleView.scrollBar
-            }
-            
-            ConsoleView {
-                id: consoleView
-                model: SystemUpdateBackend.consoleModel
+            sourceComponent: QQC2.SpinBox {
                 Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.horizontalStretchFactor: 1
-            }
+                from: 0
+                to: 9999
+                value: SystemUpdateBackend.testConsoleLinesPerSecond
+                editable: true
 
-            ColumnLayout {
-                Layout.alignment: Qt.AlignTop
-
-                QQC2.Button {
-                    id: copy_button
-                    Layout.fillWidth: true
-                    text: i18n("Copy to Clipboard") + Gamepad.labels.space + Gamepad.labels.x
-                    onClicked: {
-                        SystemUpdateBackend.copyToClipboard();
-                        showPassiveNotification(i18n("Text Copied"), Kirigami.short);
-                    }
-                }
-
-                QQC2.Button {
-
-                    Layout.fillWidth: true
-                    text: i18n("Close") + Gamepad.labels.space + Gamepad.labels.y
-                    onClicked: consoleDrawer.close()
-                }
-
-                // Only exists when compiled for development
-                Loader {
-                    id: testingNumberInputLoader
-                    Layout.fillWidth: true
-                    active: typeof TestingMode !== "undefined" && TestingMode
-                    visible: active
-
-                    sourceComponent: QQC2.SpinBox {
-                        Layout.fillWidth: true
-                        from: 0
-                        to: 9999
-                        value: SystemUpdateBackend.testConsoleLinesPerSecond
-                        editable: true
-
-                        onValueModified: {
-                            SystemUpdateBackend.testConsoleLinesPerSecond = value;
-                        }
-                    }
+                onValueModified: {
+                    SystemUpdateBackend.testConsoleLinesPerSecond = value;
                 }
             }
-
         }
     }
 
