@@ -70,7 +70,13 @@ FC.FormCardPage {
                     showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
                     RebaseHelperBackend.rollbackImage(function(callback) {
                         if (callback != 0) {
-                            showPassiveNotification(i18n("Rollback Failed."), Kirigami.long);
+                            showPassiveNotification(i18n("Rollback Failed."), 
+                                Kirigami.long,
+                                i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
+                                function() {
+                                    errorDisplayDialog.open();
+                                }
+                            );
                         }
                         else {
                             showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
@@ -241,7 +247,14 @@ FC.FormCardPage {
                     console.log("Rebasing to: " + rebase_selection.image);
                     RebaseHelperBackend.rebaseImage(rebase_selection.image, function (callback) {  
                         if (callback) {
-                            showPassiveNotification("Rebase failed...", Kirigami.long);
+                            showPassiveNotification(
+                                "Rebase failed...", 
+                                Kirigami.long, 
+                                i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
+                                function() {
+                                    errorDisplayDialog.open();
+                                }
+                            );
                         } else {
                             showPassiveNotification("Rebase success! Reboot to apply changes.", Kirigami.long);
                         }

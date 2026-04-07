@@ -7,6 +7,7 @@
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
+#include <functional>
 #include <iostream>
 
 using namespace Qt::Literals::StringLiterals;
@@ -18,7 +19,7 @@ void startProcess(QProcess *process, const QString &cmd, const QStringList &args
 void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
 bool isProgramPresent(const QString &cmd);
 bool isServicePresent(const QString &service);
-void connectQProcessOutputs(QProcess *process, QByteArray &stored_out, QByteArray &stored_err);
+void connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput);
 };
 
 class AppState : public QObject
@@ -34,6 +35,8 @@ class AppState : public QObject
     Q_PROPERTY(bool commandRunning READ commandRunning NOTIFY commandRunningChanged)
     Q_PROPERTY(bool commandSucceeded READ commandSucceeded NOTIFY commandSucceededChanged)
     Q_PROPERTY(bool allowCommands READ allowCommands NOTIFY allowCommandsChanged)
+
+    Q_PROPERTY(QString commandError READ commandError NOTIFY commandErrorChanged)
 
     enum sendSignals {
         UPDATE,
@@ -73,6 +76,10 @@ public:
     {
         return !m_commandSucceeded && !commandRunning();
     }
+    QString commandError() const
+    {
+        return QString::fromUtf8(cmd_out);
+    }
 
     void setUpdateRunning(bool running);
     void setRollbackRunning(bool running);
@@ -87,11 +94,13 @@ public:
     Q_SIGNAL void commandRunningChanged();
     Q_SIGNAL void commandSucceededChanged();
     Q_SIGNAL void allowCommandsChanged();
+    Q_SIGNAL void commandErrorChanged();
 
     void sendUpdateSignals(sendSignals signal);
 
+    // setter is not exposed to QML
+    void appendCommandError(QByteArray error);
     QByteArray cmd_out;
-    QByteArray cmd_err;
 
 private:
     bool m_updateRunning = false;

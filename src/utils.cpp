@@ -46,26 +46,17 @@ bool Utils::isServicePresent(const QString &service)
     return check_process.exitCode() == 0;
 }
 
-// Connects QProcess output to stdout and stderr of application and stores a copy
-void Utils::connectQProcessOutputs(QProcess *process, QByteArray &stored_out, QByteArray &stored_err)
+// Sets process channel mode to MergedChannels,
+// stores a copy of QProcess output using storeOutput and forwards output to main application
+void Utils::connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput)
 {
-    if (process->processChannelMode() != QProcess::SeparateChannels) {
-        qWarning() << "cannot connect to outputs unless QProcess channel mode is default (SeparateChannels)!";
-        return;
-    }
+    process->setProcessChannelMode(QProcess::MergedChannels);
 
-    QObject::connect(process, &QProcess::readyReadStandardOutput, process, [process, &stored_out]() {
+    QObject::connect(process, &QProcess::readyReadStandardOutput, process, [process, storeOutput]() {
         QByteArray data_out = process->readAllStandardOutput();
-        stored_out.append(data_out);
+        storeOutput(data_out);
         std::cout.write(data_out.constData(), data_out.size());
         std::cout.flush();
-    });
-
-    QObject::connect(process, &QProcess::readyReadStandardError, process, [process, &stored_err]() {
-        QByteArray data_out = process->readAllStandardError();
-        stored_err.append(data_out);
-        std::cerr.write(data_out.constData(), data_out.size());
-        std::cerr.flush();
     });
 }
 
@@ -134,4 +125,10 @@ void AppState::rebootSystem(QJSValue callback)
     Utils::startProcess(reboot, u"systemctl"_s, {u"reboot"_s});
     reboot.waitForFinished();
     callback.call({1});
+}
+
+void AppState::appendCommandError(QByteArray error)
+{
+    cmd_out.append(error);
+    Q_EMIT commandErrorChanged();
 }

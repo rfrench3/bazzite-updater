@@ -18,35 +18,27 @@ Kirigami.Page {
     // HACK: Global drawer gamepad labels are placed in the page titles
     title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("System Update")
 
-    Connections {
-        target: Gamepad
+    function handleInput(buttonId, button_down) {
 
-        function onButtonPressed(buttonId, button_down) {
-            if (button_down == false)
-                return;
+        if (button_down == false) return;
 
-            if (appGlobalDrawer.drawerOpen == true)
-                return;
-            switch (buttonId) {
-                case 0: // A
-                    updateButton.animateClick();
-                    break;
-                case 2: // X
-                    if (consoleDrawer.drawerOpen)
-                        copy_button.animateClick();
-                    break;
-                case 3: // Y
-                    toggleConsole.trigger();
-                    // Closes up to 5 passive notifications
-                    for (let i = 0; i < 5; ++i) {
-                        hidePassiveNotification();
-                    }
-                    break;
-            }
+        switch (buttonId) {
+            case 0: // A
+                updateButton.animateClick();
+                break;
+            case 2: // X
+                if (consoleDrawer.drawerOpen)
+                    copy_button.animateClick();
+                break;
+            case 3: // Y
+                toggleConsole.trigger();
+                // Closes up to 5 passive notifications
+                for (let i = 0; i < 5; ++i) {
+                    hidePassiveNotification();
+                }
+                break;
         }
     }
-
-    
 
     Kirigami.Action {
         id: updateAction

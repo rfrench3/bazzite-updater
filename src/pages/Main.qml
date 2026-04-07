@@ -18,7 +18,7 @@ import io.github.rfrench3.Gamepad
 StatefulApp.StatefulWindow {
     id: root
 
-    title: TestingMode ? "testing updater" : i18nc("@title:window", "Bazzite Updater")
+    title: i18nc("@title:window", "Bazzite Updater")
 
     windowName: "Bazzite Updater"
 
@@ -31,71 +31,36 @@ StatefulApp.StatefulWindow {
     onActiveChanged: Gamepad.setPollController(active)
 
     // Handle global drawer navigation for controllers
-    // The GamePadNavigation class cannot be used because actions don't have the required properties
-    // TODO: currently, inputs are sent directly to each individual page as well as to this section. Consider passing inputs to pages through this instead.
-    /*
-    something like this?
 
-        property list[location] [drawer, page, dialog]
-        property focused_location
+    property var activeDialog: null
 
-        sendInputPressed(location, buttonId)    
-            location.onButtonPressed(buttonId)
-    */
     Connections {
         target: Gamepad
 
         function onButtonPressed(buttonId, button_down) {
-            // NOTE: button_down is a press. not button_down is a release. Only the press input is used in places
-            if (button_down == false)
-                return;
 
-            // INPUT PRIORITY: Active dialogs, toggle global drawer, global drawer itself.
-            // FIXME: pages independently recieve and handle inputs entirely separate to this logic
+            if (activeDialog) {
+                activeDialog.handleInput(buttonId, button_down);
+                return;    
+            }
 
-            // SECTION: Check for active dialogs            
-            if (rebootDialog.isActive) {
-                rebootDialog.handleInput(buttonId);
-                return;
-            }   
-            if (exitDialog.isActive) {
-                exitDialog.handleInput(buttonId);
-                return;
-            }   
-
-            // SECTION: No dialogs, activate global drawer
             switch (buttonId) {
                 case 1: // B
                 case 4: // view, minus
                 case 6: // pause, plus
-                    appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
-                    break;
+                    if (button_down) 
+                        appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
+                    return;
             }
-            
-            // SECTION: Global Drawer
-            if (appGlobalDrawer.drawerOpen != true)
+
+            if (appGlobalDrawer.drawerOpen) {
+                appGlobalDrawer.handleInput(buttonId, button_down);
                 return;
+            }
 
-            switch (buttonId) {
-                case 0: // A
-                    appGlobalDrawer.drawerOpen = false;
-                    break;
-                
-                case 2: // X
-                    actionQuit.triggered();
-                    break;
-
-                case 3: // Y
-                    actionReboot.triggered();
-                    break;
-
-                case 11: // Dpad Up
-                    appGlobalDrawer.navigateGlobalDrawer(-1);
-                    break;
-
-                case 12: // Dpad Down
-                    appGlobalDrawer.navigateGlobalDrawer(1);
-                    break;
+            if (typeof pageStack.currentItem.handleInput === "function") {
+                pageStack.currentItem.handleInput(buttonId, button_down);
+                return;
             }
         }
     }
@@ -168,7 +133,6 @@ StatefulApp.StatefulWindow {
                 
                 onTriggered: {
                     rebootDialog.open();
-                    rebootDialog.isActive = true;
                 }
             },
 
@@ -180,7 +144,6 @@ StatefulApp.StatefulWindow {
                 onTriggered: {
                     if (AppState.commandRunning) {
                         exitDialog.open(); 
-                        exitDialog.isActive = true;
                     }
                     else
                         Qt.quit();
@@ -188,7 +151,7 @@ StatefulApp.StatefulWindow {
             }
         ]
 
-        function navigateGlobalDrawer(direction) {
+        function __navigateGlobalDrawer(direction) {
             // direction = +1 or -1, used to navigate with a controller
 
             // Find the current page
@@ -223,15 +186,37 @@ StatefulApp.StatefulWindow {
             }
         }
 
+        function handleInput(buttonId, button_down) {
+            if (!button_down) return;
+
+            switch (buttonId) {
+                case 0: // A
+                    drawerOpen = false;
+                    break;
+                
+                case 2: // X
+                    actionQuit.triggered();
+                    break;
+
+                case 3: // Y
+                    actionReboot.triggered();
+                    break;
+
+                case 11: // Dpad Up
+                    __navigateGlobalDrawer(-1);
+                    break;
+
+                case 12: // Dpad Down
+                    __navigateGlobalDrawer(1);
+                    break;
+            }
+        }
     }
 
-    Kirigami.PromptDialog {
+    AppDialog {
         id: rebootDialog
         title: i18nc("@title:window", "Reboot System")
         standardButtons: Kirigami.Dialog.NoButton
-
-        // used by controller input system to determine if dialog gets inputs or not
-        property bool isActive: false
 
         subtitle: AppState.commandRunning
             ? i18n("This will reboot the system,\nbut %1 is still in progress!\nRebooting now will cause it to not apply.",
@@ -258,10 +243,7 @@ StatefulApp.StatefulWindow {
             }
         ]
 
-        onRejected: isActive = false
-
         onAccepted: {
-            isActive = false;
             AppState.rebootSystem(function (callback) {
                 if (AppState.commandSucceeded)
                     showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
@@ -272,7 +254,8 @@ StatefulApp.StatefulWindow {
             });
         }
 
-        function handleInput(buttonId) {
+        function handleInput(buttonId, button_down) {
+            if (!button_down) return;
             switch (buttonId) {
                 case 0: // A
                     confirmReboot.triggered();    
@@ -286,13 +269,10 @@ StatefulApp.StatefulWindow {
 
     }
 
-    Kirigami.PromptDialog {
+    AppDialog {
         id: exitDialog
         title: i18n("Exit Application")
         standardButtons: Kirigami.Dialog.NoButton
-
-        // used by controller input system to determine if dialog gets inputs or not
-        property bool isActive: false
 
         subtitle: {
             if (!AppState.commandRunning)
@@ -331,14 +311,11 @@ StatefulApp.StatefulWindow {
             }
         ]
 
-        onRejected: isActive = false
+        onAccepted: Qt.quit()
 
-        onAccepted: {
-            isActive = false; 
-            Qt.quit();
-        }
-
-        function handleInput(buttonId) {
+        function handleInput(buttonId, button_down) {
+            if (!button_down) return;
+            
             switch (buttonId) {
                 case 0: // A
                     confirmExit.triggered();    
@@ -350,6 +327,33 @@ StatefulApp.StatefulWindow {
             }
         }
 
+    }
+
+    AppDialog {
+        id: errorDisplayDialog
+        title: i18nc("@title:window", "Error Message")
+        standardButtons: Kirigami.Dialog.Ok
+
+        QQC2.Label {
+            id: errorDisplayDialogText
+            text: AppState.commandError
+        }        
+
+        function handleInput(buttonId, button_down) {
+            if (!button_down) return;
+            
+            switch (buttonId) {
+                case 0: // A
+                case 1: // B
+                    accept();    
+                    break;
+
+                case 2: // X
+                    Qt.application.clipboard.setText(errorDisplayDialogText.text);
+                    showPassiveNotification(i18n("Copied error message to clipboard."), Kirigami.short);
+                    break;
+            }
+        }
     }
 
     pageStack.initialPage: Qt.resolvedUrl("SystemUpdate.qml")
