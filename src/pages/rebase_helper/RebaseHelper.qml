@@ -35,10 +35,8 @@ FC.FormCardPage {
 
         switch (buttonId) {
             case 3: // Y
-                consoleDrawer.open();
+                toggleConsole.trigger();
         }   
-        
-    
     }
 
     actions: [

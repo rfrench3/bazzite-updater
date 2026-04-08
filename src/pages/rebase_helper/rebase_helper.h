@@ -83,5 +83,4 @@ public:
     Q_INVOKABLE void rebaseImage(const QString new_image, QJSValue callback);
 
     Console::Model *m_console;
-    Q_INVOKABLE void copyToClipboard() const;
 };

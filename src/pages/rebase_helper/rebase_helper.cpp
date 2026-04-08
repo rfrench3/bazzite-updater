@@ -125,7 +125,9 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
 
     QProcess *rollback = new QProcess(this);
     Utils::connectQProcessOutputs(rollback, [this](const QByteArray &output) {
-        m_console->newLine(QString::fromUtf8(output), Console::LogLevel::Info);
+        QString output_str = QString::fromUtf8(output).trimmed();
+        if (!output_str.isEmpty())
+            m_console->newLine(output_str, Console::LogLevel::Info);
     });
 
 #ifdef TESTING_BUILD
@@ -136,6 +138,8 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
 #else
     Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
 #endif
+    m_console->newLine(u"> bazzite-rollback-helper rollback -y"_s, Console::LogLevel::Info);
+
     connect(rollback, &QProcess::finished, [=]() {
         int exit_code = rollback->exitCode();
 
@@ -149,7 +153,7 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
 
     connect(rollback, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
         if (error == QProcess::FailedToStart)
-            qWarning() << "bazzite-rollback-helper not found or failed to start";
+            m_console->newLine(i18n("bazzite-rollback-helper was not found or failed to start."), Console::LogLevel::ErrorCritical);
 
         appState()->setRollbackRunning(false);
         callback.call({1});
@@ -173,10 +177,13 @@ void RebaseHelperBackend::rebaseImage(const QString new_image, QJSValue callback
 
     QProcess *rebase = new QProcess(this);
     Utils::connectQProcessOutputs(rebase, [this](const QByteArray &output) {
-        m_console->newLine(QString::fromUtf8(output), Console::LogLevel::Info);
+        QString output_str = QString::fromUtf8(output).trimmed();
+        if (output_str.isEmpty())
+            m_console->newLine(output_str, Console::LogLevel::Info);
     });
 
     Utils::startProcess(rebase, u"bazzite-rollback-helper"_s, {u"rebase"_s, new_image, u"-y"_s});
+    m_console->newLine(u"> bazzite-rollback-helper rebase "_s + new_image + u" -y"_s, Console::LogLevel::Info);
 
     connect(rebase, &QProcess::finished, [=]() {
         if (rebase->exitCode() == 0)
@@ -189,22 +196,10 @@ void RebaseHelperBackend::rebaseImage(const QString new_image, QJSValue callback
 
     connect(rebase, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
         if (error == QProcess::FailedToStart)
-            qWarning() << "bazzite-rollback-helper not found or failed to start";
+            m_console->newLine(i18n("bazzite-rollback-helper was not found or failed to start."), Console::LogLevel::ErrorCritical);
 
         appState()->setRebaseRunning(false);
         callback.call({1});
         rebase->deleteLater();
     });
-}
-
-void RebaseHelperBackend::copyToClipboard() const
-{
-    QString plainText;
-
-    for (int row = 0; row < m_console->rowCount(); ++row) {
-        plainText += m_console->data(m_console->index(row, 0), Qt::DisplayRole).toString() + u"\n"_s;
-    }
-
-    if (!plainText.isEmpty())
-        QApplication::clipboard()->setText(plainText);
 }
