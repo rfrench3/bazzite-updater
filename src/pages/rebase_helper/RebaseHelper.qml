@@ -21,6 +21,7 @@ FC.FormCardPage {
     GamepadPageNavigation { 
         targetWindow: page.Window.window 
         targetScrollable: page
+        active: applicationWindow().globalDrawer.drawerOpen !== true
     }
 
     function handleInput(buttonId, button_down) {

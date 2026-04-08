@@ -50,6 +50,7 @@ FormCard.AboutPage {
     GamepadPageNavigation {
         targetWindow: page.Window.window
         targetScrollable: page
+        active: applicationWindow().globalDrawer.drawerOpen !== true
     }
 
     // TODO: Use this property when it's in bazzite and the kde flatpak runtime. Currently it is not.

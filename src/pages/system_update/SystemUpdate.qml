@@ -22,15 +22,18 @@ Kirigami.Page {
 
         if (button_down == false) return;
 
+        switch (buttonId) {
+            case 0: // A
+                updateButton.animateClick();
+                return;
+        }
+
         if (consoleDrawer.drawerOpen) {
             consoleDrawer.handleInput(buttonId, button_down);
             return;
         }
 
         switch (buttonId) {
-            case 0: // A
-                updateButton.animateClick();
-                break;
             case 3: // Y
                 toggleConsole.trigger();
                 // Closes up to 5 passive notifications

@@ -9,6 +9,7 @@ FormCard.AboutPage {
     GamepadPageNavigation {
         targetWindow: page.Window.window
         targetScrollable: page
+        active: applicationWindow().globalDrawer.drawerOpen !== true
     } // TODO: make it easy to escape the License popup
 
     aboutData: {

@@ -22,6 +22,8 @@ Item {
     
     required property Window targetWindow
 
+    property bool active: true
+
     // When given a scroll bar, the right stick will smoothly scroll through it
     property ScrollBar targetScrollbar: null
 
@@ -86,7 +88,7 @@ Item {
          * @param button_down - true is button is being pressed, false if button is being released.
          */
         function onButtonPressed(buttonId, button_down) {
-            if (appGlobalDrawer.drawerOpen == true)
+            if (!active)
                 return;
 
             let item = root.targetWindow.activeFocusItem;
@@ -115,5 +117,6 @@ Item {
 
     ScrollHandler {
         scrollBar: root.targetScrollbar 
+        active: root.active
     }
 }
