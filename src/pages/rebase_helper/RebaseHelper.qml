@@ -36,6 +36,11 @@ FC.FormCardPage {
         switch (buttonId) {
             case 3: // Y
                 toggleConsole.trigger();
+                // Closes up to 5 passive notifications
+                for (let i = 0; i < 5; ++i) {
+                    hidePassiveNotification();
+                }
+                break;
         }   
     }
 

@@ -22,13 +22,14 @@ Kirigami.Page {
 
         if (button_down == false) return;
 
+        if (consoleDrawer.drawerOpen) {
+            consoleDrawer.handleInput(buttonId, button_down);
+            return;
+        }
+
         switch (buttonId) {
             case 0: // A
                 updateButton.animateClick();
-                break;
-            case 2: // X
-                if (consoleDrawer.drawerOpen)
-                    copy_button.animateClick();
                 break;
             case 3: // Y
                 toggleConsole.trigger();

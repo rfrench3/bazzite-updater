@@ -3,7 +3,7 @@
 
 <h2 align="center">A Graphical Frontend for the updating and rebasing tools used by Bazzite.</h2>
 
-![Updating Screen](screenshots/controller_main.webp)
+![Updating Screen](screenshots/update_drawer.png)
 
 <h1 align="center">Features</h1>
 
