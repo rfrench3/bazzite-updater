@@ -56,6 +56,11 @@ FC.FormCardPage {
 
     Layout.topMargin: Kirigami.Units.largeSpacing * 4
 
+    FontMetrics {
+        id: sysFont
+        font: Qt.application.font
+    }
+
     // TODO: Fit the rest of this page into formcards
     Kirigami.FormLayout {
 
@@ -69,11 +74,11 @@ FC.FormCardPage {
         QQC2.Label {
             Kirigami.FormData.isSection: true
 
-            // attempt to fill 3 rows, if set to exactly 3 then a word usually overhangs into a 4th row
-            Layout.preferredWidth: implicitWidth / 2.5
 
+            // Roughly fit text into 3 rows
+            Layout.preferredWidth: sysFont.advanceWidth(text) / 3.0
             wrapMode: Text.Wrap
-            // horizontalAlignment: Text.AlignJustify
+
             text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
         }
 
@@ -102,12 +107,11 @@ FC.FormCardPage {
                     showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
                     RebaseHelperBackend.rollbackImage(function(callback) {
                         if (callback != 0) {
-                            showPassiveNotification(i18n("Rollback Failed."), 
+                            showPassiveNotification(
+                                i18n("Rollback Failed."), 
                                 Kirigami.long,
                                 i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
-                                function() {
-                                    errorDisplayDialog.open();
-                                }
+                                consoleDrawer.open
                             );
                         }
                         else {
@@ -280,12 +284,10 @@ FC.FormCardPage {
                     RebaseHelperBackend.rebaseImage(rebase_selection.image, function (callback) {  
                         if (callback) {
                             showPassiveNotification(
-                                "Rebase failed...", 
+                                i18n("Rebase failed."), 
                                 Kirigami.long, 
                                 i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
-                                function() {
-                                    errorDisplayDialog.open();
-                                }
+                                consoleDrawer.open
                             );
                         } else {
                             showPassiveNotification("Rebase success! Reboot to apply changes.", Kirigami.long);

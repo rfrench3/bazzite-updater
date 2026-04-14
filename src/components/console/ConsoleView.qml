@@ -117,11 +117,6 @@ ScrollView {
         id: palette
         colorGroup: SystemPalette.Active 
     }
-
-    FontMetrics {
-        id: sysFont
-        font: Qt.application.font
-    }
 }
 
 }
