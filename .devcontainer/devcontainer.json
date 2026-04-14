@@ -6,11 +6,52 @@
 	"remoteUser": "vscode",
 	"customizations": {
 		"vscode": {
+			"settings": {
+				"cmake.configureOnOpen": true,
+				"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+				"C_Cpp.default.includePath": [
+					"${workspaceFolder}",
+					"${workspaceFolder}/src/**",
+					"${workspaceFolder}/tests/**",
+					"/usr/include/qt6",
+					"/usr/include/qt6/QtWidgets",
+					"/usr/include/qt6/QtCore",
+					"/usr/include/qt6/QtGui",
+					"/usr/include/qt6/QtQuick"
+				],
+				"C_Cpp.default.defines": [],
+				"C_Cpp.default.compilerPath": "/usr/bin/clang",
+				"C_Cpp.default.cStandard": "c17",
+				"C_Cpp.default.cppStandard": "c++17",
+				"C_Cpp.default.intelliSenseMode": "linux-clang-x64",
+				"C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json"
+			},
 			"extensions": [
 				"ms-vscode.cpptools-extension-pack",
-				"theqtcompany.qt",
-				"ms-vscode.cmake-tools"
-			]
+				"ms-vscode.cmake-tools",
+				"theqtcompany.qt-cpp",
+				"theqtcompany.qt-core",
+				"theqtcompany.qt-qml" 
+			],
+			"tasks": {
+				"version": "2.0.0",
+				"tasks": [
+					{
+						"label": "build and run",
+						"type": "shell",
+						"command": "cmake -B build -DTESTING_BUILD=ON && cmake --build build && ./build/bin/bazzite_updater",
+						"group": {
+							"kind": "build",
+							"isDefault": true
+						},
+						"problemMatcher": []
+					}
+				]
+			},
+			"launch": {
+				"version": "0.2.0",
+				"configurations": []
+			}
 		}
 	},
 
@@ -24,6 +65,5 @@
 		"source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached",
 		"source=/usr/share/ublue-os/image-info.json,target=/run/host/usr/share/ublue-os/image-info.json,type=bind,consistency=cached",
 		"source=/dev/input,target=/dev/input,type=bind"
-	],
-	"postCreateCommand": "plasma-apply-desktoptheme breeze-dark || true"
+	]
 }
