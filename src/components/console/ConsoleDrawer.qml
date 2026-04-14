@@ -17,6 +17,7 @@ Kirigami.OverlayDrawer {
 
     required property var model
     property var page: parent
+    property alias extraColumnItems: columnAdditional.data
 
     edge: Qt.BottomEdge
 
@@ -71,6 +72,10 @@ Kirigami.OverlayDrawer {
                 Layout.fillWidth: true
                 text: i18n("Close") + Gamepad.labels.space + Gamepad.labels.y
                 onClicked: root.close()
+            }
+
+            ColumnLayout {
+                id: columnAdditional
             }
         }
 

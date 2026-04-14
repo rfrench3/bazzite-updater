@@ -203,24 +203,26 @@ Kirigami.Page {
         id: consoleDrawer
         model: SystemUpdateBackend.consoleModel
 
-        Loader {
-            id: testingNumberInputLoader
-            Layout.fillWidth: true
-            active: typeof TestingMode !== "undefined" && TestingMode
-            visible: active
-
-            sourceComponent: QQC2.SpinBox {
+        extraColumnItems: [
+            Loader {
+                id: testingNumberInputLoader
                 Layout.fillWidth: true
-                from: 0
-                to: 9999
-                value: SystemUpdateBackend.testConsoleLinesPerSecond
-                editable: true
+                active: typeof TestingMode !== "undefined" && TestingMode
+                visible: active
 
-                onValueModified: {
-                    SystemUpdateBackend.testConsoleLinesPerSecond = value;
+                sourceComponent: QQC2.SpinBox {
+                    Layout.fillWidth: true
+                    from: 0
+                    to: 9999
+                    value: SystemUpdateBackend.testConsoleLinesPerSecond
+                    editable: true
+
+                    onValueModified: {
+                        SystemUpdateBackend.testConsoleLinesPerSecond = value;
+                    }
                 }
             }
-        }
+        ]
     }
 
 }
