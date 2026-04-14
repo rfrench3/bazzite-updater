@@ -49,12 +49,12 @@ StatefulApp.StatefulWindow {
                 case 4: // view, minus
                 case 6: // pause, plus
                     if (button_down) 
-                        appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen;
+                        globalDrawer.drawerOpen = !globalDrawer.drawerOpen;
                     return;
             }
 
-            if (appGlobalDrawer.drawerOpen) {
-                appGlobalDrawer.handleInput(buttonId, button_down);
+            if (globalDrawer.drawerOpen) {
+                globalDrawer.handleInput(buttonId, button_down);
                 return;
             }
 
@@ -67,12 +67,12 @@ StatefulApp.StatefulWindow {
 
     globalDrawer: Kirigami.GlobalDrawer {
 
-        id: appGlobalDrawer
+        id: globalDrawer
 
         Shortcut {
             sequences: ["F1", "Ctrl+M", "Escape"]
             context: Qt.ApplicationShortcut
-            onActivated: appGlobalDrawer.drawerOpen = !appGlobalDrawer.drawerOpen
+            onActivated: globalDrawer.drawerOpen = !globalDrawer.drawerOpen
         }
 
         QQC2.ActionGroup {
@@ -83,7 +83,7 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
 
                 text: i18n("System Update")
-                icon.name: "system-software-update"
+                icon.name: "system-software-update-symbolic"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
@@ -95,7 +95,7 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
 
                 text: i18n("System Rebase Tool")
-                icon.name: "system-reboot"
+                icon.name: "system-reboot-symbolic"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
@@ -107,7 +107,7 @@ StatefulApp.StatefulWindow {
 
             Kirigami.Action {
                 text: i18n("About Bazzite")
-                icon.name: "help-about"
+                icon.name: "help-about-symbolic"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
@@ -116,7 +116,7 @@ StatefulApp.StatefulWindow {
             },
             Kirigami.Action {
                 text: i18n("About Bazzite Updater")
-                icon.name: "help-about"
+                icon.name: "help-about-symbolic"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
@@ -129,7 +129,7 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
                 id: actionReboot
                 text: i18n("Reboot System") + Gamepad.labels.space + Gamepad.labels.y
-                icon.name: AppState.commandSucceeded ? "system-shutdown-update" : "system-shutdown" 
+                icon.name: AppState.commandSucceeded ? "system-shutdown-update-symbolic" : "system-shutdown-symbolic" 
                 
                 onTriggered: {
                     rebootDialog.open();
@@ -139,7 +139,7 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
                 id: actionQuit
                 text: i18n("Quit") + Gamepad.labels.space + Gamepad.labels.x
-                icon.name: "application-exit"
+                icon.name: "application-exit-symbolic"
                 shortcut: StandardKey.Quit
                 onTriggered: {
                     if (AppState.commandRunning) {
@@ -156,8 +156,8 @@ StatefulApp.StatefulWindow {
 
             // Find the current page
             let currentIndex = -1;
-            for (let i = 0; i < appGlobalDrawer.actions.length; i++) {
-                if (appGlobalDrawer.actions[i].checked) {
+            for (let i = 0; i < globalDrawer.actions.length; i++) {
+                if (globalDrawer.actions[i].checked) {
                     currentIndex = i;
                     break;
                 }
@@ -166,23 +166,23 @@ StatefulApp.StatefulWindow {
             let newIndex = currentIndex;
 
             // Find the next page (skip non-page elements of the list)
-            for (let j = 0; j < appGlobalDrawer.actions.length; j++) {
+            for (let j = 0; j < globalDrawer.actions.length; j++) {
                 newIndex += direction;
 
                 // Do not wrap around
-                if (newIndex < 0 || newIndex >= appGlobalDrawer.actions.length)
+                if (newIndex < 0 || newIndex >= globalDrawer.actions.length)
                     return;
 
-                let item = appGlobalDrawer.actions[newIndex];
+                let item = globalDrawer.actions[newIndex];
                 if (item.checkable)
                     break;
             }
 
             // The next page was found, naviagte to it
             if (newIndex !== currentIndex) {
-                if (currentIndex >= 0) appGlobalDrawer.actions[currentIndex].checked = false;
-                appGlobalDrawer.actions[newIndex].triggered();
-                appGlobalDrawer.actions[newIndex].checked = true;
+                if (currentIndex >= 0) globalDrawer.actions[currentIndex].checked = false;
+                globalDrawer.actions[newIndex].triggered();
+                globalDrawer.actions[newIndex].checked = true;
             }
         }
 

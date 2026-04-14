@@ -20,6 +20,7 @@ void startProcess(QProcess &process, const QString &cmd, const QStringList &args
 bool isProgramPresent(const QString &cmd);
 bool isServicePresent(const QString &service);
 void connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput);
+bool isGamescopeSession();
 };
 
 class AppState : public QObject
@@ -38,11 +39,17 @@ class AppState : public QObject
 
     Q_PROPERTY(QString commandError READ commandError NOTIFY commandErrorChanged)
 
+    Q_PROPERTY(bool isGamescopeSession MEMBER is_gamescope_session CONSTANT)
+    Q_PROPERTY(bool isBrhPresent READ isBrhPresent CONSTANT)
+
     enum sendSignals {
         UPDATE,
         REBASE,
         ROLLBACK
     };
+
+    // Rebasing is not possible in gamescope session due to its required password input, which gamescope session fails to display.
+    const bool is_gamescope_session = Utils::isGamescopeSession();
 
     static AppState *m_instance;
 
@@ -79,6 +86,10 @@ public:
     QString commandError() const
     {
         return QString::fromUtf8(cmd_out);
+    }
+    bool isBrhPresent() const
+    {
+        return Utils::isProgramPresent(u"bazzite-rollback-helper"_s);
     }
 
     void setUpdateRunning(bool running);

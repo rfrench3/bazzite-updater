@@ -68,10 +68,11 @@ FC.FormCardPage {
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: i18n("Rollback Last Update")
-            // level: 2
+            enabled: AppState.isBrhPresent
         }
 
         QQC2.Label {
+            // Prevent the form from forcing this into the right-side
             Kirigami.FormData.isSection: true
 
 
@@ -80,6 +81,7 @@ FC.FormCardPage {
             wrapMode: Text.Wrap
 
             text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
+            enabled: AppState.isBrhPresent
         }
 
         QQC2.CheckBox {
@@ -87,7 +89,7 @@ FC.FormCardPage {
             // Layout.alignment: Qt.AlignRight
             text: i18n("Confirm")
 
-            enabled: !AppState.rollbackRunning
+            enabled: !AppState.rollbackRunning && !AppState.commandSucceeded && AppState.isBrhPresent
         }
 
         Item {
@@ -101,7 +103,7 @@ FC.FormCardPage {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 
-                text: i18n("Rollback")
+                text: i18n("Rollback") + (AppState.isBrhPresent ? "" : i18n(" (Unavailable)"))
                 
                 onClicked: {
                     showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
@@ -120,7 +122,7 @@ FC.FormCardPage {
                     });
                 }
 
-                enabled: AppState.allowCommands && confirmRollback.checked
+                enabled: AppState.allowCommands && AppState.isBrhPresent && confirmRollback.checked
             }
 
             QQC2.BusyIndicator {
@@ -137,12 +139,14 @@ FC.FormCardPage {
         Kirigami.Separator {
             Kirigami.FormData.label: i18nc("Image, such as referring to Bazzite vs Bazzite-deck", "Rebase to New Image")
             Kirigami.FormData.isSection: true
+            enabled: AppState.isBrhPresent && !AppState.isGamescopeSession
         }
 
         QQC2.Label {
             Kirigami.FormData.label: i18n("Recommended images:")
             text: RebaseHelperBackend.recommendedDriver
             visible: RebaseHelperBackend.recommendedDriver != ""
+            enabled: AppState.isBrhPresent && !AppState.isGamescopeSession
         }
         
         QtObject {
@@ -205,6 +209,7 @@ FC.FormCardPage {
                 onClicked: {
                     rebase_selection.name = modelData;
                 }
+                enabled: AppState.isBrhPresent && !AppState.isGamescopeSession
             }
         }
 
@@ -225,6 +230,7 @@ FC.FormCardPage {
             onClicked: {
                 rebase_selection.branch = "stable";
             }
+            enabled: AppState.isBrhPresent && !AppState.isGamescopeSession
         }
         QQC2.RadioButton {
             id: rebase_branch_testing
@@ -238,6 +244,7 @@ FC.FormCardPage {
             onClicked: {
                 rebase_selection.branch = "testing";
             }
+            enabled: AppState.isBrhPresent && !AppState.isGamescopeSession
         }
 
         // Fallback for misc. other branches
@@ -254,7 +261,7 @@ FC.FormCardPage {
                 && RebaseHelperBackend.currentImage.branch != "testing") 
                 {
                     checked = true;
-                    enabled = true;
+                    enabled = AppState.isBrhPresent && !AppState.isGamescopeSession;
                     visible = true;
                 }
             }
@@ -275,8 +282,13 @@ FC.FormCardPage {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 
-                text: i18n("Rebase")
-                enabled: AppState.allowCommands && (RebaseHelperBackend.currentImage.name != rebase_selection.name || RebaseHelperBackend.currentImage.branch != rebase_selection.branch)
+                text: i18n("Rebase") + (AppState.isBrhPresent ? "" : i18n(" (Unavailable)"))
+                enabled: AppState.allowCommands 
+                    && AppState.isBrhPresent 
+                    && (
+                        RebaseHelperBackend.currentImage.name != rebase_selection.name 
+                        || RebaseHelperBackend.currentImage.branch != rebase_selection.branch
+                        )
 
                 onClicked: { 
                     showPassiveNotification("Rebase started", Kirigami.short);
@@ -302,6 +314,27 @@ FC.FormCardPage {
                 anchors.leftMargin: Kirigami.Units.smallSpacing
                 anchors.verticalCenter: rebaseButton.verticalCenter
                 running: AppState.rebaseRunning
+            }
+        }
+    }
+
+    FC.FormCard {
+        visible: brhPresentMessage.visible
+        FC.FormTextDelegate {
+            id: brhPresentMessage
+
+            visible: text !== ""
+
+            font.bold: true
+            textItem.wrapMode: Text.WordWrap
+
+            text: {
+                if (!AppState.isBrhPresent)
+                    return i18n("Bazzite Rollback Helper is not present on the system. This page's information is still available, but it is otherwise nonfunctional.")
+                else if (AppState.isGamescopeSession)
+                    return i18n("The app is being run in Steam's Gamescope Session. Switch to Desktop mode to use the System Rebase feature.")
+                else
+                    return ""
             }
         }
     }
