@@ -20,7 +20,7 @@ void startProcess(QProcess &process, const QString &cmd, const QStringList &args
 bool isProgramPresent(const QString &cmd);
 bool isServicePresent(const QString &service);
 void connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput);
-bool isGamescopeSession();
+const bool GAMESCOPE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"gamescope"_s);
 };
 
 class AppState : public QObject
@@ -49,7 +49,7 @@ class AppState : public QObject
     };
 
     // Rebasing is not possible in gamescope session due to its required password input, which gamescope session fails to display.
-    const bool is_gamescope_session = Utils::isGamescopeSession();
+    const bool is_gamescope_session = Utils::GAMESCOPE_SESSION;
 
     static AppState *m_instance;
 

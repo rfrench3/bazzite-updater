@@ -8,6 +8,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickStyle>
+#include <QScreen>
 #include <QUrl>
 
 #include "version-bazzite_updater.h"
@@ -21,10 +22,28 @@
 #include "system_update.h"
 #include "utils.h"
 
+#define BASE_HEIGHT 1080.0
+
 using namespace Qt::Literals::StringLiterals;
 
 int main(int argc, char *argv[])
 {
+    /*
+        Gamescope-session does not apply any app scaling.
+        This ensures it is scaled well on high-DPI, while respecting regular desktop settings.
+
+        This may behave strangely in multi-monitor environments, but gamescope should keep those hidden from the app.
+        Example: kde window rules to move the app to a certain display seem to break this scaling check
+    */
+    if (Utils::GAMESCOPE_SESSION && qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR")) {
+        QGuiApplication screenGetter(argc, argv);
+        QScreen *screen = screenGetter.primaryScreen();
+        const float height = screen->geometry().height();
+        const float scale_factor = height / BASE_HEIGHT;
+        if (scale_factor > 1.0) // only scale on displays above 1080p
+            qputenv("QT_SCALE_FACTOR", QByteArray::number(scale_factor));
+    }
+
     KIconTheme::initTheme();
     QIcon::setFallbackThemeName("breeze"_L1);
     QApplication app(argc, argv);

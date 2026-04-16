@@ -60,12 +60,6 @@ void Utils::connectQProcessOutputs(QProcess *process, const std::function<void(c
     });
 }
 
-bool Utils::isGamescopeSession()
-{
-    qWarning() << "Gamescope check not yet implemented, always returns false!";
-    return false;
-}
-
 // AppState
 
 AppState *AppState::m_instance = nullptr;
