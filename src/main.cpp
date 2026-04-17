@@ -28,32 +28,34 @@ using namespace Qt::Literals::StringLiterals;
 
 int main(int argc, char *argv[])
 {
-    /*
-        Gamescope-session does not apply any app scaling.
-        This ensures it is scaled well on high-DPI, while respecting regular desktop settings.
+    if (Utils::GAMESCOPE_SESSION) {
+        /*
+            Gamescope-session does not apply any app scaling.
+            This ensures it is scaled well on high-DPI, while respecting regular desktop settings.
 
-        This may behave strangely in multi-monitor environments, but gamescope should keep those hidden from the app.
-        Example: kde window rules to move the app to a certain display seem to break this scaling check
-    */
-    if (Utils::GAMESCOPE_SESSION && qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR")) {
-        QGuiApplication screenGetter(argc, argv);
-        QScreen *screen = screenGetter.primaryScreen();
-        const float height = screen->geometry().height();
-        const float scale_factor = height / BASE_HEIGHT;
-        if (scale_factor > 1.0) // only scale on displays above 1080p
-            qputenv("QT_SCALE_FACTOR", QByteArray::number(scale_factor));
+            This may behave strangely in multi-monitor environments, but gamescope should keep those hidden from the app.
+            Example: kde window rules to move the app to a certain display seem to break this scaling check
+        */
+        if (qEnvironmentVariableIsEmpty("QT_SCALE_FACTOR")) {
+            QGuiApplication screenGetter(argc, argv);
+            QScreen *screen = screenGetter.primaryScreen();
+            const float height = screen->geometry().height();
+            const float scale_factor = height / BASE_HEIGHT;
+            if (scale_factor > 1.0) // only scale on displays above 1080p
+                qputenv("QT_SCALE_FACTOR", QByteArray::number(scale_factor));
+        }
+
+        // Use the Qt theme KDE uses (unthemed outside of KDE)
+        if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORMTHEME"))
+            qputenv("QT_QPA_PLATFORMTHEME", QByteArray::fromStdString("kde"));
     }
 
     KIconTheme::initTheme();
     QIcon::setFallbackThemeName("breeze"_L1);
     QApplication app(argc, argv);
 
-    // Default to org.kde.desktop style unless the user forces another style
-    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE"))
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
-        // TODO: setFallbackStyle is not used because it prevents the System Update console's monospace font from working,
-        // but ideally it would fall back to Material
-    }
 
     KLocalizedString::setApplicationDomain("bazzite_updater");
     QCoreApplication::setOrganizationName(u"UniversalBlue"_s);
