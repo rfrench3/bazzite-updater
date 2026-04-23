@@ -33,11 +33,9 @@ class SystemUpdateBackend : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(Console::Model *consoleModel MEMBER m_console CONSTANT)
-    Q_PROPERTY(QString statusText READ statusText NOTIFY statusTextChanged)
     Q_PROPERTY(int progressLevel READ progressLevel NOTIFY progressLevelChanged)
     Q_PROPERTY(bool blockUpdate READ blockUpdate NOTIFY blockUpdateChanged)
 
-    QString m_statusText = i18n("None");
     int m_progressLevel = 0;
     bool m_blockUpdate = false;
     QProcess m_journalctlProcess;
@@ -65,13 +63,6 @@ public:
 
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
-
-    QString statusText() const
-    {
-        return m_statusText;
-    }
-    void setStatusText(const QString &statusText);
-    Q_SIGNAL void statusTextChanged();
 
     int progressLevel() const
     {

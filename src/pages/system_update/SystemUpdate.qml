@@ -101,95 +101,88 @@ Kirigami.Page {
         }
     }
 
-    ColumnLayout {
-        anchors.fill: parent
+        ColumnLayout {
+            id: pageContents
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
-        RowLayout {
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            Layout.alignment: Qt.AlignHCenter
+            spacing: Kirigami.Units.gridUnit
 
-            Item {
-                Layout.alignment: Qt.AlignCenter
-                width: Kirigami.Units.gridUnit * 10
-                height: Kirigami.Units.gridUnit * 10
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+                
+                Item {                    
+                    width: Kirigami.Units.gridUnit * 5
+                    height: Kirigami.Units.gridUnit * 5
 
-                Image {
-                    anchors.fill: parent
+                    Image {
+                        anchors.fill: parent
 
-                    antialiasing: true
-                    source: "qrc:/osLogo"
-                    sourceSize.width: 1024
-                    sourceSize.height: 1024
+                        antialiasing: true
+                        source: "qrc:/osLogo"
+                        sourceSize.width: 1024
+                        sourceSize.height: 1024
+                    }
+                }
+
+                Kirigami.Heading {
+                    
+                    text: i18n("System Update")
                 }
             }
 
-            Kirigami.Heading {
+            Item {
+                Layout.alignment: Qt.AlignHCenter
+                
+                implicitWidth: updateButton.implicitWidth + (busyIndicator.running ? busyIndicator.implicitWidth : 0)
+                implicitHeight: updateButton.implicitHeight
+                QQC2.Button {
+                    id: updateButton
+                    focus: true
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    action: updateAction
+                }
+
+                QQC2.BusyIndicator {
+                    id: busyIndicator
+                    anchors.left: updateButton.right
+                    anchors.leftMargin: Kirigami.Units.smallSpacing
+                    anchors.verticalCenter: updateButton.verticalCenter
+                    running: AppState.updateRunning
+                }
+            }
+
+            Item {
                 Layout.alignment: Qt.AlignCenter
-                text: i18n("System Update")
-            }
-        }
+                width: Kirigami.Units.gridUnit * 19
+                height: Kirigami.Units.gridUnit * 2
 
-        Item { height: Kirigami.Units.gridUnit } // Vertical Spacer
+                QQC2.ProgressBar {
+                    anchors.fill: parent
+                    from: 0
+                    to: 100
 
-        Item {
-            Layout.alignment: Qt.AlignHCenter
-            
-            implicitWidth: updateButton.implicitWidth + (busyIndicator.running ? busyIndicator.implicitWidth : 0)
-            implicitHeight: updateButton.implicitHeight
-            QQC2.Button {
-                id: updateButton
-                focus: true
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-
-                action: updateAction
+                    indeterminate: AppState.updateRunning
+                }
             }
 
-            QQC2.BusyIndicator {
-                id: busyIndicator
-                anchors.left: updateButton.right
-                anchors.leftMargin: Kirigami.Units.smallSpacing
-                anchors.verticalCenter: updateButton.verticalCenter
-                running: AppState.updateRunning
+            QQC2.Label {
+                Layout.alignment: Qt.AlignCenter
+                text: {
+                    i18n("Last Update: ") 
+                    + RebaseHelperBackend.currentImage.datePretty["day"]
+                    + " "
+                    + RebaseHelperBackend.currentImage.datePretty["month"]
+                    + ", "
+                    + RebaseHelperBackend.currentImage.datePretty["year"];
+                }
             }
         }
-
-        Item {
-            Layout.alignment: Qt.AlignCenter
-            width: Kirigami.Units.gridUnit * 19
-            height: Kirigami.Units.gridUnit * 2
-
-            QQC2.ProgressBar {
-                anchors.fill: parent
-                from: 0
-                to: 100
-
-                indeterminate: AppState.updateRunning
-            }
-        }
-
-        QQC2.Label {
-            Layout.alignment: Qt.AlignCenter
-            text: i18n("Current Status: ") + SystemUpdateBackend.statusText
-        }
-
-        Item { height: Kirigami.Units.gridUnit } // Vertical Spacer
-
-        QQC2.Label {
-            Layout.alignment: Qt.AlignCenter
-            text: {
-                i18n("Last Update: ") 
-                + RebaseHelperBackend.currentImage.datePretty["day"]
-                + " "
-                + RebaseHelperBackend.currentImage.datePretty["month"]
-                + ", "
-                + RebaseHelperBackend.currentImage.datePretty["year"];
-            }
-        }
-
-        Item { Layout.fillHeight: true }
-
-    }
+    
     actions: [
         Kirigami.Action {
             id: toggleConsole

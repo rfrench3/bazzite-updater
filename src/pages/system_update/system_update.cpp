@@ -53,13 +53,11 @@ void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
     if (!Utils::isServicePresent(u"uupd-manual.service"_s)) {
         setBlockUpdate(true);
         m_console->newLine(i18n("The uupd-manual.service used for this application was not found on the system."), Console::LogLevel::ErrorCritical);
-        setStatusText(i18n("ERROR!"));
         callback.call({127});
         return;
     }
 
     appState()->setUpdateRunning(true);
-    SystemUpdateBackend::setStatusText(i18n("Running (This may take a while!)"));
 
     QProcess *systemctl = new QProcess(this);
     Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd-manual.service"_s});
@@ -97,15 +95,12 @@ void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
                 appState()->setUpdateRunning(false);
                 appState()->setCommandSucceeded(true);
 
-                setStatusText(i18n("Complete"));
                 callback.call({0, result});
                 systemctl->deleteLater();
                 return;
             } else if (result == u"start-limit-hit"_s) {
-                setStatusText(i18n("Updating too fast! ") + result);
                 m_console->newLine(i18n("You are updating too many times in a short period!"), Console::LogLevel::Error);
             } else {
-                setStatusText(i18n("Error: ") + result);
                 qDebug() << "Result of uupd-manual.service was not success: " << result;
             }
             appState()->setUpdateRunning(false);
@@ -168,8 +163,6 @@ void SystemUpdateBackend::logToConsole()
                 else if (level == u"ERROR"_s) {
                     log_level = Console::LogLevel::Error;
 
-                    setStatusText(i18n(("ERROR!")));
-
                     if (msg == u"module_fail"_s) {
                         QJsonObject output = obj.value(u"output"_s).toObject();
                         QString context = output.value(u"Context"_s).toString();
@@ -178,7 +171,6 @@ void SystemUpdateBackend::logToConsole()
                         if (context.contains(u"System Update"_s, Qt::CaseInsensitive)) {
                             setBlockUpdate(true);
                             log_level = Console::LogLevel::ErrorCritical;
-                            setStatusText(i18n(("CRITICAL ERROR!")));
                             m_updateErrorStatus.System_Update = true;
                         } else if (context.contains(u"Brew Update"_s, Qt::CaseInsensitive)) {
                             m_updateErrorStatus.Brew_Update = true;
@@ -235,12 +227,6 @@ void SystemUpdateBackend::setProgressLevel(int progressLevel)
 {
     m_progressLevel = progressLevel;
     Q_EMIT progressLevelChanged();
-}
-
-void SystemUpdateBackend::setStatusText(const QString &statusText)
-{
-    m_statusText = statusText;
-    Q_EMIT statusTextChanged();
 }
 
 void SystemUpdateBackend::setBlockUpdate(bool updateError)
