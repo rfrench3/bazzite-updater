@@ -41,8 +41,12 @@ int main(int argc, char *argv[])
             QScreen *screen = screenGetter.primaryScreen();
             const float height = screen->geometry().height();
             const float scale_factor = height / BASE_HEIGHT;
-            if (scale_factor > 1.0) // only scale on displays above 1080p
-                qputenv("QT_SCALE_FACTOR", QByteArray::number(scale_factor));
+
+            // scale by a minimum of 2X for mobile and TV usage
+            float final_scale = 2;
+            if (scale_factor > 1.0)
+                final_scale *= scale_factor;
+            qputenv("QT_SCALE_FACTOR", QByteArray::number(final_scale));
         }
 
         // Use the Qt theme KDE uses (unthemed outside of KDE)
