@@ -6,7 +6,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import io.github.rfrench3.bazzite_updater
 
-Frame {
+// Use a TextArea for theming, display text with the ListView
+TextArea {
     id: root
     property alias currentIndex: view.currentIndex
     property alias length: view.count
@@ -15,9 +16,13 @@ Frame {
     readonly property ScrollBar scrollBar: scrollView.ScrollBar.vertical
     readonly property Flickable flickable: view
 
+    readOnly: true
+    activeFocusOnTab: false
+
 ScrollView {
     id: scrollView
     anchors.fill: parent
+    anchors.margins: 5
 
     ListView {
         id: view
@@ -25,12 +30,6 @@ ScrollView {
         
         // This vertically cuts off the text slightly too early
         clip: true
-        
-        highlightFollowsCurrentItem: true
-        highlightRangeMode: ListView.ApplyRange
-
-        highlightMoveDuration: 100
-        highlightMoveVelocity: -1
         
         model: root.model
 
@@ -98,7 +97,8 @@ ScrollView {
         property bool __snap: true
         property real __prevContentY: 0
 
-        onCountChanged: { if (__snap) view.positionViewAtEnd(); }
+        
+        onCountChanged: { if (__snap) Qt.callLater(() => {view.positionViewAtEnd();}); }
 
         // If user moves up, disable snapping. otherwise, update __snap when the end is reached
         onContentYChanged: { 
