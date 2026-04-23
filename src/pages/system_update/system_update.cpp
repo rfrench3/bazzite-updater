@@ -49,18 +49,23 @@ void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
-
+#ifndef TESTING_BUILD
     if (!Utils::isServicePresent(u"uupd-manual.service"_s)) {
         setBlockUpdate(true);
         m_console->newLine(i18n("The uupd-manual.service used for this application was not found on the system."), Console::LogLevel::ErrorCritical);
         callback.call({127});
         return;
     }
+#endif
 
     appState()->setUpdateRunning(true);
 
     QProcess *systemctl = new QProcess(this);
+#ifdef TESTING_BUILD
+    Utils::startProcess(systemctl, u"sleep"_s, {u"3"_s});
+#else
     Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd-manual.service"_s});
+#endif
 
     // display progress of systemctl to in-GUI console
     logToConsole();
@@ -118,71 +123,64 @@ void SystemUpdateBackend::logToConsole()
     if (m_journalctlProcess.state() == QProcess::Running)
         return;
 
-    Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd-manual.service"_s, u"--lines=0"_s, u"-o"_s, u"json"_s});
+#ifdef TESTING_BUILD
+    Utils::startProcess(&m_journalctlProcess, u"cat"_s, {u"uupd-output.txt"_s});
+#else
+    Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd-manual.service"_s, u"--lines=0"_s, u"-o"_s, u"cat"_s});
+#endif
 
     connect(&m_journalctlProcess, &QProcess::readyReadStandardOutput, [this]() {
         while (m_journalctlProcess.canReadLine()) {
-            const QByteArray rawLine = m_journalctlProcess.readLine();
+            const QByteArray message = m_journalctlProcess.readLine().trimmed();
 
-            // Parse the Journald Wrapper
-            QJsonDocument journalDoc = QJsonDocument::fromJson(rawLine);
-            if (!journalDoc.isObject())
+            if (message.isEmpty())
                 continue;
 
-            QJsonObject journalObj = journalDoc.object();
+            if (!message.startsWith('{') && message != QByteArray::fromStdString("Updating") && message != QByteArray::fromStdString("scanned progress")) {
+                m_console->newLine(QString::fromUtf8(message), Console::LogLevel::Info);
+                continue;
+            }
 
-            QString message = journalObj.value(u"MESSAGE"_s).toString();
+            const QJsonObject json = QJsonDocument::fromJson(message).object();
 
-            // read the output
-            if (!message.trimmed().startsWith(QLatin1Char('{'))) {
-                // handle strings like "Starting uupd-manual.service - Universal Blue Update Oneshot Service..."
-                m_console->newLine(message, Console::LogLevel::Info);
-            } else {
-                // handle json strings
-                QJsonDocument sysDoc = QJsonDocument::fromJson(message.toUtf8());
-                if (!sysDoc.isObject())
-                    return;
+            // Ignore bootc output, as it heavily spams the logs
+            if (json.contains(u"bytes"_s))
+                continue;
 
-                QJsonObject obj = sysDoc.object();
-                QString level = obj.value(u"level"_s).toString();
-                QString msg = obj.value(u"msg"_s).toString();
-                QString formattedLine;
+            if (json.contains(u"level"_s) && json.contains(u"msg"_s)) {
+                QString level = json.value(u"level"_s).toString();
+                QString msg = json.value(u"msg"_s).toString();
 
-                qDebug().noquote() << msg;
+                using namespace Console;
+                LogLevel log_level = LogLevel::Warn;
 
-                // WARN by default in case the level wasn't accounted for
-                Console::LogLevel log_level = Console::LogLevel::Warn;
-
-                if (level == u"DEBUG"_s)
-                    log_level = Console::LogLevel::Debug;
-                else if (level == u"INFO"_s) {
-                    log_level = Console::LogLevel::Info;
-                    setProgressLevel(obj.value(u"overall"_s).toInt());
-                } else if (level == u"WARN"_s)
-                    log_level = Console::LogLevel::Warn;
+                if (level == u"INFO"_s)
+                    log_level = LogLevel::Info;
+                else if (level == u"DEBUG"_s)
+                    log_level = LogLevel::Debug;
+                else if (level == u"WARN"_s)
+                    log_level = LogLevel::Warn;
                 else if (level == u"ERROR"_s) {
-                    log_level = Console::LogLevel::Error;
+                    log_level = LogLevel::Error;
 
                     if (msg == u"module_fail"_s) {
-                        QJsonObject output = obj.value(u"output"_s).toObject();
-                        QString context = output.value(u"Context"_s).toString();
+                        QString context = json.value(u"output"_s).toObject().value(u"Context"_s).toString();
                         msg = i18n("Module Failed: ") + context;
 
                         if (context.contains(u"System Update"_s, Qt::CaseInsensitive)) {
                             setBlockUpdate(true);
                             log_level = Console::LogLevel::ErrorCritical;
                             m_updateErrorStatus.System_Update = true;
-                        } else if (context.contains(u"Brew Update"_s, Qt::CaseInsensitive)) {
+                        } else if (context.contains(u"Brew Update"_s, Qt::CaseInsensitive))
                             m_updateErrorStatus.Brew_Update = true;
-                        } else if (context.contains(u"System Apps"_s, Qt::CaseInsensitive)) {
+                        else if (context.contains(u"System Apps"_s, Qt::CaseInsensitive))
                             m_updateErrorStatus.System_Apps = true;
-                        } else if (context.contains(u"Apps for User"_s, Qt::CaseInsensitive)) {
+                        else if (context.contains(u"Apps for User"_s, Qt::CaseInsensitive))
                             m_updateErrorStatus.Apps_for_User = true;
-                        } else if (context.contains(u"Distroboxes for User"_s, Qt::CaseInsensitive)) {
+                        else if (context.contains(u"Distroboxes for User"_s, Qt::CaseInsensitive))
                             m_updateErrorStatus.Distroboxes_for_User = true;
-                        } else {
+                        else
                             m_updateErrorStatus.Unknown_Error = true;
-                        }
                     }
                 }
 
@@ -191,9 +189,8 @@ void SystemUpdateBackend::logToConsole()
                     msg.replace(ansiEscapePattern, u""_s);
                 }
 
-                if (!msg.isEmpty()) {
+                if (!msg.isEmpty())
                     m_console->newLine(msg, log_level);
-                }
             }
         }
     });
