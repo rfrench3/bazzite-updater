@@ -22,7 +22,7 @@ target_sources(bazzite_updater
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/console.cpp
 )
 
-target_include_directories(bazzite_updater 
+target_include_directories(bazzite_updater
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper
@@ -65,9 +65,9 @@ target_link_libraries(bazzite_updater
     KF6::ConfigCore
     KF6::ConfigGui
     KirigamiAddonsStatefulApp
-    gamepad-support
+    controllable
 )
 
-install(TARGETS bazzite_updater ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-
 add_subdirectory(components)
+
+install(TARGETS bazzite_updater ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

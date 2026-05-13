@@ -4,17 +4,17 @@ import QtQuick.Controls
 import org.kde.kirigami as Kirigami
 
 import io.github.rfrench3.bazzite_updater
-import io.github.rfrench3.Gamepad
+import io.github.rfrench3.controllable as GP
 
 /* TODO: replace this AboutPage with a custom reimplementation to solve the following issues:
     - remove the app-specific information sections (flatpak packaging, qt runtime versions, etc)
     - use the correct icon in a way that is stable
     - make the license popup more intuitively escapable
     - use the proper Bazzite logo on the About Bazzite page
-*/ 
+*/
 FormCard.AboutPage {
     id: page
-    title: Gamepad.labels.b + Gamepad.labels.space_large + i18nc("@title", "About Bazzite")
+    title: GP.Labels.east + GP.Labels.spacer_large + i18nc("@title", "About Bazzite")
 
     // The application's own icon fully overrides normal attempts to set the icon
     function findAboutLogoItem(item) {
@@ -47,174 +47,186 @@ FormCard.AboutPage {
         }
     }
 
-    GamepadPageNavigation {
-        targetWindow: page.Window.window
-        targetScrollable: page
-        active: applicationWindow().globalDrawer.drawerOpen !== true
+    GP.PageNavigation {
+        targetScrollbar: page.grabScrollbar(page)
+    }
+
+    function grabScrollbar(item) {
+        if (item instanceof Kirigami.ScrollablePage) {
+            if (item.contentItem && item.contentItem.ScrollBar && item.contentItem.ScrollBar.vertical) {
+                return item.contentItem.ScrollBar.vertical;
+            } else
+                console.log("Parent scrollbar not found, controller scrolling will not function!");
+        } else {
+            if (item.parent)
+                return grabScrollbar(item.parent);
+            else
+                console.log("Parent Kirigami.ScrollablePage not found, controller scrolling will not function!");
+        }
     }
 
     // TODO: Use this property when it's in bazzite and the kde flatpak runtime. Currently it is not.
     // showLibraries: false
-    
+
     aboutData: {
-        "displayName" : "Bazzite",
-        "productName" : "bazzite",
-        "componentName" : "addonsexample",
-        "shortDescription" : i18n("The operating system for the next generation of gamers"),
-        "homepage" : "https://bazzite.gg/",
-        "bugAddress" : "",
-        "version" : RebaseHelperBackend.currentImage.version,
-        "otherText" : i18n("Bazzite makes gaming and everyday use smoother and simpler across desktop PCs, handhelds, tablets, and home theater PCs."),
-        "authors" : [
+        "displayName": "Bazzite",
+        "productName": "bazzite",
+        "componentName": "addonsexample",
+        "shortDescription": i18n("The operating system for the next generation of gamers"),
+        "homepage": "https://bazzite.gg/",
+        "bugAddress": "",
+        "version": RebaseHelperBackend.currentImage.version,
+        "otherText": i18n("Bazzite makes gaming and everyday use smoother and simpler across desktop PCs, handhelds, tablets, and home theater PCs."),
+        "authors": [
             {
-                "name" : "Kyle Gospodnetich",
-                "task" : "Maintainer",
-                "emailAddress" : "",
-                "webAddress" : "https://kylegospodneti.ch/"
+                "name": "Kyle Gospodnetich",
+                "task": "Maintainer",
+                "emailAddress": "",
+                "webAddress": "https://kylegospodneti.ch/"
             },
             {
                 "name": "EyeCantCU",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/EyeCantCU"
             },
             {
                 "name": "HikariKnight",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/HikariKnight"
             },
             {
                 "name": "aarron-lee",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/aarron-lee"
             },
             {
                 "name": "castrojo",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/castrojo"
             },
             {
                 "name": "bsherman",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/bsherman"
             },
             {
                 "name": "noelmiller",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/noelmiller"
             },
             {
                 "name": "nicknamenamenick",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/nicknamenamenick"
             },
             {
                 "name": "Zeglius",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/Zeglius"
             },
             {
                 "name": "BoukeHaarsma23",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/BoukeHaarsma23"
             },
             {
                 "name": "matte-schwartz",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/matte-schwartz"
             },
             {
                 "name": "gerblesh",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/gerblesh"
             },
             {
                 "name": "abanna",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/abanna"
             },
             {
                 "name": "ameliasvg",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/ameliasvg"
             },
             {
                 "name": "SuperRiderTH",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/SuperRiderTH"
             },
             {
                 "name": "CharlieBros",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/CharlieBros"
             },
             {
                 "name": "xXJSONDeruloXx",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/xXJSONDeruloXx"
             },
             {
                 "name": "m2Giles",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/m2Giles"
             },
             {
                 "name": "fiftydinar",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/fiftydinar"
             },
             {
                 "name": "EPOCHvoyager",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/EPOCHvoyager"
             },
             {
                 "name": "RodoMa92",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/RodoMa92"
             },
             {
                 "name": "renner0e",
                 "task": "Maintainer",
-                "emailAddress" : "",
+                "emailAddress": "",
                 "webAddress": "https://github.com/renner0e"
             },
             {
-                "name" : i18nc("context: many more people have contributed to bazzite", "And many more!"),
-                "task" : "Maintainer",
-                "emailAddress" : "",
-                "webAddress" : "https://github.com/ublue-os/bazzite/graphs/contributors"
+                "name": i18nc("context: many more people have contributed to bazzite", "And many more!"),
+                "task": "Maintainer",
+                "emailAddress": "",
+                "webAddress": "https://github.com/ublue-os/bazzite/graphs/contributors"
             }
         ],
-        "credits" : [],
-        "translators" : [],
-        "licenses" : [
+        "credits": [],
+        "translators": [],
+        "licenses": [
             {
-                "name" : "Apache License Version 2.0",
-                "text" : "@APACHE2_LICENSE@",
-                "spdx" : "Apache-2.0"
+                "name": "Apache License Version 2.0",
+                "text": "@APACHE2_LICENSE@",
+                "spdx": "Apache-2.0"
             }
         ],
-        "copyrightStatement" : "© 2023-@CURRENT_YEAR@",
+        "copyrightStatement": "© 2023-@CURRENT_YEAR@",
         "programLogo": "qrc:/osLogo"
     } // Unfortunately the programLogo field is internally overwritten in the AboutPage by the application icon itself when found
 
