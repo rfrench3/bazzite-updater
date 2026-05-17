@@ -45,6 +45,8 @@ ecm_target_qml_sources(bazzite_updater
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleView.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleDrawer.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/AppDialog.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/ScrollingPage.qml
+    # ${CMAKE_CURRENT_SOURCE_DIR}/components/CustomAbout.qml
     ${ABOUTBAZZITE_OUTPUT}
     ${ABOUTAPP_OUTPUT}
 )

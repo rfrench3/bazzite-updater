@@ -49,6 +49,7 @@ FormCard.AboutPage {
 
     GP.PageNavigation {
         targetScrollbar: page.grabScrollbar(page)
+        active: !globalDrawer.drawerOpen
     }
 
     function grabScrollbar(item) {

@@ -11,37 +11,10 @@ import org.kde.kirigamiaddons.formcard as FC
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
 
-FC.FormCardPage {
+ScrollingPage {
     id: page
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Rebase Helper")
-
-    GP.PageNavigation {
-        id: nav
-        targetScrollbar: page
-    }
-
-    function handleInput(buttonId, button_down) {
-        // Use normal navigation for everything on the main page
-
-        if (consoleDrawer.drawerOpen) {
-            consoleDrawer.handleInput(buttonId, button_down);
-            return;
-        }
-
-        if (!button_down)
-            return;
-
-        switch (buttonId) {
-        case 3: // Y
-            toggleConsole.trigger();
-            // Closes up to 5 passive notifications
-            for (let i = 0; i < 5; ++i) {
-                hidePassiveNotification();
-            }
-            break;
-        }
-    }
 
     actions: [
         Kirigami.Action {
@@ -52,14 +25,11 @@ FC.FormCardPage {
         }
     ]
 
-    Layout.topMargin: Kirigami.Units.largeSpacing * 4
-
-    FontMetrics {
-        id: sysFont
-        font: Qt.application.font
+    GP.PageNavigation {
+        targetScrollbar: page.scrollBar
+        active: !globalDrawer.drawerOpen
     }
 
-    // TODO: Fit the rest of this page into formcards
     Kirigami.FormLayout {
 
         // Rollback Last Update
@@ -67,6 +37,11 @@ FC.FormCardPage {
             Kirigami.FormData.isSection: true
             Kirigami.FormData.label: i18n("Rollback Last Update")
             enabled: AppState.isBrhPresent
+        }
+
+        FontMetrics {
+            id: sysFont
+            font: Qt.application.font
         }
 
         QQC2.Label {
