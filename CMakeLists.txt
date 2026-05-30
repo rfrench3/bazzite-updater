@@ -9,7 +9,7 @@ project(bazzite_updater VERSION ${APP_VERSION})
 option(TESTING_BUILD "Enable testing features like filler text in the console view." OFF)
 
 if(TESTING_BUILD)
-    add_compile_definitions(TESTING_BUILD=1)
+  add_compile_definitions(TESTING_BUILD=1)
 endif()
 
 ### Install SDL3 ###
@@ -34,21 +34,21 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMFindQmlModule)
 include(ECMQmlModule)
 
-find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS 
-    Core 
-    Gui 
-    Qml 
-    Widgets 
-    QuickControls2 
+find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
+    Core
+    Gui
+    Qml
+    Widgets
+    QuickControls2
     Svg
     Test
 )
 
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS 
-    Kirigami 
-    CoreAddons 
-    Config 
-    I18n 
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+    Kirigami
+    CoreAddons
+    Config
+    I18n
     IconThemes
 )
 
@@ -96,17 +96,9 @@ add_subdirectory(src)
 
 ### Install desktop files ###
 
-set(METAINFO_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/io.github.rfrench3.bazzite_updater.metainfo.xml.in")
-set(METAINFO_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/io.github.rfrench3.bazzite_updater.metainfo.xml")
-configure_file(${METAINFO_INPUT} ${METAINFO_OUTPUT} @ONLY)
-
-set(DESKTOP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/io.github.rfrench3.bazzite_updater.desktop.in")
-set(DESKTOP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/io.github.rfrench3.bazzite_updater.desktop")
-configure_file(${DESKTOP_INPUT} ${DESKTOP_OUTPUT} @ONLY)
-
-install(FILES ${DESKTOP_OUTPUT} DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES io.github.rfrench3.bazzite_updater.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES io.github.rfrench3.bazzite_updater.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
-install(FILES ${METAINFO_OUTPUT} DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES io.github.rfrench3.bazzite_updater.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 ki18n_install(po)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

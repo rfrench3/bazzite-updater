@@ -110,8 +110,8 @@ Kirigami.Page {
             Layout.alignment: Qt.AlignHCenter
 
             Item {
-                width: Kirigami.Units.gridUnit * 5
-                height: Kirigami.Units.gridUnit * 5
+                implicitWidth: Kirigami.Units.gridUnit * 5
+                implicitHeight: implicitWidth
 
                 Image {
                     anchors.fill: parent
