@@ -4,12 +4,12 @@
 #pragma once
 
 #include <KLocalizedString>
-#include <QApplication>
 #include <QClipboard>
 #include <QFileInfo>
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
+#include <qtmetamacros.h>
 
 #include "console.h"
 #include "utils.h"
@@ -58,11 +58,13 @@ class RebaseHelperBackend : public QObject
     Q_PROPERTY(osImage currentImage READ currentImage CONSTANT)
     Q_PROPERTY(Console::Model *consoleModel MEMBER m_console CONSTANT)
 
-    Q_PROPERTY(QString recommendedDriver READ gpuDrivers CONSTANT)
-    static QString checkNvidiaSupport();
+    // TODO: This should be an enum that the UI can use to highlight the best options
+    Q_PROPERTY(QString recommendedDriver READ gpuDrivers NOTIFY recommendedDriverChanged)
+
     QString m_gpu_drivers;
 
     osImage m_osImage_current;
+    void setGpuDrivers();
 
 public:
     RebaseHelperBackend(QObject *parent = nullptr);
@@ -75,6 +77,8 @@ public:
     {
         return m_gpu_drivers;
     }
+
+    Q_SIGNAL void recommendedDriverChanged();
 
     // ROLLBACK
     Q_INVOKABLE void rollbackImage(QJSValue callback);

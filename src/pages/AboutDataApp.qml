@@ -1,7 +1,9 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import io.github.rfrench3.controllable as GP
 import QtQuick
+import QtQuick.Controls // Required for grabScrollbar to find a scrollbar
 import org.kde.kirigami as Kirigami
+import io.github.rfrench3.bazzite_updater
 
 FormCard.AboutPage {
     id: page
@@ -9,6 +11,7 @@ FormCard.AboutPage {
 
     GP.PageNavigation {
         targetScrollbar: page.grabScrollbar(page)
+        active: !globalDrawer.drawerOpen
     }
 
     function grabScrollbar(item) {
