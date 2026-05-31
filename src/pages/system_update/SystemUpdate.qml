@@ -186,26 +186,25 @@ Kirigami.Page {
     ConsoleDrawer {
         id: consoleDrawer
         model: SystemUpdateBackend.consoleModel
+        // extraColumnItems: [
+        //     Loader {
+        //         id: testingNumberInputLoader
+        //         Layout.fillWidth: true
+        //         active: typeof TestingMode !== "undefined" && TestingMode
+        //         visible: active
 
-        extraColumnItems: [
-            Loader {
-                id: testingNumberInputLoader
-                Layout.fillWidth: true
-                active: typeof TestingMode !== "undefined" && TestingMode
-                visible: active
+        //         sourceComponent: QQC2.SpinBox {
+        //             Layout.fillWidth: true
+        //             from: 0
+        //             to: 9999
+        //             value: SystemUpdateBackend.testConsoleLinesPerSecond
+        //             editable: true
 
-                sourceComponent: QQC2.SpinBox {
-                    Layout.fillWidth: true
-                    from: 0
-                    to: 9999
-                    value: SystemUpdateBackend.testConsoleLinesPerSecond
-                    editable: true
-
-                    onValueModified: {
-                        SystemUpdateBackend.testConsoleLinesPerSecond = value;
-                    }
-                }
-            }
-        ]
+        //             onValueModified: {
+        //                 SystemUpdateBackend.testConsoleLinesPerSecond = value;
+        //             }
+        //         }
+        //     }
+        // ]
     }
 }

@@ -121,7 +121,7 @@ ScrollingPage {
         }
 
         // TODO: Make the rebase section intuitive before adding it
-        RebasePart {}
+        // RebasePart {}
     }
 
     FC.FormCard {

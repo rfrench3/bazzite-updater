@@ -11,6 +11,7 @@ Source0:        %{url}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
+BuildRequires:  systemd-rpm-macros
 
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
@@ -35,7 +36,7 @@ Requires:       kf6-kirigami-addons%{?_isa}
 Requires:       kf6-qqc2-desktop-style%{?_isa}
 Requires:       which%{?_isa}
 Requires:       qt6-controllable%{?_isa}
-Requires:       uupd
+Requires:       uupd%{?_isa}
 
 Provides:       bazzite_updater = %{version}-%{release}
 

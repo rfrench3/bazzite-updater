@@ -7,6 +7,7 @@ file(READ "version.txt" APP_VERSION)
 project(bazzite_updater VERSION ${APP_VERSION})
 
 option(TESTING_BUILD "Enable testing features like filler text in the console view." OFF)
+option(_INCLUDE_SUBMODULES "Compile the git submodules alongside the normal application." OFF)
 
 if(TESTING_BUILD)
   add_compile_definitions(TESTING_BUILD=1)

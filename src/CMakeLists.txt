@@ -68,7 +68,7 @@ target_link_libraries(bazzite_updater
     KF6::ConfigCore
     KF6::ConfigGui
     KirigamiAddonsStatefulApp
-    controllable
+    # qt6-controllable
 )
 
 add_subdirectory(components)
