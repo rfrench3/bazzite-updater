@@ -10,22 +10,22 @@ import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
-import io.github.rfrench3.Gamepad
+import io.github.rfrench3.controllable as GP
 
 Kirigami.Page {
     id: page
 
     // HACK: Global drawer gamepad labels are placed in the page titles
-    title: Gamepad.labels.b + Gamepad.labels.space_large + i18n("System Update")
+    title: GP.Labels.east + GP.Labels.spacer_large + i18n("System Update")
 
     function handleInput(buttonId, button_down) {
-
-        if (button_down == false) return;
+        if (button_down == false)
+            return;
 
         switch (buttonId) {
-            case 0: // A
-                updateButton.animateClick();
-                return;
+        case 0: // A
+            updateButton.animateClick();
+            return;
         }
 
         if (consoleDrawer.drawerOpen) {
@@ -34,42 +34,39 @@ Kirigami.Page {
         }
 
         switch (buttonId) {
-            case 3: // Y
-                toggleConsole.trigger();
-                // Closes up to 5 passive notifications
-                for (let i = 0; i < 5; ++i) {
-                    hidePassiveNotification();
-                }
-                break;
+        case 3: // Y
+            toggleConsole.trigger();
+            // Closes up to 5 passive notifications
+            for (let i = 0; i < 5; ++i) {
+                hidePassiveNotification();
+            }
+            break;
         }
     }
 
     Kirigami.Action {
         id: updateAction
-        text: i18n("Update System Image and Software") + Gamepad.labels.space + Gamepad.labels.a
+        text: i18n("Update System Image and Software") + GP.Labels.spacer + GP.Labels.south
         shortcut: "Return"
         enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate
 
         onTriggered: {
             showPassiveNotification(i18n("Update Started"), Kirigami.short);
-            SystemUpdateBackend.runUpdate(function(callback) {
+            SystemUpdateBackend.runUpdate(function (callback) {
                 if (callback == 0) {
                     showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
                     return;
                 }
 
-                showPassiveNotification(
-                    i18n("Update Failed. Check console for more details."),
-                    Kirigami.long,
-                    i18n("Open console") + Gamepad.labels.space + Gamepad.labels.y,
-                    function() {consoleDrawer.drawerOpen = true;}
-                    ); 
-            }, function(errorJson) {
+                showPassiveNotification(i18n("Update Failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, function () {
+                    consoleDrawer.drawerOpen = true;
+                });
+            }, function (errorJson) {
                 // This function is only called if part of the update has failed
                 try {
                     let errors = JSON.parse(errorJson);
                     let message = i18n("Some update modules failed:\n");
-        
+
                     if (errors.System_Update) {
                         message += i18n("System Update\n");
                     }
@@ -88,12 +85,11 @@ Kirigami.Page {
                     if (errors.Unknown_Error) {
                         message += i18n("Unknown (Please send the error logs!)\n");
                     }
-                    
+
                     if (message.endsWith("\n")) {
                         message = message.slice(0, -1);
                     }
                     showPassiveNotification(message, Kirigami.long);
-
                 } catch (e) {
                     console.error("Failed to parse error JSON:", e);
                 }
@@ -101,92 +97,87 @@ Kirigami.Page {
         }
     }
 
-        ColumnLayout {
-            id: pageContents
-            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+    ColumnLayout {
+        id: pageContents
+        Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
-            anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
 
-            spacing: Kirigami.Units.gridUnit
+        spacing: Kirigami.Units.gridUnit
 
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                
-                Item {                    
-                    width: Kirigami.Units.gridUnit * 5
-                    height: Kirigami.Units.gridUnit * 5
-
-                    Image {
-                        anchors.fill: parent
-
-                        antialiasing: true
-                        source: "qrc:/osLogo"
-                        sourceSize.width: 1024
-                        sourceSize.height: 1024
-                    }
-                }
-
-                Kirigami.Heading {
-                    
-                    text: i18n("System Update")
-                }
-            }
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter
 
             Item {
-                Layout.alignment: Qt.AlignHCenter
-                
-                implicitWidth: updateButton.implicitWidth + (busyIndicator.running ? busyIndicator.implicitWidth : 0)
-                implicitHeight: updateButton.implicitHeight
-                QQC2.Button {
-                    id: updateButton
-                    focus: true
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
+                implicitWidth: Kirigami.Units.gridUnit * 5
+                implicitHeight: implicitWidth
 
-                    action: updateAction
-                }
-
-                QQC2.BusyIndicator {
-                    id: busyIndicator
-                    anchors.left: updateButton.right
-                    anchors.leftMargin: Kirigami.Units.smallSpacing
-                    anchors.verticalCenter: updateButton.verticalCenter
-                    running: AppState.updateRunning
-                }
-            }
-
-            Item {
-                Layout.alignment: Qt.AlignCenter
-                width: Kirigami.Units.gridUnit * 19
-                height: Kirigami.Units.gridUnit * 2
-
-                QQC2.ProgressBar {
+                Image {
                     anchors.fill: parent
-                    from: 0
-                    to: 100
 
-                    indeterminate: AppState.updateRunning
+                    antialiasing: true
+                    source: "qrc:/osLogo"
+                    sourceSize.width: 1024
+                    sourceSize.height: 1024
                 }
             }
 
-            QQC2.Label {
-                Layout.alignment: Qt.AlignCenter
-                text: {
-                    i18n("Last Update: ") 
-                    + RebaseHelperBackend.currentImage.datePretty["day"]
-                    + " "
-                    + RebaseHelperBackend.currentImage.datePretty["month"]
-                    + ", "
-                    + RebaseHelperBackend.currentImage.datePretty["year"];
-                }
+            Kirigami.Heading {
+
+                text: i18n("System Update")
             }
         }
-    
+
+        Item {
+            Layout.alignment: Qt.AlignHCenter
+
+            implicitWidth: updateButton.implicitWidth + (busyIndicator.running ? busyIndicator.implicitWidth : 0)
+            implicitHeight: updateButton.implicitHeight
+            QQC2.Button {
+                id: updateButton
+                focus: true
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+
+                action: updateAction
+            }
+
+            QQC2.BusyIndicator {
+                id: busyIndicator
+                anchors.left: updateButton.right
+                anchors.leftMargin: Kirigami.Units.smallSpacing
+                anchors.verticalCenter: updateButton.verticalCenter
+                running: AppState.updateRunning
+            }
+        }
+
+        Item {
+            Layout.alignment: Qt.AlignCenter
+            width: Kirigami.Units.gridUnit * 19
+            height: Kirigami.Units.gridUnit * 2
+
+            QQC2.ProgressBar {
+                anchors.fill: parent
+                from: 0
+                to: 100
+
+                indeterminate: AppState.updateRunning
+            }
+        }
+
+        QQC2.Label {
+            Layout.alignment: Qt.AlignCenter
+            text: {
+                i18n("Last Update: ") + RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"];
+            }
+        }
+    }
+
     actions: [
         Kirigami.Action {
             id: toggleConsole
-            text: "Toggle Console" + Gamepad.labels.space + Gamepad.labels.y
+            text: "Toggle Console" + GP.Labels.spacer + GP.Labels.north
             shortcut: "F12"
             onTriggered: consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen
         }
@@ -195,27 +186,25 @@ Kirigami.Page {
     ConsoleDrawer {
         id: consoleDrawer
         model: SystemUpdateBackend.consoleModel
+        // extraColumnItems: [
+        //     Loader {
+        //         id: testingNumberInputLoader
+        //         Layout.fillWidth: true
+        //         active: typeof TestingMode !== "undefined" && TestingMode
+        //         visible: active
 
-        extraColumnItems: [
-            Loader {
-                id: testingNumberInputLoader
-                Layout.fillWidth: true
-                active: typeof TestingMode !== "undefined" && TestingMode
-                visible: active
+        //         sourceComponent: QQC2.SpinBox {
+        //             Layout.fillWidth: true
+        //             from: 0
+        //             to: 9999
+        //             value: SystemUpdateBackend.testConsoleLinesPerSecond
+        //             editable: true
 
-                sourceComponent: QQC2.SpinBox {
-                    Layout.fillWidth: true
-                    from: 0
-                    to: 9999
-                    value: SystemUpdateBackend.testConsoleLinesPerSecond
-                    editable: true
-
-                    onValueModified: {
-                        SystemUpdateBackend.testConsoleLinesPerSecond = value;
-                    }
-                }
-            }
-        ]
+        //             onValueModified: {
+        //                 SystemUpdateBackend.testConsoleLinesPerSecond = value;
+        //             }
+        //         }
+        //     }
+        // ]
     }
-
 }

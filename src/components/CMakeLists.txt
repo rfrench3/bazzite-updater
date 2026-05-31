@@ -1,1 +1,3 @@
-add_subdirectory(gamepad)
+if(_INCLUDE_SUBMODULES)
+  add_subdirectory(controllable)
+endif()

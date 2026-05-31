@@ -10,8 +10,7 @@ import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
-import io.github.rfrench3.Gamepad
-
+import io.github.rfrench3.controllable as GP
 
 // NOTE: Gamepad.labels.* automatically show/hide themselves depending on the presence of a controller
 
@@ -27,30 +26,26 @@ StatefulApp.StatefulWindow {
 
     visibility: Window.FullScreen
 
-    // Start and stop polling for controller inputs when the window gains/loses focus
-    onActiveChanged: Gamepad.setPollController(active)
-
     // Handle global drawer navigation for controllers
 
     property var activeDialog: null
 
     Connections {
-        target: Gamepad
+        target: GP.Gamepad
 
-        function onButtonPressed(buttonId, button_down) {
-
+        function onButtonEvent(buttonId, button_down) {
             if (activeDialog) {
                 activeDialog.handleInput(buttonId, button_down);
-                return;    
+                return;
             }
 
             switch (buttonId) {
-                case 1: // B
-                case 4: // view, minus
-                case 6: // pause, plus
-                    if (button_down) 
-                        globalDrawer.drawerOpen = !globalDrawer.drawerOpen;
-                    return;
+            case 1: // B
+            case 4: // view, minus
+            case 6: // pause, plus
+                if (button_down)
+                    globalDrawer.drawerOpen = !globalDrawer.drawerOpen;
+                return;
             }
 
             if (globalDrawer.drawerOpen) {
@@ -66,7 +61,6 @@ StatefulApp.StatefulWindow {
     }
 
     globalDrawer: Kirigami.GlobalDrawer {
-
         id: globalDrawer
 
         Shortcut {
@@ -94,7 +88,7 @@ StatefulApp.StatefulWindow {
             },
             Kirigami.Action {
 
-                text: i18n("System Rebase Tool")
+                text: i18n("Update Utilities")
                 icon.name: "system-reboot-symbolic"
 
                 checkable: true
@@ -102,9 +96,9 @@ StatefulApp.StatefulWindow {
 
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
             },
-
-            Kirigami.Action { separator: true },
-
+            Kirigami.Action {
+                separator: true
+            },
             Kirigami.Action {
                 text: i18n("About Bazzite")
                 icon.name: "help-about-symbolic"
@@ -123,29 +117,27 @@ StatefulApp.StatefulWindow {
 
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataApp.qml")
             },
-
-            Kirigami.Action { separator: true },
-
+            Kirigami.Action {
+                separator: true
+            },
             Kirigami.Action {
                 id: actionReboot
-                text: i18n("Reboot System") + Gamepad.labels.space + Gamepad.labels.y
-                icon.name: AppState.commandSucceeded ? "system-shutdown-update-symbolic" : "system-shutdown-symbolic" 
-                
+                text: i18n("Reboot System") + GP.Labels.spacer + GP.Labels.north
+                icon.name: AppState.commandSucceeded ? "system-shutdown-update-symbolic" : "system-shutdown-symbolic"
+
                 onTriggered: {
                     rebootDialog.open();
                 }
             },
-
             Kirigami.Action {
                 id: actionQuit
-                text: i18n("Quit") + Gamepad.labels.space + Gamepad.labels.x
+                text: i18n("Quit") + GP.Labels.spacer + GP.Labels.west
                 icon.name: "application-exit-symbolic"
                 shortcut: StandardKey.Quit
                 onTriggered: {
-                    if (AppState.commandRunning) {
-                        exitDialog.open(); 
-                    }
-                    else
+                    if (AppState.commandRunning || AppState.commandSucceeded) {
+                        exitDialog.open();
+                    } else
                         Qt.quit();
                 }
             }
@@ -180,35 +172,33 @@ StatefulApp.StatefulWindow {
 
             // The next page was found, naviagte to it
             if (newIndex !== currentIndex) {
-                if (currentIndex >= 0) globalDrawer.actions[currentIndex].checked = false;
+                if (currentIndex >= 0)
+                    globalDrawer.actions[currentIndex].checked = false;
                 globalDrawer.actions[newIndex].triggered();
                 globalDrawer.actions[newIndex].checked = true;
             }
         }
 
         function handleInput(buttonId, button_down) {
-            if (!button_down) return;
+            if (!button_down)
+                return;
 
             switch (buttonId) {
-                case 0: // A
-                    drawerOpen = false;
-                    break;
-                
-                case 2: // X
-                    actionQuit.triggered();
-                    break;
-
-                case 3: // Y
-                    actionReboot.triggered();
-                    break;
-
-                case 11: // Dpad Up
-                    __navigateGlobalDrawer(-1);
-                    break;
-
-                case 12: // Dpad Down
-                    __navigateGlobalDrawer(1);
-                    break;
+            case 0: // A
+                drawerOpen = false;
+                break;
+            case 2: // X
+                actionQuit.triggered();
+                break;
+            case 3: // Y
+                actionReboot.triggered();
+                break;
+            case 11: // Dpad Up
+                __navigateGlobalDrawer(-1);
+                break;
+            case 12: // Dpad Down
+                __navigateGlobalDrawer(1);
+                break;
             }
         }
     }
@@ -218,55 +208,54 @@ StatefulApp.StatefulWindow {
         title: i18nc("@title:window", "Reboot System")
         standardButtons: Kirigami.Dialog.NoButton
 
-        subtitle: AppState.commandRunning
-            ? i18n("This will reboot the system,\nbut %1 is still in progress!\nRebooting now will cause it to not apply.",
-                AppState.rollbackRunning
-                    ? i18n("a rollback")
-                    : AppState.rebaseRunning
-                        ? i18n("a rebase")
-                        : AppState.updateRunning
-                            ? i18n("an update")
-                            : i18n("a command"))
-            : i18n("This will reboot the system.")
+        subtitle: AppState.commandRunning ? i18n("This will reboot the system,\nbut %1 is still in progress!\nRebooting now will cause it to not apply.", AppState.rollbackRunning ? i18n("a rollback") : AppState.rebaseRunning ? i18n("a rebase") : AppState.updateRunning ? i18n("an update") : i18n("a command")) : i18n("This will reboot the system.")
 
         customFooterActions: [
             Kirigami.Action {
                 id: confirmReboot
-                text: i18n("Confirm") + Gamepad.labels.space + Gamepad.labels.a
-                
+                text: i18n("Reboot") + GP.Labels.spacer + GP.Labels.south
+
                 onTriggered: rebootDialog.accept()
             },
             Kirigami.Action {
                 id: cancelReboot
-                text: i18n("Cancel") + Gamepad.labels.space + Gamepad.labels.b
+                text: i18n("Cancel") + GP.Labels.spacer + GP.Labels.east
                 onTriggered: rebootDialog.reject()
             }
         ]
 
         onAccepted: {
             AppState.rebootSystem(function (callback) {
-                if (AppState.commandSucceeded)
-                    showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
-                else
-                    showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
-            
+                rebootTimer.start();
                 console.log("Reboot callback: " + callback);
             });
         }
 
-        function handleInput(buttonId, button_down) {
-            if (!button_down) return;
-            switch (buttonId) {
-                case 0: // A
-                    confirmReboot.triggered();    
-                    break;
-
-                case 1: // B
-                    cancelReboot.triggered();
-                    break;
+        // Wait a little while to ensure "your reboot has failed" isn't ever visible momentarily before rebooting succeeds
+        Timer {
+            id: rebootTimer
+            interval: 2000
+            repeat: false
+            onTriggered: {
+                if (AppState.commandSucceeded)
+                    root.showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
+                else
+                    root.showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
             }
         }
 
+        function handleInput(buttonId, button_down) {
+            if (!button_down)
+                return;
+            switch (buttonId) {
+            case 0: // A
+                confirmReboot.triggered();
+                break;
+            case 1: // B
+                cancelReboot.triggered();
+                break;
+            }
+        }
     }
 
     AppDialog {
@@ -276,7 +265,7 @@ StatefulApp.StatefulWindow {
 
         subtitle: {
             if (!AppState.commandRunning)
-                return i18n("It is safe to exit.");
+                return AppState.commandSucceeded ? i18n("You must reboot to apply changes.") : i18n("No command is running, you may exit.");
 
             let statusText;
 
@@ -290,23 +279,19 @@ StatefulApp.StatefulWindow {
                 statusText = i18n("A command is still in progress!");
             }
 
-            return i18n(
-                "%1 %2",
-                statusText,
-                i18n("A system update will continue on exit, but a rollback or rebase will be cancelled.")
-            );
+            return i18n("%1 %2", statusText, i18n("A system update will continue on exit, but a rollback or rebase will be cancelled."));
         }
 
         customFooterActions: [
             Kirigami.Action {
                 id: confirmExit
-                text: i18n("Confirm") + Gamepad.labels.space + Gamepad.labels.a
-                
+                text: i18n("Exit") + GP.Labels.spacer + GP.Labels.south
+
                 onTriggered: exitDialog.accept()
             },
             Kirigami.Action {
                 id: cancelExit
-                text: i18n("Cancel") + Gamepad.labels.space + Gamepad.labels.b
+                text: i18n("Cancel") + GP.Labels.spacer + GP.Labels.east
                 onTriggered: exitDialog.reject()
             }
         ]
@@ -314,19 +299,18 @@ StatefulApp.StatefulWindow {
         onAccepted: Qt.quit()
 
         function handleInput(buttonId, button_down) {
-            if (!button_down) return;
-            
-            switch (buttonId) {
-                case 0: // A
-                    confirmExit.triggered();    
-                    break;
+            if (!button_down)
+                return;
 
-                case 1: // B
-                    cancelExit.triggered();
-                    break;
+            switch (buttonId) {
+            case 0: // A
+                confirmExit.triggered();
+                break;
+            case 1: // B
+                cancelExit.triggered();
+                break;
             }
         }
-
     }
 
     pageStack.initialPage: Qt.resolvedUrl("SystemUpdate.qml")

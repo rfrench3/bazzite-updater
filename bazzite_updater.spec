@@ -11,6 +11,7 @@ Source0:        %{url}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
+BuildRequires:  systemd-rpm-macros
 
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
@@ -34,6 +35,8 @@ Requires:       kf6-kirigami%{?_isa}
 Requires:       kf6-kirigami-addons%{?_isa}
 Requires:       kf6-qqc2-desktop-style%{?_isa}
 Requires:       which%{?_isa}
+Requires:       qt6-controllable%{?_isa}
+Requires:       uupd%{?_isa}
 
 Provides:       bazzite_updater = %{version}-%{release}
 
@@ -63,10 +66,6 @@ desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{orgname}.deskto
 %{_kf6_datadir}/applications/%{orgname}.desktop
 %{_kf6_metainfodir}/%{orgname}.*.xml
 %{_kf6_datadir}/icons/hicolor/scalable/apps/%{orgname}.svg
-%{_kf6_libdir}/libgamepad-support.so
-%{_kf6_qmldir}/io/github/rfrench3/Gamepad/*
-
-
 
 %changelog
 * Thu Feb 05 2026 Robert French

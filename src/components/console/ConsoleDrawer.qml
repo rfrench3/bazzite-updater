@@ -8,11 +8,9 @@ import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 
 import io.github.rfrench3.bazzite_updater
-import io.github.rfrench3.Gamepad
-
+import io.github.rfrench3.controllable as GP
 
 Kirigami.OverlayDrawer {
-
     id: root
 
     required property var model
@@ -27,25 +25,25 @@ Kirigami.OverlayDrawer {
     height: page.height / 2
 
     function handleInput(buttonId, button_down) {
-        if (!button_down) return;
+        if (!button_down)
+            return;
 
         switch (buttonId) {
-            case 2: // X
-                copy.animateClick();
-                break;
-            case 3: // Y
-                close.animateClick();
-                break;
-
+        case 2: // X
+            copy.animateClick();
+            break;
+        case 3: // Y
+            close.animateClick();
+            break;
         }
     }
-    
+
     contentItem: RowLayout {
 
-        ScrollHandler {
-            scrollBar: consoleView.scrollBar
+        GP.ScrollHandler {
+            target: consoleView.scrollBar
         }
-        
+
         ConsoleView {
             id: consoleView
             model: root.model
@@ -60,7 +58,7 @@ Kirigami.OverlayDrawer {
             Button {
                 id: copy
                 Layout.fillWidth: true
-                text: i18n("Copy to Clipboard") + Gamepad.labels.space + Gamepad.labels.x
+                text: i18n("Copy to Clipboard") + GP.Labels.spacer + GP.Labels.west
                 onClicked: {
                     root.model.copyToClipboard();
                     showPassiveNotification(i18n("Text Copied"), Kirigami.short);
@@ -70,7 +68,7 @@ Kirigami.OverlayDrawer {
             Button {
                 id: close
                 Layout.fillWidth: true
-                text: i18n("Close") + Gamepad.labels.space + Gamepad.labels.y
+                text: i18n("Close") + GP.Labels.spacer + GP.Labels.north
                 onClicked: root.close()
             }
 
@@ -78,6 +76,5 @@ Kirigami.OverlayDrawer {
                 id: columnAdditional
             }
         }
-
     }
 }

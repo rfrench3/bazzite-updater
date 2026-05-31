@@ -6,7 +6,11 @@
 #include <QDate>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <qlogging.h>
+#include <qprocess.h>
+#include <qtmetamacros.h>
 
+// Async is not necessary for this function (probably)
 osImage osImage::fromJson(const QString &filePath)
 {
     QFile json_file(filePath);
@@ -81,32 +85,45 @@ RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
     }
     m_osImage_current = osImage::fromJson(path);
 
-    m_gpu_drivers = checkNvidiaSupport();
+    setGpuDrivers();
 }
 
-// NOTE: This blocks the UI until there's a return.
-// It should be fast, though
-QString RebaseHelperBackend::checkNvidiaSupport()
+void RebaseHelperBackend::setGpuDrivers()
 {
-    QProcess check_nvidia;
+    QProcess *check_nvidia = new QProcess(this);
+
+    connect(check_nvidia, &QProcess::errorOccurred, [this, check_nvidia](QProcess::ProcessError err) {
+        qWarning() << u"check-drivers error:"_s << err << check_nvidia->errorString();
+        this->m_gpu_drivers.clear();
+        Q_EMIT recommendedDriverChanged();
+        check_nvidia->deleteLater();
+    });
+
+    connect(check_nvidia, &QProcess::finished, [this, check_nvidia]() {
+        if (check_nvidia->exitCode() != 0) {
+            this->m_gpu_drivers = u""_s;
+            Q_EMIT recommendedDriverChanged();
+            return;
+        }
+
+        QString output = QString::fromStdString(check_nvidia->readAllStandardOutput().toStdString()).trimmed();
+
+        if (output == u"supported"_s)
+            this->m_gpu_drivers = u"nvidia"_s;
+        if (output == u"legacy"_s)
+            this->m_gpu_drivers = u"nvidia-open"_s;
+        if (output == u"unsupported"_s)
+            this->m_gpu_drivers = i18n("unsupported");
+        if (output.isEmpty())
+            this->m_gpu_drivers = i18nc("do not translate nvidia or nvidia-open.", "not nvidia or nvidia-open");
+        else
+            this->m_gpu_drivers = u"unexpected output"_s;
+
+        Q_EMIT recommendedDriverChanged();
+        return;
+    });
+
     Utils::startProcess(check_nvidia, u"/usr/libexec/bazzite_detect_nvidia_support_status"_s, {});
-    check_nvidia.waitForFinished();
-
-    if (check_nvidia.exitCode() != 0)
-        return u""_s;
-
-    QString output = QString::fromStdString(check_nvidia.readAllStandardOutput().toStdString()).trimmed();
-
-    if (output == u"supported"_s)
-        return u"nvidia"_s;
-    if (output == u"legacy"_s)
-        return u"nvidia-open"_s;
-    if (output == u"unsupported"_s)
-        return i18n("unsupported");
-    if (output.isEmpty())
-        return i18nc("do not translate nvidia or nvidia-open.", "not nvidia or nvidia-open");
-    else
-        return u""_s;
 }
 
 // ROLLBACK
@@ -131,9 +148,9 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
     });
 
 #ifdef TESTING_BUILD
-    qDebug() << "testing build: sleep for 3s instead of rollback";
-    // Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
-    Utils::startProcess(rollback, u"cat"_s, {u"ghsjhfsdjhhjs"_s});
+    qDebug() << "testing build: runs something otehr than rollback";
+    Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
+    // Utils::startProcess(rollback, u"cat"_s, {u"ghsjhfsdjhhjs"_s});
     // Utils::startProcess(rollback, u"echo"_s, {u"ghsjhfsdjhhjs"_s});
 #else
     Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});

@@ -3,13 +3,12 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
-import io.github.rfrench3.Gamepad
 
 Kirigami.PromptDialog {
     id: root
-    
+
     property var activeDialogParent: applicationWindow()
-    
+
     Connections {
         target: root
 
