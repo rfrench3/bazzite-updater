@@ -93,7 +93,7 @@ void RebaseHelperBackend::setGpuDrivers()
     QProcess *check_nvidia = new QProcess(this);
 
     connect(check_nvidia, &QProcess::errorOccurred, [this, check_nvidia](QProcess::ProcessError err) {
-        qWarning() << err << check_nvidia->errorString();
+        qWarning() << u"check-drivers error:"_s << err << check_nvidia->errorString();
         this->m_gpu_drivers.clear();
         Q_EMIT recommendedDriverChanged();
         check_nvidia->deleteLater();
@@ -148,9 +148,9 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
     });
 
 #ifdef TESTING_BUILD
-    qDebug() << "testing build: sleep for 3s instead of rollback";
-    // Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
-    Utils::startProcess(rollback, u"cat"_s, {u"ghsjhfsdjhhjs"_s});
+    qDebug() << "testing build: runs something otehr than rollback";
+    Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
+    // Utils::startProcess(rollback, u"cat"_s, {u"ghsjhfsdjhhjs"_s});
     // Utils::startProcess(rollback, u"echo"_s, {u"ghsjhfsdjhhjs"_s});
 #else
     Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});

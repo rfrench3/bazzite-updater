@@ -58,7 +58,7 @@ ScrollingPage {
     FC.FormCard {
         id: rollbackFC
 
-        enabled: AppState.isBrhPresent && AppState.allowCommands
+        enabled: AppState.isBrhPresent && AppState.allowCommands || (typeof TestingMode !== "undefined" && TestingMode)
 
         FC.FormTextDelegate {
             text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
@@ -78,7 +78,7 @@ ScrollingPage {
 
         FC.FormButtonDelegate {
             text: i18n("Initiate Rollback")
-            enabled: rollbackConfirm.checked
+            enabled: rollbackConfirm.checked && rollbackConfirm.enabled
 
             onClicked: {
                 showPassiveNotification(i18n("Rollback Started"), Kirigami.short);

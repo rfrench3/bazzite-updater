@@ -135,7 +135,7 @@ StatefulApp.StatefulWindow {
                 icon.name: "application-exit-symbolic"
                 shortcut: StandardKey.Quit
                 onTriggered: {
-                    if (AppState.commandRunning) {
+                    if (AppState.commandRunning || AppState.commandSucceeded) {
                         exitDialog.open();
                     } else
                         Qt.quit();
@@ -213,7 +213,7 @@ StatefulApp.StatefulWindow {
         customFooterActions: [
             Kirigami.Action {
                 id: confirmReboot
-                text: i18n("Confirm") + GP.Labels.spacer + GP.Labels.south
+                text: i18n("Reboot") + GP.Labels.spacer + GP.Labels.south
 
                 onTriggered: rebootDialog.accept()
             },
@@ -226,13 +226,22 @@ StatefulApp.StatefulWindow {
 
         onAccepted: {
             AppState.rebootSystem(function (callback) {
-                if (AppState.commandSucceeded)
-                    showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
-                else
-                    showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
-
+                rebootTimer.start();
                 console.log("Reboot callback: " + callback);
             });
+        }
+
+        // Wait a little while to ensure "your reboot has failed" isn't ever visible momentarily before rebooting succeeds
+        Timer {
+            id: rebootTimer
+            interval: 2000
+            repeat: false
+            onTriggered: {
+                if (AppState.commandSucceeded)
+                    root.showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
+                else
+                    root.showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
+            }
         }
 
         function handleInput(buttonId, button_down) {
@@ -256,7 +265,7 @@ StatefulApp.StatefulWindow {
 
         subtitle: {
             if (!AppState.commandRunning)
-                return i18n("It is safe to exit.");
+                return AppState.commandSucceeded ? i18n("You must reboot to apply changes.") : i18n("No command is running, you may exit.");
 
             let statusText;
 
@@ -276,7 +285,7 @@ StatefulApp.StatefulWindow {
         customFooterActions: [
             Kirigami.Action {
                 id: confirmExit
-                text: i18n("Confirm") + GP.Labels.spacer + GP.Labels.south
+                text: i18n("Exit") + GP.Labels.spacer + GP.Labels.south
 
                 onTriggered: exitDialog.accept()
             },
