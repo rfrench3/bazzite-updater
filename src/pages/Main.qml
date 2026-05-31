@@ -88,7 +88,7 @@ StatefulApp.StatefulWindow {
             },
             Kirigami.Action {
 
-                text: i18n("System Rebase Tool")
+                text: i18n("Update Utilities")
                 icon.name: "system-reboot-symbolic"
 
                 checkable: true

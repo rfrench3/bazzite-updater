@@ -3,7 +3,7 @@ default:
 
 # devcontainer
 build:
-    cmake -B build -D_INCLUDE_SUBMODULES=ON
+    cmake -B build -D_INCLUDE_SUBMODULES=ON -DTESTING_BUILD=ON
     cmake --build build
 
 # devcontainer
@@ -15,6 +15,10 @@ run:
 test:
     just build
     ctest --test-dir build --output-on-failure
+
+# devcontainer
+update-submodules:
+    git submodule update --init --recursive --remote
 
 # host
 build-rpm:

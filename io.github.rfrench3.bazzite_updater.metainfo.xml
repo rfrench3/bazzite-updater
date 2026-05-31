@@ -13,7 +13,12 @@
     <p>Kirigami interface for uupd-manual.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
   <releases>
-    <!-- <release version="@PROJECT_VERSION@" date="@TODAY_DATE@" type="snapshot"/> -->
+    <release version="0.7.2" date="2026-05-30" type="development">
+      <description>
+        <p>Separated controller support into its own module, "controllable". Properly integrated that separate module. 
+        Removed Rebase functionality until it is implemented properly. Fully converted the rollback page to formcards.</p>
+      </description>
+    </release>
     <release version="0.4.1" date="2026-02-08" type="development">
       <description>
         <p>The progress bar for the update now becomes indeterminate while an update is running.</p>

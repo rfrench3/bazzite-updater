@@ -10,7 +10,7 @@
 #include <qprocess.h>
 #include <qtmetamacros.h>
 
-// Async is not necessary for this function
+// Async is not necessary for this function (probably)
 osImage osImage::fromJson(const QString &filePath)
 {
     QFile json_file(filePath);
@@ -100,7 +100,6 @@ void RebaseHelperBackend::setGpuDrivers()
     });
 
     connect(check_nvidia, &QProcess::finished, [this, check_nvidia]() {
-        qWarning() << "FINISHED";
         if (check_nvidia->exitCode() != 0) {
             this->m_gpu_drivers = u""_s;
             Q_EMIT recommendedDriverChanged();

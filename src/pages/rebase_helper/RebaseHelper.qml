@@ -50,78 +50,53 @@ ScrollingPage {
         active: !globalDrawer.drawerOpen
     }
 
-    Kirigami.FormLayout {
+    FC.FormHeader {
+        title: i18n("Rollback Last Update")
+        enabled: rollbackFC.enabled
+    }
 
-        // Rollback Last Update
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: i18n("Rollback Last Update")
-            enabled: AppState.isBrhPresent
-        }
+    FC.FormCard {
+        id: rollbackFC
 
-        FontMetrics {
-            id: sysFont
-            font: Qt.application.font
-        }
+        enabled: AppState.isBrhPresent && AppState.allowCommands
 
-        QQC2.Label {
-            // Prevent the form from forcing this into the right-side
-            Kirigami.FormData.isSection: true
-
-            // Roughly fit text into 3 rows
-            Layout.preferredWidth: sysFont.advanceWidth(text) / 3.0
-            wrapMode: Text.Wrap
-
+        FC.FormTextDelegate {
             text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
-            enabled: AppState.isBrhPresent
+            textItem.wrapMode: Text.Wrap
         }
 
-        QQC2.CheckBox {
-            id: confirmRollback
-            // Layout.alignment: Qt.AlignRight
+        FC.FormDelegateSeparator {}
+
+        FC.FormCheckDelegate {
+            id: rollbackConfirm
             text: i18n("Confirm")
 
-            enabled: !AppState.rollbackRunning && !AppState.commandSucceeded && AppState.isBrhPresent
+            enabled: !AppState.rollbackRunning && !AppState.commandSucceeded
         }
 
-        Item {
-            Layout.alignment: Qt.AlignHCenter
+        FC.FormDelegateSeparator {}
 
-            implicitWidth: rollbackButton.implicitWidth + (rollbackBusyIndicator.running ? rollbackBusyIndicator.implicitWidth : 0)
-            implicitHeight: rollbackButton.implicitHeight
+        FC.FormButtonDelegate {
+            text: i18n("Initiate Rollback")
+            enabled: rollbackConfirm.checked
 
-            QQC2.Button {
-                id: rollbackButton
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-
-                text: i18n("Rollback") + (AppState.isBrhPresent ? "" : i18n(" (Unavailable)"))
-
-                onClicked: {
-                    showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
-                    RebaseHelperBackend.rollbackImage(function (callback) {
-                        if (callback != 0) {
-                            showPassiveNotification(i18n("Rollback Failed."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, consoleDrawer.open);
-                        } else {
-                            showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
-                        }
-                    });
-                }
-
-                enabled: AppState.allowCommands && AppState.isBrhPresent && confirmRollback.checked
+            onClicked: {
+                showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
+                RebaseHelperBackend.rollbackImage(function (callback) {
+                    if (callback != 0) {
+                        showPassiveNotification(i18n("Rollback Failed."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, consoleDrawer.open);
+                    } else {
+                        showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
+                    }
+                });
             }
 
-            QQC2.BusyIndicator {
+            trailing: QQC2.BusyIndicator {
                 id: rollbackBusyIndicator
-                anchors.left: rollbackButton.right
-                anchors.leftMargin: Kirigami.Units.smallSpacing
-                anchors.verticalCenter: rollbackButton.verticalCenter
                 running: AppState.rollbackRunning
             }
+            trailingLogo.visible: !rollbackBusyIndicator.running
         }
-
-        // TODO: Make the rebase section intuitive before adding it
-        // RebasePart {}
     }
 
     FC.FormCard {
@@ -136,7 +111,7 @@ ScrollingPage {
 
             text: {
                 if (!AppState.isBrhPresent)
-                    return i18n("Bazzite Rollback Helper is not present on the system. This page's information is still available, but it is otherwise nonfunctional.");
+                    return i18n("Bazzite Rollback Helper is not present on the system. It is required to perform a System Rollback or Rebase.");
                 else if (AppState.isGamescopeSession)
                     return i18n("The app is being run in Steam's Gamescope Session. Switch to Desktop mode to use the System Rebase feature.");
                 else
