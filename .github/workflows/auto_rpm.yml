@@ -11,13 +11,13 @@ jobs:
     name: "RPM"
     runs-on: ubuntu-latest
     container:
-      image: fedora:43
+      image: fedora:44
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
       run: |
         dnf install -y rpm-build
-        dnf builddep -y bazzite_updater.spec
+        dnf builddep -y bazzite-updater.spec
     - name: Build RPM
       env:
         HOME: /root
@@ -25,12 +25,12 @@ jobs:
         VERSION=$(cat version.txt)
         # Repack the checked-out source into a tarball with the prefix rpmbuild expects
         mkdir -p ~/rpmbuild/SOURCES
-        tar --transform "s|^\.|bazzite_updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
-        rpmbuild -bb bazzite_updater.spec
+        tar --transform "s|^\.|bazzite-updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
+        rpmbuild -bb bazzite-updater.spec
     - name: Upload RPM artifact
       uses: actions/upload-artifact@v4
       with:
-        name: bazzite_updater-rpm
+        name: bazzite-updater-rpm
         path: /root/rpmbuild/RPMS/**/*.rpm
     - name: Attach RPM to release
       if: startsWith(github.ref, 'refs/tags/')
