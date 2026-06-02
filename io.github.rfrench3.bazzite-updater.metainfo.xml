@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <component type="desktop-application">
   <!--Created with jdAppStreamEdit 9.2-->
-  <id>io.github.rfrench3.bazzite_updater</id>
+  <id>io.github.rfrench3.bazzite-updater</id>
   <name>Bazzite Updater</name>
   <summary>Update your system</summary>
   <developer id="io.github.rfrench3">
@@ -13,6 +13,12 @@
     <p>Kirigami interface for uupd-manual.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
   <releases>
+    <release version="0.7.3" date="2026-06-02" type="development">
+        <description>
+        <p>The app now runs in windowed mode outside of gamescope. 
+        All possible instances of "bazzite_updater" have been renamed to "bazzite-updater".</p>
+        </description>
+    </release>
     <release version="0.7.2" date="2026-05-30" type="development">
       <description>
         <p>Separated controller support into its own module, "controllable". Properly integrated that separate module. 

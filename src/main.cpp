@@ -11,7 +11,7 @@
 #include <QScreen>
 #include <QUrl>
 
-#include "version-bazzite_updater.h"
+#include "version-bazzite-updater.h"
 #include <KAboutData>
 #include <KIconTheme>
 #include <KLocalizedQmlContext>
@@ -65,10 +65,10 @@ int main(int argc, char *argv[])
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE"))
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
 
-    KLocalizedString::setApplicationDomain("bazzite_updater");
+    KLocalizedString::setApplicationDomain("bazzite-updater");
     QCoreApplication::setOrganizationName(u"UniversalBlue"_s);
 
-    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.rfrench3.bazzite_updater"_s));
+    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.rfrench3.bazzite-updater"_s));
 
     QQmlApplicationEngine engine;
 

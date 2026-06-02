@@ -1,14 +1,14 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 
-add_executable(bazzite_updater)
+add_executable(bazzite-updater)
 
-ecm_add_qml_module(bazzite_updater
+ecm_add_qml_module(bazzite-updater
     URI
     io.github.rfrench3.bazzite_updater
 )
 
-target_sources(bazzite_updater
+target_sources(bazzite-updater
     PRIVATE
     main.cpp
     utils.h
@@ -22,13 +22,14 @@ target_sources(bazzite_updater
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/console.cpp
 )
 
-target_include_directories(bazzite_updater
+target_include_directories(bazzite-updater
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console
 )
 
+# adds the licenses into the About files without making a huge mess in the source code
 set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataApp.qml")
 set(ABOUTAPP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pages/AboutDataApp.qml")
 configure_file(${ABOUTAPP_INPUT} ${ABOUTAPP_OUTPUT} @ONLY)
@@ -37,7 +38,7 @@ set(ABOUTBAZZITE_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataBazzite.qml")
 set(ABOUTBAZZITE_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pages/AboutDataBazzite.qml")
 configure_file(${ABOUTBAZZITE_INPUT} ${ABOUTBAZZITE_OUTPUT} @ONLY)
 
-ecm_target_qml_sources(bazzite_updater
+ecm_target_qml_sources(bazzite-updater
     SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/Main.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/SystemUpdate.qml
@@ -52,7 +53,7 @@ ecm_target_qml_sources(bazzite_updater
     ${ABOUTAPP_OUTPUT}
 )
 
-target_link_libraries(bazzite_updater
+target_link_libraries(bazzite-updater
     PRIVATE
     Qt6::Core
     Qt6::Gui
@@ -73,4 +74,4 @@ target_link_libraries(bazzite_updater
 
 add_subdirectory(components)
 
-install(TARGETS bazzite_updater ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS bazzite-updater ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

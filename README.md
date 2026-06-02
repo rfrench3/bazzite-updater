@@ -1,4 +1,3 @@
-
 <h1>Bazzite Updater</h1>
 
 <h2 align="center">A Graphical Frontend for the updating and rebasing tools used by Bazzite.</h2>
@@ -48,8 +47,16 @@ I will publish packages to the GitHub releases to distribute it until I am furth
 
 <h1 align="center">Developer Instructions</h1>
 
-I develop this project in a devcontainer with vscode and test it on bazzite by installing it as a flatpak through github artifacts. A justfile is present for specific scripts, which can be easily run using `just`.
+I develop this project in a devcontainer with vscode and test it on bazzite by installing it as a flatpak (or RPM) through github artifacts. A justfile is present for specific scripts, which can be easily run using `just`.
+
 ```bash
 just build-flatpak
 just build-rpm
+```
+
+To test as an rpm:
+
+```bash
+sudo bootc usroverlay
+sudo dnf install the/rpm/package.rpm
 ```

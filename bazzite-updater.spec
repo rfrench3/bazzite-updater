@@ -1,12 +1,12 @@
-%global orgname io.github.rfrench3.bazzite_updater
+%global appid io.github.rfrench3.bazzite-updater
 
-Name:           bazzite_updater
+Name:           bazzite-updater
 Version:        %(cat version.txt)
 Release:        1%{?dist}
 Summary:        Update your Bazzite system
 
 License:        GPL-2.0-or-later
-URL:            https://github.com/rfrench3/bazzite_updater
+URL:            https://github.com/rfrench3/bazzite-updater
 Source0:        %{url}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:  desktop-file-utils
@@ -38,7 +38,7 @@ Requires:       which%{?_isa}
 Requires:       qt6-controllable%{?_isa}
 Requires:       uupd%{?_isa}
 
-Provides:       bazzite_updater = %{version}-%{release}
+Provides:       bazzite-updater = %{version}-%{release}
 
 %description
 This is a convenient, easy-to-use interface for updating your Bazzite system.
@@ -56,16 +56,16 @@ This is a convenient, easy-to-use interface for updating your Bazzite system.
 %cmake_install
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_kf6_metainfodir}/%{orgname}.*.xml || :
-desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{orgname}.desktop
+appstream-util validate-relax --nonet %{buildroot}%{_kf6_metainfodir}/%{appid}.*.xml || :
+desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{appid}.desktop
 
 %files
 %license LICENSES/{BSD-3-Clause.txt,CC0-1.0.txt,GPL-2.0-or-later.txt,FSFAP.txt}
 %doc README.md
-%{_kf6_bindir}/bazzite_updater
-%{_kf6_datadir}/applications/%{orgname}.desktop
-%{_kf6_metainfodir}/%{orgname}.*.xml
-%{_kf6_datadir}/icons/hicolor/scalable/apps/%{orgname}.svg
+%{_kf6_bindir}/bazzite-updater
+%{_kf6_datadir}/applications/%{appid}.desktop
+%{_kf6_metainfodir}/%{appid}.*.xml
+%{_kf6_datadir}/icons/hicolor/scalable/apps/%{appid}.svg
 
 %changelog
 * Thu Feb 05 2026 Robert French

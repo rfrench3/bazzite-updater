@@ -3,8 +3,8 @@
 [Desktop Entry]
 Name=Bazzite Updater
 Comment=Update your system
-Exec=bazzite_updater
-Icon=io.github.rfrench3.bazzite_updater
+Exec=bazzite-updater
+Icon=io.github.rfrench3.bazzite-updater
 Type=Application
 Terminal=false
 Categories=Qt;KDE;System;

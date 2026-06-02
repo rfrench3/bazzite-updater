@@ -1,10 +1,12 @@
 {
-    "id": "io.github.rfrench3.bazzite_updater",
+    "id": "io.github.rfrench3.bazzite-updater",
     "runtime": "org.kde.Platform",
     "runtime-version": "6.10",
     "sdk": "org.kde.Sdk",
-    "command": "bazzite_updater",
-    "tags": ["nightly"],
+    "command": "bazzite-updater",
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
         "--share=ipc",
@@ -19,11 +21,18 @@
 
     "modules": [
         {
-            "name": "bazzite_updater",
+            "name": "bazzite-updater",
             "buildsystem": "cmake-ninja",
             "builddir": true,
-            "sources": [ { "type": "dir", "path": ".", "skip": [".git"] } ]
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": ".",
+                    "skip": [
+                        ".git"
+                    ]
+                }
+            ]
         }
     ]
 }
-

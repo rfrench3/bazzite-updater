@@ -9,7 +9,7 @@ build:
 # devcontainer
 run:
     just build
-    ./build/bin/bazzite_updater
+    ./build/bin/bazzite-updater
 
 # devcontainer
 test:
@@ -19,6 +19,8 @@ test:
 # devcontainer
 update-submodules:
     git submodule update --init --recursive --remote
+
+# TODO: use the Terra rpm builder instead of this custom solution
 
 # host
 build-rpm:
@@ -30,13 +32,13 @@ build-rpm:
     podman run --rm -v "$PWD:/workspace:z" -w /workspace fedora:43 bash -lc '
         set -eou pipefail
         dnf install -y rpm-build
-        dnf builddep -y bazzite_updater.spec
+        dnf builddep -y bazzite-updater.spec
 
         export HOME=/root
         VERSION=$(cat version.txt)
         mkdir -p ~/rpmbuild/SOURCES
-        tar --transform "s|^\\.|bazzite_updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
-        rpmbuild -bb bazzite_updater.spec
+        tar --transform "s|^\\.|bazzite-updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
+        rpmbuild -bb bazzite-updater.spec
         cp -v ~/rpmbuild/RPMS/*/*.rpm /workspace/output/
     '
 
@@ -48,15 +50,15 @@ build-rpm-cached:
     mkdir -p ./output
     rm -f ./output/*.rpm
 
-    IMAGE_TAG="bazzite_updater:builddeps"
+    IMAGE_TAG="bazzite-updater:builddeps"
 
     podman build -t "${IMAGE_TAG}" -f - . <<'EOF'
     FROM fedora:43
     WORKDIR /tmp
-    COPY bazzite_updater.spec /tmp/
+    COPY bazzite-updater.spec /tmp/
     COPY version.txt /tmp/
     RUN dnf install -y rpm-build \
-     && dnf builddep -y /tmp/bazzite_updater.spec \
+     && dnf builddep -y /tmp/bazzite-updater.spec \
      && dnf clean all
     EOF
 
@@ -66,8 +68,8 @@ build-rpm-cached:
     export HOME=/root
     VERSION=$(cat version.txt)
     mkdir -p ~/rpmbuild/SOURCES
-    tar --transform "s|^\\.|bazzite_updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
-    rpmbuild -bb bazzite_updater.spec
+    tar --transform "s|^\\.|bazzite-updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
+    rpmbuild -bb bazzite-updater.spec
     cp -v ~/rpmbuild/RPMS/*/*.rpm /workspace/output/
     '
 
@@ -76,7 +78,7 @@ build-flatpak: output
     #!/usr/bin/env bash
     set -eou pipefail
     flatpak-builder --force-clean --repo=output/repo builddir .flatpak-manifest.json
-    flatpak build-bundle output/repo output/bazzite_updater.flatpak io.github.rfrench3.bazzite_updater
+    flatpak build-bundle output/repo output/bazzite-updater.flatpak io.github.rfrench3.bazzite-updater
     rm -r output/repo
     rm -r builddir
 

@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 file(READ "version.txt" APP_VERSION)
-project(bazzite_updater VERSION ${APP_VERSION})
+project(bazzite-updater VERSION ${APP_VERSION})
 
 option(TESTING_BUILD "Enable testing features like filler text in the console view." OFF)
 option(_INCLUDE_SUBMODULES "Compile the git submodules alongside the normal application." OFF)
@@ -61,7 +61,7 @@ include(KDEClangFormat)
 include(ECMSetupVersion)
 ecm_setup_version(${PROJECT_VERSION}
     VARIABLE_PREFIX BAZZITE_UPDATER
-    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-bazzite_updater.h"
+    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-bazzite-updater.h"
 )
 
 ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard REQUIRED)
@@ -97,9 +97,9 @@ add_subdirectory(src)
 
 ### Install desktop files ###
 
-install(FILES io.github.rfrench3.bazzite_updater.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES io.github.rfrench3.bazzite_updater.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
-install(FILES io.github.rfrench3.bazzite_updater.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES io.github.rfrench3.bazzite-updater.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES io.github.rfrench3.bazzite-updater.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
+install(FILES io.github.rfrench3.bazzite-updater.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 ki18n_install(po)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
