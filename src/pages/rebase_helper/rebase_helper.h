@@ -9,12 +9,29 @@
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
+#include <qqmlintegration.h>
 #include <qtmetamacros.h>
 
 #include "console.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace Gpu
+{
+Q_NAMESPACE
+QML_ELEMENT
+
+enum class Drivers {
+    UNKNOWN = -1,
+    BASE,
+    NVIDIA,
+    NVIDIA_OPEN,
+    UNSUPPORTED
+};
+
+Q_ENUM_NS(Drivers)
+}
 
 struct osImage {
     Q_GADGET
@@ -58,10 +75,9 @@ class RebaseHelperBackend : public QObject
     Q_PROPERTY(osImage currentImage READ currentImage CONSTANT)
     Q_PROPERTY(Console::Model *consoleModel MEMBER m_console CONSTANT)
 
-    // TODO: This should be an enum that the UI can use to highlight the best options
-    Q_PROPERTY(QString recommendedDriver READ gpuDrivers NOTIFY recommendedDriverChanged)
+    Q_PROPERTY(Gpu::Drivers bestDriver READ gpuDrivers NOTIFY recommendedDriverChanged)
 
-    QString m_gpu_drivers;
+    Gpu::Drivers best_driver;
 
     osImage m_osImage_current;
     void setGpuDrivers();
@@ -73,9 +89,9 @@ public:
     {
         return m_osImage_current;
     }
-    QString gpuDrivers() const
+    Gpu::Drivers gpuDrivers() const
     {
-        return m_gpu_drivers;
+        return best_driver;
     }
 
     Q_SIGNAL void recommendedDriverChanged();

@@ -73,6 +73,7 @@ RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
     : QObject(parent)
 {
     m_console = new Console::Model(this);
+    best_driver = Gpu::Drivers::UNKNOWN;
 
     QString path;
     {
@@ -92,32 +93,28 @@ void RebaseHelperBackend::setGpuDrivers()
 {
     QProcess *check_nvidia = new QProcess(this);
 
-    connect(check_nvidia, &QProcess::errorOccurred, [this, check_nvidia](QProcess::ProcessError err) {
+    connect(check_nvidia, &QProcess::errorOccurred, [check_nvidia](QProcess::ProcessError err) {
         qWarning() << u"check-drivers error:"_s << err << check_nvidia->errorString();
-        this->m_gpu_drivers.clear();
-        Q_EMIT recommendedDriverChanged();
         check_nvidia->deleteLater();
     });
 
     connect(check_nvidia, &QProcess::finished, [this, check_nvidia]() {
         if (check_nvidia->exitCode() != 0) {
-            this->m_gpu_drivers = u""_s;
-            Q_EMIT recommendedDriverChanged();
             return;
         }
 
         QString output = QString::fromStdString(check_nvidia->readAllStandardOutput().toStdString()).trimmed();
 
         if (output == u"supported"_s)
-            this->m_gpu_drivers = u"nvidia"_s;
+            this->best_driver = Gpu::Drivers::NVIDIA;
         if (output == u"legacy"_s)
-            this->m_gpu_drivers = u"nvidia-open"_s;
+            this->best_driver = Gpu::Drivers::NVIDIA_OPEN;
         if (output == u"unsupported"_s)
-            this->m_gpu_drivers = i18n("unsupported");
+            this->best_driver = Gpu::Drivers::UNSUPPORTED;
         if (output.isEmpty())
-            this->m_gpu_drivers = i18nc("do not translate nvidia or nvidia-open.", "not nvidia or nvidia-open");
+            this->best_driver = Gpu::Drivers::BASE;
         else
-            this->m_gpu_drivers = u"unexpected output"_s;
+            this->best_driver = Gpu::Drivers::UNKNOWN;
 
         Q_EMIT recommendedDriverChanged();
         return;
