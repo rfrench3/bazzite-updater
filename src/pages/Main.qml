@@ -26,6 +26,11 @@ StatefulApp.StatefulWindow {
 
     visibility: UseFullscreen ? Window.FullScreen : Window.Windowed
 
+    onClosing: close => {
+        close.accepted = false;
+        actionQuit.triggered();
+    }
+
     // Handle global drawer navigation for controllers
 
     property var activeDialog: null
