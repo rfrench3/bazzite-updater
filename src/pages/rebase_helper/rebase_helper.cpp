@@ -106,9 +106,9 @@ void RebaseHelperBackend::setGpuDrivers()
         QString output = QString::fromStdString(check_nvidia->readAllStandardOutput().toStdString()).trimmed();
 
         if (output == u"supported"_s)
-            this->best_driver = Gpu::Drivers::NVIDIA;
-        if (output == u"legacy"_s)
             this->best_driver = Gpu::Drivers::NVIDIA_OPEN;
+        if (output == u"legacy"_s)
+            this->best_driver = Gpu::Drivers::NVIDIA;
         if (output == u"unsupported"_s)
             this->best_driver = Gpu::Drivers::UNSUPPORTED;
         if (output.isEmpty())
