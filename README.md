@@ -24,8 +24,8 @@
 
 <h1 align="center">Requirements</h1>
 
-This GUI is only useful if you have `uupd` installed. If you are using a Universal Blue based system, you almost certainly do!
-For rebase and rollback support, `bazzite-rollback-helper` is used.
+This GUI requires `uupd` to be installed. If you are using a Universal Blue based system, you almost certainly do!
+For rebase and rollback support, `bazzite-rollback-helper` is used but not strictly required.
 
 - https://github.com/ublue-os/uupd
 
@@ -33,8 +33,12 @@ For rebase and rollback support, `bazzite-rollback-helper` is used.
 
 <h1 align="center">Where to Install the Latest Release</h1>
 
-I will publish packages to the GitHub releases to distribute it until I am further in development.
+The app is available in [Terra](https://docs.terrapkg.com/usage/installing/). Once the installation instructions are met, the package will be available as `bazzite-updater`.
+```bash
+sudo dnf install bazzite-updater
+```
 
+It is also posted to the github releases.
 - https://github.com/rfrench3/bazzite_updater/releases
 
 <br>
