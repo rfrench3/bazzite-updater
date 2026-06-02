@@ -42,7 +42,7 @@ ecm_target_qml_sources(bazzite_updater
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/Main.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/SystemUpdate.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebaseHelper.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebasePart.qml
+    # ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebasePart.qml # remove until implemented
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleView.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleDrawer.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/AppDialog.qml

@@ -28,6 +28,8 @@ using namespace Qt::Literals::StringLiterals;
 
 int main(int argc, char *argv[])
 {
+    bool should_fullscreen = false;
+
     if (Utils::GAMESCOPE_SESSION) {
         /*
             Gamescope-session does not apply any app scaling.
@@ -52,6 +54,8 @@ int main(int argc, char *argv[])
         // Use the Qt theme KDE uses (unthemed outside of KDE)
         if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORMTHEME"))
             qputenv("QT_QPA_PLATFORMTHEME", QByteArray::fromStdString("kde"));
+
+        should_fullscreen = true;
     }
 
     KIconTheme::initTheme();
@@ -80,6 +84,8 @@ int main(int argc, char *argv[])
 #else
     engine.rootContext()->setContextProperty(u"TestingMode"_s, false);
 #endif
+
+    engine.rootContext()->setContextProperty(u"UseFullscreen"_s, should_fullscreen);
 
     return app.exec();
 }

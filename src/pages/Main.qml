@@ -24,7 +24,7 @@ StatefulApp.StatefulWindow {
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
 
-    visibility: Window.FullScreen
+    visibility: UseFullscreen ? Window.FullScreen : Window.Windowed
 
     // Handle global drawer navigation for controllers
 
