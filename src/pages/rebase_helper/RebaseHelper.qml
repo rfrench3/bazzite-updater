@@ -14,7 +14,7 @@ import io.github.rfrench3.controllable as GP
 ScrollingPage {
     id: page
 
-    title: GP.Labels.east + GP.Labels.spacer_large + i18n("Rebase Helper")
+    title: GP.Labels.east + GP.Labels.spacer_large + i18n("Other Utilities")
 
     function handleInput(buttonId, button_down) {
         if (button_down == false)
@@ -99,23 +99,29 @@ ScrollingPage {
         }
     }
 
-    FC.FormCard {
-        visible: brhPresentMessage.visible
-        FC.FormTextDelegate {
-            id: brhPresentMessage
 
-            visible: text !== ""
-
-            font.bold: true
-            textItem.wrapMode: Text.WordWrap
-
-            text: {
-                if (!AppState.isBrhPresent)
-                    return i18n("Bazzite Rollback Helper is not present on the system. It is required to perform a System Rollback or Rebase.");
-                else if (AppState.isGamescopeSession)
-                    return i18n("The app is being run in Steam's Gamescope Session. Switch to Desktop mode to use the System Rebase feature.");
-                else
-                    return "";
+    Loader {
+        active: !AppState.isBrhPresent // || AppState.isGamescopeSession 
+        Layout.fillWidth: true
+        
+        sourceComponent: FC.FormCard {
+            visible: brhPresentMessage.visible
+            FC.FormTextDelegate {
+                id: brhPresentMessage
+    
+                visible: text !== ""
+    
+                font.bold: true
+                textItem.wrapMode: Text.WordWrap
+    
+                text: {
+                    if (!AppState.isBrhPresent)
+                        return i18n("Bazzite Rollback Helper is not present on the system. It is required to perform a System Rollback or Rebase.");
+                    // else if (AppState.isGamescopeSession) // NOTE: Re-add this when Rebasing is re-added
+                    //     return i18n("The app is being run in Steam's Gamescope Session. Switch to Desktop mode to use the System Rebase feature.");
+                    else
+                        return "";
+                }
             }
         }
     }
@@ -140,6 +146,47 @@ ScrollingPage {
 
             description: i18n("Last Update")
         }
+    
+        FC.FormDelegateSeparator {
+            visible: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
+        }
+        
+        Loader {
+            active: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
+            Layout.fillWidth: true
+            
+            sourceComponent: FC.FormTextDelegate {
+                text: {
+                    switch (RebaseHelperBackend.bestDriver) 
+                    {
+                        case Gpu.Drivers.BASE:          return i18n("The best drivers for your GPU are provided by the Linux kernel.");
+                        case Gpu.Drivers.NVIDIA:        return i18n("The best drivers for your GPU are ") + "nvidia.";
+                        case Gpu.Drivers.NVIDIA_OPEN:   return i18n("The best drivers for your GPU are ") + "nvidia-open.";
+                        case Gpu.Drivers.UNSUPPORTED:   return i18n("Your GPU is unsupported.");
+                        case Gpu.Drivers.UNKNOWN:       return "";
+                        default:                            return "Report to the app developer if you see this!";
+                    }
+                }
+
+                readonly property int __current: {
+                    if (RebaseHelperBackend.currentImage.name.endsWith("nvidia-open")) return Gpu.Drivers.NVIDIA_OPEN
+                    else if (RebaseHelperBackend.currentImage.name.endsWith("nvidia")) return Gpu.Drivers.NVIDIA
+                    else return Gpu.Drivers.BASE
+                }
+
+                description: {
+                    if (RebaseHelperBackend.bestDriver == __current) return i18n("You have the best drivers installed.");
+                    
+                    switch (current) 
+                    {
+                        case Gpu.Drivers.BASE:          return i18n("You do not have any nvidia drivers installed.");
+                        case Gpu.Drivers.NVIDIA:        return i18n("You currently have nvidia installed.");
+                        case Gpu.Drivers.NVIDIA_OPEN:   return i18n("You currently have nvidia-open installed.");
+                    }
+                }
+            }
+        }
+
     }
 
     FCSystemInfo {}
