@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.22)
 file(READ "version.txt" APP_VERSION)
 project(bazzite-updater VERSION ${APP_VERSION})
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 option(TESTING_BUILD "Enable testing features like filler text in the console view." OFF)
 option(_INCLUDE_SUBMODULES "Compile the git submodules alongside the normal application." OFF)
 
