@@ -111,7 +111,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataBazzite.qml")
+                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataOS.qml")
             },
             Kirigami.Action {
                 text: i18n("About Bazzite Updater")
