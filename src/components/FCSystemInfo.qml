@@ -8,7 +8,6 @@ import org.kde.kirigamiaddons.formcard as FC
 import io.github.rfrench3.bazzite_updater
 
 FC.FormCard {
-    Layout.topMargin: Kirigami.Units.largeSpacing * 4
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.name || i18n("loading...")
         description: i18n("Image")

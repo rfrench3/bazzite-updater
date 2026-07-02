@@ -9,6 +9,7 @@
 #include <QQmlEngine>
 #include <functional>
 #include <iostream>
+#include <qobject.h>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -56,7 +57,6 @@ class AppState : public QObject
 public:
     AppState();
 
-    // TODO: This method of accessing the sole instance of AppState would ideally be replaced by a more elegant solution.
     static AppState *instance();
 
     bool updateRunning() const

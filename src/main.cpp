@@ -16,8 +16,11 @@
 #include <KIconTheme>
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
+#include <qqml.h>
 
 #include "console.h"
+#include "k_config.h"
+
 #include "rebase_helper.h"
 #include "system_update.h"
 #include "utils.h"
@@ -86,6 +89,8 @@ int main(int argc, char *argv[])
 #endif
 
     engine.rootContext()->setContextProperty(u"UseFullscreen"_s, should_fullscreen);
+
+    qmlRegisterSingletonInstance("app.config", 1, 0, "AppConfig", appConfig());
 
     return app.exec();
 }

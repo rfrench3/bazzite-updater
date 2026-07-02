@@ -10,6 +10,7 @@ import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
+import app.config 1.0
 
 ScrollingPage {
     id: page
@@ -198,7 +199,16 @@ ScrollingPage {
         }
     }
 
-    FCSystemInfo {}
+    FCSystemInfo {
+        Layout.topMargin: Kirigami.Units.largeSpacing * 4
+    }
+
+    FC.FormHeader {
+        Layout.topMargin: Kirigami.Units.largeSpacing * 4
+        title: i18n("Advanced Information") + " (os-release)"
+    }
+
+    FCOsRelease {}
 
     ConsoleDrawer {
         id: consoleDrawer
