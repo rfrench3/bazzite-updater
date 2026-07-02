@@ -10,7 +10,6 @@ import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
-import app.config 1.0
 
 ScrollingPage {
     id: page
@@ -186,7 +185,7 @@ ScrollingPage {
                     if (RebaseHelperBackend.bestDriver == __current)
                         return i18n("You have the best drivers installed.");
 
-                    switch (current) {
+                    switch (__current) {
                     case Gpu.Drivers.BASE:
                         return i18n("You do not have any nvidia drivers installed.");
                     case Gpu.Drivers.NVIDIA:
@@ -204,7 +203,6 @@ ScrollingPage {
     }
 
     FC.FormHeader {
-        Layout.topMargin: Kirigami.Units.largeSpacing * 4
         title: i18n("Advanced Information") + " (os-release)"
     }
 

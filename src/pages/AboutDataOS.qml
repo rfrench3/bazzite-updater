@@ -60,11 +60,7 @@ FormCard.AboutPage {
         }
     }
 
-    // TODO: Use this property when it's in bazzite and the kde flatpak runtime. Currently it is not.
-    // showLibraries: false
+    showLibraries: false
 
     aboutData: AppConfig.osAboutData
-
-    donateUrl: "https://bazzite.gg/#sponsor"
-    getInvolvedUrl: "https://bazzite.gg/#contribute"
 }

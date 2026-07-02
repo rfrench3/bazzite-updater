@@ -21,7 +21,7 @@ using namespace Qt::Literals::StringLiterals;
 // Entries that cannot be found are left empty
 struct ConfigIni {
     Q_GADGET
-
+public:
     QString systemUpdateCommand;
     QString osName;
     QString osIconPath;
@@ -41,17 +41,16 @@ class AppConfig : public QObject
     QML_SINGLETON
 
     static AppConfig *m_instance;
-    QJsonObject m_aboutOs;
-    QJsonObject m_osRelease;
-    ConfigIni m_configIni;
 
-    Q_PROPERTY(QJsonObject osAboutData MEMBER m_aboutOs CONSTANT)
-    Q_PROPERTY(QJsonObject osRelease MEMBER m_osRelease CONSTANT)
-    Q_PROPERTY(ConfigIni configIni MEMBER m_configIni CONSTANT)
+    Q_PROPERTY(QJsonObject osAboutData MEMBER aboutOs CONSTANT)
+    Q_PROPERTY(QJsonObject osRelease MEMBER osRelease CONSTANT)
+    Q_PROPERTY(ConfigIni configIni MEMBER configIni CONSTANT)
 
     AppConfig();
 
     void setupOsRelease(QFile &file);
+
+    // QString findConfigFile(const QString &relativePath);
 
 public:
     static AppConfig *instance()
@@ -62,9 +61,13 @@ public:
             return new AppConfig();
     }
 
+    QJsonObject aboutOs;
+    QJsonObject osRelease;
+    ConfigIni configIni;
+
     Q_INVOKABLE QVariantMap osReleaseVarMap() const
     {
-        return m_osRelease.toVariantMap();
+        return osRelease.toVariantMap();
     }
 
     static AppConfig *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
@@ -82,3 +85,5 @@ inline AppConfig *appConfig()
 {
     return AppConfig::instance();
 }
+
+QString findConfigFile(const QString &relativePath);

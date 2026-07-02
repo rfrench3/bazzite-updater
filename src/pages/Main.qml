@@ -105,7 +105,7 @@ StatefulApp.StatefulWindow {
                 separator: true
             },
             Kirigami.Action {
-                text: i18n("About Bazzite")
+                text: i18n("About") + " " + AppConfig.configIni.osName
                 icon.name: "help-about-symbolic"
 
                 checkable: true

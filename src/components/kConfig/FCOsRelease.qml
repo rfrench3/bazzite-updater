@@ -5,8 +5,6 @@ import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.formcard as FC
 
-import app.config 1.0
-
 FC.FormCard {
     id: root
     readonly property var osRelease: AppConfig.osReleaseVarMap()

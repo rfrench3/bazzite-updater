@@ -90,7 +90,5 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty(u"UseFullscreen"_s, should_fullscreen);
 
-    qmlRegisterSingletonInstance("app.config", 1, 0, "AppConfig", appConfig());
-
     return app.exec();
 }
