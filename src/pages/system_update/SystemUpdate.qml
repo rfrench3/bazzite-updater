@@ -85,14 +85,13 @@ Kirigami.Page {
                     anchors.fill: parent
 
                     antialiasing: true
-                    source: "qrc:/osLogo"
+                    source: (AppConfig.configIni.osIconPath) ? "file:/" + AppConfig.configIni.osIconPath : "qrc:/fallbackLogo"
                     sourceSize.width: 1024
                     sourceSize.height: 1024
                 }
             }
 
             Kirigami.Heading {
-
                 text: i18n("System Update")
             }
         }
@@ -154,25 +153,5 @@ Kirigami.Page {
     ConsoleDrawer {
         id: consoleDrawer
         model: SystemUpdateBackend.consoleModel
-        // extraColumnItems: [
-        //     Loader {
-        //         id: testingNumberInputLoader
-        //         Layout.fillWidth: true
-        //         active: typeof TestingMode !== "undefined" && TestingMode
-        //         visible: active
-
-        //         sourceComponent: QQC2.SpinBox {
-        //             Layout.fillWidth: true
-        //             from: 0
-        //             to: 9999
-        //             value: SystemUpdateBackend.testConsoleLinesPerSecond
-        //             editable: true
-
-        //             onValueModified: {
-        //                 SystemUpdateBackend.testConsoleLinesPerSecond = value;
-        //             }
-        //         }
-        //     }
-        // ]
     }
 }

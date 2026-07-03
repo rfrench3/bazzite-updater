@@ -1,5 +1,5 @@
 <RCC version="1.0">
     <qresource prefix="/">
-        <file alias="osLogo">resources/images/bazzite-logo.svg</file>
+        <file alias="fallbackLogo">resources/Tux.png</file>
     </qresource>
 </RCC>
