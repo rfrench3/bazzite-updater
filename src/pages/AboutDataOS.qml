@@ -1,6 +1,6 @@
 import org.kde.kirigamiaddons.formcard as FormCard
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls // Required so grabScrollbar knows what a scrollbar is
 import org.kde.kirigami as Kirigami
 
 import io.github.rfrench3.bazzite_updater
@@ -9,37 +9,6 @@ import io.github.rfrench3.controllable as GP
 FormCard.AboutPage {
     id: page
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("About") + " " + AppConfig.configIni.osName
-
-    // The application's own icon fully overrides normal attempts to set the icon
-    function findAboutLogoItem(item) {
-        if (!item) {
-            return null;
-        }
-
-        if (item instanceof Kirigami.Icon) {
-            return item;
-        }
-
-        if (!item.children) {
-            return null;
-        }
-
-        for (let i = 0; i < item.children.length; ++i) {
-            const found = findAboutLogoItem(item.children[i]);
-            if (found) {
-                return found;
-            }
-        }
-
-        return null;
-    }
-
-    Component.onCompleted: {
-        const logoItem = findAboutLogoItem(page);
-        if (logoItem) {
-            logoItem.source = "qrc:/osLogo";
-        }
-    }
 
     GP.PageNavigation {
         targetScrollbar: page.grabScrollbar(page)

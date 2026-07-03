@@ -82,6 +82,12 @@ build-flatpak: output
     rm -r output/repo
     rm -r builddir
 
+# devcontainer, copy src/resources to proper location
+copy-configs:
+    #!/usr/bin/env bash
+    set -eou pipefail
+    cp -r ./src/resources ~/.config/bazzite-updater
+
 [private]
 output:
     mkdir -p output

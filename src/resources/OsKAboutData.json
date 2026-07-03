@@ -155,5 +155,5 @@
         }
     ],
     "copyrightStatement": "© 2023-@CURRENT_YEAR@",
-    "programLogo": "qrc:/osLogo"
+    "programLogo": "@ICON_PATH@"
 }

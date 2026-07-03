@@ -56,6 +56,9 @@ AppConfig::AppConfig()
             aboutOs[u"license"_s] = u"https://www.apache.org/licenses/LICENSE-2.0.txt"_s;
         }
 
+        if (aboutOs[u"programLogo"_s].toString() == u"@PROGRAM_LOGO@"_s)
+            aboutOs[u"programLogo"_s] = configIni.osIconPath;
+
         auto copyright = aboutOs[u"copyrightStatement"_s].toString();
         int idx = copyright.indexOf(u"@CURRENT_YEAR@"_s);
         if (idx != -1) {
@@ -104,7 +107,11 @@ ConfigIni::ConfigIni()
     KConfigGroup aboutInfoGroup = config->group(u"AboutInfo"_s);
 
     osName = aboutInfoGroup.readEntry(u"name"_s, u""_s);
-    osIconPath = aboutInfoGroup.readEntry(u"iconPath"_s, u""_s);
+    osIconPath = aboutInfoGroup.readEntry(u"iconPath"_s, u"/usr/share/icons/hicolor/scalable/places/start-here.svg"_s);
+
+    if (osIconPath.startsWith(u"./"_s)) {
+        osIconPath = findConfigFile(u"bazzite-updater/"_s + osIconPath.remove(2, 0));
+    }
 }
 
 // (ex: u"bazzite-updater/config.ini"_s) Returns the full path to the config file that should be used.
