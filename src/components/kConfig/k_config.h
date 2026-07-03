@@ -20,21 +20,39 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-// Entries that cannot be found are left empty
-struct ConfigIni {
-    Q_GADGET
-public:
-    QString systemUpdateCommand;
-    QString osName;
-    QString osIconPath;
+namespace __InternalIni
+{
 
-    Q_PROPERTY(QString systemUpdateCommand MEMBER systemUpdateCommand CONSTANT)
-    Q_PROPERTY(QString osName MEMBER osName CONSTANT)
-    Q_PROPERTY(QString osIconPath MEMBER osIconPath CONSTANT)
-
+class VarMapPlus : public QVariantMap
+{
 public:
-    ConfigIni();
+    // much more convenient for C++
+    static QString getValue(const QString &group, const QString &key, const QString &fallback = QString());
 };
+
+struct ConfigIni {
+    static ConfigIni &instance()
+    {
+        static ConfigIni s;
+        return s;
+    } // instance
+
+    ConfigIni(const ConfigIni &) = delete;
+    ConfigIni &operator=(const ConfigIni &) = delete;
+
+private:
+    ConfigIni();
+    ~ConfigIni()
+    {
+    }
+
+public:
+    VarMapPlus ini;
+};
+
+}
+
+#define configIni __InternalIni::ConfigIni::instance().ini
 
 class AppConfig : public QObject
 {
@@ -63,13 +81,17 @@ public: // singleton methods
 public:
     Q_PROPERTY(QJsonObject osAboutData MEMBER aboutOs CONSTANT)
     Q_PROPERTY(QJsonObject osRelease MEMBER osRelease CONSTANT)
-    Q_PROPERTY(ConfigIni configIni MEMBER configIni CONSTANT)
+    Q_PROPERTY(QVariantMap ini READ config CONSTANT)
 
     void setupOsRelease(QFile &file);
 
     QJsonObject aboutOs;
     QJsonObject osRelease;
-    ConfigIni configIni;
+
+    QVariantMap config() const
+    {
+        return configIni;
+    }
 
     Q_INVOKABLE QVariantMap osReleaseVarMap() const
     {

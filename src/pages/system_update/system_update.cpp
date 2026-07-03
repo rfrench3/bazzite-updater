@@ -108,12 +108,13 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         return;
     }
 
-    auto command_data = UpdateCommand(appConfig()->configIni.systemUpdateCommand.split(u' '));
+    auto command_data = UpdateCommand(configIni.getValue(u"Commands"_s, u"systemUpdateCommand"_s).split(u' '));
 
     QProcess *updater = new QProcess(this);
 
 #ifdef TESTING_BUILD
     qInfo() << "TESTING_BUILD: Skipping check for program";
+    qInfo() << "TESTING_BUILD: Program is " << command_data.base << command_data.args;
     m_console->newLine(u"Skipping program check"_s, Console::LogLevel::Info);
 #else
     if (command_data.type == command_data.SYSTEMD) {

@@ -85,7 +85,7 @@ Kirigami.Page {
                     anchors.fill: parent
 
                     antialiasing: true
-                    source: (AppConfig.configIni.osIconPath) ? "file:/" + AppConfig.configIni.osIconPath : "qrc:/fallbackLogo"
+                    source: (AppConfig.ini.AboutInfo.osIconPath) ? "file:/" + AppConfig.ini.AboutInfo.osIconPath : "qrc:/fallbackLogo"
                     sourceSize.width: 1024
                     sourceSize.height: 1024
                 }

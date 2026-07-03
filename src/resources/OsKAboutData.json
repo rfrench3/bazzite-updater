@@ -155,5 +155,5 @@
         }
     ],
     "copyrightStatement": "© 2023-@CURRENT_YEAR@",
-    "programLogo": "@ICON_PATH@"
+    "programLogo": "@PROGRAM_LOGO@"
 }

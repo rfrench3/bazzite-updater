@@ -86,6 +86,7 @@ build-flatpak: output
 copy-configs:
     #!/usr/bin/env bash
     set -eou pipefail
+    rm -r ~/.config/bazzite-updater
     cp -r ./src/resources ~/.config/bazzite-updater
 
 [private]

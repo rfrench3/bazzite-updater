@@ -11,8 +11,10 @@
 #include <qjsondocument.h>
 #include <qjsonvalue.h>
 #include <qlogging.h>
+#include <qobject.h>
 #include <qstringview.h>
 #include <qtenvironmentvariables.h>
+#include <qvariant.h>
 
 AppConfig::AppConfig()
 {
@@ -56,8 +58,9 @@ AppConfig::AppConfig()
             aboutOs[u"license"_s] = u"https://www.apache.org/licenses/LICENSE-2.0.txt"_s;
         }
 
-        if (aboutOs[u"programLogo"_s].toString() == u"@PROGRAM_LOGO@"_s)
-            aboutOs[u"programLogo"_s] = configIni.osIconPath;
+        if (aboutOs[u"programLogo"_s].toString() == u"@PROGRAM_LOGO@"_s) {
+            aboutOs[u"programLogo"_s] = configIni.getValue(u"AboutInfo"_s, u"iconPath"_s);
+        }
 
         auto copyright = aboutOs[u"copyrightStatement"_s].toString();
         int idx = copyright.indexOf(u"@CURRENT_YEAR@"_s);
@@ -97,23 +100,6 @@ void AppConfig::setupOsRelease(QFile &file)
     }
 }
 
-ConfigIni::ConfigIni()
-{
-    KSharedConfigPtr config = KSharedConfig::openConfig(findConfigFile(u"bazzite-updater/config.ini"_s), KConfig::SimpleConfig);
-    KConfigGroup commandsGroup = config->group(u"Commands"_s);
-
-    systemUpdateCommand = commandsGroup.readEntry(u"systemUpdateCommand"_s, u""_s);
-
-    KConfigGroup aboutInfoGroup = config->group(u"AboutInfo"_s);
-
-    osName = aboutInfoGroup.readEntry(u"name"_s, u""_s);
-    osIconPath = aboutInfoGroup.readEntry(u"iconPath"_s, u"/usr/share/icons/hicolor/scalable/places/start-here.svg"_s);
-
-    if (osIconPath.startsWith(u"./"_s)) {
-        osIconPath = findConfigFile(u"bazzite-updater/"_s + osIconPath.remove(2, 0));
-    }
-}
-
 // (ex: u"bazzite-updater/config.ini"_s) Returns the full path to the config file that should be used.
 QString findConfigFile(const QString &relativePath)
 {
@@ -133,4 +119,49 @@ QString findConfigFile(const QString &relativePath)
     }
     qWarning() << "App Config file not found.";
     return u""_s;
+}
+
+namespace __InternalIni
+{
+
+ConfigIni::ConfigIni()
+{
+    auto filepath = findConfigFile(u"bazzite-updater/config.ini"_s);
+    auto base_path = QFileInfo(filepath).absolutePath();
+
+    KSharedConfigPtr config = KSharedConfig::openConfig(filepath, KConfig::SimpleConfig);
+
+    for (const QString &group : config->groupList()) {
+        auto map = config->entryMap(group);
+
+        QVariantMap groupMap;
+
+        for (auto it = map.constBegin(); it != map.constEnd(); ++it) {
+            const QString key = it.key();
+            QString val = it.value();
+
+            // convert relative paths to absolute form
+            if (val.startsWith(u"./"_s))
+                val = base_path + val.mid(1);
+
+            groupMap.insert(key, val);
+        }
+
+        ini.insert(group, groupMap);
+    }
+}
+
+QString VarMapPlus::getValue(const QString &group, const QString &key, const QString &fallback)
+{
+    if (!configIni.contains(group))
+        return fallback;
+
+    auto groupMap = configIni.value(group).toMap();
+
+    if (!groupMap.contains(key))
+        return fallback;
+
+    return groupMap.value(key).toString();
+}
+
 }

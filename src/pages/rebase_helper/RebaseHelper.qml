@@ -53,12 +53,14 @@ ScrollingPage {
     FC.FormHeader {
         title: i18n("Rollback Last Update")
         enabled: rollbackFC.enabled
+        visible: AppConfig.ini.Commands.systemRollbackCommand
     }
 
     FC.FormCard {
         id: rollbackFC
 
         enabled: AppState.isBrhPresent && AppState.allowCommands || (typeof TestingMode !== "undefined" && TestingMode)
+        visible: AppConfig.ini.Commands.systemRollbackCommand
 
         FC.FormTextDelegate {
             text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
@@ -100,7 +102,7 @@ ScrollingPage {
     }
 
     Loader {
-        active: !AppState.isBrhPresent // || AppState.isGamescopeSession
+        active: !AppState.isBrhPresent && AppConfig.ini.Commands.systemRollbackCommand // || AppState.isGamescopeSession
         Layout.fillWidth: true
 
         sourceComponent: FC.FormCard {

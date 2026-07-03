@@ -8,7 +8,7 @@ import io.github.rfrench3.controllable as GP
 
 FormCard.AboutPage {
     id: page
-    title: GP.Labels.east + GP.Labels.spacer_large + i18n("About") + " " + AppConfig.configIni.osName
+    title: GP.Labels.east + GP.Labels.spacer_large + i18n("About") + " " + AppConfig.ini.AboutInfo.name
 
     GP.PageNavigation {
         targetScrollbar: page.grabScrollbar(page)
