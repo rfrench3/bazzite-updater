@@ -66,6 +66,9 @@ desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{appid}.desktop
 %{_kf6_datadir}/applications/%{appid}.desktop
 %{_kf6_metainfodir}/%{appid}.*.xml
 %{_kf6_datadir}/icons/hicolor/scalable/apps/%{appid}.svg
+/usr/etc/bazzite-updater/config.ini
+/usr/etc/bazzite-updater/OsKAboutData.json
+/usr/etc/bazzite-updater/images/bazzite-logo.svg
 
 %changelog
 * Thu Feb 05 2026 Robert French

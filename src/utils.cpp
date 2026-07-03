@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "utils.h"
+#include <qlogging.h>
 
 // Utils
 
@@ -15,8 +16,10 @@ void Utils::startProcess(QProcess *process, const QString &cmd, const QStringLis
     if (isFlatpak()) {
         QStringList hostArgs;
         hostArgs << u"--host"_s << cmd << args;
+        qInfo() << "starting flatpak-spawn with the arguments: " << args;
         process->start(u"flatpak-spawn"_s, hostArgs);
     } else {
+        qInfo() << "starting " << cmd << " with the arguments: " << args;
         process->start(cmd, args);
     }
 }

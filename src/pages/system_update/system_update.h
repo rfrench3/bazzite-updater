@@ -16,6 +16,9 @@
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
+#include <qcontainerfwd.h>
+#include <qobject.h>
+#include <qprocess.h>
 
 #ifdef TESTING_BUILD
 #include <QTimer>
@@ -25,6 +28,10 @@
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+struct UpdateCommand;
+QString formatForConsole(const QByteArray &bytes);
+QString formatForConsole(QString line);
 
 class SystemUpdateBackend : public QObject
 {
@@ -51,15 +58,16 @@ class SystemUpdateBackend : public QObject
 
     UpdateErrors m_updateErrorStatus;
 
-    void logToConsole();
     QString m_placeholderTextColor;
+
+    auto makeLogger(QProcess *process, UpdateCommand command);
 
 public:
     SystemUpdateBackend(QObject *parent = nullptr);
 
     Console::Model *m_console;
 
-    Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue(), QJSValue callbackErrors = QJSValue());
+    Q_INVOKABLE void runUpdate(QJSValue callback);
 
     QString getServiceState(const QString &service) const;
     QString getServiceResult(const QString &service) const;
@@ -99,4 +107,20 @@ public:
     void setTestConsoleLinesPerSecond(int linesPerSecond);
     Q_SIGNAL void testConsoleLinesPerSecondChanged();
 #endif
+};
+
+struct UpdateCommand {
+    enum commandType {
+        SYSTEMD,
+        COMMAND
+    };
+
+    commandType type;
+
+    QString base;
+    QStringList args;
+
+    QString service;
+
+    UpdateCommand(QStringList command);
 };

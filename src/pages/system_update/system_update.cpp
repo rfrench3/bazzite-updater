@@ -11,6 +11,7 @@
 #include <QClipboard>
 #include <QFile>
 #include <QFileInfo>
+#include <QIODevice>
 #include <QProcess>
 #include <QStandardPaths>
 #include <QTextStream>
@@ -18,13 +19,24 @@
 
 #include <KLocalizedString>
 
+#include "console.h"
 #include "k_config.h"
 #include "system_update.h"
+#include "utils.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QRegularExpression>
 #include <QtDebug>
+#include <qcontainerfwd.h>
+#include <qfuture.h>
+#include <qjsondocument.h>
+#include <qjsvalue.h>
+#include <qlogging.h>
+#include <qnumeric.h>
+#include <qobject.h>
+#include <qprocess.h>
+#include <qstringview.h>
 
 #ifdef TESTING_BUILD
 #include <algorithm>
@@ -32,121 +44,26 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
-    : QObject(parent)
+// Returns a lambda that logs the update output into the in-app console
+auto SystemUpdateBackend::makeLogger(QProcess *updater, UpdateCommand command_data)
 {
-    m_console = new Console::Model(this);
+    QProcess *program = (command_data.type == UpdateCommand::SYSTEMD) ? &m_journalctlProcess : updater;
 
-#ifdef TESTING_BUILD
-    connect(&m_testConsoleTimer, &QTimer::timeout, this, [this]() {
-        m_console->newLine(i18n("Test console line %1", ++m_testConsoleLineCounter), Console::LogLevel::Debug);
-    });
-#endif
-}
+    return [=]() {
+        while (program->canReadLine()) {
+            const QByteArray line = program->readLine();
 
-void SystemUpdateBackend::runUpdate(QJSValue callback, QJSValue callbackErrors)
-{
-    if (!callback.isCallable()) {
-        qDebug() << "Callback is not callable, command run refused";
-        return;
-    }
-#ifndef TESTING_BUILD
-    if (!Utils::isServicePresent(u"uupd-manual.service"_s)) {
-        setBlockUpdate(true);
-        m_console->newLine(i18n("The uupd-manual.service used for this application was not found on the system."), Console::LogLevel::ErrorCritical);
-        callback.call({127});
-        return;
-    }
-#endif
-
-    appState()->setUpdateRunning(true);
-
-    QProcess *systemctl = new QProcess(this);
-#ifdef TESTING_BUILD
-    Utils::startProcess(systemctl, u"sleep"_s, {u"3"_s});
-#else
-    Utils::startProcess(systemctl, u"systemctl"_s, {u"start"_s, u"uupd-manual.service"_s});
-#endif
-
-    // display progress of systemctl to in-GUI console
-    logToConsole();
-
-    // When the "systemctl start uupd-manual.service" process completes,
-    // check the service result and update the UI accordingly.
-    // NOTE: A race condition can likely occur between this and the process in logToConsole()
-    connect(systemctl, &QProcess::finished, [=]() {
-        QTimer::singleShot(500, this, [=]() {
-            if (m_updateErrorStatus.System_Update || m_updateErrorStatus.Brew_Update || m_updateErrorStatus.System_Apps || m_updateErrorStatus.Apps_for_User
-                || m_updateErrorStatus.Distroboxes_for_User || m_updateErrorStatus.Unknown_Error) {
-                // Used in QML to send notification of which part(s) of the update failed
-
-                QJsonObject errorDetails;
-                errorDetails[u"System_Update"_s] = m_updateErrorStatus.System_Update;
-                errorDetails[u"Brew_Update"_s] = m_updateErrorStatus.Brew_Update;
-                errorDetails[u"System_Apps"_s] = m_updateErrorStatus.System_Apps;
-                errorDetails[u"Apps_for_User"_s] = m_updateErrorStatus.Apps_for_User;
-                errorDetails[u"Distroboxes_for_User"_s] = m_updateErrorStatus.Distroboxes_for_User;
-                errorDetails[u"Unknown_Error"_s] = m_updateErrorStatus.Unknown_Error;
-
-                QJsonDocument errorDoc(errorDetails);
-                QString errorJson = QString::fromUtf8(errorDoc.toJson(QJsonDocument::Compact));
-
-                if (callbackErrors.isCallable()) {
-                    callbackErrors.call({errorJson});
-                }
-            }
-
-            const QString result = getServiceResult(u"uupd-manual.service"_s);
-            if (result == u"success"_s) {
-                appState()->setUpdateRunning(false);
-                appState()->setCommandSucceeded(true);
-
-                callback.call({0, result});
-                systemctl->deleteLater();
-                return;
-            } else if (result == u"start-limit-hit"_s) {
-                m_console->newLine(i18n("You are updating too many times in a short period!"), Console::LogLevel::Error);
-            } else {
-                qDebug() << "Result of uupd-manual.service was not success: " << result;
-            }
-            appState()->setUpdateRunning(false);
-            callback.call({1, result});
-
-            systemctl->deleteLater();
-            return;
-        });
-    });
-}
-
-void SystemUpdateBackend::logToConsole()
-{
-    // Journalctl only needs to be running once
-    if (m_journalctlProcess.state() == QProcess::Running)
-        return;
-
-#ifdef TESTING_BUILD
-    Utils::startProcess(&m_journalctlProcess, u"cat"_s, {u"uupd-output.txt"_s});
-#else
-    Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=uupd-manual.service"_s, u"--lines=0"_s, u"-o"_s, u"cat"_s});
-#endif
-
-    connect(&m_journalctlProcess, &QProcess::readyReadStandardOutput, [this]() {
-        while (m_journalctlProcess.canReadLine()) {
-            const QByteArray message = m_journalctlProcess.readLine().trimmed();
-
-            if (message.isEmpty())
+            if (line.isEmpty())
                 continue;
 
-            if (!message.startsWith('{') && message != QByteArray::fromStdString("Updating") && message != QByteArray::fromStdString("scanned progress")) {
-                m_console->newLine(QString::fromUtf8(message), Console::LogLevel::Info);
+            if (!line.startsWith(u'{')) {
+                auto out = formatForConsole(line);
+                if (!out.trimmed().isEmpty())
+                    m_console->newLine(out.trimmed(), Console::LogLevel::Info);
                 continue;
             }
 
-            const QJsonObject json = QJsonDocument::fromJson(message).object();
-
-            // Ignore bootc output, as it heavily spams the logs
-            if (json.contains(u"bytes"_s))
-                continue;
+            auto json = QJsonDocument::fromJson(line).object();
 
             if (json.contains(u"level"_s) && json.contains(u"msg"_s)) {
                 QString level = json.value(u"level"_s).toString();
@@ -161,40 +78,116 @@ void SystemUpdateBackend::logToConsole()
                     log_level = LogLevel::Debug;
                 else if (level == u"WARN"_s)
                     log_level = LogLevel::Warn;
-                else if (level == u"ERROR"_s) {
+                else if (level == u"ERROR"_s)
                     log_level = LogLevel::Error;
 
-                    if (msg == u"module_fail"_s) {
-                        QString context = json.value(u"output"_s).toObject().value(u"Context"_s).toString();
-                        msg = i18n("Module Failed: ") + context;
-
-                        if (context.contains(u"System Update"_s, Qt::CaseInsensitive)) {
-                            setBlockUpdate(true);
-                            log_level = Console::LogLevel::ErrorCritical;
-                            m_updateErrorStatus.System_Update = true;
-                        } else if (context.contains(u"Brew Update"_s, Qt::CaseInsensitive))
-                            m_updateErrorStatus.Brew_Update = true;
-                        else if (context.contains(u"System Apps"_s, Qt::CaseInsensitive))
-                            m_updateErrorStatus.System_Apps = true;
-                        else if (context.contains(u"Apps for User"_s, Qt::CaseInsensitive))
-                            m_updateErrorStatus.Apps_for_User = true;
-                        else if (context.contains(u"Distroboxes for User"_s, Qt::CaseInsensitive))
-                            m_updateErrorStatus.Distroboxes_for_User = true;
-                        else
-                            m_updateErrorStatus.Unknown_Error = true;
-                    }
-                }
-
-                { // Remove ANSI color codes from msg (e.g. [0m[1;31m)
-                    static QRegularExpression ansiEscapePattern(QStringLiteral(R"(\x1b\[[0-9;]*m)"));
-                    msg.replace(ansiEscapePattern, u""_s);
-                }
-
-                if (!msg.isEmpty())
-                    m_console->newLine(msg, log_level);
+                auto out = formatForConsole(msg);
+                if (!out.trimmed().isEmpty())
+                    m_console->newLine(out.trimmed(), log_level);
             }
         }
+    };
+}
+
+SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
+    : QObject(parent)
+{
+    m_console = new Console::Model(this);
+
+#ifdef TESTING_BUILD
+    connect(&m_testConsoleTimer, &QTimer::timeout, this, [this]() {
+        m_console->newLine(i18n("Test console line %1", ++m_testConsoleLineCounter), Console::LogLevel::Debug);
     });
+#endif
+}
+
+void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
+{
+    if (!callback.isCallable()) {
+        qDebug() << "Callback is not callable, command run refused";
+        return;
+    }
+
+    auto command_data = UpdateCommand(appConfig()->configIni.systemUpdateCommand.split(u' '));
+
+    QProcess *updater = new QProcess(this);
+
+#ifdef TESTING_BUILD
+    qInfo() << "TESTING_BUILD: Skipping check for program";
+    m_console->newLine(u"Skipping program check"_s, Console::LogLevel::Info);
+#else
+    if (command_data.type == command_data.SYSTEMD) {
+        if (!Utils::isServicePresent(command_data.service)) {
+            setBlockUpdate(true);
+            m_console->newLine(i18n("The service \"%1\" used for this application was not found on the system.", command_data.service),
+                               Console::LogLevel::ErrorCritical);
+            callback.call({127});
+
+            return;
+        }
+    } else {
+        if (!Utils::isProgramPresent(command_data.base)) {
+            setBlockUpdate(true);
+            m_console->newLine(i18n("The program \"%1\" used for this application was not found on the system.").arg(command_data.base),
+                               Console::LogLevel::ErrorCritical);
+            callback.call({127});
+            return;
+        }
+    }
+#endif
+
+    updater->setProcessChannelMode(QProcess::MergedChannels);
+
+    const auto logger = makeLogger(updater, command_data);
+
+    if (command_data.type == UpdateCommand::SYSTEMD) {
+        connect(&m_journalctlProcess, &QProcess::readyReadStandardOutput, this, logger);
+#ifdef TESTING_BUILD
+        qInfo() << "TESTING_BUILD: Using example output text instead of real logging";
+        Utils::startProcess(&m_journalctlProcess, u"/workspaces/bazzite-updater/tests/update.sh"_s, {});
+#else
+        Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=%1"_s.arg(service), u"--lines=0"_s, u"-o"_s, u"cat"_s});
+#endif
+    } else {
+        connect(updater, &QProcess::readyReadStandardOutput, this, logger);
+    }
+
+    connect(updater, &QProcess::finished, [=]() {
+        const auto conclude = [=](int code, bool command) {
+            callback.call({code});
+            appState()->setUpdateRunning(false);
+            appState()->setCommandSucceeded(command);
+            return;
+        };
+
+        // Check for errors
+        if (updater->exitStatus() != QProcess::ExitStatus::NormalExit || updater->exitCode() != 0) {
+            conclude(1, false);
+            qWarning() << "Update failed with exit code " << updater->exitCode();
+            return;
+        }
+
+        if (command_data.type == UpdateCommand::SYSTEMD) {
+            const QString result = getServiceResult(command_data.service);
+
+            if (result != u"success"_s) {
+                conclude(1, false);
+                qWarning() << "Update failed with exit code " << updater->exitCode() << " and exit status " << result;
+                return;
+            }
+        }
+
+        conclude(0, true);
+    });
+
+    appState()->setUpdateRunning(true);
+
+#ifdef TESTING_BUILD
+    // Utils::startProcess(updater, u"sleep"_s, {u"3"_s});
+    Utils::startProcess(updater, u"/workspaces/bazzite-updater/tests/update.sh"_s, {});
+#else
+    Utils::startProcess(updater, command_data.base, command_data.args);
+#endif
 }
 
 QString SystemUpdateBackend::getServiceState(const QString &service) const
@@ -257,4 +250,45 @@ void SystemUpdateBackend::setTestConsoleLinesPerSecond(int linesPerSecond)
 }
 #endif
 
+QString formatForConsole(const QByteArray &bytes)
+{
+    return formatForConsole(QString::fromUtf8(bytes));
+}
+
+QString formatForConsole(QString line)
+{
+    // TODO: lots of this is uupd-specific, but shouldn't break other update commands
+
+    { // Do not send specific unhelpful lines that get spammed a lot
+        const QStringList list = {u"Updating"_s, u"scanned progress"_s};
+
+        for (const auto &spam : list) {
+            if (line.trimmed() == spam)
+                return u""_s;
+        }
+    }
+
+    { // Remove ANSI escape patterns
+        static QRegularExpression ansiEscapePattern(QStringLiteral(R"(\x1b\[[0-9;]*m)"));
+        line.replace(ansiEscapePattern, u""_s);
+    }
+
+    return line;
+}
+
+UpdateCommand::UpdateCommand(QStringList command)
+{
+    base = command[0];
+    command.removeFirst();
+    args = command;
+
+    if (base == u"systemctl"_s) {
+        type = SYSTEMD;
+
+        // systemctl, { start, the.service }
+        service = args[1];
+    } else {
+        type = COMMAND;
+    }
+}
 #include "moc_system_update.cpp"

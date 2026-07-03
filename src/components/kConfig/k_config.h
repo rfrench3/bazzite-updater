@@ -14,7 +14,9 @@
 #include <qobject.h>
 #include <qqmlengine.h>
 #include <qqmlintegration.h>
+#include <qtclasshelpermacros.h>
 #include <qtmetamacros.h>
+#include <qtpreprocessorsupport.h>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -40,26 +42,30 @@ class AppConfig : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    static AppConfig *m_instance;
+    Q_DISABLE_COPY_MOVE(AppConfig)
+    AppConfig();
 
+public: // singleton methods
+    static AppConfig *instance()
+    {
+        static AppConfig *s_instance = new AppConfig();
+        return s_instance;
+    }
+
+    static AppConfig *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+    {
+        Q_UNUSED(jsEngine)
+        AppConfig *instancePtr = instance();
+        qmlEngine->setObjectOwnership(instancePtr, QQmlEngine::CppOwnership);
+        return instancePtr;
+    }
+
+public:
     Q_PROPERTY(QJsonObject osAboutData MEMBER aboutOs CONSTANT)
     Q_PROPERTY(QJsonObject osRelease MEMBER osRelease CONSTANT)
     Q_PROPERTY(ConfigIni configIni MEMBER configIni CONSTANT)
 
-    AppConfig();
-
     void setupOsRelease(QFile &file);
-
-    // QString findConfigFile(const QString &relativePath);
-
-public:
-    static AppConfig *instance()
-    {
-        if (m_instance)
-            return m_instance;
-        else
-            return new AppConfig();
-    }
 
     QJsonObject aboutOs;
     QJsonObject osRelease;
@@ -68,16 +74,6 @@ public:
     Q_INVOKABLE QVariantMap osReleaseVarMap() const
     {
         return osRelease.toVariantMap();
-    }
-
-    static AppConfig *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
-    {
-        AppConfig *instancePtr = instance();
-
-        // CRITICAL: Prevent QML from deleting your C++ singleton
-        qmlEngine->setObjectOwnership(instancePtr, QQmlEngine::CppOwnership);
-
-        return instancePtr;
     }
 };
 

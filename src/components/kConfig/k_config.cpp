@@ -14,15 +14,8 @@
 #include <qstringview.h>
 #include <qtenvironmentvariables.h>
 
-AppConfig *AppConfig::m_instance = nullptr;
-
 AppConfig::AppConfig()
 {
-    if (m_instance == nullptr)
-        m_instance = this;
-    else
-        qWarning() << "AppState was constructed when an instance already exists!";
-
     // Store the OsRelease file into a QJsonObject
     QFile os_release(u"/etc/os-release"_s);
     if (os_release.open(QIODevice::ReadOnly | QIODevice::Text)) {

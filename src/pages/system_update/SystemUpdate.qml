@@ -52,47 +52,15 @@ Kirigami.Page {
 
         onTriggered: {
             showPassiveNotification(i18n("Update Started"), Kirigami.short);
-            SystemUpdateBackend.runUpdate(function (callback) {
-                if (callback == 0) {
-                    showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
+            SystemUpdateBackend.runUpdate(callback => {
+                if (callback != 0) {
+                    showPassiveNotification(i18n("Update Failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
+                        consoleDrawer.drawerOpen = true;
+                    });
                     return;
                 }
 
-                showPassiveNotification(i18n("Update Failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, function () {
-                    consoleDrawer.drawerOpen = true;
-                });
-            }, function (errorJson) {
-                // This function is only called if part of the update has failed
-                try {
-                    let errors = JSON.parse(errorJson);
-                    let message = i18n("Some update modules failed:\n");
-
-                    if (errors.System_Update) {
-                        message += i18n("System Update\n");
-                    }
-                    if (errors.Brew_Update) {
-                        message += i18n("Brew Update\n");
-                    }
-                    if (errors.System_Apps) {
-                        message += i18n("System Flatpak Apps\n");
-                    }
-                    if (errors.Apps_for_User) {
-                        message += i18n("User Flatpak Apps\n");
-                    }
-                    if (errors.Distroboxes_for_User) {
-                        message += i18n("User Distroboxes\n");
-                    }
-                    if (errors.Unknown_Error) {
-                        message += i18n("Unknown (Please send the error logs!)\n");
-                    }
-
-                    if (message.endsWith("\n")) {
-                        message = message.slice(0, -1);
-                    }
-                    showPassiveNotification(message, Kirigami.long);
-                } catch (e) {
-                    console.error("Failed to parse error JSON:", e);
-                }
+                showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
             });
         }
     }
