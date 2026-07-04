@@ -24,7 +24,6 @@
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
-using Utils::CommandData;
 
 QString formatForConsole(const QByteArray &bytes);
 QString formatForConsole(QString line);
@@ -56,17 +55,12 @@ class SystemUpdateBackend : public QObject
 
     QString m_placeholderTextColor;
 
-    auto makeLogger(QProcess *process, CommandData command);
-
 public:
     SystemUpdateBackend(QObject *parent = nullptr);
 
     Console::Model *m_console;
 
     Q_INVOKABLE void runUpdate(QJSValue callback);
-
-    QString getServiceState(const QString &service) const;
-    QString getServiceResult(const QString &service) const;
 
     int progressLevel() const
     {
@@ -88,19 +82,3 @@ public:
     }
     Q_SIGNAL void updateRunningChanged();
 };
-
-// struct UpdateCommand {
-//     enum commandType {
-//         SYSTEMD,
-//         COMMAND
-//     };
-
-//     commandType type;
-
-//     QString base;
-//     QStringList args;
-
-//     QString service;
-
-//     UpdateCommand(QStringList command);
-// };

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "utils.h"
-#include "console.h"
 #include <qlogging.h>
 #include <qprocess.h>
 
@@ -65,23 +64,6 @@ void connectQProcessOutputs(QProcess *process, const std::function<void(const QB
         std::cout.flush();
     });
 }
-
-CommandData::CommandData(QStringList command)
-{
-    base = command[0];
-    command.removeFirst();
-    args = command;
-
-    if (base == u"systemctl"_s) {
-        type = SYSTEMD;
-
-        // systemctl, { start, the.service }
-        service = args[1];
-    } else {
-        type = COMMAND;
-    }
-}
-
 }
 
 // AppState

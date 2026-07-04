@@ -26,23 +26,6 @@ bool isProgramPresent(const QString &cmd);
 bool isServicePresent(const QString &service);
 void connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput);
 const bool GAMESCOPE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"gamescope"_s);
-
-struct CommandData {
-    enum commandType {
-        SYSTEMD,
-        COMMAND
-    };
-
-    commandType type;
-
-    QString base;
-    QStringList args;
-
-    QString service;
-
-    CommandData(QStringList command);
-};
-
 }
 
 class AppState : public QObject
