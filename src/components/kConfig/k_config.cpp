@@ -107,7 +107,12 @@ QString findConfigFile(const QString &relativePath)
 {
     QStringList bases;
 
-    bases.append(qEnvironmentVariable("XDG_CONFIG_HOME", QDir::homePath() + u"/.config"_s));
+    /* do NOT check the home config path. Any app with home folder access could
+     * run arbitrary code in place of the normal system update. Only look for
+     * configs in the standard places under /etc and /usr
+     */
+
+    // bases.append(qEnvironmentVariable("XDG_CONFIG_HOME", QDir::homePath() + u"/.config"_s));
 
     // A better implementation would check XDG_CONFIG_DIRS, /etc/xdg here
 
