@@ -2,16 +2,19 @@
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "utils.h"
+#include "console.h"
 #include <qlogging.h>
+#include <qprocess.h>
 
-// Utils
+namespace Utils
+{
 
-bool Utils::isFlatpak()
+bool isFlatpak()
 {
     return QFileInfo::exists(u"/.flatpak-info"_s);
 }
 
-void Utils::startProcess(QProcess *process, const QString &cmd, const QStringList &args)
+void startProcess(QProcess *process, const QString &cmd, const QStringList &args)
 {
     if (isFlatpak()) {
         QStringList hostArgs;
@@ -24,13 +27,13 @@ void Utils::startProcess(QProcess *process, const QString &cmd, const QStringLis
     }
 }
 
-void Utils::startProcess(QProcess &process, const QString &cmd, const QStringList &args)
+void startProcess(QProcess &process, const QString &cmd, const QStringList &args)
 {
     startProcess(&process, cmd, args);
 }
 
 // Returns true if program is found
-bool Utils::isProgramPresent(const QString &cmd)
+bool isProgramPresent(const QString &cmd)
 {
     QProcess process;
     startProcess(process, u"which"_s, {cmd});
@@ -39,11 +42,11 @@ bool Utils::isProgramPresent(const QString &cmd)
 }
 
 // Returns true if service is found
-bool Utils::isServicePresent(const QString &service)
+bool isServicePresent(const QString &service)
 {
     QProcess check_process;
 
-    Utils::startProcess(check_process, u"systemctl"_s, {u"list-unit-files"_s, u"--no-legend"_s, u"--no-pager"_s, service});
+    startProcess(check_process, u"systemctl"_s, {u"list-unit-files"_s, u"--no-legend"_s, u"--no-pager"_s, service});
     check_process.waitForFinished();
 
     return check_process.exitCode() == 0;
@@ -51,7 +54,7 @@ bool Utils::isServicePresent(const QString &service)
 
 // Sets process channel mode to MergedChannels,
 // stores a copy of QProcess output using storeOutput and forwards output to main application
-void Utils::connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput)
+void connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput)
 {
     process->setProcessChannelMode(QProcess::MergedChannels);
 
@@ -61,6 +64,24 @@ void Utils::connectQProcessOutputs(QProcess *process, const std::function<void(c
         std::cout.write(data_out.constData(), data_out.size());
         std::cout.flush();
     });
+}
+
+CommandData::CommandData(QStringList command)
+{
+    base = command[0];
+    command.removeFirst();
+    args = command;
+
+    if (base == u"systemctl"_s) {
+        type = SYSTEMD;
+
+        // systemctl, { start, the.service }
+        service = args[1];
+    } else {
+        type = COMMAND;
+    }
+}
+
 }
 
 // AppState

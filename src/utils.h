@@ -5,6 +5,7 @@
 
 #include <QFileInfo>
 #include <QJSValue>
+#include <QModelIndex>
 #include <QProcess>
 #include <QQmlEngine>
 #include <functional>
@@ -15,6 +16,9 @@ using namespace Qt::Literals::StringLiterals;
 
 namespace Utils
 {
+
+using namespace Qt::Literals::StringLiterals;
+
 bool isFlatpak();
 void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
 void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
@@ -22,7 +26,24 @@ bool isProgramPresent(const QString &cmd);
 bool isServicePresent(const QString &service);
 void connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput);
 const bool GAMESCOPE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"gamescope"_s);
+
+struct CommandData {
+    enum commandType {
+        SYSTEMD,
+        COMMAND
+    };
+
+    commandType type;
+
+    QString base;
+    QStringList args;
+
+    QString service;
+
+    CommandData(QStringList command);
 };
+
+}
 
 class AppState : public QObject
 {
@@ -89,7 +110,8 @@ public:
     }
     bool isBrhPresent() const
     {
-        return Utils::isProgramPresent(u"bazzite-rollback-helper"_s);
+        static const bool hasBrh = Utils::isProgramPresent(u"bazzite-rollback-helper"_s);
+        return hasBrh;
     }
 
     void setUpdateRunning(bool running);
