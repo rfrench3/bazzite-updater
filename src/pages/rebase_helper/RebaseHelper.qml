@@ -52,14 +52,12 @@ ScrollingPage {
 
     FC.FormHeader {
         title: i18n("Rollback Last Update")
-        enabled: rollbackFC.enabled
         visible: rollbackFC.visible
     }
 
     FC.FormCard {
         id: rollbackFC
 
-        enabled: AppState.allowCommands
         visible: AppConfig.ini.Commands.systemRollbackCommand
 
         FC.FormTextDelegate {
@@ -73,7 +71,7 @@ ScrollingPage {
             id: rollbackConfirm
             text: i18n("Confirm")
 
-            enabled: !AppState.rollbackRunning && !AppState.commandSucceeded
+            enabled: AppState.allowCommands
         }
 
         FC.FormDelegateSeparator {}
