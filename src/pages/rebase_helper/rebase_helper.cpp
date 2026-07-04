@@ -1,7 +1,9 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "rebase_helper.h"
+#include "k_config.h"
+#include "utils.h"
 
 #include <QDate>
 #include <QJsonDocument>
@@ -91,10 +93,15 @@ RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
 
 void RebaseHelperBackend::setGpuDrivers()
 {
+    const auto path = u"/usr/libexec/bazzite_detect_nvidia_support_status"_s;
+
+    if (!QFile::exists(path))
+        return;
+
     QProcess *check_nvidia = new QProcess(this);
 
     connect(check_nvidia, &QProcess::errorOccurred, [check_nvidia](QProcess::ProcessError err) {
-        qWarning() << u"check-drivers error:"_s << err << check_nvidia->errorString();
+        qWarning() << u"setGpuDrivers error:"_s << err << check_nvidia->errorString();
         check_nvidia->deleteLater();
     });
 
@@ -117,10 +124,11 @@ void RebaseHelperBackend::setGpuDrivers()
             this->best_driver = Gpu::Drivers::UNKNOWN;
 
         Q_EMIT recommendedDriverChanged();
+        check_nvidia->deleteLater();
         return;
     });
 
-    Utils::startProcess(check_nvidia, u"/usr/libexec/bazzite_detect_nvidia_support_status"_s, {});
+    Utils::startProcess(check_nvidia, path, {});
 }
 
 // ROLLBACK
@@ -137,83 +145,23 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
 
     appState()->setRollbackRunning(true);
 
-    QProcess *rollback = new QProcess(this);
-    Utils::connectQProcessOutputs(rollback, [this](const QByteArray &output) {
-        QString output_str = QString::fromUtf8(output).trimmed();
-        if (!output_str.isEmpty())
-            m_console->newLine(output_str, Console::LogLevel::Info);
-    });
+    auto cmd = configIni.getValue(u"Commands"_s, u"systemRollbackCommand"_s).split(u' ');
 
-#ifdef TESTING_BUILD
-    qDebug() << "testing build: runs something otehr than rollback";
-    Utils::startProcess(rollback, u"sleep"_s, {u"3"_s});
-    // Utils::startProcess(rollback, u"cat"_s, {u"ghsjhfsdjhhjs"_s});
-    // Utils::startProcess(rollback, u"echo"_s, {u"ghsjhfsdjhhjs"_s});
-#else
-    Utils::startProcess(rollback, u"bazzite-rollback-helper"_s, {u"rollback"_s, u"-y"_s});
-#endif
-    m_console->newLine(u"> bazzite-rollback-helper rollback -y"_s, Console::LogLevel::Info);
-
-    connect(rollback, &QProcess::finished, [=]() {
-        int exit_code = rollback->exitCode();
-
+    auto onFinish = [=](int exit_code) {
         appState()->setRollbackRunning(false);
         if (exit_code == 0)
             appState()->setCommandSucceeded(true);
 
         callback.call({exit_code});
-        rollback->deleteLater();
-    });
+    };
 
-    connect(rollback, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+    auto onError = [=](QProcess::ProcessError error) {
         if (error == QProcess::FailedToStart)
             m_console->newLine(i18n("bazzite-rollback-helper was not found or failed to start."), Console::LogLevel::ErrorCritical);
 
         appState()->setRollbackRunning(false);
         callback.call({1});
-        rollback->deleteLater();
-    });
-}
+    };
 
-// REBASE
-void RebaseHelperBackend::rebaseImage(const QString new_image, QJSValue callback)
-{
-    if (!callback.isCallable()) {
-        qDebug() << "Callback is not callable, command run refused";
-        return;
-    }
-    if (!appState()->allowCommands()) {
-        qDebug() << "Command called when not allowed, ignored";
-        return;
-    }
-
-    appState()->setRebaseRunning(true);
-
-    QProcess *rebase = new QProcess(this);
-    Utils::connectQProcessOutputs(rebase, [this](const QByteArray &output) {
-        QString output_str = QString::fromUtf8(output).trimmed();
-        if (output_str.isEmpty())
-            m_console->newLine(output_str, Console::LogLevel::Info);
-    });
-
-    Utils::startProcess(rebase, u"bazzite-rollback-helper"_s, {u"rebase"_s, new_image, u"-y"_s});
-    m_console->newLine(u"> bazzite-rollback-helper rebase "_s + new_image + u" -y"_s, Console::LogLevel::Info);
-
-    connect(rebase, &QProcess::finished, [=]() {
-        if (rebase->exitCode() == 0)
-            appState()->setCommandSucceeded(true);
-
-        appState()->setRebaseRunning(false);
-        callback.call({rebase->exitCode()});
-        rebase->deleteLater();
-    });
-
-    connect(rebase, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
-        if (error == QProcess::FailedToStart)
-            m_console->newLine(i18n("bazzite-rollback-helper was not found or failed to start."), Console::LogLevel::ErrorCritical);
-
-        appState()->setRebaseRunning(false);
-        callback.call({1});
-        rebase->deleteLater();
-    });
+    m_console->runProcess(Utils::CommandData(cmd), onFinish, onError);
 }

@@ -53,13 +53,13 @@ ScrollingPage {
     FC.FormHeader {
         title: i18n("Rollback Last Update")
         enabled: rollbackFC.enabled
-        visible: AppConfig.ini.Commands.systemRollbackCommand
+        visible: rollbackFC.visible
     }
 
     FC.FormCard {
         id: rollbackFC
 
-        enabled: AppState.isBrhPresent && AppState.allowCommands || (typeof TestingMode !== "undefined" && TestingMode)
+        enabled: AppState.allowCommands
         visible: AppConfig.ini.Commands.systemRollbackCommand
 
         FC.FormTextDelegate {
@@ -98,32 +98,6 @@ ScrollingPage {
                 running: AppState.rollbackRunning
             }
             trailingLogo.visible: !rollbackBusyIndicator.running
-        }
-    }
-
-    Loader {
-        active: !AppState.isBrhPresent && AppConfig.ini.Commands.systemRollbackCommand // || AppState.isGamescopeSession
-        Layout.fillWidth: true
-
-        sourceComponent: FC.FormCard {
-            visible: brhPresentMessage.visible
-            FC.FormTextDelegate {
-                id: brhPresentMessage
-
-                visible: text !== ""
-
-                font.bold: true
-                textItem.wrapMode: Text.WordWrap
-
-                text: {
-                    if (!AppState.isBrhPresent)
-                        return i18n("Bazzite Rollback Helper is not present on the system. It is required to perform a System Rollback.");
-                    else
-                        // else if (AppState.isGamescopeSession) // NOTE: Re-add this when Rebasing is re-added
-                        //     return i18n("The app is being run in Steam's Gamescope Session. Switch to Desktop mode to use the System Rebase feature.");
-                        return "";
-                }
-            }
         }
     }
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -99,8 +99,8 @@ public:
     // ROLLBACK
     Q_INVOKABLE void rollbackImage(QJSValue callback);
 
-    // REBASE
-    Q_INVOKABLE void rebaseImage(const QString new_image, QJSValue callback);
+    // // REBASE
+    // Q_INVOKABLE void rebaseImage(const QString new_image, QJSValue callback);
 
     Console::Model *m_console;
 };

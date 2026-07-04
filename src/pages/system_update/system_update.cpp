@@ -38,16 +38,12 @@
 #include <qprocess.h>
 #include <qstringview.h>
 
-#ifdef TESTING_BUILD
-#include <algorithm>
-#endif
-
 using namespace Qt::Literals::StringLiterals;
 
 // Returns a lambda that logs the update output into the in-app console
-auto SystemUpdateBackend::makeLogger(QProcess *updater, UpdateCommand command_data)
+auto SystemUpdateBackend::makeLogger(QProcess *updater, CommandData command_data)
 {
-    QProcess *program = (command_data.type == UpdateCommand::SYSTEMD) ? &m_journalctlProcess : updater;
+    QProcess *program = (command_data.type == CommandData::SYSTEMD) ? &m_journalctlProcess : updater;
 
     return [=]() {
         while (program->canReadLine()) {
@@ -93,12 +89,6 @@ SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
     : QObject(parent)
 {
     m_console = new Console::Model(this);
-
-#ifdef TESTING_BUILD
-    connect(&m_testConsoleTimer, &QTimer::timeout, this, [this]() {
-        m_console->newLine(i18n("Test console line %1", ++m_testConsoleLineCounter), Console::LogLevel::Debug);
-    });
-#endif
 }
 
 void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
@@ -108,20 +98,91 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         return;
     }
 
-    auto command_data = UpdateCommand(configIni.getValue(u"Commands"_s, u"systemUpdateCommand"_s).split(u' '));
+    auto command_data = CommandData(configIni.getValue(u"Commands"_s, u"systemUpdateCommand"_s).split(u' '));
+
+    auto onFinish = [=](int exit_code) {
+        const auto conclude = [=](int code, bool command) {
+            callback.call({code});
+            appState()->setUpdateRunning(false);
+            appState()->setCommandSucceeded(command);
+            return;
+        };
+
+        // Check for errors
+        if (exit_code != 0) {
+            conclude(1, false);
+            qWarning() << "Update failed with exit code " << exit_code;
+            m_console->newLine(u"The update has failed: exit code %1"_s.arg(exit_code), Console::LogLevel::Error);
+            return;
+        }
+
+        if (command_data.type == CommandData::SYSTEMD) {
+            const QString result = getServiceResult(command_data.service);
+
+            if (result != u"success"_s) {
+                conclude(1, false);
+                qWarning() << "Update failed with exit code " << exit_code << " and exit status " << result;
+                return;
+            }
+        }
+
+        conclude(0, true);
+    };
+
+    auto onError = [=](QProcess::ProcessError error) {
+        qWarning() << "Update errored with ProcessError " << error;
+        callback.call({1});
+        appState()->setUpdateRunning(false);
+        appState()->setCommandSucceeded(false);
+    };
+
+    auto parser = [=](QString line, Console::LogLevel lvl) {
+        if (line.isEmpty())
+            return;
+
+        if (!line.startsWith(u'{')) {
+            auto out = formatForConsole(line);
+            if (!out.trimmed().isEmpty())
+                m_console->newLine(out.trimmed(), lvl);
+            return;
+        }
+
+        auto json = QJsonDocument::fromVariant(line).object();
+
+        if (!(json.contains(u"level"_s) && json.contains(u"msg"_s)))
+            return;
+
+        QString level = json.value(u"level"_s).toString();
+        QString msg = json.value(u"msg"_s).toString();
+
+        using namespace Console;
+        LogLevel log_level = LogLevel::Warn;
+
+        if (level == u"INFO"_s)
+            log_level = LogLevel::Info;
+        else if (level == u"DEBUG"_s)
+            log_level = LogLevel::Debug;
+        else if (level == u"WARN"_s)
+            log_level = LogLevel::Warn;
+        else if (level == u"ERROR"_s)
+            log_level = LogLevel::Error;
+
+        auto out = formatForConsole(msg);
+        if (!out.trimmed().isEmpty())
+            m_console->newLine(out, log_level);
+    };
+
+    appState()->setUpdateRunning(true);
+    m_console->runProcess(command_data, onFinish, onError, parser);
+
+    return;
 
     QProcess *updater = new QProcess(this);
 
-#ifdef TESTING_BUILD
-    qInfo() << "TESTING_BUILD: Skipping check for program";
-    qInfo() << "TESTING_BUILD: Program is " << command_data.base << command_data.args;
-    m_console->newLine(u"Skipping program check"_s, Console::LogLevel::Info);
-#else
     if (command_data.type == command_data.SYSTEMD) {
         if (!Utils::isServicePresent(command_data.service)) {
             setBlockUpdate(true);
-            m_console->newLine(i18n("The service \"%1\" used for this application was not found on the system.", command_data.service),
-                               Console::LogLevel::ErrorCritical);
+            m_console->newLine(i18n("The required service \"%1\" was not found on the system.", command_data.service), Console::LogLevel::ErrorCritical);
             callback.call({127});
 
             return;
@@ -129,26 +190,22 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
     } else {
         if (!Utils::isProgramPresent(command_data.base)) {
             setBlockUpdate(true);
-            m_console->newLine(i18n("The program \"%1\" used for this application was not found on the system.").arg(command_data.base),
-                               Console::LogLevel::ErrorCritical);
+            m_console->newLine(i18n("The required program \"%1\" was not found on the system.").arg(command_data.base), Console::LogLevel::ErrorCritical);
             callback.call({127});
             return;
         }
     }
-#endif
 
     updater->setProcessChannelMode(QProcess::MergedChannels);
 
     const auto logger = makeLogger(updater, command_data);
 
-    if (command_data.type == UpdateCommand::SYSTEMD) {
+    if (command_data.type == CommandData::SYSTEMD) {
         connect(&m_journalctlProcess, &QProcess::readyReadStandardOutput, this, logger);
-#ifdef TESTING_BUILD
-        qInfo() << "TESTING_BUILD: Using example output text instead of real logging";
-        Utils::startProcess(&m_journalctlProcess, u"/workspaces/bazzite-updater/tests/update.sh"_s, {});
-#else
-        Utils::startProcess(&m_journalctlProcess, u"journalctl"_s, {u"--follow"_s, u"--unit=%1"_s.arg(service), u"--lines=0"_s, u"-o"_s, u"cat"_s});
-#endif
+
+        Utils::startProcess(&m_journalctlProcess,
+                            u"journalctl"_s,
+                            {u"--follow"_s, u"--unit=%1"_s.arg(command_data.service), u"--lines=0"_s, u"-o"_s, u"cat"_s});
     } else {
         connect(updater, &QProcess::readyReadStandardOutput, this, logger);
     }
@@ -168,7 +225,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             return;
         }
 
-        if (command_data.type == UpdateCommand::SYSTEMD) {
+        if (command_data.type == CommandData::SYSTEMD) {
             const QString result = getServiceResult(command_data.service);
 
             if (result != u"success"_s) {
@@ -183,12 +240,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
 
     appState()->setUpdateRunning(true);
 
-#ifdef TESTING_BUILD
-    // Utils::startProcess(updater, u"sleep"_s, {u"3"_s});
-    Utils::startProcess(updater, u"/workspaces/bazzite-updater/tests/update.sh"_s, {});
-#else
     Utils::startProcess(updater, command_data.base, command_data.args);
-#endif
 }
 
 QString SystemUpdateBackend::getServiceState(const QString &service) const
@@ -227,30 +279,6 @@ void SystemUpdateBackend::setBlockUpdate(bool updateError)
     Q_EMIT blockUpdateChanged();
 }
 
-#ifdef TESTING_BUILD
-void SystemUpdateBackend::setTestConsoleLinesPerSecond(int linesPerSecond)
-{
-    if (linesPerSecond < 0) {
-        linesPerSecond = 0;
-    }
-
-    if (m_testConsoleLinesPerSecond == linesPerSecond) {
-        return;
-    }
-
-    m_testConsoleLinesPerSecond = linesPerSecond;
-
-    if (m_testConsoleLinesPerSecond == 0) {
-        m_testConsoleTimer.stop();
-    } else {
-        const int intervalMs = std::max(1, 1000 / m_testConsoleLinesPerSecond);
-        m_testConsoleTimer.start(intervalMs);
-    }
-
-    Q_EMIT testConsoleLinesPerSecondChanged();
-}
-#endif
-
 QString formatForConsole(const QByteArray &bytes)
 {
     return formatForConsole(QString::fromUtf8(bytes));
@@ -277,19 +305,19 @@ QString formatForConsole(QString line)
     return line;
 }
 
-UpdateCommand::UpdateCommand(QStringList command)
-{
-    base = command[0];
-    command.removeFirst();
-    args = command;
+// UpdateCommand::UpdateCommand(QStringList command)
+// {
+//     base = command[0];
+//     command.removeFirst();
+//     args = command;
 
-    if (base == u"systemctl"_s) {
-        type = SYSTEMD;
+//     if (base == u"systemctl"_s) {
+//         type = SYSTEMD;
 
-        // systemctl, { start, the.service }
-        service = args[1];
-    } else {
-        type = COMMAND;
-    }
-}
+//         // systemctl, { start, the.service }
+//         service = args[1];
+//     } else {
+//         type = COMMAND;
+//     }
+// }
 #include "moc_system_update.cpp"

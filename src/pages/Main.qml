@@ -105,7 +105,7 @@ StatefulApp.StatefulWindow {
                 separator: true
             },
             Kirigami.Action {
-                text: i18n("About %1", AppConfig.ini.AboutInfo.name)
+                text: i18n("About %1", AppConfig.osAboutData.displayName)
                 icon.name: "help-about-symbolic"
 
                 checkable: true

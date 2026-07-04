@@ -20,16 +20,12 @@
 #include <qobject.h>
 #include <qprocess.h>
 
-#ifdef TESTING_BUILD
-#include <QTimer>
-#endif
-
 #include "console.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
+using Utils::CommandData;
 
-struct UpdateCommand;
 QString formatForConsole(const QByteArray &bytes);
 QString formatForConsole(QString line);
 
@@ -60,7 +56,7 @@ class SystemUpdateBackend : public QObject
 
     QString m_placeholderTextColor;
 
-    auto makeLogger(QProcess *process, UpdateCommand command);
+    auto makeLogger(QProcess *process, CommandData command);
 
 public:
     SystemUpdateBackend(QObject *parent = nullptr);
@@ -91,36 +87,20 @@ public:
         return appState()->updateRunning();
     }
     Q_SIGNAL void updateRunningChanged();
-
-#ifdef TESTING_BUILD
-private:
-    Q_PROPERTY(int testConsoleLinesPerSecond READ testConsoleLinesPerSecond WRITE setTestConsoleLinesPerSecond NOTIFY testConsoleLinesPerSecondChanged)
-public:
-    int m_testConsoleLinesPerSecond = 0;
-    int m_testConsoleLineCounter = 0;
-    QTimer m_testConsoleTimer;
-
-    int testConsoleLinesPerSecond() const
-    {
-        return m_testConsoleLinesPerSecond;
-    }
-    void setTestConsoleLinesPerSecond(int linesPerSecond);
-    Q_SIGNAL void testConsoleLinesPerSecondChanged();
-#endif
 };
 
-struct UpdateCommand {
-    enum commandType {
-        SYSTEMD,
-        COMMAND
-    };
+// struct UpdateCommand {
+//     enum commandType {
+//         SYSTEMD,
+//         COMMAND
+//     };
 
-    commandType type;
+//     commandType type;
 
-    QString base;
-    QStringList args;
+//     QString base;
+//     QStringList args;
 
-    QString service;
+//     QString service;
 
-    UpdateCommand(QStringList command);
-};
+//     UpdateCommand(QStringList command);
+// };
