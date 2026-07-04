@@ -34,9 +34,7 @@ BuildRequires:  cmake(KF6KirigamiAddons)
 Requires:       kf6-kirigami%{?_isa}
 Requires:       kf6-kirigami-addons%{?_isa}
 Requires:       kf6-qqc2-desktop-style%{?_isa}
-Requires:       which%{?_isa}
 Requires:       qt6-controllable%{?_isa}
-Requires:       uupd%{?_isa}
 
 Provides:       bazzite-updater = %{version}-%{release}
 
@@ -66,9 +64,7 @@ desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{appid}.desktop
 %{_kf6_datadir}/applications/%{appid}.desktop
 %{_kf6_metainfodir}/%{appid}.*.xml
 %{_kf6_datadir}/icons/hicolor/scalable/apps/%{appid}.svg
-/usr/etc/bazzite-updater/config.ini
-/usr/etc/bazzite-updater/OsKAboutData.json
-/usr/etc/bazzite-updater/images/bazzite-logo.svg
+/usr/etc/bazzite-updater/
 
 %changelog
 * Thu Feb 05 2026 Robert French

@@ -102,6 +102,11 @@ add_subdirectory(src)
 install(FILES io.github.rfrench3.bazzite-updater.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES io.github.rfrench3.bazzite-updater.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
 install(FILES io.github.rfrench3.bazzite-updater.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/"
+  DESTINATION "/usr/etc/bazzite-updater"
+)
+
 ki18n_install(po)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
