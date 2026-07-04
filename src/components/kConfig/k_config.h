@@ -20,7 +20,7 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-namespace __InternalIni
+namespace SingletonInternals
 {
 
 class VarMapPlus : public QVariantMap
@@ -52,7 +52,7 @@ public:
 
 }
 
-#define configIni __InternalIni::ConfigIni::instance().ini
+inline SingletonInternals::VarMapPlus configIni = SingletonInternals::ConfigIni::instance().ini;
 
 class AppConfig : public QObject
 {

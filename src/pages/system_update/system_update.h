@@ -78,7 +78,7 @@ public:
 
     bool updateRunning() const
     {
-        return appState()->updateRunning();
+        return appState.updateRunning();
     }
     Q_SIGNAL void updateRunningChanged();
 };

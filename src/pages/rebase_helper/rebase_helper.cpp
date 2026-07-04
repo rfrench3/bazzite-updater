@@ -138,19 +138,20 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
         qDebug() << "Callback is not callable, command run refused";
         return;
     }
-    if (!appState()->allowCommands()) {
+
+    if (!appState.allowCommands()) {
         qDebug() << "Command called when not allowed, ignored";
         return;
     }
 
-    appState()->setRollbackRunning(true);
+    appState.setRollbackRunning(true);
 
     auto cmd = configIni.getValue(u"Commands"_s, u"systemRollbackCommand"_s).split(u' ');
 
     auto onFinish = [=](int exit_code) {
-        appState()->setRollbackRunning(false);
+        appState.setRollbackRunning(false);
         if (exit_code == 0)
-            appState()->setCommandSucceeded(true);
+            appState.setCommandSucceeded(true);
 
         callback.call({exit_code});
     };
@@ -159,7 +160,7 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
         if (error == QProcess::FailedToStart)
             m_console->newLine(i18n("Rollback program was not found or failed to start."), Console::LogLevel::ErrorCritical);
 
-        appState()->setRollbackRunning(false);
+        appState.setRollbackRunning(false);
         callback.call({1});
     };
 

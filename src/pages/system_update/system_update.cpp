@@ -56,8 +56,8 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
     auto onFinish = [=](int exit_code) {
         const auto conclude = [=](int code, bool command) {
             callback.call({code});
-            appState()->setUpdateRunning(false);
-            appState()->setCommandSucceeded(command);
+            appState.setUpdateRunning(false);
+            appState.setCommandSucceeded(command);
             return;
         };
 
@@ -75,8 +75,8 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
     auto onError = [=](QProcess::ProcessError error) {
         qWarning() << "Update errored with ProcessError " << error;
         callback.call({1});
-        appState()->setUpdateRunning(false);
-        appState()->setCommandSucceeded(false);
+        appState.setUpdateRunning(false);
+        appState.setCommandSucceeded(false);
     };
 
     auto parser = [=](QString line, Console::LogLevel lvl) {
@@ -115,7 +115,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             m_console->newLine(out, log_level);
     };
 
-    appState()->setUpdateRunning(true);
+    appState.setUpdateRunning(true);
     m_console->runProcess(configIni.getValue(u"Commands"_s, u"systemUpdateCommand"_s).split(u' '), onFinish, onError, parser);
 }
 

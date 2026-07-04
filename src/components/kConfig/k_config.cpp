@@ -128,7 +128,7 @@ QString findConfigFile(const QString &relativePath)
     return u""_s;
 }
 
-namespace __InternalIni
+namespace SingletonInternals
 {
 
 ConfigIni::ConfigIni()
