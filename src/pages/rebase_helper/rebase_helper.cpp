@@ -110,18 +110,18 @@ void RebaseHelperBackend::setGpuDrivers()
             return;
         }
 
-        QString output = QString::fromStdString(check_nvidia->readAllStandardOutput().toStdString()).trimmed();
+        QString output = QString::fromUtf8(check_nvidia->readAllStandardOutput()).trimmed();
 
         if (output == u"supported"_s)
-            this->best_driver = Gpu::Drivers::NVIDIA_OPEN;
-        if (output == u"legacy"_s)
-            this->best_driver = Gpu::Drivers::NVIDIA;
-        if (output == u"unsupported"_s)
-            this->best_driver = Gpu::Drivers::UNSUPPORTED;
-        if (output.isEmpty())
-            this->best_driver = Gpu::Drivers::BASE;
+            best_driver = Gpu::Drivers::NVIDIA_OPEN;
+        else if (output == u"legacy"_s)
+            best_driver = Gpu::Drivers::NVIDIA;
+        else if (output == u"unsupported"_s)
+            best_driver = Gpu::Drivers::UNSUPPORTED;
+        else if (output.isEmpty())
+            best_driver = Gpu::Drivers::BASE;
         else
-            this->best_driver = Gpu::Drivers::UNKNOWN;
+            best_driver = Gpu::Drivers::UNKNOWN;
 
         Q_EMIT recommendedDriverChanged();
         check_nvidia->deleteLater();
@@ -157,11 +157,11 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
 
     auto onError = [=](QProcess::ProcessError error) {
         if (error == QProcess::FailedToStart)
-            m_console->newLine(i18n("bazzite-rollback-helper was not found or failed to start."), Console::LogLevel::ErrorCritical);
+            m_console->newLine(i18n("Rollback program was not found or failed to start."), Console::LogLevel::ErrorCritical);
 
         appState()->setRollbackRunning(false);
         callback.call({1});
     };
 
-    m_console->runProcess(Utils::CommandData(cmd), onFinish, onError);
+    m_console->runProcess(cmd, onFinish, onError);
 }
