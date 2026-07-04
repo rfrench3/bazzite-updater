@@ -18,6 +18,8 @@
 
 AppConfig::AppConfig()
 {
+    serviceHelperScript = findConfigFile(u"bazzite-updater/service-as-program.sh"_s);
+
     // Store the OsRelease file into a QJsonObject
     QFile os_release(u"/etc/os-release"_s);
     if (os_release.open(QIODevice::ReadOnly | QIODevice::Text)) {

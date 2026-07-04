@@ -9,6 +9,7 @@
 #include <QClipboard>
 #include <QtCore>
 #include <functional>
+#include <qcontainerfwd.h>
 #include <qqmlintegration.h>
 
 using std::function;
@@ -57,7 +58,7 @@ public:
     // Runs the defined process until completion. Does not use custom LogLevel logic.
     // onFinish and onError can be provided to run custom logic upon QProcess::finished and QProcess::errorOccurred.
     // customFormatter can be used to edit/reject lines of text before they are sent to the view.
-    void runProcess(Utils::CommandData data,
+    void runProcess(QStringList process,
                     function<void(int)> onFinish = nullptr,
                     function<void(QProcess::ProcessError)> onError = nullptr,
                     function<void(QString, LogLevel)> customFormatter = nullptr);

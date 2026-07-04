@@ -88,6 +88,9 @@ public:
     QJsonObject aboutOs;
     QJsonObject osRelease;
 
+    // Full path for service-as-program.sh
+    QString serviceHelperScript;
+
     QVariantMap config() const
     {
         return configIni;
