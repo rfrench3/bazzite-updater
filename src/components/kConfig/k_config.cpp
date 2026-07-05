@@ -36,9 +36,9 @@ AppConfig::AppConfig()
     }
 
     // Store the KAboutData object into a QJsonObject
-    QFile aboutData(findConfigFile(u"bazzite-updater/OsKAboutData.json"_s));
+    QFile aboutData(findConfigFile(u"bazzite-updater/KAboutData_OS.json"_s));
     if (!aboutData.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Failed to open OsKAboutData";
+        qWarning() << "Failed to open KAboutData_OS";
         aboutOs[u"displayName"_s] = u"Failed to fetch information."_s;
     } else {
         QByteArray file = aboutData.readAll();
@@ -60,9 +60,9 @@ AppConfig::AppConfig()
             aboutOs[u"license"_s] = u"https://www.apache.org/licenses/LICENSE-2.0.txt"_s;
         }
 
-        if (aboutOs[u"programLogo"_s].toString() == u"@PROGRAM_LOGO@"_s) {
-            aboutOs[u"programLogo"_s] = configIni.getValue(u"AboutInfo"_s, u"iconPath"_s);
-        }
+        // If the desired icon does not exist, allow QML to fallback to qrc:/fallbackIcon
+        if (!QFile(aboutOs[u"programLogo"_s].toString()).exists())
+            aboutOs[u"programLogo"_s] = u""_s;
 
         auto copyright = aboutOs[u"copyrightStatement"_s].toString();
         int idx = copyright.indexOf(u"@CURRENT_YEAR@"_s);

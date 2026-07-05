@@ -155,5 +155,5 @@
         }
     ],
     "copyrightStatement": "© 2023-@CURRENT_YEAR@",
-    "programLogo": "@PROGRAM_LOGO@"
+    "programLogo": "/usr/share/icons/hicolor/scalable/places/distributor-logo.svg"
 }

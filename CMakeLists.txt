@@ -105,6 +105,11 @@ install(FILES io.github.rfrench3.bazzite-updater.metainfo.xml DESTINATION ${KDE_
 install(
   DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/"
   DESTINATION "/usr/etc/bazzite-updater"
+  PATTERN "service-as-program.sh" EXCLUDE
+)
+install(
+  PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/service-as-program.sh"
+  DESTINATION "/usr/etc/bazzite-updater"
 )
 
 ki18n_install(po)
@@ -114,4 +119,3 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES src/*.cpp src/*.h)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
-
