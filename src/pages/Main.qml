@@ -105,13 +105,13 @@ StatefulApp.StatefulWindow {
                 separator: true
             },
             Kirigami.Action {
-                text: i18n("About Bazzite")
+                text: i18n("About %1", AppConfig.osAboutData.displayName)
                 icon.name: "help-about-symbolic"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataBazzite.qml")
+                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataOS.qml")
             },
             Kirigami.Action {
                 text: i18n("About Bazzite Updater")

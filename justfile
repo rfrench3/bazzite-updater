@@ -29,7 +29,7 @@ build-rpm:
     mkdir -p ./output
     rm -f ./output/*.rpm
 
-    podman run --rm -v "$PWD:/workspace:z" -w /workspace fedora:43 bash -lc '
+    podman run --rm -v "$PWD:/workspace:z" -w /workspace fedora:44 bash -lc '
         set -eou pipefail
         dnf install -y rpm-build
         dnf builddep -y bazzite-updater.spec
@@ -53,7 +53,7 @@ build-rpm-cached:
     IMAGE_TAG="bazzite-updater:builddeps"
 
     podman build -t "${IMAGE_TAG}" -f - . <<'EOF'
-    FROM fedora:43
+    FROM fedora:44
     WORKDIR /tmp
     COPY bazzite-updater.spec /tmp/
     COPY version.txt /tmp/
@@ -81,6 +81,13 @@ build-flatpak: output
     flatpak build-bundle output/repo output/bazzite-updater.flatpak io.github.rfrench3.bazzite-updater
     rm -r output/repo
     rm -r builddir
+
+# devcontainer, copy src/resources to proper location
+symlink-configs:
+    #!/usr/bin/env bash
+    set -eou pipefail
+    sudo rm -r /etc/bazzite-updater
+    sudo ln -s /workspaces/bazzite-updater/src/resources /etc/bazzite-updater
 
 [private]
 output:

@@ -13,6 +13,12 @@
     <p>Kirigami interface for uupd-manual.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
   <releases>
+    <release version="0.8.0" date="2026-07-04" type="development">
+        <description>
+        <p>The app now uses config files to determine OS-specific information and updates.
+        Defaults for reference are provided in <code>/usr/etc/bazzite-updater</code>.</p>
+        </description>
+    </release>
     <release version="0.7.3" date="2026-06-02" type="development">
         <description>
         <p>The app now runs in windowed mode outside of gamescope. 

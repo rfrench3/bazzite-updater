@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <QApplication>
@@ -16,8 +16,11 @@
 #include <KIconTheme>
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
+#include <qqml.h>
 
 #include "console.h"
+#include "k_config.h"
+
 #include "rebase_helper.h"
 #include "system_update.h"
 #include "utils.h"

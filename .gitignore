@@ -10,3 +10,4 @@ bazzite_updater.kdev4
 /output
 .directory
 uupd-output.txt
+__cmake_systeminformation/

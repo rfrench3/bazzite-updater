@@ -15,21 +15,21 @@
                     "/usr/include/qt6/QtWidgets",
                     "/usr/include/qt6/QtCore",
                     "/usr/include/qt6/QtGui",
-                    "/usr/include/qt6/QtQuick",
+                    "/usr/include/qt6/QtQuick"
                 ],
                 "C_Cpp.default.defines": [],
                 "C_Cpp.default.compilerPath": "/usr/bin/clang",
                 "C_Cpp.default.cStandard": "c17",
                 "C_Cpp.default.cppStandard": "c++17",
                 "C_Cpp.default.intelliSenseMode": "linux-clang-x64",
-                "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+                "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json"
             },
             "extensions": [
                 "ms-vscode.cpptools-extension-pack",
                 "ms-vscode.cmake-tools",
                 "theqtcompany.qt-cpp",
                 "theqtcompany.qt-core",
-                "theqtcompany.qt-qml",
+                "theqtcompany.qt-qml"
             ],
             "tasks": {
                 "version": "2.0.0",
@@ -37,34 +37,34 @@
                     {
                         "label": "build and run",
                         "type": "shell",
-                        "command": "cmake -B build -DTESTING_BUILD=ON && cmake --build build && ./build/bin/bazzite_updater",
+                        "command": "cmake -B build -DTESTING_BUILD=ON && cmake --build build && ./build/bin/bazzite-updater",
                         "group": {
                             "kind": "build",
-                            "isDefault": true,
+                            "isDefault": true
                         },
-                        "problemMatcher": [],
-                    },
-                ],
+                        "problemMatcher": []
+                    }
+                ]
             },
             "launch": {
                 "version": "0.2.0",
-                "configurations": [],
-            },
-        },
+                "configurations": []
+            }
+        }
     },
 
     "containerEnv": {
         "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
         "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
         "XDG_SESSION_TYPE": "${localEnv:XDG_SESSION_TYPE}",
-        "QML_IMPORT_PATH": "/workspaces/bazzite_updater/build/bin",
-        "QML2_IMPORT_PATH": "/workspaces/bazzite_updater/build/bin",
+        "QML_IMPORT_PATH": "/workspaces/bazzite-updater/build/bin",
+        "QML2_IMPORT_PATH": "/workspaces/bazzite-updater/build/bin"
     },
     "privileged": true,
     "mounts": [
         "source=${localEnv:XDG_RUNTIME_DIR},target=${localEnv:XDG_RUNTIME_DIR},type=bind,consistency=cached",
         "source=/usr/share/ublue-os/image-info.json,target=/run/host/usr/share/ublue-os/image-info.json,type=bind,consistency=cached",
-        "source=/dev/input,target=/dev/input,type=bind",
+        "source=/dev/input,target=/dev/input,type=bind"
     ],
-    "postCreateCommand": "sudo pacman -S --noconfirm which",
+    "postCreateCommand": "sudo pacman -S --noconfirm which"
 }

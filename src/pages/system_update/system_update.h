@@ -16,15 +16,17 @@
 #include <QJSValue>
 #include <QProcess>
 #include <QQmlEngine>
-
-#ifdef TESTING_BUILD
-#include <QTimer>
-#endif
+#include <qcontainerfwd.h>
+#include <qobject.h>
+#include <qprocess.h>
 
 #include "console.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
+
+QString formatForConsole(const QByteArray &bytes);
+QString formatForConsole(QString line);
 
 class SystemUpdateBackend : public QObject
 {
@@ -51,7 +53,6 @@ class SystemUpdateBackend : public QObject
 
     UpdateErrors m_updateErrorStatus;
 
-    void logToConsole();
     QString m_placeholderTextColor;
 
 public:
@@ -59,10 +60,7 @@ public:
 
     Console::Model *m_console;
 
-    Q_INVOKABLE void runUpdate(QJSValue callback = QJSValue(), QJSValue callbackErrors = QJSValue());
-
-    QString getServiceState(const QString &service) const;
-    QString getServiceResult(const QString &service) const;
+    Q_INVOKABLE void runUpdate(QJSValue callback);
 
     int progressLevel() const
     {
@@ -80,23 +78,7 @@ public:
 
     bool updateRunning() const
     {
-        return appState()->updateRunning();
+        return appState.updateRunning();
     }
     Q_SIGNAL void updateRunningChanged();
-
-#ifdef TESTING_BUILD
-private:
-    Q_PROPERTY(int testConsoleLinesPerSecond READ testConsoleLinesPerSecond WRITE setTestConsoleLinesPerSecond NOTIFY testConsoleLinesPerSecondChanged)
-public:
-    int m_testConsoleLinesPerSecond = 0;
-    int m_testConsoleLineCounter = 0;
-    QTimer m_testConsoleTimer;
-
-    int testConsoleLinesPerSecond() const
-    {
-        return m_testConsoleLinesPerSecond;
-    }
-    void setTestConsoleLinesPerSecond(int linesPerSecond);
-    Q_SIGNAL void testConsoleLinesPerSecondChanged();
-#endif
 };

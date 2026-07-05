@@ -1,0 +1,159 @@
+{
+    "displayName": "Bazzite",
+    "shortDescription": "The operating system for the next generation of gamers",
+    "homepage": "https://bazzite.gg/",
+    "bugAddress": "https://github.com/ublue-os/bazzite",
+    "version": "@VERSION@",
+    "otherText": "Bazzite makes gaming and everyday use smoother and simpler across desktop PCs, handhelds, tablets, and home theater PCs.",
+    "authors": [
+        {
+            "name": "Kyle Gospodnetich",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://kylegospodneti.ch/"
+        },
+        {
+            "name": "EyeCantCU",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/EyeCantCU"
+        },
+        {
+            "name": "HikariKnight",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/HikariKnight"
+        },
+        {
+            "name": "aarron-lee",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/aarron-lee"
+        },
+        {
+            "name": "castrojo",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/castrojo"
+        },
+        {
+            "name": "bsherman",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/bsherman"
+        },
+        {
+            "name": "noelmiller",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/noelmiller"
+        },
+        {
+            "name": "nicknamenamenick",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/nicknamenamenick"
+        },
+        {
+            "name": "Zeglius",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/Zeglius"
+        },
+        {
+            "name": "BoukeHaarsma23",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/BoukeHaarsma23"
+        },
+        {
+            "name": "matte-schwartz",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/matte-schwartz"
+        },
+        {
+            "name": "gerblesh",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/gerblesh"
+        },
+        {
+            "name": "abanna",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/abanna"
+        },
+        {
+            "name": "ameliasvg",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/ameliasvg"
+        },
+        {
+            "name": "SuperRiderTH",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/SuperRiderTH"
+        },
+        {
+            "name": "CharlieBros",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/CharlieBros"
+        },
+        {
+            "name": "xXJSONDeruloXx",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/xXJSONDeruloXx"
+        },
+        {
+            "name": "m2Giles",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/m2Giles"
+        },
+        {
+            "name": "fiftydinar",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/fiftydinar"
+        },
+        {
+            "name": "EPOCHvoyager",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/EPOCHvoyager"
+        },
+        {
+            "name": "RodoMa92",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/RodoMa92"
+        },
+        {
+            "name": "renner0e",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/renner0e"
+        },
+        {
+            "name": "And many more!",
+            "task": "Maintainer",
+            "emailAddress": "",
+            "webAddress": "https://github.com/ublue-os/bazzite/graphs/contributors"
+        }
+    ],
+    "credits": [],
+    "translators": [],
+    "licenses": [
+        {
+            "name": "Apache License Version 2.0",
+            "text": "@Apache-2.0@",
+            "spdx": "Apache-2.0"
+        }
+    ],
+    "copyrightStatement": "© 2023-@CURRENT_YEAR@",
+    "programLogo": "/usr/share/icons/hicolor/scalable/places/distributor-logo.svg"
+}

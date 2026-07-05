@@ -52,13 +52,13 @@ ScrollingPage {
 
     FC.FormHeader {
         title: i18n("Rollback Last Update")
-        enabled: rollbackFC.enabled
+        visible: rollbackFC.visible
     }
 
     FC.FormCard {
         id: rollbackFC
 
-        enabled: AppState.isBrhPresent && AppState.allowCommands || (typeof TestingMode !== "undefined" && TestingMode)
+        visible: AppConfig.ini.Commands.systemRollbackCommand
 
         FC.FormTextDelegate {
             text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
@@ -71,7 +71,7 @@ ScrollingPage {
             id: rollbackConfirm
             text: i18n("Confirm")
 
-            enabled: !AppState.rollbackRunning && !AppState.commandSucceeded
+            enabled: AppState.allowCommands
         }
 
         FC.FormDelegateSeparator {}
@@ -96,32 +96,6 @@ ScrollingPage {
                 running: AppState.rollbackRunning
             }
             trailingLogo.visible: !rollbackBusyIndicator.running
-        }
-    }
-
-    Loader {
-        active: !AppState.isBrhPresent // || AppState.isGamescopeSession
-        Layout.fillWidth: true
-
-        sourceComponent: FC.FormCard {
-            visible: brhPresentMessage.visible
-            FC.FormTextDelegate {
-                id: brhPresentMessage
-
-                visible: text !== ""
-
-                font.bold: true
-                textItem.wrapMode: Text.WordWrap
-
-                text: {
-                    if (!AppState.isBrhPresent)
-                        return i18n("Bazzite Rollback Helper is not present on the system. It is required to perform a System Rollback.");
-                    else
-                        // else if (AppState.isGamescopeSession) // NOTE: Re-add this when Rebasing is re-added
-                        //     return i18n("The app is being run in Steam's Gamescope Session. Switch to Desktop mode to use the System Rebase feature.");
-                        return "";
-                }
-            }
         }
     }
 
@@ -185,7 +159,7 @@ ScrollingPage {
                     if (RebaseHelperBackend.bestDriver == __current)
                         return i18n("You have the best drivers installed.");
 
-                    switch (current) {
+                    switch (__current) {
                     case Gpu.Drivers.BASE:
                         return i18n("You do not have any nvidia drivers installed.");
                     case Gpu.Drivers.NVIDIA:
@@ -198,7 +172,15 @@ ScrollingPage {
         }
     }
 
-    FCSystemInfo {}
+    FCSystemInfo {
+        Layout.topMargin: Kirigami.Units.largeSpacing * 4
+    }
+
+    FC.FormHeader {
+        title: i18n("Advanced Information") + " (os-release)"
+    }
+
+    FCOsRelease {}
 
     ConsoleDrawer {
         id: consoleDrawer

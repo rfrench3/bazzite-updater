@@ -5,23 +5,27 @@
 
 #include <QFileInfo>
 #include <QJSValue>
+#include <QModelIndex>
 #include <QProcess>
 #include <QQmlEngine>
-#include <functional>
-#include <iostream>
+#include <qlogging.h>
+#include <qobject.h>
+#include <qtclasshelpermacros.h>
 
 using namespace Qt::Literals::StringLiterals;
 
 namespace Utils
 {
-bool isFlatpak();
-void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
-void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
-bool isProgramPresent(const QString &cmd);
-bool isServicePresent(const QString &service);
-void connectQProcessOutputs(QProcess *process, const std::function<void(const QByteArray &)> &storeOutput);
+
+using namespace Qt::Literals::StringLiterals;
+
+static const bool IN_FLATPAK = QFileInfo::exists(u"/.flatpak-info"_s);
 const bool GAMESCOPE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"gamescope"_s);
-};
+void startProcess(QProcess *process, const QStringList &command);
+}
+
+namespace SingletonInternals
+{
 
 class AppState : public QObject
 {
@@ -29,6 +33,25 @@ class AppState : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
+    Q_DISABLE_COPY_MOVE(AppState)
+    AppState() = default;
+
+public:
+    static AppState &instance()
+    {
+        static AppState s_instance = AppState();
+        return s_instance;
+    }
+
+    static AppState *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+    {
+        Q_UNUSED(jsEngine)
+        AppState *instancePtr = &instance();
+        qmlEngine->setObjectOwnership(instancePtr, QQmlEngine::CppOwnership);
+        return instancePtr;
+    }
+
+private:
     Q_PROPERTY(bool updateRunning READ updateRunning NOTIFY updateRunningChanged)
     Q_PROPERTY(bool rollbackRunning READ rollbackRunning NOTIFY rollbackRunningChanged)
     Q_PROPERTY(bool rebaseRunning READ rebaseRunning NOTIFY rebaseRunningChanged)
@@ -40,7 +63,6 @@ class AppState : public QObject
     Q_PROPERTY(QString commandError READ commandError NOTIFY commandErrorChanged)
 
     Q_PROPERTY(bool isGamescopeSession MEMBER is_gamescope_session CONSTANT)
-    Q_PROPERTY(bool isBrhPresent READ isBrhPresent CONSTANT)
 
     enum sendSignals {
         UPDATE,
@@ -51,14 +73,7 @@ class AppState : public QObject
     // Rebasing is not possible in gamescope session due to its required password input, which gamescope session fails to display.
     const bool is_gamescope_session = Utils::GAMESCOPE_SESSION;
 
-    static AppState *m_instance;
-
 public:
-    AppState();
-
-    // TODO: This method of accessing the sole instance of AppState would ideally be replaced by a more elegant solution.
-    static AppState *instance();
-
     bool updateRunning() const
     {
         return m_updateRunning;
@@ -86,10 +101,6 @@ public:
     QString commandError() const
     {
         return QString::fromUtf8(cmd_out);
-    }
-    bool isBrhPresent() const
-    {
-        return Utils::isProgramPresent(u"bazzite-rollback-helper"_s);
     }
 
     void setUpdateRunning(bool running);
@@ -120,7 +131,6 @@ private:
     bool m_commandSucceeded = false;
 };
 
-inline AppState *appState()
-{
-    return AppState::instance();
 }
+
+inline SingletonInternals::AppState &appState = SingletonInternals::AppState::instance();
