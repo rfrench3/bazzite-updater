@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "console.h"
-#include "k_config.h"
 #include "utils.h"
 #include <qcontainerfwd.h>
 #include <qobject.h>
@@ -62,8 +61,6 @@ void Model::runProcess(QStringList process,
                        function<void(QProcess::ProcessError)> onError,
                        function<void(QString, LogLevel)> lineFormatter)
 {
-    using namespace Utils;
-
     QProcess *command = new QProcess(this);
 
     // Default to just printing a new line, while allowing more advanced custom logic
@@ -91,20 +88,16 @@ void Model::runProcess(QStringList process,
     connect(command, &QProcess::readyReadStandardOutput, this, loggerInfo);
     connect(command, &QProcess::readyReadStandardError, this, loggerError);
 
-    auto cleanupHeap = [=]() {
-        command->deleteLater();
-    };
-
     connect(command, &QProcess::finished, this, [=](int exitCode, QProcess::ExitStatus exitStatus) {
         newLine(u"Command finished with exit code %1 and exit status %2"_s.arg(exitCode).arg(exitStatus), Console::LogLevel::Info);
         onFinish(exitCode);
-        cleanupHeap();
+        command->deleteLater();
     });
 
     connect(command, &QProcess::errorOccurred, this, [=](QProcess::ProcessError error) {
         newLine(u"Command failed with error code: %1"_s.arg(error), Console::LogLevel::Error);
         onError(error);
-        cleanupHeap();
+        command->deleteLater();
     });
 
     // FIXME: A command waiting for user input will stall the process forever
@@ -112,5 +105,6 @@ void Model::runProcess(QStringList process,
     QStringList display;
     display << u">"_s << process;
     newLine(display.join(u' '), LogLevel::Info);
-    startProcess(command, process[0], process.mid(1));
+
+    Utils::startProcess(command, {u"/usr/bin/sh"_s, u"-c"_s, process.join(u' ')});
 }

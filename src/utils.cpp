@@ -8,22 +8,17 @@
 namespace Utils
 {
 
-void startProcess(QProcess *process, const QString &cmd, const QStringList &args)
+void startProcess(QProcess *process, const QStringList &command)
 {
     if (IN_FLATPAK) {
         QStringList hostArgs;
-        hostArgs << u"--host"_s << cmd << args;
+        hostArgs << u"--host"_s << command;
         qInfo() << "starting flatpak-spawn with the arguments: " << hostArgs;
         process->start(u"flatpak-spawn"_s, hostArgs);
     } else {
-        qInfo() << "starting " << cmd << " with the arguments: " << args;
-        process->start(cmd, args);
+        qInfo() << "starting " << command.at(0) << " with the arguments: " << command.mid(1);
+        process->start(command.at(0), command.mid(1));
     }
-}
-
-void startProcess(QProcess &process, const QString &cmd, const QStringList &args)
-{
-    startProcess(&process, cmd, args);
 }
 }
 
@@ -75,7 +70,7 @@ void AppState::sendUpdateSignals(sendSignals signal)
 void AppState::rebootSystem(QJSValue callback)
 {
     QProcess reboot;
-    Utils::startProcess(reboot, u"systemctl"_s, {u"reboot"_s});
+    Utils::startProcess(&reboot, {u"systemctl"_s, u"reboot"_s});
     reboot.waitForFinished();
     callback.call({1});
 }

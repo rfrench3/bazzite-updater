@@ -86,6 +86,7 @@ build-flatpak: output
 symlink-configs:
     #!/usr/bin/env bash
     set -eou pipefail
+    sudo rm -r /etc/bazzite-updater
     sudo ln -s /workspaces/bazzite-updater/src/resources /etc/bazzite-updater
 
 [private]

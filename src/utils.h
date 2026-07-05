@@ -20,9 +20,8 @@ namespace Utils
 using namespace Qt::Literals::StringLiterals;
 
 static const bool IN_FLATPAK = QFileInfo::exists(u"/.flatpak-info"_s);
-void startProcess(QProcess *process, const QString &cmd, const QStringList &args);
-void startProcess(QProcess &process, const QString &cmd, const QStringList &args);
 const bool GAMESCOPE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"gamescope"_s);
+void startProcess(QProcess *process, const QStringList &command);
 }
 
 namespace SingletonInternals

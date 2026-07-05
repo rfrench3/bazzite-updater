@@ -128,7 +128,7 @@ void RebaseHelperBackend::setGpuDrivers()
         return;
     });
 
-    Utils::startProcess(check_nvidia, path, {});
+    Utils::startProcess(check_nvidia, {path});
 }
 
 // ROLLBACK

@@ -114,17 +114,20 @@ QString findConfigFile(const QString &relativePath)
 
     // bases.append(qEnvironmentVariable("XDG_CONFIG_HOME", QDir::homePath() + u"/.config"_s));
 
-    // A better implementation would check XDG_CONFIG_DIRS, /etc/xdg here
-
     bases.append({u"/etc"_s, u"/usr/local/etc"_s, u"/usr/etc"_s});
 
     for (const QString &dir : bases) {
         const QString path = QDir(dir).filePath(relativePath);
         QFile file(path);
-        if (file.open(QIODevice::ReadOnly))
-            return path;
+
+        if (file.exists()) {
+            if (file.open(QIODevice::ReadOnly))
+                return path;
+            else
+                qWarning() << "Config found at " << path << " but could not open: " << file.errorString();
+        }
     }
-    qWarning() << "App Config file not found.";
+    qWarning() << "App Config file not found: " << relativePath;
     return u""_s;
 }
 
