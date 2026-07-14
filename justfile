@@ -20,58 +20,17 @@ test:
 update-submodules:
     git submodule update --init --recursive --remote
 
-# TODO: use the Terra rpm builder instead of this custom solution
+# host
+build-terra:
+    #!/usr/bin/env bash
+    podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./packaging/terra:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:frawhide anda build -c terra-rawhide-x86_64 bazzite-updater/pkg
+    just terra-post
 
 # host
-build-rpm:
+build-terra-44:
     #!/usr/bin/env bash
-    set -eou pipefail
-    mkdir -p ./output
-    rm -f ./output/*.rpm
-
-    podman run --rm -v "$PWD:/workspace:z" -w /workspace fedora:44 bash -lc '
-        set -eou pipefail
-        dnf install -y rpm-build
-        dnf builddep -y bazzite-updater.spec
-
-        export HOME=/root
-        VERSION=$(cat version.txt)
-        mkdir -p ~/rpmbuild/SOURCES
-        tar --transform "s|^\\.|bazzite-updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
-        rpmbuild -bb bazzite-updater.spec
-        cp -v ~/rpmbuild/RPMS/*/*.rpm /workspace/output/
-    '
-
-# host
-build-rpm-cached:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    mkdir -p ./output
-    rm -f ./output/*.rpm
-
-    IMAGE_TAG="bazzite-updater:builddeps"
-
-    podman build -t "${IMAGE_TAG}" -f - . <<'EOF'
-    FROM fedora:44
-    WORKDIR /tmp
-    COPY bazzite-updater.spec /tmp/
-    COPY version.txt /tmp/
-    RUN dnf install -y rpm-build \
-     && dnf builddep -y /tmp/bazzite-updater.spec \
-     && dnf clean all
-    EOF
-
-
-    podman run --rm -v "$PWD:/workspace:z" -w /workspace "${IMAGE_TAG}" bash -lc '
-    set -euo pipefail
-    export HOME=/root
-    VERSION=$(cat version.txt)
-    mkdir -p ~/rpmbuild/SOURCES
-    tar --transform "s|^\\.|bazzite-updater-$VERSION|" -czf ~/rpmbuild/SOURCES/$VERSION.tar.gz .
-    rpmbuild -bb bazzite-updater.spec
-    cp -v ~/rpmbuild/RPMS/*/*.rpm /workspace/output/
-    '
+    podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./packaging/terra:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:f44 anda build -c terra-f44-x86_64 bazzite-updater/pkg
+    just terra-post
 
 # host
 build-flatpak: output
@@ -92,3 +51,13 @@ symlink-configs:
 [private]
 output:
     mkdir -p output
+
+[private]
+clear-output:
+    rm output/*
+
+[private]
+terra-post:
+    #!/usr/bin/env bash
+    mv ./packaging/terra/anda-build/rpm/rpms/* ./output
+    rm -r ./packaging/terra/anda-build
