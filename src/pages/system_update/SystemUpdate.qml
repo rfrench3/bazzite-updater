@@ -150,8 +150,20 @@ Kirigami.Page {
                 id: updateFlatpakNVRuntimeButton
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-
                 action: updateFlatpakNVRuntime
+                Rectangle {
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.leftMargin: Kirigami.Units.smallSpacing
+                    anchors.rightMargin: Kirigami.Units.smallSpacing
+
+                    width: Kirigami.Units.gridUnit * 0.4
+                    height: width
+                    radius: width / 2
+                    color: Kirigami.Theme.highlightColor
+
+                    visible: !AppState.updateRunning && SystemUpdateBackend.hasNvidiaGpu
+                }
             }
 
             QQC2.BusyIndicator {
