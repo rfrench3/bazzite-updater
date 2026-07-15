@@ -180,7 +180,7 @@ void SystemUpdateBackend::runNvidiaFlatpakUpdate(QJSValue callback = QJSValue())
     if (versionFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&versionFile);
         QString content = in.readAll();
-        QRegularExpression regex(uR"([0-9]+\.[0-9]+\.[0-9]+)"_s);
+        QRegularExpression regex(uR"([0-9]+\.[0-9]+(\.[0-9]+)?)"_s);
         QRegularExpressionMatch match = regex.match(content);
         if (match.hasMatch()) {
             nvidiaVersion = match.captured(0).replace(u'.', u'-');
@@ -223,8 +223,8 @@ void SystemUpdateBackend::checkNvidiaGpu()
         IMAGE_NAME=$(jq -r '."image-name"' < $IMAGE_INFO)
 
         if [[ $IMAGE_NAME =~ "nvidia" ]]; then
-            FLATPAK_NVIDIA_VERSION=$(flatpak list --runtime | grep nvidia | grep -Eo "[0-9]+-[0-9]+-[0-9]+" | tail -1)
-            SYSTEM_NVIDIA_VERSION=$(cat /proc/driver/nvidia/version 2>/dev/null | grep NVIDIA | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | tr '.' '-')
+            FLATPAK_NVIDIA_VERSION=$(flatpak list --runtime | grep nvidia | awk '{print $2}' | grep -Eo "[0-9]+-[0-9]+(-[0-9]+)?" | tail -1)
+            SYSTEM_NVIDIA_VERSION=$(cat /proc/driver/nvidia/version 2>/dev/null | grep NVIDIA | grep -Eo "[0-9]+\.[0-9]+(\.[0-9]+)?" | tr '.' '-')
         fi
 
         if [[ "$SYSTEM_NVIDIA_VERSION" != "$FLATPAK_NVIDIA_VERSION" && $IMAGE_NAME =~ "nvidia" ]]; then
