@@ -37,9 +37,11 @@ class SystemUpdateBackend : public QObject
     Q_PROPERTY(Console::Model *consoleModel MEMBER m_console CONSTANT)
     Q_PROPERTY(int progressLevel READ progressLevel NOTIFY progressLevelChanged)
     Q_PROPERTY(bool blockUpdate READ blockUpdate NOTIFY blockUpdateChanged)
+    Q_PROPERTY(bool hasNvidiaGpu READ hasNvidiaGpu NOTIFY hasNvidiaGpuChanged)
 
     int m_progressLevel = 0;
     bool m_blockUpdate = false;
+    bool m_hasNvidiaGpu = false;
     QProcess m_journalctlProcess;
 
     struct UpdateErrors {
@@ -57,6 +59,11 @@ class SystemUpdateBackend : public QObject
 
 public:
     SystemUpdateBackend(QObject *parent = nullptr);
+
+    bool hasNvidiaGpu() const { return m_hasNvidiaGpu; }
+    Q_INVOKABLE void checkNvidiaGpu();
+    Q_INVOKABLE void runNvidiaFlatpakUpdate(QJSValue callback);
+    Q_SIGNAL void hasNvidiaGpuChanged();
 
     Console::Model *m_console;
 

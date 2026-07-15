@@ -65,6 +65,27 @@ Kirigami.Page {
         }
     }
 
+    Kirigami.Action {
+        id: updateFlatpakNVRuntime
+        text: i18n("Update Nvidia Flatpak Runtime") + GP.Labels.spacer + GP.Labels.south
+        shortcut: "Return"
+        enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate && SystemUpdateBackend.hasNvidiaGpu
+
+        onTriggered: {
+            showPassiveNotification(i18n("Update Started"), Kirigami.short);
+            SystemUpdateBackend.runNvidiaFlatpakUpdate(callback => {
+                if (callback != 0) {
+                    showPassiveNotification(i18n("Update Failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
+                        consoleDrawer.drawerOpen = true;
+                    });
+                    return;
+                }
+
+                showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
+            });
+        }
+    }
+
     ColumnLayout {
         id: pageContents
         Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
@@ -115,6 +136,29 @@ Kirigami.Page {
                 anchors.left: updateButton.right
                 anchors.leftMargin: Kirigami.Units.smallSpacing
                 anchors.verticalCenter: updateButton.verticalCenter
+                running: AppState.updateRunning
+            }
+        }
+
+        Item {
+            Layout.alignment: Qt.AlignHCenter
+
+            visible: SystemUpdateBackend.hasNvidiaGpu
+            implicitWidth: updateFlatpakNVRuntimeButton.implicitWidth + (busyIndicator2.running ? busyIndicator2.implicitWidth : 0)
+            implicitHeight: updateFlatpakNVRuntimeButton.implicitHeight
+            QQC2.Button {
+                id: updateFlatpakNVRuntimeButton
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+
+                action: updateFlatpakNVRuntime
+            }
+
+            QQC2.BusyIndicator {
+                id: busyIndicator2
+                anchors.left: updateFlatpakNVRuntimeButton.right
+                anchors.leftMargin: Kirigami.Units.smallSpacing
+                anchors.verticalCenter: updateFlatpakNVRuntimeButton.verticalCenter
                 running: AppState.updateRunning
             }
         }

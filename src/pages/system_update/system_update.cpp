@@ -44,6 +44,7 @@ SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
     : QObject(parent)
 {
     m_console = new Console::Model(this);
+    checkNvidiaGpu();
 }
 
 void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
@@ -129,6 +130,111 @@ void SystemUpdateBackend::setBlockUpdate(bool updateError)
 {
     m_blockUpdate = updateError;
     Q_EMIT blockUpdateChanged();
+}
+
+void SystemUpdateBackend::runNvidiaFlatpakUpdate(QJSValue callback = QJSValue())
+{
+    if (!callback.isCallable()) {
+        qDebug() << "Callback is not callable, command run refused";
+        return;
+    }
+
+    auto onFinish = [=](int exit_code) {
+        const auto conclude = [=](int code, bool command) {
+            callback.call({code});
+            appState.setUpdateRunning(false);
+            appState.setCommandSucceeded(command);
+            return;
+        };
+
+        if (exit_code != 0) {
+            conclude(1, false);
+            qWarning() << "Nvidia Flatpak Runtime update failed with exit code " << exit_code;
+            m_console->newLine(u"The update has failed: exit code %1"_s.arg(exit_code), Console::LogLevel::Error);
+            return;
+        }
+
+        conclude(0, true);
+    };
+
+    auto onError = [=](QProcess::ProcessError error) {
+        qWarning() << "Nvidia Flatpak Runtime update errored with ProcessError " << error;
+        callback.call({1});
+        appState.setUpdateRunning(false);
+        appState.setCommandSucceeded(false);
+        m_console->newLine(u"The update has errored with: %1"_s.arg(error), Console::LogLevel::Error);
+    };
+
+    auto parser = [=](QString line, Console::LogLevel lvl) {
+        if (line.isEmpty())
+            return;
+
+        auto out = formatForConsole(line);
+        if (!out.trimmed().isEmpty())
+            m_console->newLine(out.trimmed(), lvl);
+        return;
+    };
+
+    QFile versionFile(u"/proc/driver/nvidia/version"_s);
+    QString nvidiaVersion;
+    if (versionFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&versionFile);
+        QString content = in.readAll();
+        QRegularExpression regex(uR"([0-9]+\.[0-9]+\.[0-9]+)"_s);
+        QRegularExpressionMatch match = regex.match(content);
+        if (match.hasMatch()) {
+            nvidiaVersion = match.captured(0).replace(u'.', u'-');
+        }
+    }
+
+    if (nvidiaVersion.isEmpty()) {
+        QString noNV = u"Could not detect system Nvidia driver version. This is due to an unsupported GPU and/or nomodeset(software rendering) is in use. Got Version: %1"_s.arg(nvidiaVersion);
+        qWarning() << "Could not detect system Nvidia driver version.";
+        callback.call({1});
+        m_console->newLine(noNV, Console::LogLevel::Error);
+        return;
+    }
+
+    QStringList commandList = {
+        u"flatpak"_s, u"install"_s, u"-y"_s,
+        u"org.freedesktop.Platform.GL.nvidia-%1"_s.arg(nvidiaVersion),
+        u"org.freedesktop.Platform.GL32.nvidia-%1"_s.arg(nvidiaVersion)
+    };
+
+    appState.setUpdateRunning(true);
+    m_console->runProcess(commandList, onFinish, onError, parser);
+}
+
+void SystemUpdateBackend::checkNvidiaGpu()
+{
+    QProcess *process = new QProcess(this);
+
+    connect(process, &QProcess::finished, this, [this, process](int exitCode, QProcess::ExitStatus) {
+        bool detected = (exitCode == 0);
+        if (m_hasNvidiaGpu != detected) {
+            m_hasNvidiaGpu = detected;
+            Q_EMIT hasNvidiaGpuChanged();
+        }
+        process->deleteLater();
+    });
+
+    const QString script = uR"(
+        IMAGE_INFO="/usr/share/ublue-os/image-info.json"
+        IMAGE_NAME=$(jq -r '."image-name"' < $IMAGE_INFO)
+
+        if [[ $IMAGE_NAME =~ "nvidia" ]]; then
+            FLATPAK_NVIDIA_VERSION=$(flatpak list --runtime | grep nvidia | grep -Eo "[0-9]+-[0-9]+-[0-9]+" | tail -1)
+            SYSTEM_NVIDIA_VERSION=$(cat /proc/driver/nvidia/version 2>/dev/null | grep NVIDIA | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | tr '.' '-')
+        fi
+
+        if [[ "$SYSTEM_NVIDIA_VERSION" != "$FLATPAK_NVIDIA_VERSION" && $IMAGE_NAME =~ "nvidia" ]]; then
+            exit 0 # Condition met: Flatpak runtime mismatch detected
+        else
+            exit 1 # Condition not met: No changes needed
+        fi
+    )"_s;
+
+    process->start(u"bash"_s, QStringList() << u"-c"_s << script);
 }
 
 QString formatForConsole(const QByteArray &bytes)
