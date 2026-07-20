@@ -16,7 +16,17 @@
 #include <KIconTheme>
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
+#include <cstdlib>
+#include <iostream>
+#include <ostream>
+#include <qcommandlineoption.h>
+#include <qcommandlineparser.h>
+#include <qcoreapplication.h>
+#include <qlogging.h>
+#include <qobject.h>
 #include <qqml.h>
+
+#include <unistd.h>
 
 #include "console.h"
 #include "k_config.h"
@@ -29,8 +39,14 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+// Handle non-gui functionality: Replace the bazzite-updater process with the selected process defined by the config.ini
+void commandLine(int argc, char *argv[]);
+
 int main(int argc, char *argv[])
 {
+    // exits early if the command line options are used
+    commandLine(argc, argv);
+
     bool should_fullscreen = false;
 
     if (Utils::GAMESCOPE_SESSION) {
@@ -91,4 +107,62 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(u"UseFullscreen"_s, should_fullscreen);
 
     return app.exec();
+}
+
+void commandLine(int argc, char *argv[])
+{
+    QCoreApplication app(argc, argv);
+
+    QCommandLineParser parser;
+    parser.addHelpOption();
+
+    QCommandLineOption update(u"update"_s, u"Performs the configured system update command."_s);
+    QCommandLineOption rollback(u"rollback"_s, u"Performs the configured system rollback command."_s);
+
+    parser.addOption(update);
+    parser.addOption(rollback);
+
+    parser.process(app);
+
+    // Run the GUI normally if neither --update or --rollback are present
+    if (!(parser.isSet(update) || parser.isSet(rollback))) {
+        std::cout << "Note: you can run \"" << argv[0] << " --help\" to view command-line functionality for this application." << std::endl;
+        return;
+    }
+
+    if (parser.isSet(update) && parser.isSet(rollback)) {
+        std::cerr << "You cannot use --update and --rollback at the same time." << std::endl;
+        exit(1);
+    }
+
+    auto cmd = QString();
+
+    if (parser.isSet(update))
+        cmd = configIni.getValue(u"Commands"_s, u"systemUpdateCommand"_s);
+
+    if (parser.isSet(rollback))
+        cmd = configIni.getValue(u"Commands"_s, u"systemRollbackCommand"_s);
+
+    if (cmd.isEmpty()) {
+        std::cerr << "Command not defined." << std::endl;
+        exit(1);
+    }
+
+    const auto args = QProcess::splitCommand(cmd);
+
+    // prepare arguments for execvp
+    QList<char *> execArgs;
+    execArgs.reserve(args.size() + 1);
+
+    for (const QString &arg : args)
+        execArgs.append(qstrdup(arg.toLocal8Bit().constData()));
+
+    execArgs.append(nullptr);
+
+    std::cout << ">" << args.join(u" "_s).toStdString() << std::endl;
+
+    execvp(execArgs.first(), execArgs.data());
+
+    perror("execvp failed");
+    exit(1);
 }
