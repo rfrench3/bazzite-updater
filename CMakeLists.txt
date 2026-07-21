@@ -104,12 +104,12 @@ install(FILES io.github.rfrench3.bazzite-updater.svg DESTINATION ${CMAKE_INSTALL
 install(FILES io.github.rfrench3.bazzite-updater.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(
   DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/"
-  DESTINATION "/usr/etc/bazzite-updater"
+  DESTINATION "/etc/bazzite-updater"
   PATTERN "service-as-program.sh" EXCLUDE
 )
 install(
   PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/service-as-program.sh"
-  DESTINATION "/usr/etc/bazzite-updater"
+  DESTINATION "/etc/bazzite-updater"
 )
 
 ki18n_install(po)
