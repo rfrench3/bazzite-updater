@@ -1,12 +1,12 @@
 <h1>Bazzite Updater</h1>
 
-<h2 align="center">A Graphical Frontend for the updating and rebasing tools used by Bazzite.</h2>
+<h2 align="center">A Graphical Frontend for the updating and rebasing tools used by Bazzite, configurable for any Linux distro!</h2>
 
 ![Updating Screen](screenshots/update_drawer.png)
 
 <h1 align="center">Features</h1>
 
-<p>This is a convenient, easy-to-use interface for updating your Bazzite system.</p>
+<p>This is a convenient, easy-to-use interface for updating your Linux system.</p>
 
 - Simple and powerful
 - Full support for all input types (keyboard/mouse, controller, touchscreen)
@@ -24,22 +24,38 @@
 
 <h1 align="center">Requirements</h1>
 
-This GUI requires `uupd` to be installed. If you are using a Universal Blue based system, you almost certainly do!
-For rebase and rollback support, `bazzite-rollback-helper` is used but not strictly required.
+By default, this interface is configured to use bazzite's `uupd` system service for updating and `bazzite-rollback-helper` for rolling back updates.
 
-- https://github.com/ublue-os/uupd
+- systemd version >= 258 is required for the pre-configured "service-as-program.sh" script to function.
+- This is not tested with versions of kirigami older than 6.27.0 and kirigami-addons older than 1.12.0.
 
 <br>
 
 <h1 align="center">Where to Install the Latest Release</h1>
 
 The app is available in [Terra](https://docs.terrapkg.com/usage/installing/). Once the installation instructions are met, the package will be available as `bazzite-updater`.
+
 ```bash
 sudo dnf install bazzite-updater
 ```
 
 It is also posted to the github releases.
+
 - https://github.com/rfrench3/bazzite_updater/releases
+
+<br>
+
+<h1 align="center">Configuration</h1>
+
+In `/etc/bazzite-updater`, edit `config.ini` to change your update/rollback commands and edit `KAboutData_OS.json` (if desired) to match your Linux distro. Here is an example config.ini for Arch Linux:
+
+```config.ini
+[Commands]
+systemUpdateCommand=pkexec pacman -Syu
+systemRollbackCommand=
+```
+
+If you leave systemRollbackCommand blank (but still present!), it will hide that portion of the UI.
 
 <br>
 
@@ -51,7 +67,7 @@ It is also posted to the github releases.
 
 <h1 align="center">Developer Instructions</h1>
 
-I develop this project in a devcontainer with vscode and test it on bazzite by installing it as a flatpak (or RPM) through github artifacts. A justfile is present for specific scripts, which can be easily run using `just`.
+I develop this project in a devcontainer with Zed and test it on bazzite by installing it as an RPM. A justfile is present for specific scripts, which can be easily run using `just`.
 
 ```bash
 just build-flatpak
