@@ -51,16 +51,21 @@ Kirigami.Page {
         enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate
 
         onTriggered: {
+            sessionStorage.mainText = i18n("System Updating");
+
             showPassiveNotification(i18n("Update Started"), Kirigami.short);
             SystemUpdateBackend.runUpdate(callback => {
                 if (callback != 0) {
                     showPassiveNotification(i18n("Update Failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
                         consoleDrawer.drawerOpen = true;
                     });
+                    sessionStorage.mainText = "";
                     return;
                 }
 
                 showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
+                sessionStorage.updateCompleted = true;
+                sessionStorage.mainText = i18n("System Updated!");
             });
         }
     }
@@ -92,7 +97,7 @@ Kirigami.Page {
             }
 
             Kirigami.Heading {
-                text: i18n("System Update")
+                text: sessionStorage.mainText || i18n("System Update")
             }
         }
 
@@ -121,6 +126,7 @@ Kirigami.Page {
                         id: iconComponent
                         Kirigami.Icon {
                             source: "checkmark-symbolic"
+                            visible: sessionStorage.updateCompleted == true
                         }
                     }
                 }

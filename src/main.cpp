@@ -26,6 +26,7 @@
 #include <qobject.h>
 #include <qqml.h>
 
+#include <qqmlpropertymap.h>
 #include <unistd.h>
 
 #include "console.h"
@@ -103,6 +104,10 @@ int main(int argc, char *argv[])
 #else
     engine.rootContext()->setContextProperty(u"TestingMode"_s, false);
 #endif
+
+    // For non-critical data storage
+    auto sessionStorage = QQmlPropertyMap::create(&app);
+    engine.rootContext()->setContextProperty(u"sessionStorage"_s, sessionStorage);
 
     engine.rootContext()->setContextProperty(u"UseFullscreen"_s, should_fullscreen);
 
