@@ -7,7 +7,7 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.statefulapp as StatefulApp
-import org.kde.kirigamiaddons.formcard as FormCard
+import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
@@ -96,26 +96,40 @@ Kirigami.Page {
             }
         }
 
-        Item {
-            Layout.alignment: Qt.AlignHCenter
+        FC.FormCard {
+            id: updateFC
 
-            implicitWidth: updateButton.implicitWidth + (busyIndicator.running ? busyIndicator.implicitWidth : 0)
-            implicitHeight: updateButton.implicitHeight
-            QQC2.Button {
-                id: updateButton
-                focus: true
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
+            FC.FormButtonDelegate {
+                text: i18n("Update System Image and Software")
+                enabled: updateAction.enabled
 
-                action: updateAction
-            }
+                onClicked: updateAction.trigger()
 
-            QQC2.BusyIndicator {
-                id: busyIndicator
-                anchors.left: updateButton.right
-                anchors.leftMargin: Kirigami.Units.smallSpacing
-                anchors.verticalCenter: updateButton.verticalCenter
-                running: AppState.updateRunning
+                trailing: Loader {
+                    sourceComponent: (AppState.updateRunning) ? busyComponent : iconComponent
+                    visible: AppState.updateRunning || AppState.commandSucceeded
+
+                    Component {
+                        id: busyComponent
+                        QQC2.BusyIndicator {
+                            id: busyIndicator
+                            running: AppState.updateRunning
+                        }
+                    }
+
+                    Component {
+                        id: iconComponent
+                        Kirigami.Icon {
+                            source: "checkmark-symbolic"
+                        }
+                    }
+                }
+
+                trailingLogo.visible: !AppState.updateRunning && !AppState.commandSucceeded
+
+                description: {
+                    i18n("Last Update: ") + RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"];
+                }
             }
         }
 
@@ -126,17 +140,8 @@ Kirigami.Page {
 
             QQC2.ProgressBar {
                 anchors.fill: parent
-                from: 0
-                to: 100
-
+                value: (AppState.commandSucceeded) ? 1.0 : 0.0
                 indeterminate: AppState.updateRunning
-            }
-        }
-
-        QQC2.Label {
-            Layout.alignment: Qt.AlignCenter
-            text: {
-                i18n("Last Update: ") + RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"];
             }
         }
     }
