@@ -29,7 +29,7 @@ build-terra:
 # host
 build-terra-44:
     #!/usr/bin/env bash
-    podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./packaging/terra:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:f44 anda build -c terra-f44-x86_64 bazzite-updater/pkg
+    podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./packaging/terra:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:f44 anda build -c terra-44-x86_64 bazzite-updater/pkg
     just terra-post
 
 # host

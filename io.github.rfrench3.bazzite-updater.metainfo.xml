@@ -13,6 +13,15 @@
     <p>Kirigami interface for uupd-manual.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
   <releases>
+    <release version="0.8.1" date="2026-07-21" type="development">
+      <description>
+        <ul>
+            <li>The default config files are now stored in <code>/etc/bazzite-updater</code>.</li>
+            <li>CLI mode: <code>bazzite-updater --update</code> now runs the update command and <code>bazzite-updater --rollback</code> runs the rollback command.</li>
+            <li>The main button has been slightly reworked with formcards.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.8.0" date="2026-07-04" type="development">
         <description>
         <p>The app now uses config files to determine OS-specific information and updates.
