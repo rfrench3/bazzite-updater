@@ -68,6 +68,26 @@ StatefulApp.StatefulWindow {
     globalDrawer: Kirigami.GlobalDrawer {
         id: globalDrawer
 
+        // In some versions of Kirigami, the drawer width does not function properly. Therefore it must be manually set
+        FontMetrics {
+            id: actionFontMetrics
+            font: Kirigami.Theme.defaultFont
+        }
+        function getMaxActionTextWidth() {
+            let maxWidth = 0;
+            for (let i = 0; i < actions.length; i++) {
+                if (actions[i].text) {
+                    // Measure the actual pixel width of this specific string
+                    let currentWidth = actionFontMetrics.advanceWidth(actions[i].text);
+                    if (currentWidth > maxWidth) {
+                        maxWidth = currentWidth;
+                    }
+                }
+            }
+            return maxWidth;
+        }
+        width: getMaxActionTextWidth() + Kirigami.Units.iconSizes.medium + (Kirigami.Units.largeSpacing * 4)
+
         Shortcut {
             sequences: ["F1", "Ctrl+M", "Escape"]
             context: Qt.ApplicationShortcut

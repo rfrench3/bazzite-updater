@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import QtQuick
@@ -105,14 +105,20 @@ Kirigami.Page {
             id: updateFC
 
             FC.FormButtonDelegate {
+                id: updateButton
                 text: i18n("Update System Image and Software")
                 enabled: updateAction.enabled
 
                 onClicked: updateAction.trigger()
 
                 trailing: Loader {
-                    sourceComponent: (AppState.updateRunning) ? busyComponent : iconComponent
-                    visible: AppState.updateRunning || AppState.commandSucceeded
+                    sourceComponent: {
+                        if (AppState.updateRunning)
+                            return busyComponent;
+                        if (AppState.commandSucceeded)
+                            return checkmarkComponent;
+                        return labelComponent;
+                    }
 
                     Component {
                         id: busyComponent
@@ -123,10 +129,17 @@ Kirigami.Page {
                     }
 
                     Component {
-                        id: iconComponent
+                        id: checkmarkComponent
                         Kirigami.Icon {
                             source: "checkmark-symbolic"
                             visible: sessionStorage.updateCompleted == true
+                        }
+                    }
+
+                    Component {
+                        id: labelComponent
+                        Kirigami.Heading {
+                            text: GP.Labels.south
                         }
                     }
                 }
