@@ -122,6 +122,16 @@ StatefulApp.StatefulWindow {
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
             },
             Kirigami.Action {
+
+                text: i18n("Changelogs")
+                icon.name: "feed-subscribe-symbolic"
+
+                checkable: true
+                QQC2.ActionGroup.group: pageSelector
+
+                onTriggered: pageStack.initialPage = Qt.resolvedUrl("RssPage.qml")
+            },
+            Kirigami.Action {
                 separator: true
             },
             Kirigami.Action {
