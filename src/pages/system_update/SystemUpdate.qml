@@ -104,6 +104,9 @@ Kirigami.Page {
         FC.FormCard {
             id: updateFC
 
+            // Ensures the card does not act like it is width-constrained
+            maximumWidth: pageContents.implicitWidth - Kirigami.Units.smallSpacing
+
             FC.FormButtonDelegate {
                 id: updateButton
                 text: i18n("Update System Image and Software")
