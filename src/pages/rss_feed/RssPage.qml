@@ -18,8 +18,6 @@ import QtQml.XmlListModel
 Kirigami.Page {
     id: page
     padding: 0
-    topPadding: Kirigami.Units.largeSpacing
-    bottomPadding: Kirigami.Units.largeSpacing
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Changelogs")
 
@@ -29,28 +27,42 @@ Kirigami.Page {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: Kirigami.Units.largeSpacing
+        anchors.margins: Kirigami.Units.largeSpacing * 4
 
         FC.FormCard {
 
-            visible: atomModel.status !== XmlListModel.Ready
+            visible: modelLoader.item?.status !== XmlListModel.Ready
 
             FC.FormPlaceholderMessageDelegate {
                 id: nullMsg
                 text: i18nc("@info:placeholder", "No changelogs have been provided.")
-                visible: atomModel.status === XmlListModel.Null
+                visible: modelLoader.item?.status === XmlListModel.Null
             }
 
             FC.FormPlaceholderMessageDelegate {
                 id: loadingMsg
-                text: i18nc("@info:placeholder", "Loading changelog.")
-                visible: atomModel.status === XmlListModel.Loading
+                text: i18nc("@info:placeholder", "Loading changelog") + dots
+                visible: modelLoader.item?.status === XmlListModel.Loading
+
+                // loading dots
+                property string dots: "."
+                property int dotIndex: 0
+
+                Timer {
+                    interval: 500
+                    running: true
+                    repeat: true
+                    onTriggered: {
+                        parent.dotIndex = (parent.dotIndex % 3) + 1;
+                        parent.dots = ".".repeat(parent.dotIndex);
+                    }
+                }
             }
 
             FC.FormPlaceholderMessageDelegate {
                 id: errorMsg
-                text: i18nc("@info:placeholder", "Error loading changelogs:") + atomModel.errorString()
-                visible: atomModel.status === XmlListModel.Error
+                text: i18nc("@info:placeholder", "Error loading changelogs:") + modelLoader.item?.errorString()
+                visible: modelLoader.item?.status === XmlListModel.Error
             }
 
             FC.FormPlaceholderMessageDelegate {
@@ -66,44 +78,41 @@ Kirigami.Page {
 
     ListView {
         id: feed
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.right: feedVBar.left
 
-        visible: atomModel.status === XmlListModel.Ready
+        visible: modelLoader.item?.status === XmlListModel.Ready
 
         spacing: Kirigami.Units.largeSpacing
 
-        model: atomModel
+        model: modelLoader.item
         clip: true
         delegate: FCRssDelegate {
             width: feed.width - feed.leftMargin - feed.rightMargin
         }
 
-        QQC2.ScrollBar.vertical: QQC2.ScrollBar {
-            id: feedVBar
+        QQC2.ScrollBar.vertical: feedVBar
+
+        header: Item {
+            implicitHeight: Kirigami.Units.largeSpacing * 4
+        }
+
+        footer: Item {
+            implicitHeight: Kirigami.Units.largeSpacing * 4
         }
     }
 
-    // TODO: handle normal rss and atom
-    XmlListModel {
-        id: atomModel
-        source: AppConfig.ini.General.rssFeed
-        query: "/feed/entry"
+    QQC2.ScrollBar {
+        id: feedVBar
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+    }
 
-        XmlListModelRole {
-            name: "updated"
-            elementName: "updated"
-        }
-        XmlListModelRole {
-            name: "link"
-            elementName: "link"
-        }
-        XmlListModelRole {
-            name: "title"
-            elementName: "title"
-        }
-        XmlListModelRole {
-            name: "content"
-            elementName: "content"
-        }
+    Loader {
+        id: modelLoader
+        source: (AppConfig.ini.General.rssFeedType === "atom") ? "AtomModel.qml" : "RssModel.qml"
     }
 }
