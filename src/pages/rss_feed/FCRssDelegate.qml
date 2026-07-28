@@ -56,6 +56,9 @@ FC.FormCard {
         visible: opacity > 0
         opacity: 0
 
+        // stops controllers/tabbing from selecting this item
+        focusPolicy: Qt.NoFocus
+
         // animation poorly handles using Layout.preferredHeight directly
         property real currentHeight: 0
         Layout.preferredHeight: currentHeight

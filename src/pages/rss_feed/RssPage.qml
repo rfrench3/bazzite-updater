@@ -21,8 +21,8 @@ Kirigami.Page {
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Changelogs")
 
-    GP.ScrollHandler {
-        target: feed
+    GP.PageNavigation {
+        targetScrollbar: feedVBar
     }
 
     ColumnLayout {
@@ -82,6 +82,9 @@ Kirigami.Page {
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: feedVBar.left
+
+        // If the list view unloads items, it messes up the tab order. This stops it from doing that
+        cacheBuffer: 999999
 
         visible: modelLoader.item?.status === XmlListModel.Ready
 
