@@ -5,6 +5,8 @@ import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.formcard as FC
 
+import io.github.rfrench3.bazzite_updater
+
 FC.FormCard {
     id: root
     readonly property var osRelease: AppConfig.osReleaseVarMap()
@@ -21,7 +23,7 @@ FC.FormCard {
 
     Component {
         id: separatorComponent
-        FC.FormDelegateSeparator {}
+        FormDelegateSeparatorFixed {}
     }
 
     Component.onCompleted: {

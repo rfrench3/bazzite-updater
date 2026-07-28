@@ -65,7 +65,7 @@ ScrollingPage {
             textItem.wrapMode: Text.Wrap
         }
 
-        FC.FormDelegateSeparator {}
+        FormDelegateSeparatorFixed {}
 
         FC.FormCheckDelegate {
             id: rollbackConfirm
@@ -74,7 +74,7 @@ ScrollingPage {
             enabled: AppState.allowCommands
         }
 
-        FC.FormDelegateSeparator {}
+        FormDelegateSeparatorFixed {}
 
         FC.FormButtonDelegate {
             text: i18n("Initiate Rollback")
@@ -111,7 +111,7 @@ ScrollingPage {
             description: i18n("Current Image")
         }
 
-        FC.FormDelegateSeparator {}
+        FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
             textItem.wrapMode: Text.WordWrap
@@ -120,7 +120,7 @@ ScrollingPage {
             description: i18n("Last Update")
         }
 
-        FC.FormDelegateSeparator {
+        FormDelegateSeparatorFixed {
             visible: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
         }
 

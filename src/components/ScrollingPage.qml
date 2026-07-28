@@ -24,7 +24,6 @@ KG.Page {
 
         contentWidth: availableWidth
 
-
         ScrollBar.vertical: ScrollBar {
             id: vbar
             anchors.top: parent.top

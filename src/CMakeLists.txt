@@ -43,6 +43,10 @@ ecm_target_qml_sources(bazzite-updater
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/SystemUpdate.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebaseHelper.qml
     # ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebasePart.qml # remove until implemented
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssPage.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/FCRssDelegate.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/AtomModel.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssModel.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataOS.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleView.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleDrawer.qml
@@ -50,6 +54,7 @@ ecm_target_qml_sources(bazzite-updater
     ${CMAKE_CURRENT_SOURCE_DIR}/components/ScrollingPage.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/FCSystemInfo.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/FCOsRelease.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/FormDelegateSeparatorFixed.qml
     ${ABOUTAPP_OUTPUT}
 )
 
