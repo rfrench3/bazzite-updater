@@ -36,8 +36,11 @@ Kirigami.Separator {
     */
     property Item below: _index !== -1 && _index < _siblings.length - 1 ? _siblings[_index + 1] : null
 
-    Layout.leftMargin: parent._internal_formcard_margins ? parent._internal_formcard_margins : Kirigami.Units.largeSpacing
-    Layout.rightMargin: parent._internal_formcard_margins ? parent._internal_formcard_margins : Kirigami.Units.largeSpacing
+    opacity: 0.5
+
+    property real hMargins: parent._internal_formcard_margins ? parent._internal_formcard_margins : Kirigami.Units.largeSpacing
+    Layout.leftMargin: hMargins
+    Layout.rightMargin: hMargins
     Layout.fillWidth: true
 
     // QML automatically tracks parent.visibleChildren for changes
@@ -55,15 +58,35 @@ Kirigami.Separator {
         return -1;
     }
 
-    // opacity = 0.5 unless the above or below item are active
-    opacity: {
-        function isActive(item) {
-            return (item?.background?.visible && item.enabled && (item.visualFocus || item.pressed || (item.hovered && !Kirigami.Settings.tabletMode)));
+    states: State {
+        name: "invisible"
+        when: isActive(root.above) || isActive(root.below)
+
+        PropertyChanges {
+            root.opacity: 0
+            root.hMargins: 0
         }
 
-        if (isActive(root.above) || isActive(root.below))
-            return 0;
+        function isActive(item) {
+            return Boolean(item?.background?.visible && item.enabled && (item.visualFocus || item.pressed || (item.hovered && !Kirigami.Settings.tabletMode)));
+        }
+    }
 
-        return 0.5;
+    transitions: Transition {
+        to: "invisible"
+        reversible: true
+
+        ParallelAnimation {
+            PropertyAnimation {
+                property: "hMargins"
+                duration: Kirigami.Units.longDuration
+                easing.type: Easing.InOutQuad
+            }
+            PropertyAnimation {
+                property: "opacity"
+                duration: Kirigami.Units.longDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
     }
 }
