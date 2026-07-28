@@ -8,6 +8,8 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 
+// TODO: This fix has been upstreamed. Once it is available in fedora, remove this component.
+
 /*!
    \qmltype FormDelegateSeparator
    \inqmlmodule org.kde.kirigamiaddons.formcard
