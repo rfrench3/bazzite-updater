@@ -13,63 +13,63 @@ FC.FormCard {
         description: i18n("Image")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.vendor || i18n("loading...")
         description: i18n("Vendor")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.ref || i18n("loading...")
         description: i18n("Ref")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.tag || i18n("loading...")
         description: i18n("Tag")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.branch || i18n("loading...")
         description: i18n("Branch")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.baseName || i18n("loading...")
         description: i18n("Base Name")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.fedoraVersion || i18n("loading...")
         description: i18n("Fedora Version")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.version || i18n("loading...")
         description: i18n("Version")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.versionPretty || i18n("loading...")
         description: i18n("Version (Pretty)")
     }
 
-    FC.FormDelegateSeparator {}
+    FormDelegateSeparatorFixed {}
 
     FC.FormTextDelegate {
         text: RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"] || i18n("loading...")

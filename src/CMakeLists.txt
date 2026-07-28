@@ -52,6 +52,7 @@ ecm_target_qml_sources(bazzite-updater
     ${CMAKE_CURRENT_SOURCE_DIR}/components/ScrollingPage.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/FCSystemInfo.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/FCOsRelease.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/FormDelegateSeparatorFixed.qml
     ${ABOUTAPP_OUTPUT}
 )
 
