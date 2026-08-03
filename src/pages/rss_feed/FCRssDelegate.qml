@@ -99,7 +99,10 @@ FC.FormCard {
         contentItem: ColumnLayout {
             Text {
                 id: contentText
+
+                visible: abstractDelegate.visible
                 text: delegate.content
+
                 textFormat: Text.RichText
 
                 color: palette.text

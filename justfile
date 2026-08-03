@@ -44,7 +44,6 @@ build-flatpak: output
 # devcontainer, copy src/resources to proper location
 symlink-configs:
     #!/usr/bin/env bash
-    set -eou pipefail
     sudo rm -r /etc/bazzite-updater
     sudo ln -s /workspaces/bazzite-updater/src/resources /etc/bazzite-updater
 
