@@ -1,15 +1,45 @@
 default:
     just --list
 
+# generate new translations template
+potfile:
+    #!/bin/bash
+    PROJECT_NAME="bazzite-updater"
+    POT_FILE="po/${PROJECT_NAME}.pot"
+    echo "Extracting messages for ${PROJECT_NAME}..."
+    find src -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.qml" \) > po/source_files.txt
+    xgettext --from-code=UTF-8 -C -kde \
+        --files-from=po/source_files.txt \
+        -ci18n -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 \
+        -ktr2i18n:1 -kI18N_NOOP:1 -kI18N_NOOP2:1c,2 \
+        -kaliasLocale -kki18n:1 -kki18nc:1c,2 -kki18np:1,2 -kki18ncp:1c,2,3 \
+        -o ${POT_FILE}
+    rm po/source_files.txt
+    echo "Done! Template generated at ${POT_FILE}"
+    for po_file in po/*/${PROJECT_NAME}.po; do
+        if [ -f "$po_file" ]; then
+            echo "Updating $po_file..."
+            msgmerge -U "$po_file" "${POT_FILE}"
+        fi
+    done
+    echo "All translations updated!"
+
 # devcontainer
 build:
-    cmake -B build -D_INCLUDE_SUBMODULES=ON -DTESTING_BUILD=ON
-    cmake --build build
+    cmake -B build -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=$PWD/build/install-root
+    cmake --build build --target install
+
+# devcontainer
+install-controllable:
+    cd /workspaces/bazzite-updater/src/components/controllable
+    just build
+    sudo cmake --install build
+    cd /workspaces/bazzite-updater
 
 # devcontainer
 run:
     just build
-    ./build/bin/bazzite-updater
+    XDG_DATA_DIRS=/workspaces/bazzite-updater/build/install-root/share ./build/install-root/bin/bazzite-updater
 
 # devcontainer
 test:
