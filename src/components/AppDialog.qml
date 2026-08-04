@@ -1,13 +1,15 @@
-import QtQuick
-import QtQuick.Controls as QQC2
-import QtQuick.Layouts
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 
+import QtQuick
 import org.kde.kirigami as Kirigami
 
 Kirigami.PromptDialog {
     id: root
 
-    property var activeDialogParent: applicationWindow()
+    required property var activeDialogParent
+
+    maximumWidth: Kirigami.Units.gridUnit * 30 // matches a formcard's max width
 
     Connections {
         target: root

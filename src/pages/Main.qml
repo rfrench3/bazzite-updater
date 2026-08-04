@@ -243,6 +243,8 @@ StatefulApp.StatefulWindow {
         title: i18nc("@title:window", "Reboot System")
         standardButtons: Kirigami.Dialog.NoButton
 
+        activeDialogParent: root
+
         subtitle: AppState.commandRunning ? i18n("This will reboot the system,\nbut %1 is still in progress!\nRebooting now will cause it to not apply.", AppState.rollbackRunning ? i18n("a rollback") : AppState.rebaseRunning ? i18n("a rebase") : AppState.updateRunning ? i18n("an update") : i18n("a command")) : i18n("This will reboot the system.")
 
         customFooterActions: [
@@ -297,6 +299,8 @@ StatefulApp.StatefulWindow {
         id: exitDialog
         title: i18n("Exit Application")
         standardButtons: Kirigami.Dialog.NoButton
+
+        activeDialogParent: root
 
         subtitle: {
             if (!AppState.commandRunning)
