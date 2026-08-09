@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <KirigamiAddons/App/kirigamiappdefaults.h>
 #include <QApplication>
 #include <QtGlobal>
 
@@ -18,14 +19,17 @@
 #include <KIconTheme>
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
+#include <KirigamiAddons/App/KirigamiAppDefaults>
 #include <cstdlib>
 #include <iostream>
+#include <kaboutdata.h>
 #include <kcolorschememanager.h>
 #include <ostream>
 #include <qapplication.h>
 #include <qcommandlineoption.h>
 #include <qcommandlineparser.h>
 #include <qcoreapplication.h>
+#include <qguiapplication.h>
 #include <qlogging.h>
 #include <qnamespace.h>
 #include <qobject.h>
@@ -34,11 +38,11 @@
 #include <qqmlpropertymap.h>
 #include <unistd.h>
 
-#include "console.h"
+// #include "console.h"
 #include "k_config.h"
 
-#include "rebase_helper.h"
-#include "system_update.h"
+// #include "rebase_helper.h"
+// #include "system_update.h"
 #include "utils.h"
 
 #define BASE_HEIGHT 1080.0
@@ -46,14 +50,12 @@
 using namespace Qt::Literals::StringLiterals;
 
 // Handle non-gui functionality: Replace the bazzite-updater process with the selected process defined by the config.ini
-void commandLine(int argc, char *argv[]);
+void commandLine(int argc, char *argv[], QCoreApplication &app);
 
 int main(int argc, char *argv[])
 {
-    // exits early if the command line options are used
-    commandLine(argc, argv);
-
-    bool should_fullscreen = false;
+    const QString FULL_APP_DOMAIN = u"io.github.rfrench3.bazzite-updater"_s;
+    bool UseFullscreen = false;
 
     if (Utils::GAMESCOPE_SESSION) {
         /*
@@ -76,12 +78,18 @@ int main(int argc, char *argv[])
             qputenv("QT_SCALE_FACTOR", QByteArray::number(final_scale));
         }
 
-        should_fullscreen = true;
+        // Use the Qt theme KDE uses (unthemed outside of KDE)
+        if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORMTHEME"))
+            qputenv("QT_QPA_PLATFORMTHEME", QByteArray::fromStdString("kde"));
+
+        UseFullscreen = true;
     }
 
-    KIconTheme::initTheme();
-    QIcon::setFallbackThemeName("breeze"_L1);
     QApplication app(argc, argv);
+    KirigamiAppDefaults::apply(&app);
+
+    // exits early if the command line options are used
+    commandLine(argc, argv, app);
 
     if (Utils::KDE_SESSION) {
         if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
@@ -107,30 +115,42 @@ int main(int argc, char *argv[])
     KLocalizedString::setApplicationDomain("bazzite-updater");
     QCoreApplication::setOrganizationName(u"UniversalBlue"_s);
 
-    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.rfrench3.bazzite-updater"_s));
+    KAboutData aboutData(u"bazzite-updater"_s,
+                         i18n("Bazzite Updater"),
+                         QStringLiteral(BAZZITE_UPDATER_VERSION_STRING),
+                         i18n("Updating and rebasing utility for Bazzite"),
+                         KAboutLicense::Unknown, // Can't directly set v2-or-later here
+                         i18n("© 2025-2026 Robert French"),
+                         i18n("This application can be used through a controller or keyboard to perform various update-related system tasks!"),
+                         u"https://github.com/rfrench3/bazzite_updater"_s,
+                         u"https://github.com/rfrench3/bazzite_updater/issues"_s);
+    aboutData.setLicense(KAboutLicense::GPL_V2, KAboutLicense::OrLaterVersions);
+    aboutData.addCredit(u"Gareth Widlansky"_s, u"Uupd integration"_s, u""_s, u"https://github.com/gerblesh"_s);
+    aboutData.setDesktopFileName(FULL_APP_DOMAIN);
+    KAboutData::setApplicationData(aboutData);
+
+    QGuiApplication::setWindowIcon(QIcon::fromTheme(FULL_APP_DOMAIN));
+    QGuiApplication::setDesktopFileName(FULL_APP_DOMAIN);
 
     QQmlApplicationEngine engine;
-
     KLocalization::setupLocalizedContext(&engine);
     engine.loadFromModule("io.github.rfrench3.bazzite_updater", u"Main"_s);
 
     if (engine.rootObjects().isEmpty()) {
-        return -1;
+        return EXIT_FAILURE;
     }
 
     // For non-critical data storage
     auto sessionStorage = QQmlPropertyMap::create(&app);
     engine.rootContext()->setContextProperty(u"sessionStorage"_s, sessionStorage);
 
-    engine.rootContext()->setContextProperty(u"UseFullscreen"_s, should_fullscreen);
+    engine.rootContext()->setContextProperty(u"UseFullscreen"_s, UseFullscreen);
 
     return app.exec();
 }
 
-void commandLine(int argc, char *argv[])
+void commandLine(int argc, char *argv[], QCoreApplication &app)
 {
-    QCoreApplication app(argc, argv);
-
     QCommandLineParser parser;
     parser.addHelpOption();
 
@@ -150,7 +170,7 @@ void commandLine(int argc, char *argv[])
 
     if (parser.isSet(update) && parser.isSet(rollback)) {
         std::cerr << "You cannot use --update and --rollback at the same time." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     auto cmd = QString();
@@ -163,7 +183,7 @@ void commandLine(int argc, char *argv[])
 
     if (cmd.isEmpty()) {
         std::cerr << "Command not defined." << std::endl;
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     const auto args = QProcess::splitCommand(cmd);
@@ -182,5 +202,5 @@ void commandLine(int argc, char *argv[])
     execvp(execArgs.first(), execArgs.data());
 
     perror("execvp failed");
-    exit(1);
+    exit(EXIT_FAILURE);
 }

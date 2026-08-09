@@ -1,9 +1,6 @@
-import org.kde.kirigamiaddons.formcard as FormCard
 import QtQuick
-import QtQuick.Controls // Required so grabScrollbar knows what a scrollbar is
-import org.kde.kirigami as Kirigami
-
-import io.github.rfrench3.bazzite_updater
+import QtQuick.Controls // Required for grabScrollbar to find a scrollbar
+import org.kde.kirigamiaddons.formcard as FormCard
 import io.github.rfrench3.controllable as GP
 
 FormCard.AboutPage {
@@ -16,17 +13,13 @@ FormCard.AboutPage {
     }
 
     function grabScrollbar(item) {
-        if (item instanceof Kirigami.ScrollablePage) {
-            if (item.contentItem && item.contentItem.ScrollBar && item.contentItem.ScrollBar.vertical) {
-                return item.contentItem.ScrollBar.vertical;
-            } else
-                console.log("Parent scrollbar not found, controller scrolling will not function!");
-        } else {
-            if (item.parent)
-                return grabScrollbar(item.parent);
-            else
-                console.log("Parent Kirigami.ScrollablePage not found, controller scrolling will not function!");
-        }
+        if (item.contentItem?.ScrollBar?.vertical)
+            return item.contentItem.ScrollBar.vertical;
+
+        if (item.parent)
+            return grabScrollbar(item.parent);
+
+        console.log("Parent scrollbar not found, controller scrolling will not function!");
     }
 
     showLibraries: false
