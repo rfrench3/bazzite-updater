@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="920mm"
+   height="430mm"
+   viewBox="0 0 920 430"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="art-920x430.svg"
+   inkscape:export-filename="art-920x430.jpg"
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.16102167"
+     inkscape:cx="1462.536"
+     inkscape:cy="841.50162"
+     inkscape:window-width="1440"
+     inkscape:window-height="932"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <rect
+       x="231.33533"
+       y="167.67929"
+       width="4962.4892"
+       height="776.94069"
+       id="rect9" />
+    <linearGradient
+       id="linearGradient8"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#0048ad;stop-opacity:1;"
+         offset="0.07153855"
+         id="stop8" />
+      <stop
+         style="stop-color:#8a2ce2;stop-opacity:1;"
+         offset="0.7430619"
+         id="stop9" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8"
+       id="linearGradient9"
+       x1="29.289322"
+       y1="29.289322"
+       x2="170.71068"
+       y2="170.71068"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(4.6,0,0,4.6,0,-245)" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#linearGradient9);fill-rule:nonzero;stroke:#ffffff;stroke-width:0;stroke-opacity:0"
+       id="rect1"
+       width="920"
+       height="920"
+       x="0"
+       y="-245" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,21.48194,100.98927)"
+       id="text9"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:400px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect9);display:inline;fill:#ffffff;fill-opacity:0.85;fill-rule:nonzero;stroke:#ffffff;stroke-width:0;stroke-opacity:0"><tspan
+         x="231.33594"
+         y="537.93796"
+         id="tspan3"><tspan
+           style="font-family:'Adwaita Sans';-inkscape-font-specification:'Adwaita Sans Bold'"
+           id="tspan1">System Update</tspan></tspan></text>
+  </g>
+</svg>
