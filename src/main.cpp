@@ -9,20 +9,25 @@
 #include <QQmlContext>
 #include <QQuickStyle>
 #include <QScreen>
+#include <QStyleHints>
 #include <QUrl>
 
 #include "version-bazzite-updater.h"
 #include <KAboutData>
+#include <KColorSchemeManager>
 #include <KIconTheme>
 #include <KLocalizedQmlContext>
 #include <KLocalizedString>
 #include <cstdlib>
 #include <iostream>
+#include <kcolorschememanager.h>
 #include <ostream>
+#include <qapplication.h>
 #include <qcommandlineoption.h>
 #include <qcommandlineparser.h>
 #include <qcoreapplication.h>
 #include <qlogging.h>
+#include <qnamespace.h>
 #include <qobject.h>
 #include <qqml.h>
 
@@ -71,10 +76,6 @@ int main(int argc, char *argv[])
             qputenv("QT_SCALE_FACTOR", QByteArray::number(final_scale));
         }
 
-        // Use the Qt theme KDE uses (unthemed outside of KDE)
-        if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORMTHEME"))
-            qputenv("QT_QPA_PLATFORMTHEME", QByteArray::fromStdString("kde"));
-
         should_fullscreen = true;
     }
 
@@ -82,6 +83,22 @@ int main(int argc, char *argv[])
     QIcon::setFallbackThemeName("breeze"_L1);
     QApplication app(argc, argv);
 
+    // Ensure breeze is properly applied outside of KDE
+    if (!qgetenv("XDG_CURRENT_DESKTOP").toUpper().contains("KDE")) {
+        if (qEnvironmentVariableIsEmpty("QT_STYLE_OVERRIDE")) {
+            QApplication::setStyle(u"breeze"_s);
+        }
+
+        auto manager = KColorSchemeManager::instance();
+
+        // Respect desktop color scheme, but force breeze dark for gamescope session
+        if (app.styleHints()->colorScheme() == Qt::ColorScheme::Dark || Utils::GAMESCOPE_SESSION)
+            manager->activateSchemeId(u"BreezeDark"_s);
+        else
+            manager->activateSchemeId(u"BreezeLight"_s);
+    }
+
+    // org.kde.desktop applies Qt style to QML
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE"))
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
 

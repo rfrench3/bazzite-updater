@@ -22,7 +22,7 @@ find_package(SDL3 REQUIRED)
 ### Set up and install Qt/KDE dependencies ###
 
 set(QT6_MIN_VERSION 6.7.0)
-set(KF6_MIN_VERSION 6.12.0)
+set(KF6_MIN_VERSION 6.19.0)
 set(KIRIGAMI_ADDONS_MIN_VERSION 1.2.40)
 
 find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
@@ -51,6 +51,7 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Kirigami
     CoreAddons
     Config
+    ColorScheme
     I18n
     IconThemes
 )

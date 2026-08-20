@@ -73,6 +73,7 @@ target_link_libraries(bazzite-updater
     KF6::CoreAddons
     KF6::ConfigCore
     KF6::ConfigGui
+    KF6::ColorScheme
     KirigamiAddonsStatefulApp
     # qt6-controllable
 )
