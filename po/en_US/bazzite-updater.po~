@@ -1,0 +1,528 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#  <frenchrobertm@outlook.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-04 00:50+0000\n"
+"PO-Revision-Date: 2026-08-04 00:51+0000\n"
+"Last-Translator:  <frenchrobertm@outlook.com>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/components/console/ConsoleDrawer.qml:61
+msgid "Copy to Clipboard"
+msgstr "Copy to Clipboard"
+
+#: src/components/console/ConsoleDrawer.qml:64
+msgid "Text Copied"
+msgstr "Text Copied"
+
+#: src/components/console/ConsoleDrawer.qml:71
+msgid "Close"
+msgstr "CloseQWERTYU"
+
+#: src/components/console/ConsoleView.qml:71
+msgid "Warning: "
+msgstr "Warning: "
+
+#: src/components/console/ConsoleView.qml:75
+msgid "Error: "
+msgstr "Error: "
+
+#: src/components/console/ConsoleView.qml:78
+msgid "Debug: "
+msgstr "Debug: "
+
+#: src/components/console/ConsoleView.qml:82
+msgid "Critical Error: "
+msgstr "Critical Error: "
+
+#: src/components/FCSystemInfo.qml:12 src/components/FCSystemInfo.qml:19
+#: src/components/FCSystemInfo.qml:26 src/components/FCSystemInfo.qml:33
+#: src/components/FCSystemInfo.qml:40 src/components/FCSystemInfo.qml:47
+#: src/components/FCSystemInfo.qml:54 src/components/FCSystemInfo.qml:61
+#: src/components/FCSystemInfo.qml:68 src/components/FCSystemInfo.qml:75
+msgid "loading..."
+msgstr "loading..."
+
+#: src/components/FCSystemInfo.qml:13
+msgid "Image"
+msgstr "Image"
+
+#: src/components/FCSystemInfo.qml:20
+msgid "Vendor"
+msgstr "Vendor"
+
+#: src/components/FCSystemInfo.qml:27
+msgid "Ref"
+msgstr "Ref"
+
+#: src/components/FCSystemInfo.qml:34
+msgid "Tag"
+msgstr "Tag"
+
+#: src/components/FCSystemInfo.qml:41
+msgid "Branch"
+msgstr "Branch"
+
+#: src/components/FCSystemInfo.qml:48
+msgid "Base Name"
+msgstr "Base Name"
+
+#: src/components/FCSystemInfo.qml:55
+msgid "Fedora Version"
+msgstr "Fedora Version"
+
+#: src/components/FCSystemInfo.qml:62
+msgid "Version"
+msgstr "Version"
+
+#: src/components/FCSystemInfo.qml:69
+msgid "Version (Pretty)"
+msgstr "Version (Pretty)"
+
+#: src/components/FCSystemInfo.qml:76
+msgid "Release Date"
+msgstr "Release Date"
+
+#: src/pages/AboutDataApp.qml:10
+msgctxt "@title"
+msgid "About Application"
+msgstr "About Application"
+
+#: src/pages/AboutDataApp.qml:32 src/pages/Main.qml:20
+msgctxt "@title:window"
+msgid "Bazzite Updater"
+msgstr "Bazzite Updater"
+
+#: src/pages/AboutDataApp.qml:38
+msgid ""
+"This interface can be used to update Bazzite, rollback from a bad update, "
+"and rebase to entirely separate versions of Bazzite!"
+msgstr ""
+"This interface can be used to update Bazzite, rollback from a bad update, "
+"and rebase to entirely separate versions of Bazzite!"
+
+#: src/pages/rebase_helper/RebasePart.qml:16
+msgctxt "Image, such as referring to Bazzite vs Bazzite-deck"
+msgid "Rebase to New Image"
+msgstr "Rebase to New Image"
+
+#: src/pages/rebase_helper/RebasePart.qml:21
+msgid "Recommended images:"
+msgstr "Recommended images:"
+
+#: src/pages/rebase_helper/RebasePart.qml:61
+msgctxt "Image, such as referring to Bazzite vs Bazzite-deck"
+msgid "Image Options:"
+msgstr "Image Options:"
+
+#: src/pages/rebase_helper/RebasePart.qml:70
+msgid " (Current)"
+msgstr " (Current)"
+
+#: src/pages/rebase_helper/RebasePart.qml:94
+msgid "Branch:"
+msgstr "Branch:"
+
+#: src/pages/rebase_helper/RebasePart.qml:95
+msgid "stable"
+msgstr "stable"
+
+#: src/pages/rebase_helper/RebasePart.qml:109
+msgid "testing"
+msgstr "testing"
+
+#: src/pages/rebase_helper/RebasePart.qml:125
+msgid "do not change"
+msgstr "do not change"
+
+#: src/pages/rebase_helper/RebasePart.qml:154
+msgid "Rebase"
+msgstr "Rebase"
+
+#: src/pages/rebase_helper/RebasePart.qml:154
+msgid " (Unavailable)"
+msgstr " (Unavailable)"
+
+#: src/pages/rebase_helper/RebasePart.qml:162
+msgid "Rebase failed."
+msgstr "Rebase failed."
+
+#: src/pages/rebase_helper/RebasePart.qml:162
+#: src/pages/rebase_helper/RebaseHelper.qml:87
+#: src/pages/system_update/SystemUpdate.qml:59
+msgid "Open console"
+msgstr "Open console"
+
+#: src/pages/rebase_helper/rebase_helper.cpp:161
+msgid "Rollback program was not found or failed to start."
+msgstr "Rollback program was not found or failed to start."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:17 src/pages/Main.qml:116
+msgid "Other Utilities"
+msgstr "Other Utilities"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:54
+msgid "Rollback Last Update"
+msgstr "Rollback Last Update"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:64
+msgid ""
+"This will return your base system to before its current update. Your user "
+"files will not be affected, and the system will not automatically update "
+"until told to do so again."
+msgstr ""
+"This will return your base system to before its current update. Your user "
+"files will not be affected, and the system will not automatically update "
+"until told to do so again."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:72
+msgid "Confirm"
+msgstr "Confirm"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:80
+msgid "Initiate Rollback"
+msgstr "Initiate Rollback"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:84
+msgid "Rollback Started"
+msgstr "Rollback Started"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:87
+msgid "Rollback Failed."
+msgstr "Rollback Failed."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:89
+msgid "Rollback Succeeded!"
+msgstr "Rollback Succeeded!"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:103
+msgid "System Image Information"
+msgstr "System Image Information"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:111
+msgid "Current Image"
+msgstr "Current Image"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:120
+msgid "Last Update"
+msgstr "Last Update"
+
+#: src/pages/rebase_helper/RebaseHelper.qml:135
+msgid "The best drivers for your GPU are provided by the Linux kernel."
+msgstr "The best drivers for your GPU are provided by the Linux kernel."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:137
+#: src/pages/rebase_helper/RebaseHelper.qml:139
+msgid "The best drivers for your GPU are "
+msgstr "The best drivers for your GPU are "
+
+#: src/pages/rebase_helper/RebaseHelper.qml:141
+msgid "Your GPU is unsupported."
+msgstr "Your GPU is unsupported."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:160
+msgid "You have the best drivers installed."
+msgstr "You have the best drivers installed."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:164
+msgid "You do not have any nvidia drivers installed."
+msgstr "You do not have any nvidia drivers installed."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:166
+msgid "You currently have nvidia installed."
+msgstr "You currently have nvidia installed."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:168
+msgid "You currently have nvidia-open installed."
+msgstr "You currently have nvidia-open installed."
+
+#: src/pages/rebase_helper/RebaseHelper.qml:180
+msgid "Advanced Information"
+msgstr "Advanced Information"
+
+#: src/pages/system_update/SystemUpdate.qml:19
+#: src/pages/system_update/SystemUpdate.qml:100 src/pages/Main.qml:104
+msgid "System Update"
+msgstr "System Update"
+
+#: src/pages/system_update/SystemUpdate.qml:49
+#: src/pages/system_update/SystemUpdate.qml:112
+msgid "Update System Image and Software"
+msgstr "Update System Image and Software"
+
+#: src/pages/system_update/SystemUpdate.qml:54
+msgid "System Updating"
+msgstr "System Updating"
+
+#: src/pages/system_update/SystemUpdate.qml:56
+msgid "Update Started"
+msgstr "Update Started"
+
+#: src/pages/system_update/SystemUpdate.qml:59
+msgid "Update Failed. Check console for more details."
+msgstr "Update Failed. Check console for more details."
+
+#: src/pages/system_update/SystemUpdate.qml:66
+msgid "Update Succeeded!"
+msgstr "Update Succeeded!"
+
+#: src/pages/system_update/SystemUpdate.qml:68
+msgid "System Updated!"
+msgstr "System Updated!"
+
+#: src/pages/system_update/SystemUpdate.qml:153
+msgid "Last Update: "
+msgstr "Last Update: "
+
+#: src/pages/AboutDataOS.qml:11
+msgid "About"
+msgstr "About"
+
+#: src/pages/Main.qml:126 src/pages/rss_feed/RssPage.qml:22
+msgid "Changelogs"
+msgstr "Changelogs"
+
+#: src/pages/Main.qml:138
+msgid "About %1"
+msgstr "About %1"
+
+#: src/pages/Main.qml:147
+msgid "About Bazzite Updater"
+msgstr "About Bazzite Updater"
+
+#: src/pages/Main.qml:160
+msgid "Reboot System"
+msgstr "Reboot System"
+
+#: src/pages/Main.qml:169
+msgid "Quit"
+msgstr "Quit"
+
+#: src/pages/Main.qml:243
+msgctxt "@title:window"
+msgid "Reboot System"
+msgstr "Reboot System"
+
+#: src/pages/Main.qml:248
+msgid "a rollback"
+msgstr "a rollback"
+
+#: src/pages/Main.qml:248
+msgid "a rebase"
+msgstr "a rebase"
+
+#: src/pages/Main.qml:248
+msgid "an update"
+msgstr "an update"
+
+#: src/pages/Main.qml:248
+msgid "a command"
+msgstr "a command"
+
+#: src/pages/Main.qml:248
+msgid ""
+"This will reboot the system,\n"
+"but %1 is still in progress!\n"
+"Rebooting now will cause it to not apply."
+msgstr ""
+"This will reboot the system,\n"
+"but %1 is still in progress!\n"
+"Rebooting now will cause it to not apply."
+
+#: src/pages/Main.qml:248
+msgid "This will reboot the system."
+msgstr "This will reboot the system."
+
+#: src/pages/Main.qml:253
+msgid "Reboot"
+msgstr "Reboot"
+
+#: src/pages/Main.qml:259 src/pages/Main.qml:333
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/pages/Main.qml:278
+msgid "The system reboot has failed. Reboot manually to apply changes."
+msgstr "The system reboot has failed. Reboot manually to apply changes."
+
+#: src/pages/Main.qml:280
+msgid "The system reboot has failed."
+msgstr "The system reboot has failed."
+
+#: src/pages/Main.qml:300
+msgid "Exit Application"
+msgstr "Exit Application"
+
+#: src/pages/Main.qml:307
+msgid "You must reboot to apply changes."
+msgstr "You must reboot to apply changes."
+
+#: src/pages/Main.qml:307
+msgid "No command is running, you may exit."
+msgstr "No command is running, you may exit."
+
+#: src/pages/Main.qml:312
+msgid "A rollback is still in progress!"
+msgstr "A rollback is still in progress!"
+
+#: src/pages/Main.qml:314
+msgid "A rebase is still in progress!"
+msgstr "A rebase is still in progress!"
+
+#: src/pages/Main.qml:316
+msgid "An update is still in progress!"
+msgstr "An update is still in progress!"
+
+#: src/pages/Main.qml:318
+msgid "A command is still in progress!"
+msgstr "A command is still in progress!"
+
+#: src/pages/Main.qml:321
+msgid ""
+"A system update will continue on exit, but a rollback or rebase will be "
+"cancelled."
+msgstr ""
+"A system update will continue on exit, but a rollback or rebase will be "
+"cancelled."
+
+#: src/pages/Main.qml:321
+msgid "%1 %2"
+msgstr "%1 %2"
+
+#: src/pages/Main.qml:327
+msgid "Exit"
+msgstr "Exit"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:34
+msgid "Read more"
+msgstr "Read more"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:42
+msgid "Read less"
+msgstr "Read less"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "January"
+msgstr "January"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "February"
+msgstr "February"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "March"
+msgstr "March"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "April"
+msgstr "April"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "May"
+msgstr "May"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "June"
+msgstr "June"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "July"
+msgstr "July"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "August"
+msgstr "August"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "September"
+msgstr "September"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "October"
+msgstr "October"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "November"
+msgstr "November"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:130
+msgid "December"
+msgstr "December"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:170
+msgid "in the future"
+msgstr "in the future"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:174
+msgid "just now"
+msgstr "just now"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:179
+msgid "minute ago"
+msgstr "minute ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:179
+msgid "minutes ago"
+msgstr "minutes ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:185
+msgid "hour ago"
+msgstr "hour ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:185
+msgid "hours ago"
+msgstr "hours ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:191
+msgid "day ago"
+msgstr "day ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:191
+msgid "days ago"
+msgstr "days ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:197
+msgid "month ago"
+msgstr "month ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:197
+msgid "months ago"
+msgstr "months ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:202
+msgid "year ago"
+msgstr "year ago"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:202
+msgid "years ago"
+msgstr "years ago"
+
+#: src/pages/rss_feed/RssPage.qml:38
+msgctxt "@info:placeholder"
+msgid "No changelogs have been provided."
+msgstr "No changelogs have been provided."
+
+#: src/pages/rss_feed/RssPage.qml:44
+msgctxt "@info:placeholder"
+msgid "Loading changelog"
+msgstr "Loading changelog"
+
+#: src/pages/rss_feed/RssPage.qml:64
+msgctxt "@info:placeholder"
+msgid "Error loading changelogs:"
+msgstr "Error loading changelogs:"
+
+#: src/pages/rss_feed/RssPage.qml:69
+msgctxt "@info:placeholder"
+msgid "An error has occurred loading changelogs."
+msgstr "An error has occurred loading changelogs."
