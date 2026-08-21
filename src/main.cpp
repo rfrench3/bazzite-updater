@@ -83,8 +83,14 @@ int main(int argc, char *argv[])
     QIcon::setFallbackThemeName("breeze"_L1);
     QApplication app(argc, argv);
 
-    // Ensure breeze is properly applied outside of KDE
-    if (!qgetenv("XDG_CURRENT_DESKTOP").toUpper().contains("KDE")) {
+    if (Utils::KDE_SESSION) {
+        if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+            QQuickStyle::setStyle(u"org.kde.desktop"_s);
+        }
+    } else {
+        if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+            QQuickStyle::setStyle(u"org.kde.breeze"_s);
+        }
         if (qEnvironmentVariableIsEmpty("QT_STYLE_OVERRIDE")) {
             QApplication::setStyle(u"breeze"_s);
         }
@@ -97,10 +103,6 @@ int main(int argc, char *argv[])
         else
             manager->activateSchemeId(u"BreezeLight"_s);
     }
-
-    // org.kde.desktop applies Qt style to QML
-    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE"))
-        QQuickStyle::setStyle(u"org.kde.desktop"_s);
 
     KLocalizedString::setApplicationDomain("bazzite-updater");
     QCoreApplication::setOrganizationName(u"UniversalBlue"_s);

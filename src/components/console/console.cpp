@@ -64,7 +64,7 @@ void Model::runProcess(QStringList process,
     QProcess *command = new QProcess(this);
 
     // Default to just printing a new line, while allowing more advanced custom logic
-    auto lineHandler = (lineFormatter) ? lineFormatter : [=](QString content, LogLevel level) {
+    auto lineHandler = (lineFormatter) ? lineFormatter : [=, this](QString content, LogLevel level) {
         newLine(content, level);
     };
 
@@ -88,13 +88,13 @@ void Model::runProcess(QStringList process,
     connect(command, &QProcess::readyReadStandardOutput, this, loggerInfo);
     connect(command, &QProcess::readyReadStandardError, this, loggerError);
 
-    connect(command, &QProcess::finished, this, [=](int exitCode, QProcess::ExitStatus exitStatus) {
+    connect(command, &QProcess::finished, this, [=, this](int exitCode, QProcess::ExitStatus exitStatus) {
         newLine(u"Command finished with exit code %1 and exit status %2"_s.arg(exitCode).arg(exitStatus), Console::LogLevel::Info);
         onFinish(exitCode);
         command->deleteLater();
     });
 
-    connect(command, &QProcess::errorOccurred, this, [=](QProcess::ProcessError error) {
+    connect(command, &QProcess::errorOccurred, this, [=, this](QProcess::ProcessError error) {
         newLine(u"Command failed with error code: %1"_s.arg(error), Console::LogLevel::Error);
         onError(error);
         command->deleteLater();

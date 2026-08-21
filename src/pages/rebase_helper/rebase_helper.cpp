@@ -156,7 +156,7 @@ void RebaseHelperBackend::rollbackImage(QJSValue callback)
         callback.call({exit_code});
     };
 
-    auto onError = [=](QProcess::ProcessError error) {
+    auto onError = [=, this](QProcess::ProcessError error) {
         if (error == QProcess::FailedToStart)
             m_console->newLine(i18n("Rollback program was not found or failed to start."), Console::LogLevel::ErrorCritical);
 

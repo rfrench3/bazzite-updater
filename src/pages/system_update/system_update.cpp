@@ -53,7 +53,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         return;
     }
 
-    auto onFinish = [=](int exit_code) {
+    auto onFinish = [=, this](int exit_code) {
         const auto conclude = [=](int code, bool command) {
             callback.call({code});
             appState.setUpdateRunning(false);
@@ -79,7 +79,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         appState.setCommandSucceeded(false);
     };
 
-    auto parser = [=](QString line, Console::LogLevel lvl) {
+    auto parser = [=, this](QString line, Console::LogLevel lvl) {
         if (line.isEmpty())
             return;
 
