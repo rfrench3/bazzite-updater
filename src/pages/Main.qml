@@ -89,9 +89,41 @@ StatefulApp.StatefulWindow {
         width: getMaxActionTextWidth() + Kirigami.Units.iconSizes.medium + (Kirigami.Units.largeSpacing * 4)
 
         Shortcut {
-            sequences: ["F1", "Ctrl+M", "Escape"]
+            sequences: [StandardKey.Back, StandardKey.Close, "F1", "Ctrl+M", "Escape"]
             context: Qt.ApplicationShortcut
-            onActivated: globalDrawer.drawerOpen = !globalDrawer.drawerOpen
+            onActivated: {
+                if (activeDialog)
+                    activeDialog.reject();
+                else
+                    globalDrawer.drawerOpen = !globalDrawer.drawerOpen
+            }
+        }
+
+        Shortcut {
+            sequences: ["Return"]
+            context: Qt.ApplicationShortcut
+            enabled: globalDrawer.drawerOpen || root.activeDialog
+            onActivated: {
+                if (activeDialog){
+                    activeDialog.accept();
+                }
+                else
+                    globalDrawer.drawerOpen = false
+            }
+        }
+
+        Shortcut {
+            sequences: ["Up"]
+            context: Qt.ApplicationShortcut
+            enabled: globalDrawer.drawerOpen
+            onActivated: globalDrawer.__navigateGlobalDrawer(-1)
+        }
+
+        Shortcut {
+            sequences: ["Down"]
+            context: Qt.ApplicationShortcut
+            enabled: globalDrawer.drawerOpen
+            onActivated: globalDrawer.__navigateGlobalDrawer(1)
         }
 
         QQC2.ActionGroup {
