@@ -39,7 +39,7 @@ install-controllable:
 # devcontainer
 run:
     just build
-    XDG_DATA_DIRS=/workspaces/bazzite-updater/build/install-root/share ./build/install-root/bin/bazzite-updater
+    XDG_DATA_DIRS=$PWD/build/install-root/share:XDG_DATA_DIRS ./build/install-root/bin/bazzite-updater
 
 # devcontainer
 test:
@@ -61,15 +61,6 @@ build-terra-44:
     #!/usr/bin/env bash
     podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./packaging/terra:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:f44 anda build -c terra-44-x86_64 bazzite-updater/pkg
     just terra-post
-
-# host
-build-flatpak: output
-    #!/usr/bin/env bash
-    set -eou pipefail
-    flatpak-builder --force-clean --repo=output/repo builddir .flatpak-manifest.json
-    flatpak build-bundle output/repo output/bazzite-updater.flatpak io.github.rfrench3.bazzite-updater
-    rm -r output/repo
-    rm -r builddir
 
 # devcontainer, copy src/resources to proper location
 symlink-configs:
