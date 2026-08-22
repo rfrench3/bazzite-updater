@@ -101,85 +101,13 @@ ScrollingPage {
 
     FC.FormHeader {
         title: i18n("System Image Information")
+        visible: RebaseHelperBackend.currentImage.load_successful
     }
-
-    FC.FormCard {
-        FC.FormTextDelegate {
-            textItem.wrapMode: Text.WordWrap
-            text: RebaseHelperBackend.currentImage.name + ":" + RebaseHelperBackend.currentImage.branch
-
-            description: i18n("Current Image")
-        }
-
-        FormDelegateSeparatorFixed {}
-
-        FC.FormTextDelegate {
-            textItem.wrapMode: Text.WordWrap
-            text: RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"]
-
-            description: i18n("Last Update")
-        }
-
-        FormDelegateSeparatorFixed {
-            visible: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
-        }
-
-        Loader {
-            active: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
-            Layout.fillWidth: true
-
-            sourceComponent: FC.FormTextDelegate {
-                text: {
-                    switch (RebaseHelperBackend.bestDriver) {
-                    case Gpu.Drivers.BASE:
-                        return i18n("The best drivers for your GPU are provided by the Linux kernel.");
-                    case Gpu.Drivers.NVIDIA:
-                        return i18n("The best drivers for your GPU are ") + "nvidia.";
-                    case Gpu.Drivers.NVIDIA_OPEN:
-                        return i18n("The best drivers for your GPU are ") + "nvidia-open.";
-                    case Gpu.Drivers.UNSUPPORTED:
-                        return i18n("Your GPU is unsupported.");
-                    case Gpu.Drivers.UNKNOWN:
-                        return "";
-                    default:
-                        return "Report to the app developer if you see this!";
-                    }
-                }
-
-                readonly property int __current: {
-                    if (RebaseHelperBackend.currentImage.name.endsWith("nvidia-open"))
-                        return Gpu.Drivers.NVIDIA_OPEN;
-                    else if (RebaseHelperBackend.currentImage.name.endsWith("nvidia"))
-                        return Gpu.Drivers.NVIDIA;
-                    else
-                        return Gpu.Drivers.BASE;
-                }
-
-                description: {
-                    if (RebaseHelperBackend.bestDriver == __current)
-                        return i18n("You have the best drivers installed.");
-
-                    switch (__current) {
-                    case Gpu.Drivers.BASE:
-                        return i18n("You do not have any nvidia drivers installed.");
-                    case Gpu.Drivers.NVIDIA:
-                        return i18n("You currently have nvidia installed.");
-                    case Gpu.Drivers.NVIDIA_OPEN:
-                        return i18n("You currently have nvidia-open installed.");
-                    }
-                }
-            }
-        }
-    }
-
-    FCSystemInfo {
-        Layout.topMargin: Kirigami.Units.largeSpacing * 4
-    }
+    FCSystemInfo {}
 
     FC.FormHeader {
-        title: i18n("Advanced Information") + " (os-release)"
+        title: i18nc("card to display info from os-release", "Additional Information")
     }
-
     FCOsRelease {}
 
     ConsoleDrawer {

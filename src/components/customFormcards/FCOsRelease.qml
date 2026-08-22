@@ -1,22 +1,27 @@
-import QtQuick
-import QtQuick.Controls as QQC2
-import QtQuick.Layouts
+pragma ComponentBehavior: Bound
 
-import org.kde.kirigami as Kirigami
+import QtQuick
+import QtQuick.Layouts
 import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater
 
-FC.FormCard {
+FCDropdown {
+
+    // TODO: The dropdown does not open smoothly the first time
+
     id: root
     readonly property var osRelease: AppConfig.osReleaseVarMap()
+
+    buttonText: i18nc("button label", "Display os-release")
+    buttonTextExpanded: i18nc("button label", "Hide os-release")
 
     Component {
         id: textDelegateComponent
         FC.FormTextDelegate {
             // Use a property to pass the dynamic key
             property string key
-            text: osRelease[key]
+            text: root.osRelease[key]
             description: key
         }
     }
@@ -24,6 +29,13 @@ FC.FormCard {
     Component {
         id: separatorComponent
         FormDelegateSeparatorFixed {}
+    }
+
+    ColumnLayout {
+        id: dataRoot
+        spacing: 0
+        clip: true
+        Layout.fillWidth: true
     }
 
     Component.onCompleted: {
@@ -37,13 +49,13 @@ FC.FormCard {
                 "key": key
             });
 
-            root.delegates = [...root.delegates, textcomp];
+            dataRoot.data = [...dataRoot.data, textcomp];
 
             // Create the separator and parent it directly to root
             // (Adding a check here prevents a trailing separator at the very end)
             if (i < keys.length - 1) {
                 let sepcomp = separatorComponent.createObject(null);
-                root.delegates = [...root.delegates, sepcomp];
+                dataRoot.data = [...dataRoot.data, sepcomp];
             }
         }
     }
