@@ -38,14 +38,10 @@
 #include <qqmlpropertymap.h>
 #include <unistd.h>
 
-// #include "console.h"
 #include "k_config.h"
-
-// #include "rebase_helper.h"
-// #include "system_update.h"
 #include "utils.h"
 
-#define BASE_HEIGHT 1080.0
+inline constexpr float BASE_HEIGHT = 1080.0;
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -96,20 +92,26 @@ int main(int argc, char *argv[])
             QQuickStyle::setStyle(u"org.kde.desktop"_s);
         }
     } else {
+        bool useBreeze = false;
         if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
             QQuickStyle::setStyle(u"org.kde.breeze"_s);
+            useBreeze = true;
         }
+
         if (qEnvironmentVariableIsEmpty("QT_STYLE_OVERRIDE")) {
             QApplication::setStyle(u"breeze"_s);
+            useBreeze = true;
         }
 
-        auto manager = KColorSchemeManager::instance();
+        if (useBreeze) {
+            auto manager = KColorSchemeManager::instance();
 
-        // Respect desktop color scheme, but force breeze dark for gamescope session
-        if (app.styleHints()->colorScheme() == Qt::ColorScheme::Dark || Utils::GAMESCOPE_SESSION)
-            manager->activateSchemeId(u"BreezeDark"_s);
-        else
-            manager->activateSchemeId(u"BreezeLight"_s);
+            // Respect desktop color scheme, but force breeze dark for gamescope session
+            if (app.styleHints()->colorScheme() == Qt::ColorScheme::Dark || Utils::GAMESCOPE_SESSION)
+                manager->activateSchemeId(u"BreezeDark"_s);
+            else
+                manager->activateSchemeId(u"BreezeLight"_s);
+        }
     }
 
     KLocalizedString::setApplicationDomain("bazzite-updater");
