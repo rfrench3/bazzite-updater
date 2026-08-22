@@ -8,26 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 01:16+0000\n"
+"POT-Creation-Date: 2026-08-22 16:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: src/components/console/ConsoleDrawer.qml:61
-msgid "Copy to Clipboard"
-msgstr ""
-
-#: src/components/console/ConsoleDrawer.qml:64
-msgid "Text Copied"
-msgstr ""
-
-#: src/components/console/ConsoleDrawer.qml:71
-msgid "Close"
-msgstr ""
 
 #: src/components/console/ConsoleView.qml:71
 msgid "Warning: "
@@ -43,6 +31,18 @@ msgstr ""
 
 #: src/components/console/ConsoleView.qml:82
 msgid "Critical Error: "
+msgstr ""
+
+#: src/components/console/ConsoleDrawer.qml:61
+msgid "Copy to Clipboard"
+msgstr ""
+
+#: src/components/console/ConsoleDrawer.qml:64
+msgid "Text Copied"
+msgstr ""
+
+#: src/components/console/ConsoleDrawer.qml:71
+msgid "Close"
 msgstr ""
 
 #: src/components/FCSystemInfo.qml:12 src/components/FCSystemInfo.qml:19
@@ -91,11 +91,6 @@ msgstr ""
 
 #: src/components/FCSystemInfo.qml:76
 msgid "Release Date"
-msgstr ""
-
-#: src/pages/AboutDataApp.qml:8
-msgctxt "@title"
-msgid "About Application"
 msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:16
@@ -150,11 +145,7 @@ msgstr ""
 msgid "Open console"
 msgstr ""
 
-#: src/pages/rebase_helper/rebase_helper.cpp:161
-msgid "Rollback program was not found or failed to start."
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:17 src/pages/Main.qml:116
+#: src/pages/rebase_helper/RebaseHelper.qml:17 src/pages/Main.qml:147
 msgid "Other Utilities"
 msgstr ""
 
@@ -234,8 +225,12 @@ msgstr ""
 msgid "Advanced Information"
 msgstr ""
 
+#: src/pages/rebase_helper/rebase_helper.cpp:161
+msgid "Rollback program was not found or failed to start."
+msgstr ""
+
 #: src/pages/system_update/SystemUpdate.qml:19
-#: src/pages/system_update/SystemUpdate.qml:100 src/pages/Main.qml:104
+#: src/pages/system_update/SystemUpdate.qml:100 src/pages/Main.qml:135
 msgid "System Update"
 msgstr ""
 
@@ -268,122 +263,118 @@ msgstr ""
 msgid "Last Update: "
 msgstr ""
 
-#: src/pages/AboutDataOS.qml:8
-msgid "About"
-msgstr ""
-
 #: src/pages/Main.qml:20
 msgctxt "@title:window"
 msgid "Bazzite Updater"
 msgstr ""
 
-#: src/pages/Main.qml:126 src/pages/rss_feed/RssPage.qml:22
+#: src/pages/Main.qml:157 src/pages/rss_feed/RssPage.qml:22
 msgid "Changelogs"
 msgstr ""
 
-#: src/pages/Main.qml:138
+#: src/pages/Main.qml:169
 msgid "About %1"
 msgstr ""
 
-#: src/pages/Main.qml:147
+#: src/pages/Main.qml:178
 msgid "About Bazzite Updater"
 msgstr ""
 
-#: src/pages/Main.qml:160
+#: src/pages/Main.qml:191
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:169
+#: src/pages/Main.qml:200
 msgid "Quit"
 msgstr ""
 
-#: src/pages/Main.qml:243
+#: src/pages/Main.qml:274
 msgctxt "@title:window"
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "a rollback"
 msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "a rebase"
 msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "an update"
 msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "a command"
 msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid ""
 "This will reboot the system,\n"
 "but %1 is still in progress!\n"
 "Rebooting now will cause it to not apply."
 msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "This will reboot the system."
 msgstr ""
 
-#: src/pages/Main.qml:253
+#: src/pages/Main.qml:284
 msgid "Reboot"
 msgstr ""
 
-#: src/pages/Main.qml:259 src/pages/Main.qml:333
+#: src/pages/Main.qml:290 src/pages/Main.qml:364
 msgid "Cancel"
 msgstr ""
 
-#: src/pages/Main.qml:278
+#: src/pages/Main.qml:309
 msgid "The system reboot has failed. Reboot manually to apply changes."
 msgstr ""
 
-#: src/pages/Main.qml:280
+#: src/pages/Main.qml:311
 msgid "The system reboot has failed."
 msgstr ""
 
-#: src/pages/Main.qml:300
+#: src/pages/Main.qml:331
 msgid "Exit Application"
 msgstr ""
 
-#: src/pages/Main.qml:307
+#: src/pages/Main.qml:338
 msgid "You must reboot to apply changes."
 msgstr ""
 
-#: src/pages/Main.qml:307
+#: src/pages/Main.qml:338
 msgid "No command is running, you may exit."
 msgstr ""
 
-#: src/pages/Main.qml:312
+#: src/pages/Main.qml:343
 msgid "A rollback is still in progress!"
 msgstr ""
 
-#: src/pages/Main.qml:314
+#: src/pages/Main.qml:345
 msgid "A rebase is still in progress!"
 msgstr ""
 
-#: src/pages/Main.qml:316
+#: src/pages/Main.qml:347
 msgid "An update is still in progress!"
 msgstr ""
 
-#: src/pages/Main.qml:318
+#: src/pages/Main.qml:349
 msgid "A command is still in progress!"
 msgstr ""
 
-#: src/pages/Main.qml:321
+#: src/pages/Main.qml:352
 msgid ""
 "A system update will continue on exit, but a rollback or rebase will be "
 "cancelled."
 msgstr ""
 
-#: src/pages/Main.qml:321
+#: src/pages/Main.qml:352
 msgid "%1 %2"
 msgstr ""
 
-#: src/pages/Main.qml:327
+#: src/pages/Main.qml:358
 msgid "Exit"
 msgstr ""
 
@@ -511,19 +502,28 @@ msgctxt "@info:placeholder"
 msgid "An error has occurred loading changelogs."
 msgstr ""
 
-#: src/main.cpp:90
+#: src/pages/AboutDataApp.qml:8
+msgctxt "@title"
+msgid "About Application"
+msgstr ""
+
+#: src/pages/AboutDataOS.qml:8
+msgid "About"
+msgstr ""
+
+#: src/main.cpp:114
 msgid "Bazzite Updater"
 msgstr ""
 
-#: src/main.cpp:92
+#: src/main.cpp:116
 msgid "Updating and rebasing utility for Bazzite"
 msgstr ""
 
-#: src/main.cpp:94
-msgid "2025-2026 Robert French"
+#: src/main.cpp:118
+msgid "© 2025-2026 Robert French"
 msgstr ""
 
-#: src/main.cpp:95
+#: src/main.cpp:119
 msgid ""
 "This application can be used through a controller or keyboard to perform "
 "various update-related system tasks!"

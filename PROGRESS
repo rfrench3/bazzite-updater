@@ -1,3 +1,0 @@
-The devcontainer doesn't have locales, so it might not be trying to display them at all
-
-locale -a

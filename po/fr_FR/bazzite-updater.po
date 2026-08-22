@@ -1,49 +1,49 @@
-# English translations for PACKAGE package.
-# Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#  <frenchrobertm@outlook.com>, 2026.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 01:16+0000\n"
-"PO-Revision-Date: 2026-08-04 00:51+0000\n"
-"Last-Translator:  <frenchrobertm@outlook.com>\n"
-"Language-Team: English\n"
-"Language: en\n"
+"POT-Creation-Date: 2026-08-22 16:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: src/components/console/ConsoleDrawer.qml:61
-msgid "Copy to Clipboard"
-msgstr "Copy to Clipboard"
-
-#: src/components/console/ConsoleDrawer.qml:64
-msgid "Text Copied"
-msgstr "Text Copied"
-
-#: src/components/console/ConsoleDrawer.qml:71
-msgid "Close"
-msgstr "CloseQWERTYU"
 
 #: src/components/console/ConsoleView.qml:71
 msgid "Warning: "
-msgstr "Warning: "
+msgstr ""
 
 #: src/components/console/ConsoleView.qml:75
 msgid "Error: "
-msgstr "Error: "
+msgstr ""
 
 #: src/components/console/ConsoleView.qml:78
 msgid "Debug: "
-msgstr "Debug: "
+msgstr ""
 
 #: src/components/console/ConsoleView.qml:82
 msgid "Critical Error: "
-msgstr "Critical Error: "
+msgstr ""
+
+#: src/components/console/ConsoleDrawer.qml:61
+msgid "Copy to Clipboard"
+msgstr "Copier dans le presse-papiers"
+
+#: src/components/console/ConsoleDrawer.qml:64
+msgid "Text Copied"
+msgstr ""
+
+#: src/components/console/ConsoleDrawer.qml:71
+msgid "Close"
+msgstr "Fermer"
 
 #: src/components/FCSystemInfo.qml:12 src/components/FCSystemInfo.qml:19
 #: src/components/FCSystemInfo.qml:26 src/components/FCSystemInfo.qml:33
@@ -51,116 +51,107 @@ msgstr "Critical Error: "
 #: src/components/FCSystemInfo.qml:54 src/components/FCSystemInfo.qml:61
 #: src/components/FCSystemInfo.qml:68 src/components/FCSystemInfo.qml:75
 msgid "loading..."
-msgstr "loading..."
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:13
 msgid "Image"
-msgstr "Image"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:20
 msgid "Vendor"
-msgstr "Vendor"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:27
 msgid "Ref"
-msgstr "Ref"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:34
 msgid "Tag"
-msgstr "Tag"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:41
 msgid "Branch"
-msgstr "Branch"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:48
 msgid "Base Name"
-msgstr "Base Name"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:55
 msgid "Fedora Version"
-msgstr "Fedora Version"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:62
 msgid "Version"
-msgstr "Version"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:69
 msgid "Version (Pretty)"
-msgstr "Version (Pretty)"
+msgstr ""
 
 #: src/components/FCSystemInfo.qml:76
 msgid "Release Date"
-msgstr "Release Date"
-
-#: src/pages/AboutDataApp.qml:8
-msgctxt "@title"
-msgid "About Application"
-msgstr "About Application"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:16
 msgctxt "Image, such as referring to Bazzite vs Bazzite-deck"
 msgid "Rebase to New Image"
-msgstr "Rebase to New Image"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:21
 msgid "Recommended images:"
-msgstr "Recommended images:"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:61
 msgctxt "Image, such as referring to Bazzite vs Bazzite-deck"
 msgid "Image Options:"
-msgstr "Image Options:"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:70
 msgid " (Current)"
-msgstr " (Current)"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:94
 msgid "Branch:"
-msgstr "Branch:"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:95
 msgid "stable"
-msgstr "stable"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:109
 msgid "testing"
-msgstr "testing"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:125
 msgid "do not change"
-msgstr "do not change"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:154
 msgid "Rebase"
-msgstr "Rebase"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:154
 msgid " (Unavailable)"
-msgstr " (Unavailable)"
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:162
 msgid "Rebase failed."
-msgstr "Rebase failed."
+msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:162
 #: src/pages/rebase_helper/RebaseHelper.qml:87
 #: src/pages/system_update/SystemUpdate.qml:59
 msgid "Open console"
-msgstr "Open console"
+msgstr ""
 
-#: src/pages/rebase_helper/rebase_helper.cpp:161
-msgid "Rollback program was not found or failed to start."
-msgstr "Rollback program was not found or failed to start."
-
-#: src/pages/rebase_helper/RebaseHelper.qml:17 src/pages/Main.qml:116
+#: src/pages/rebase_helper/RebaseHelper.qml:17 src/pages/Main.qml:147
 msgid "Other Utilities"
-msgstr "Other Utilities"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:54
 msgid "Rollback Last Update"
-msgstr "Rollback Last Update"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:64
 msgid ""
@@ -168,379 +159,372 @@ msgid ""
 "files will not be affected, and the system will not automatically update "
 "until told to do so again."
 msgstr ""
-"This will return your base system to before its current update. Your user "
-"files will not be affected, and the system will not automatically update "
-"until told to do so again."
 
 #: src/pages/rebase_helper/RebaseHelper.qml:72
 msgid "Confirm"
-msgstr "Confirm"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:80
 msgid "Initiate Rollback"
-msgstr "Initiate Rollback"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:84
 msgid "Rollback Started"
-msgstr "Rollback Started"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:87
 msgid "Rollback Failed."
-msgstr "Rollback Failed."
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:89
 msgid "Rollback Succeeded!"
-msgstr "Rollback Succeeded!"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:103
 msgid "System Image Information"
-msgstr "System Image Information"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:111
 msgid "Current Image"
-msgstr "Current Image"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:120
 msgid "Last Update"
-msgstr "Last Update"
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:135
 msgid "The best drivers for your GPU are provided by the Linux kernel."
-msgstr "The best drivers for your GPU are provided by the Linux kernel."
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:137
 #: src/pages/rebase_helper/RebaseHelper.qml:139
 msgid "The best drivers for your GPU are "
-msgstr "The best drivers for your GPU are "
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:141
 msgid "Your GPU is unsupported."
-msgstr "Your GPU is unsupported."
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:160
 msgid "You have the best drivers installed."
-msgstr "You have the best drivers installed."
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:164
 msgid "You do not have any nvidia drivers installed."
-msgstr "You do not have any nvidia drivers installed."
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:166
 msgid "You currently have nvidia installed."
-msgstr "You currently have nvidia installed."
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:168
 msgid "You currently have nvidia-open installed."
-msgstr "You currently have nvidia-open installed."
+msgstr ""
 
 #: src/pages/rebase_helper/RebaseHelper.qml:180
 msgid "Advanced Information"
-msgstr "Advanced Information"
+msgstr ""
+
+#: src/pages/rebase_helper/rebase_helper.cpp:161
+msgid "Rollback program was not found or failed to start."
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:19
-#: src/pages/system_update/SystemUpdate.qml:100 src/pages/Main.qml:104
+#: src/pages/system_update/SystemUpdate.qml:100 src/pages/Main.qml:135
 msgid "System Update"
-msgstr "System Update"
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:49
 #: src/pages/system_update/SystemUpdate.qml:112
 msgid "Update System Image and Software"
-msgstr "Update System Image and Software"
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:54
 msgid "System Updating"
-msgstr "System Updating"
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:56
 msgid "Update Started"
-msgstr "Update Started"
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:59
 msgid "Update Failed. Check console for more details."
-msgstr "Update Failed. Check console for more details."
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:66
 msgid "Update Succeeded!"
-msgstr "Update Succeeded!"
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:68
 msgid "System Updated!"
-msgstr "System Updated!"
+msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:153
 msgid "Last Update: "
-msgstr "Last Update: "
-
-#: src/pages/AboutDataOS.qml:8
-msgid "About"
-msgstr "About"
+msgstr ""
 
 #: src/pages/Main.qml:20
 msgctxt "@title:window"
 msgid "Bazzite Updater"
-msgstr "Bazzite Updater"
+msgstr ""
 
-#: src/pages/Main.qml:126 src/pages/rss_feed/RssPage.qml:22
+#: src/pages/Main.qml:157 src/pages/rss_feed/RssPage.qml:22
 msgid "Changelogs"
-msgstr "Changelogs"
-
-#: src/pages/Main.qml:138
-msgid "About %1"
-msgstr "About %1"
-
-#: src/pages/Main.qml:147
-msgid "About Bazzite Updater"
-msgstr "About Bazzite Updater"
-
-#: src/pages/Main.qml:160
-msgid "Reboot System"
-msgstr "Reboot System"
+msgstr ""
 
 #: src/pages/Main.qml:169
-msgid "Quit"
-msgstr "Quit"
+msgid "About %1"
+msgstr ""
 
-#: src/pages/Main.qml:243
+#: src/pages/Main.qml:178
+msgid "About Bazzite Updater"
+msgstr ""
+
+#: src/pages/Main.qml:191
+msgid "Reboot System"
+msgstr ""
+
+#: src/pages/Main.qml:200
+msgid "Quit"
+msgstr ""
+
+#: src/pages/Main.qml:274
 msgctxt "@title:window"
 msgid "Reboot System"
-msgstr "Reboot System"
+msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "a rollback"
-msgstr "a rollback"
+msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "a rebase"
-msgstr "a rebase"
+msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "an update"
-msgstr "an update"
+msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "a command"
-msgstr "a command"
+msgstr ""
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid ""
 "This will reboot the system,\n"
 "but %1 is still in progress!\n"
 "Rebooting now will cause it to not apply."
 msgstr ""
-"This will reboot the system,\n"
-"but %1 is still in progress!\n"
-"Rebooting now will cause it to not apply."
 
-#: src/pages/Main.qml:248
+#: src/pages/Main.qml:279
 msgid "This will reboot the system."
-msgstr "This will reboot the system."
+msgstr ""
 
-#: src/pages/Main.qml:253
+#: src/pages/Main.qml:284
 msgid "Reboot"
-msgstr "Reboot"
+msgstr ""
 
-#: src/pages/Main.qml:259 src/pages/Main.qml:333
+#: src/pages/Main.qml:290 src/pages/Main.qml:364
 msgid "Cancel"
-msgstr "Cancel"
+msgstr ""
 
-#: src/pages/Main.qml:278
+#: src/pages/Main.qml:309
 msgid "The system reboot has failed. Reboot manually to apply changes."
-msgstr "The system reboot has failed. Reboot manually to apply changes."
+msgstr ""
 
-#: src/pages/Main.qml:280
+#: src/pages/Main.qml:311
 msgid "The system reboot has failed."
-msgstr "The system reboot has failed."
+msgstr ""
 
-#: src/pages/Main.qml:300
+#: src/pages/Main.qml:331
 msgid "Exit Application"
-msgstr "Exit Application"
+msgstr ""
 
-#: src/pages/Main.qml:307
+#: src/pages/Main.qml:338
 msgid "You must reboot to apply changes."
-msgstr "You must reboot to apply changes."
+msgstr ""
 
-#: src/pages/Main.qml:307
+#: src/pages/Main.qml:338
 msgid "No command is running, you may exit."
-msgstr "No command is running, you may exit."
+msgstr ""
 
-#: src/pages/Main.qml:312
+#: src/pages/Main.qml:343
 msgid "A rollback is still in progress!"
-msgstr "A rollback is still in progress!"
+msgstr ""
 
-#: src/pages/Main.qml:314
+#: src/pages/Main.qml:345
 msgid "A rebase is still in progress!"
-msgstr "A rebase is still in progress!"
+msgstr ""
 
-#: src/pages/Main.qml:316
+#: src/pages/Main.qml:347
 msgid "An update is still in progress!"
-msgstr "An update is still in progress!"
+msgstr ""
 
-#: src/pages/Main.qml:318
+#: src/pages/Main.qml:349
 msgid "A command is still in progress!"
-msgstr "A command is still in progress!"
+msgstr ""
 
-#: src/pages/Main.qml:321
+#: src/pages/Main.qml:352
 msgid ""
 "A system update will continue on exit, but a rollback or rebase will be "
 "cancelled."
 msgstr ""
-"A system update will continue on exit, but a rollback or rebase will be "
-"cancelled."
 
-#: src/pages/Main.qml:321
+#: src/pages/Main.qml:352
 msgid "%1 %2"
-msgstr "%1 %2"
+msgstr ""
 
-#: src/pages/Main.qml:327
+#: src/pages/Main.qml:358
 msgid "Exit"
-msgstr "Exit"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:34
 msgid "Read more"
-msgstr "Read more"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:42
 msgid "Read less"
-msgstr "Read less"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "January"
-msgstr "January"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "February"
-msgstr "February"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "March"
-msgstr "March"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "April"
-msgstr "April"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "May"
-msgstr "May"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "June"
-msgstr "June"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "July"
-msgstr "July"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "August"
-msgstr "August"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "September"
-msgstr "September"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "October"
-msgstr "October"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "November"
-msgstr "November"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:130
 msgid "December"
-msgstr "December"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:170
 msgid "in the future"
-msgstr "in the future"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:174
 msgid "just now"
-msgstr "just now"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:179
 msgid "minute ago"
-msgstr "minute ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:179
 msgid "minutes ago"
-msgstr "minutes ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:185
 msgid "hour ago"
-msgstr "hour ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:185
 msgid "hours ago"
-msgstr "hours ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:191
 msgid "day ago"
-msgstr "day ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:191
 msgid "days ago"
-msgstr "days ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:197
 msgid "month ago"
-msgstr "month ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:197
 msgid "months ago"
-msgstr "months ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:202
 msgid "year ago"
-msgstr "year ago"
+msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:202
 msgid "years ago"
-msgstr "years ago"
+msgstr ""
 
 #: src/pages/rss_feed/RssPage.qml:38
 msgctxt "@info:placeholder"
 msgid "No changelogs have been provided."
-msgstr "No changelogs have been provided."
+msgstr ""
 
 #: src/pages/rss_feed/RssPage.qml:44
 msgctxt "@info:placeholder"
 msgid "Loading changelog"
-msgstr "Loading changelog"
+msgstr ""
 
 #: src/pages/rss_feed/RssPage.qml:64
 msgctxt "@info:placeholder"
 msgid "Error loading changelogs:"
-msgstr "Error loading changelogs:"
+msgstr ""
 
 #: src/pages/rss_feed/RssPage.qml:69
 msgctxt "@info:placeholder"
 msgid "An error has occurred loading changelogs."
-msgstr "An error has occurred loading changelogs."
+msgstr ""
 
-#: src/main.cpp:90
-#, fuzzy
+#: src/pages/AboutDataApp.qml:8
+msgctxt "@title"
+msgid "About Application"
+msgstr ""
+
+#: src/pages/AboutDataOS.qml:8
+msgid "About"
+msgstr ""
+
+#: src/main.cpp:114
 msgid "Bazzite Updater"
-msgstr "Bazzite Updater"
+msgstr ""
 
-#: src/main.cpp:92
+#: src/main.cpp:116
 msgid "Updating and rebasing utility for Bazzite"
 msgstr ""
 
-#: src/main.cpp:94
-msgid "2025-2026 Robert French"
+#: src/main.cpp:118
+msgid "© 2025-2026 Robert French"
 msgstr ""
 
-#: src/main.cpp:95
+#: src/main.cpp:119
 msgid ""
 "This application can be used through a controller or keyboard to perform "
 "various update-related system tasks!"
 msgstr ""
-
-#~ msgid ""
-#~ "This interface can be used to update Bazzite, rollback from a bad update, "
-#~ "and rebase to entirely separate versions of Bazzite!"
-#~ msgstr ""
-#~ "This interface can be used to update Bazzite, rollback from a bad update, "
-#~ "and rebase to entirely separate versions of Bazzite!"

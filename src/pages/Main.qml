@@ -39,8 +39,8 @@ StatefulApp.StatefulWindow {
         target: GP.Gamepad
 
         function onButtonEvent(buttonId, button_down) {
-            if (activeDialog) {
-                activeDialog.handleInput(buttonId, button_down);
+            if (root.activeDialog) {
+                root.activeDialog.handleInput(buttonId, button_down);
                 return;
             }
 
@@ -58,8 +58,8 @@ StatefulApp.StatefulWindow {
                 return;
             }
 
-            if (typeof pageStack.currentItem.handleInput === "function") {
-                pageStack.currentItem.handleInput(buttonId, button_down);
+            if (typeof root.pageStack.currentItem.handleInput === "function") {
+                root.pageStack.currentItem.handleInput(buttonId, button_down);
                 return;
             }
         }
@@ -67,6 +67,13 @@ StatefulApp.StatefulWindow {
 
     globalDrawer: Kirigami.GlobalDrawer {
         id: globalDrawer
+
+        Behavior on width {
+            NumberAnimation {
+                duration: Kirigami.Units.shortDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
 
         // In some versions of Kirigami, the drawer width does not function properly. Therefore it must be manually set
         FontMetrics {
@@ -92,10 +99,10 @@ StatefulApp.StatefulWindow {
             sequences: [StandardKey.Back, StandardKey.Close, "F1", "Ctrl+M", "Escape"]
             context: Qt.ApplicationShortcut
             onActivated: {
-                if (activeDialog)
-                    activeDialog.reject();
+                if (root.activeDialog)
+                    root.activeDialog.reject();
                 else
-                    globalDrawer.drawerOpen = !globalDrawer.drawerOpen
+                    globalDrawer.drawerOpen = !globalDrawer.drawerOpen;
             }
         }
 
@@ -104,11 +111,10 @@ StatefulApp.StatefulWindow {
             context: Qt.ApplicationShortcut
             enabled: globalDrawer.drawerOpen || root.activeDialog
             onActivated: {
-                if (activeDialog){
-                    activeDialog.accept();
-                }
-                else
-                    globalDrawer.drawerOpen = false
+                if (root.activeDialog) {
+                    root.activeDialog.accept();
+                } else
+                    globalDrawer.drawerOpen = false;
             }
         }
 
@@ -141,7 +147,7 @@ StatefulApp.StatefulWindow {
 
                 checked: true
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("SystemUpdate.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("SystemUpdate.qml")
             },
             Kirigami.Action {
 
@@ -151,7 +157,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
             },
             Kirigami.Action {
 
@@ -161,7 +167,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("RssPage.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("RssPage.qml")
             },
             Kirigami.Action {
                 separator: true
@@ -182,7 +188,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataOS.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("AboutDataOS.qml")
             },
             Kirigami.Action {
                 text: i18n("About Bazzite Updater")
@@ -191,7 +197,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataApp.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("AboutDataApp.qml")
             },
             Kirigami.Action {
                 separator: true
@@ -313,13 +319,13 @@ StatefulApp.StatefulWindow {
         // Wait a little while to ensure "your reboot has failed" isn't ever visible momentarily before rebooting succeeds
         Timer {
             id: rebootTimer
-            interval: 2000
+            interval: 5000
             repeat: false
             onTriggered: {
                 if (AppState.commandSucceeded)
-                    root.showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
+                    root.showPassiveNotification(i18n("The app was unable to reboot. Reboot through your system menu to apply changes."), Kirigami.Units.longDuration);
                 else
-                    root.showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
+                    root.showPassiveNotification(i18n("Reboot through your system menu."), Kirigami.Units.longDuration);
             }
         }
 
