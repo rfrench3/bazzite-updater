@@ -182,7 +182,7 @@ StatefulApp.StatefulWindow {
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("Settings.qml")
             },
             Kirigami.Action {
-                text: i18n("About %1", AppConfig.osAboutData.displayName)
+                text: i18nc("About (user's OS)", "About %1", AppConfig.osAboutData.displayName)
                 icon.name: "help-about-symbolic"
 
                 checkable: true
@@ -206,6 +206,8 @@ StatefulApp.StatefulWindow {
                 id: actionReboot
                 text: i18n("Reboot System") + GP.Labels.spacer + GP.Labels.north
                 icon.name: AppState.commandSucceeded ? "system-shutdown-update-symbolic" : "system-shutdown-symbolic"
+
+                enabled: !AppState.commandRunning
 
                 onTriggered: {
                     rebootDialog.open();
@@ -291,9 +293,11 @@ StatefulApp.StatefulWindow {
         title: i18nc("@title:window", "Reboot System")
         standardButtons: Kirigami.Dialog.NoButton
 
+        enabled: !AppState.commandRunning
+
         activeDialogParent: root
 
-        subtitle: AppState.commandRunning ? i18n("This will reboot the system,\nbut %1 is still in progress!\nRebooting now will cause it to not apply.", AppState.rollbackRunning ? i18n("a rollback") : AppState.rebaseRunning ? i18n("a rebase") : AppState.updateRunning ? i18n("an update") : i18n("a command")) : i18n("This will reboot the system.")
+        subtitle: i18n("This will reboot the system.")
 
         customFooterActions: [
             Kirigami.Action {
@@ -321,12 +325,7 @@ StatefulApp.StatefulWindow {
             id: rebootTimer
             interval: 5000
             repeat: false
-            onTriggered: {
-                if (AppState.commandSucceeded)
-                    root.showPassiveNotification(i18n("The app was unable to reboot. Reboot through your system menu to apply changes."), Kirigami.Units.longDuration);
-                else
-                    root.showPassiveNotification(i18n("Reboot through your system menu."), Kirigami.Units.longDuration);
-            }
+            onTriggered: root.showPassiveNotification(i18n("The app was unable to reboot. Reboot through your system menu to apply changes."))
         }
 
         function handleInput(buttonId, button_down) {
@@ -354,19 +353,10 @@ StatefulApp.StatefulWindow {
             if (!AppState.commandRunning)
                 return AppState.commandSucceeded ? i18n("You must reboot to apply changes.") : i18n("No command is running, you may exit.");
 
-            let statusText;
-
-            if (AppState.rollbackRunning) {
-                statusText = i18n("A rollback is still in progress!");
-            } else if (AppState.rebaseRunning) {
-                statusText = i18n("A rebase is still in progress!");
-            } else if (AppState.updateRunning) {
-                statusText = i18n("An update is still in progress!");
-            } else {
-                statusText = i18n("A command is still in progress!");
-            }
-
-            return i18n("%1 %2", statusText, i18n("A system update will continue on exit, but a rollback or rebase will be cancelled."));
+            if (AppConfig.ini.Commands.allowEarlyExit !== "true")
+                return i18n("You should not exit the application until the running command completes. If you exit early, it may break your system.");
+            else
+                return i18n("If you exit the application before the running command completes, it may not apply its changes.");
         }
 
         QQC2.CheckBox {
@@ -393,7 +383,8 @@ StatefulApp.StatefulWindow {
         customFooterActions: [
             Kirigami.Action {
                 id: confirmExit
-                text: i18n("Exit") + GP.Labels.spacer + GP.Labels.south
+                text: i18nc("dialog to exit the application", "Exit") + GP.Labels.spacer + GP.Labels.south
+                enabled: AppConfig.ini.Commands.allowEarlyExit === "true" || !AppState.commandRunning
 
                 onTriggered: exitDialog.accept()
             },

@@ -61,7 +61,7 @@ ScrollingPage {
         visible: AppConfig.ini.Commands.systemRollbackCommand
 
         FC.FormTextDelegate {
-            text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
+            text: i18n("This will revert the last update to your system. Your user-level files such as documents and games will not be affected.")
             textItem.wrapMode: Text.Wrap
         }
 

@@ -13,6 +13,16 @@
     <p>Kirigami interface for uupd-manual.service (Universal Blue/Bazzite updater) with SDL3-powered controller support</p>
   </description>
   <releases>
+    <release version="0.9.2" date="2026-08-20" type="development">
+        <description>
+        <p>The application now respects the user's choice of light vs dark theme when not using KDE Plasma.</p>
+        </description>
+    </release>
+    <release version="0.9.0" date="2026-08-04" type="development">
+        <description>
+        <p>The app now has a page to view changelogs that are available through an RSS feed.</p>
+        </description>
+    </release>
     <release version="0.8.1" date="2026-07-21" type="development">
       <description>
         <ul>
