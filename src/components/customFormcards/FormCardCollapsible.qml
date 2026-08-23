@@ -13,7 +13,6 @@ FC.FormCard {
     property bool expanded: false
 
     property string buttonText: ""
-    property string buttonTextExpanded: buttonText
 
     default property alias childElements: internalLayout.data
 
@@ -43,7 +42,7 @@ FC.FormCard {
             when: root.expanded
 
             PropertyChanges {
-                buttonDelegate.text: root.buttonTextExpanded || i18n("Read less")
+                buttonDelegate.text: root.buttonText || i18n("Read less")
                 buttonDelegate.trailingLogo.direction: Qt.ArrowType.UpArrow
             }
         }

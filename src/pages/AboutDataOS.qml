@@ -19,7 +19,7 @@ FormCard.AboutPage {
         if (item.parent)
             return grabScrollbar(item.parent);
 
-        console.log("Parent scrollbar not found, controller scrolling will not function!");
+        console.warn("Parent scrollbar not found, controller scrolling will not function!");
     }
 
     showLibraries: false

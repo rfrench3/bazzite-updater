@@ -6,15 +6,14 @@ import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater
 
-FCDropdown {
+FormCardCollapsible {
 
     // TODO: The dropdown does not open smoothly the first time
 
     id: root
     readonly property var osRelease: AppConfig.osReleaseVarMap()
 
-    buttonText: i18nc("button label", "Display os-release")
-    buttonTextExpanded: i18nc("button label", "Hide os-release")
+    buttonText: expanded ? i18nc("button label", "Hide os-release") : i18nc("button label", "Display os-release")
 
     Component {
         id: textDelegateComponent

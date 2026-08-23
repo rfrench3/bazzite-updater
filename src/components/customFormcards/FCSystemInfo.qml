@@ -10,10 +10,9 @@ Loader {
 
     Layout.fillWidth: true
 
-    sourceComponent: FCDropdown {
+    sourceComponent: FormCardCollapsible {
 
-        buttonText: i18n("Display more information")
-        buttonTextExpanded: i18n("Display less information")
+        buttonText: expanded ? i18n("Display less information") : i18n("Display more information")
 
         topComponent: ColumnLayout {
             clip: true

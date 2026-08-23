@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import QtQuick
-import QtQuick.Controls as QQC2
+import QtQuick.Controls
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
@@ -11,8 +11,19 @@ import org.kde.kirigamiaddons.formcard as FC
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
 
-ScrollingPage {
+FC.FormCardPage {
     id: page
+
+    function grabScrollbar(item) {
+        if (item.contentItem?.ScrollBar?.vertical)
+            return item.contentItem.ScrollBar.vertical;
+
+        if (item.parent)
+            return grabScrollbar(item.parent);
+
+        console.warn("Parent scrollbar not found, controller scrolling will not function!");
+    }
+    property ScrollBar scrollbar: page.grabScrollbar(page)
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Other Utilities")
 
@@ -46,7 +57,7 @@ ScrollingPage {
     ]
 
     GP.PageNavigation {
-        targetScrollbar: consoleDrawer.drawerOpen ? null : page.scrollBar
+        targetScrollbar: consoleDrawer.drawerOpen ? null : page.scrollbar
         active: !globalDrawer.drawerOpen
     }
 
@@ -91,7 +102,7 @@ ScrollingPage {
                 });
             }
 
-            trailing: QQC2.BusyIndicator {
+            trailing: BusyIndicator {
                 id: rollbackBusyIndicator
                 running: AppState.rollbackRunning
             }
