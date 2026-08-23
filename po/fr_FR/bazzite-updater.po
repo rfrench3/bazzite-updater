@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-22 16:31+0000\n"
+"POT-Creation-Date: 2026-08-23 00:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,58 +39,126 @@ msgstr "Copier dans le presse-papiers"
 
 #: src/components/console/ConsoleDrawer.qml:64
 msgid "Text Copied"
-msgstr ""
+msgstr "Texte copié"
 
 #: src/components/console/ConsoleDrawer.qml:71
 msgid "Close"
 msgstr "Fermer"
 
-#: src/components/FCSystemInfo.qml:12 src/components/FCSystemInfo.qml:19
-#: src/components/FCSystemInfo.qml:26 src/components/FCSystemInfo.qml:33
-#: src/components/FCSystemInfo.qml:40 src/components/FCSystemInfo.qml:47
-#: src/components/FCSystemInfo.qml:54 src/components/FCSystemInfo.qml:61
-#: src/components/FCSystemInfo.qml:68 src/components/FCSystemInfo.qml:75
+#: src/components/customFormcards/FCSystemInfo.qml:15
+msgid "Display less information"
+msgstr "Moins de détails"
+
+#: src/components/customFormcards/FCSystemInfo.qml:15
+msgid "Display more information"
+msgstr "Plus de détails"
+
+#: src/components/customFormcards/FCSystemInfo.qml:26
+msgid "Current Image"
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:35
+msgid "Last Update"
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:50
+msgid "The best drivers for your GPU are provided by the Linux kernel."
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:52
+#: src/components/customFormcards/FCSystemInfo.qml:54
+msgid "The best drivers for your GPU are "
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:56
+msgid "Your GPU is unsupported."
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:75
+msgid "You have the best drivers installed."
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:79
+msgid "You do not have any nvidia drivers installed."
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:81
+msgid "You currently have nvidia installed."
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:83
+msgid "You currently have nvidia-open installed."
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:91
+#: src/components/customFormcards/FCSystemInfo.qml:98
+#: src/components/customFormcards/FCSystemInfo.qml:105
+#: src/components/customFormcards/FCSystemInfo.qml:112
+#: src/components/customFormcards/FCSystemInfo.qml:119
+#: src/components/customFormcards/FCSystemInfo.qml:126
+#: src/components/customFormcards/FCSystemInfo.qml:133
+#: src/components/customFormcards/FCSystemInfo.qml:140
+#: src/components/customFormcards/FCSystemInfo.qml:147
+#: src/components/customFormcards/FCSystemInfo.qml:154
 msgid "loading..."
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:13
+#: src/components/customFormcards/FCSystemInfo.qml:92
 msgid "Image"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:20
+#: src/components/customFormcards/FCSystemInfo.qml:99
 msgid "Vendor"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:27
+#: src/components/customFormcards/FCSystemInfo.qml:106
 msgid "Ref"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:34
+#: src/components/customFormcards/FCSystemInfo.qml:113
 msgid "Tag"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:41
+#: src/components/customFormcards/FCSystemInfo.qml:120
 msgid "Branch"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:48
+#: src/components/customFormcards/FCSystemInfo.qml:127
 msgid "Base Name"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:55
+#: src/components/customFormcards/FCSystemInfo.qml:134
 msgid "Fedora Version"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:62
+#: src/components/customFormcards/FCSystemInfo.qml:141
 msgid "Version"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:69
+#: src/components/customFormcards/FCSystemInfo.qml:148
 msgid "Version (Pretty)"
 msgstr ""
 
-#: src/components/FCSystemInfo.qml:76
+#: src/components/customFormcards/FCSystemInfo.qml:155
 msgid "Release Date"
+msgstr ""
+
+#: src/components/customFormcards/FCOsRelease.qml:16
+msgctxt "button label"
+msgid "Hide os-release"
+msgstr ""
+
+#: src/components/customFormcards/FCOsRelease.qml:16
+msgctxt "button label"
+msgid "Display os-release"
+msgstr ""
+
+#: src/components/customFormcards/FormCardCollapsible.qml:37
+msgid "Read more"
+msgstr ""
+
+#: src/components/customFormcards/FormCardCollapsible.qml:45
+msgid "Read less"
 msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:16
@@ -140,89 +208,52 @@ msgid "Rebase failed."
 msgstr ""
 
 #: src/pages/rebase_helper/RebasePart.qml:162
-#: src/pages/rebase_helper/RebaseHelper.qml:87
+#: src/pages/rebase_helper/RebaseHelper.qml:98
 #: src/pages/system_update/SystemUpdate.qml:59
 msgid "Open console"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:17 src/pages/Main.qml:147
+#: src/pages/rebase_helper/RebaseHelper.qml:28 src/pages/Main.qml:154
 msgid "Other Utilities"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:54
+#: src/pages/rebase_helper/RebaseHelper.qml:65
 msgid "Rollback Last Update"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:64
+#: src/pages/rebase_helper/RebaseHelper.qml:75
 msgid ""
-"This will return your base system to before its current update. Your user "
-"files will not be affected, and the system will not automatically update "
-"until told to do so again."
+"This will revert the last update to your system. Your user-level files such "
+"as documents and games will not be affected."
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:72
+#: src/pages/rebase_helper/RebaseHelper.qml:83
 msgid "Confirm"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:80
+#: src/pages/rebase_helper/RebaseHelper.qml:91
 msgid "Initiate Rollback"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:84
+#: src/pages/rebase_helper/RebaseHelper.qml:95
 msgid "Rollback Started"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:87
+#: src/pages/rebase_helper/RebaseHelper.qml:98
 msgid "Rollback Failed."
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:89
+#: src/pages/rebase_helper/RebaseHelper.qml:100
 msgid "Rollback Succeeded!"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:103
+#: src/pages/rebase_helper/RebaseHelper.qml:114
 msgid "System Image Information"
 msgstr ""
 
-#: src/pages/rebase_helper/RebaseHelper.qml:111
-msgid "Current Image"
-msgstr ""
-
 #: src/pages/rebase_helper/RebaseHelper.qml:120
-msgid "Last Update"
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:135
-msgid "The best drivers for your GPU are provided by the Linux kernel."
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:137
-#: src/pages/rebase_helper/RebaseHelper.qml:139
-msgid "The best drivers for your GPU are "
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:141
-msgid "Your GPU is unsupported."
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:160
-msgid "You have the best drivers installed."
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:164
-msgid "You do not have any nvidia drivers installed."
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:166
-msgid "You currently have nvidia installed."
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:168
-msgid "You currently have nvidia-open installed."
-msgstr ""
-
-#: src/pages/rebase_helper/RebaseHelper.qml:180
-msgid "Advanced Information"
+msgctxt "card to display info from os-release"
+msgid "Additional Information"
 msgstr ""
 
 #: src/pages/rebase_helper/rebase_helper.cpp:161
@@ -230,12 +261,12 @@ msgid "Rollback program was not found or failed to start."
 msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:19
-#: src/pages/system_update/SystemUpdate.qml:100 src/pages/Main.qml:135
+#: src/pages/system_update/SystemUpdate.qml:100 src/pages/Main.qml:142
 msgid "System Update"
 msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:49
-#: src/pages/system_update/SystemUpdate.qml:112
+#: src/pages/system_update/SystemUpdate.qml:113
 msgid "Update System Image and Software"
 msgstr ""
 
@@ -259,245 +290,131 @@ msgstr ""
 msgid "System Updated!"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:153
-msgid "Last Update: "
+#: src/pages/system_update/SystemUpdate.qml:154
+msgctxt "label, last update to the system."
+msgid "Last Update"
 msgstr ""
 
-#: src/pages/Main.qml:20
-msgctxt "@title:window"
-msgid "Bazzite Updater"
+#: src/pages/system_update/SystemUpdate.qml:156
+msgid "Right now!"
 msgstr ""
 
-#: src/pages/Main.qml:157 src/pages/rss_feed/RssPage.qml:22
-msgid "Changelogs"
-msgstr ""
-
-#: src/pages/Main.qml:169
-msgid "About %1"
-msgstr ""
-
-#: src/pages/Main.qml:178
-msgid "About Bazzite Updater"
-msgstr ""
-
-#: src/pages/Main.qml:191
-msgid "Reboot System"
-msgstr ""
-
-#: src/pages/Main.qml:200
-msgid "Quit"
-msgstr ""
-
-#: src/pages/Main.qml:274
-msgctxt "@title:window"
-msgid "Reboot System"
-msgstr ""
-
-#: src/pages/Main.qml:279
-msgid "a rollback"
-msgstr ""
-
-#: src/pages/Main.qml:279
-msgid "a rebase"
-msgstr ""
-
-#: src/pages/Main.qml:279
-msgid "an update"
-msgstr ""
-
-#: src/pages/Main.qml:279
-msgid "a command"
-msgstr ""
-
-#: src/pages/Main.qml:279
-msgid ""
-"This will reboot the system,\n"
-"but %1 is still in progress!\n"
-"Rebooting now will cause it to not apply."
-msgstr ""
-
-#: src/pages/Main.qml:279
-msgid "This will reboot the system."
-msgstr ""
-
-#: src/pages/Main.qml:284
-msgid "Reboot"
-msgstr ""
-
-#: src/pages/Main.qml:290 src/pages/Main.qml:364
-msgid "Cancel"
-msgstr ""
-
-#: src/pages/Main.qml:309
-msgid "The system reboot has failed. Reboot manually to apply changes."
-msgstr ""
-
-#: src/pages/Main.qml:311
-msgid "The system reboot has failed."
-msgstr ""
-
-#: src/pages/Main.qml:331
-msgid "Exit Application"
-msgstr ""
-
-#: src/pages/Main.qml:338
-msgid "You must reboot to apply changes."
-msgstr ""
-
-#: src/pages/Main.qml:338
-msgid "No command is running, you may exit."
-msgstr ""
-
-#: src/pages/Main.qml:343
-msgid "A rollback is still in progress!"
-msgstr ""
-
-#: src/pages/Main.qml:345
-msgid "A rebase is still in progress!"
-msgstr ""
-
-#: src/pages/Main.qml:347
-msgid "An update is still in progress!"
-msgstr ""
-
-#: src/pages/Main.qml:349
-msgid "A command is still in progress!"
-msgstr ""
-
-#: src/pages/Main.qml:352
-msgid ""
-"A system update will continue on exit, but a rollback or rebase will be "
-"cancelled."
-msgstr ""
-
-#: src/pages/Main.qml:352
-msgid "%1 %2"
-msgstr ""
-
-#: src/pages/Main.qml:358
-msgid "Exit"
-msgstr ""
-
-#: src/pages/rss_feed/FCRssDelegate.qml:34
-msgid "Read more"
-msgstr ""
-
-#: src/pages/rss_feed/FCRssDelegate.qml:42
-msgid "Read less"
-msgstr ""
-
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "January"
-msgstr ""
+msgstr "janvier"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "February"
-msgstr ""
+msgstr "février"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "March"
-msgstr ""
+msgstr "mars"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "April"
-msgstr ""
+msgstr "avril"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "May"
-msgstr ""
+msgstr "mai"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "June"
-msgstr ""
+msgstr "juin"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "July"
-msgstr ""
+msgstr "juillet"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "August"
-msgstr ""
+msgstr "août"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "September"
-msgstr ""
+msgstr "septembre"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "October"
-msgstr ""
+msgstr "octobre"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "November"
-msgstr ""
+msgstr "novembre"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:130
+#: src/pages/rss_feed/FCRssDelegate.qml:71
 msgid "December"
-msgstr ""
+msgstr "décembre"
 
-#: src/pages/rss_feed/FCRssDelegate.qml:170
+#: src/pages/rss_feed/FCRssDelegate.qml:111
 msgid "in the future"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:174
+#: src/pages/rss_feed/FCRssDelegate.qml:115
 msgid "just now"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:179
+#: src/pages/rss_feed/FCRssDelegate.qml:120
 msgid "minute ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:179
+#: src/pages/rss_feed/FCRssDelegate.qml:120
 msgid "minutes ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:185
+#: src/pages/rss_feed/FCRssDelegate.qml:126
 msgid "hour ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:185
+#: src/pages/rss_feed/FCRssDelegate.qml:126
 msgid "hours ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:191
+#: src/pages/rss_feed/FCRssDelegate.qml:132
 msgid "day ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:191
+#: src/pages/rss_feed/FCRssDelegate.qml:132
 msgid "days ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:197
+#: src/pages/rss_feed/FCRssDelegate.qml:138
 msgid "month ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:197
+#: src/pages/rss_feed/FCRssDelegate.qml:138
 msgid "months ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:202
+#: src/pages/rss_feed/FCRssDelegate.qml:143
 msgid "year ago"
 msgstr ""
 
-#: src/pages/rss_feed/FCRssDelegate.qml:202
+#: src/pages/rss_feed/FCRssDelegate.qml:143
 msgid "years ago"
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:38
+#: src/pages/rss_feed/RssPage.qml:23 src/pages/Main.qml:164
+msgid "Changelogs"
+msgstr ""
+
+#: src/pages/rss_feed/RssPage.qml:45
 msgctxt "@info:placeholder"
 msgid "No changelogs have been provided."
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:44
+#: src/pages/rss_feed/RssPage.qml:51
 msgctxt "@info:placeholder"
 msgid "Loading changelog"
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:64
+#: src/pages/rss_feed/RssPage.qml:71
 msgctxt "@info:placeholder"
 msgid "Error loading changelogs:"
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:69
+#: src/pages/rss_feed/RssPage.qml:76
 msgctxt "@info:placeholder"
 msgid "An error has occurred loading changelogs."
 msgstr ""
@@ -507,23 +424,93 @@ msgctxt "@title"
 msgid "About Application"
 msgstr ""
 
-#: src/pages/AboutDataOS.qml:8
-msgid "About"
+#: src/pages/AboutDataOS.qml:8 src/pages/Main.qml:176
+msgctxt "About (user's OS)"
+msgid "About %1"
 msgstr ""
 
-#: src/main.cpp:114
+#: src/pages/Main.qml:20
+msgctxt "@title:window"
 msgid "Bazzite Updater"
 msgstr ""
 
-#: src/main.cpp:116
-msgid "Updating and rebasing utility for Bazzite"
+#: src/pages/Main.qml:185
+msgid "About Bazzite Updater"
 msgstr ""
 
-#: src/main.cpp:118
-msgid "© 2025-2026 Robert French"
+#: src/pages/Main.qml:198
+msgid "Reboot System"
+msgstr ""
+
+#: src/pages/Main.qml:209
+msgid "Quit"
+msgstr ""
+
+#: src/pages/Main.qml:283
+msgctxt "@title:window"
+msgid "Reboot System"
+msgstr ""
+
+#: src/pages/Main.qml:290
+msgid "This will reboot the system."
+msgstr ""
+
+#: src/pages/Main.qml:295
+msgid "Reboot"
+msgstr ""
+
+#: src/pages/Main.qml:301 src/pages/Main.qml:362
+msgid "Cancel"
+msgstr "Annuler"
+
+#: src/pages/Main.qml:318
+msgid ""
+"The app was unable to reboot. Reboot through your system menu to apply "
+"changes."
+msgstr ""
+
+#: src/pages/Main.qml:337
+msgid "Exit Application"
+msgstr ""
+
+#: src/pages/Main.qml:344
+msgid "You must reboot to apply changes."
+msgstr ""
+
+#: src/pages/Main.qml:344
+msgid "No command is running, you may exit."
+msgstr ""
+
+#: src/pages/Main.qml:347
+msgid ""
+"You should not exit the application until the running command completes. If "
+"you exit early, it may break your system."
+msgstr ""
+
+#: src/pages/Main.qml:349
+msgid ""
+"If you exit the application before the running command completes, it may not "
+"apply its changes."
+msgstr ""
+
+#: src/pages/Main.qml:355
+msgctxt "dialog to exit the application"
+msgid "Exit"
+msgstr ""
+
+#: src/main.cpp:117
+msgid "Bazzite Updater"
 msgstr ""
 
 #: src/main.cpp:119
+msgid "Updating and rebasing utility for Bazzite"
+msgstr ""
+
+#: src/main.cpp:121
+msgid "© 2025-2026 Robert French"
+msgstr ""
+
+#: src/main.cpp:122
 msgid ""
 "This application can be used through a controller or keyboard to perform "
 "various update-related system tasks!"
