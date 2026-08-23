@@ -47,7 +47,6 @@ ecm_target_qml_sources(bazzite-updater
     # ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebasePart.qml # remove until implemented
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssPage.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/FCRssDelegate.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/AtomModel.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssModel.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataOS.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/settings/Settings.qml

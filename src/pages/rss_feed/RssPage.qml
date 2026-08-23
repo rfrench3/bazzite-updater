@@ -118,6 +118,6 @@ FC.FormCardPage {
 
     Loader {
         id: modelLoader
-        source: (AppConfig.ini.General.rssFeedType === "atom") ? "AtomModel.qml" : "RssModel.qml"
+        source: "RssModel.qml"
     }
 }
