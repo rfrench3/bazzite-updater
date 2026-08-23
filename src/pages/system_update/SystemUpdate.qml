@@ -48,7 +48,7 @@ Kirigami.Page {
         id: updateAction
         text: i18n("Update System Image and Software") + GP.Labels.spacer + GP.Labels.south
         shortcut: "Return"
-        enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate
+        enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate && (AppConfig.ini.Commands?.systemUpdateCommand || "")
 
         onTriggered: {
             sessionStorage.mainText = i18n("System Updating");
@@ -159,6 +159,18 @@ Kirigami.Page {
 
                     return "";
                 }
+            }
+
+            FormDelegateSeparatorFixed {
+                visible: errorUpdateNotFound.visible
+            }
+
+            FC.FormTextDelegate {
+                id: errorUpdateNotFound
+                visible: !(AppConfig.ini.Commands?.systemUpdateCommand || "")
+                enabled: visible
+                text: i18n("The System Update command is not defined.")
+                description: i18n("Make sure the config file (/etc/bazzite-updater/config.ini) is present.")
             }
         }
 

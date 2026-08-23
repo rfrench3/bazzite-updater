@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-23 00:29+0000\n"
+"POT-Creation-Date: 2026-08-23 15:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -297,6 +297,14 @@ msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:156
 msgid "Right now!"
+msgstr ""
+
+#: src/pages/system_update/SystemUpdate.qml:168
+msgid "The System Update command is not defined."
+msgstr ""
+
+#: src/pages/system_update/SystemUpdate.qml:169
+msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:71
