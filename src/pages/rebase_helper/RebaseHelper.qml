@@ -69,7 +69,7 @@ FC.FormCardPage {
     FC.FormCard {
         id: rollbackFC
 
-        visible: AppConfig.ini.Commands.systemRollbackCommand
+        visible: AppConfig.ini.Commands.systemRollbackCommand || ""
 
         FC.FormTextDelegate {
             text: i18n("This will revert the last update to your system. Your user-level files such as documents and games will not be affected.")
