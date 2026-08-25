@@ -22,6 +22,8 @@ target_sources(bazzite-updater
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/console.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/k_config.h
     ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/k_config.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/user_settings.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/user_settings.cpp
 )
 
 target_include_directories(bazzite-updater
@@ -48,6 +50,7 @@ ecm_target_qml_sources(bazzite-updater
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/AtomModel.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssModel.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataOS.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/pages/settings/Settings.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleView.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleDrawer.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/AppDialog.qml
