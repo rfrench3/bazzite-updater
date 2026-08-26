@@ -11,3 +11,4 @@ bazzite_updater.kdev4
 .directory
 uupd-output.txt
 __cmake_systeminformation/
+/po/*/bazzite-updater.po~

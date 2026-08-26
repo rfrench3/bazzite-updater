@@ -116,6 +116,12 @@ QString findConfigFile(const QString &relativePath)
 
     bases.append({u"/etc"_s, u"/usr/local/etc"_s, u"/usr/etc"_s});
 
+    // append XDG_CONFIG_DIRS last because any user (or malicious program run by the user) can change it
+    if (auto xdg_config = qEnvironmentVariable("XDG_CONFIG_DIRS"); xdg_config.isEmpty())
+        bases.append(u"/etc/xdg"_s);
+    else
+        bases.append(xdg_config.split(u':', Qt::SkipEmptyParts));
+
     for (const QString &dir : bases) {
         const QString path = QDir(dir).filePath(relativePath);
         QFile file(path);

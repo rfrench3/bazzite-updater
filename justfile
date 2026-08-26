@@ -26,7 +26,7 @@ potfile:
 
 # devcontainer
 build:
-    cmake -B build -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=$PWD/build/install-root
+    cmake -B build -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=$PWD/build/install-root -D_USE_XDG_CONFIG=ON
     cmake --build build --target install
 
 # devcontainer
@@ -37,9 +37,15 @@ install-controllable:
     cd /workspaces/bazzite-updater
 
 # devcontainer
-run:
+brun:
+    #!/usr/bin/env bash
     just build
-    XDG_DATA_DIRS=$PWD/build/install-root/share:XDG_DATA_DIRS ./build/install-root/bin/bazzite-updater
+    just run
+
+run:
+    #!/usr/bin/env bash
+    source ./build/prefix.sh
+    bazzite-updater
 
 # devcontainer
 test:

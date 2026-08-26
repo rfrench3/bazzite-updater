@@ -353,7 +353,7 @@ StatefulApp.StatefulWindow {
             if (!AppState.commandRunning)
                 return AppState.commandSucceeded ? i18n("You must reboot to apply changes.") : i18n("No command is running, you may exit.");
 
-            if (AppConfig.ini.Commands.allowEarlyExit !== "true")
+            if (AppConfig.ini.Commands?.allowEarlyExit !== "true")
                 return i18n("You should not exit the application until the running command completes. If you exit early, it may break your system.");
             else
                 return i18n("If you exit the application before the running command completes, it may not apply its changes.");
@@ -384,7 +384,7 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
                 id: confirmExit
                 text: i18nc("dialog to exit the application", "Exit") + GP.Labels.spacer + GP.Labels.south
-                enabled: AppConfig.ini.Commands.allowEarlyExit === "true" || !AppState.commandRunning
+                enabled: AppConfig.ini.Commands?.allowEarlyExit === "true" || !AppState.commandRunning
 
                 onTriggered: exitDialog.accept()
             },
