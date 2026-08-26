@@ -57,6 +57,8 @@ systemRollbackCommand=
 
 If you leave systemRollbackCommand blank (but still present!), it will hide that portion of the UI.
 
+<p>Preferences that only affect the interface, like the reboot reminder shown on exit, are in the app's <b>Settings</b> page and get stored in <code>~/.config/bazzite-updaterrc</code>. Commands are never read from the home directory.</p>
+
 <br>
 
 <h1 align="center">License</h1>

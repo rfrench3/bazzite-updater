@@ -135,6 +135,15 @@ StatefulApp.StatefulWindow {
                 separator: true
             },
             Kirigami.Action {
+                text: i18n("Settings")
+                icon.name: "settings-configure-symbolic"
+
+                checkable: true
+                QQC2.ActionGroup.group: pageSelector
+
+                onTriggered: pageStack.initialPage = Qt.resolvedUrl("Settings.qml")
+            },
+            Kirigami.Action {
                 text: i18n("About %1", AppConfig.osAboutData.displayName)
                 icon.name: "help-about-symbolic"
 
@@ -170,7 +179,8 @@ StatefulApp.StatefulWindow {
                 icon.name: "application-exit-symbolic"
                 shortcut: StandardKey.Quit
                 onTriggered: {
-                    if (AppState.commandRunning || AppState.commandSucceeded) {
+                    // A running command is always worth warning about, only the reminder is optional.
+                    if (AppState.commandRunning || (AppState.commandSucceeded && UserSettings.showRebootReminder)) {
                         exitDialog.open();
                     } else
                         Qt.quit();
@@ -321,6 +331,27 @@ StatefulApp.StatefulWindow {
             return i18n("%1 %2", statusText, i18n("A system update will continue on exit, but a rollback or rebase will be cancelled."));
         }
 
+        QQC2.CheckBox {
+            id: skipRebootReminder
+
+            // Only the reminder can be silenced, not the warning about a running command.
+            visible: !AppState.commandRunning
+
+            text: i18n("Do not show this again") + GP.Labels.spacer + GP.Labels.north
+
+            checked: !UserSettings.showRebootReminder
+
+            onToggled: {
+                UserSettings.showRebootReminder = !checked;
+
+                // Assigning to checked drops the binding, put it back
+                checked = Qt.binding(() => !UserSettings.showRebootReminder);
+            }
+
+            Layout.fillWidth: true
+            Layout.topMargin: Kirigami.Units.smallSpacing
+        }
+
         customFooterActions: [
             Kirigami.Action {
                 id: confirmExit
@@ -347,6 +378,10 @@ StatefulApp.StatefulWindow {
                 break;
             case 1: // B
                 cancelExit.triggered();
+                break;
+            case 3: // Y
+                if (skipRebootReminder.visible)
+                    skipRebootReminder.animateClick();
                 break;
             }
         }
