@@ -47,6 +47,12 @@ public:
     // Whether quitting reminds the user that a reboot is needed.
     Q_PROPERTY(bool showRebootReminder READ showRebootReminder WRITE setShowRebootReminder NOTIFY showRebootReminderChanged)
 
+    // Whether the app should be in fullscreen mode (it will always use fullscreen in gamescope session)
+    Q_PROPERTY(bool preferFullscreen READ preferFullscreen WRITE setPreferFullscreen NOTIFY preferFullscreenChanged)
+
+    // Whether any settings differ from their default setting
+    Q_PROPERTY(bool isDefault READ isDefault NOTIFY isDefaultChanged)
+
     bool showRebootReminder() const
     {
         return m_showRebootReminder;
@@ -54,11 +60,28 @@ public:
 
     void setShowRebootReminder(bool show);
 
+    bool preferFullscreen() const
+    {
+        return m_preferFullscreen;
+    }
+
+    bool isDefault() const
+    {
+        return m_showRebootReminder == true && m_preferFullscreen == false;
+    }
+
+    void setPreferFullscreen(bool prefer);
+
     Q_INVOKABLE void restoreDefaults();
 
     Q_SIGNAL void showRebootReminderChanged();
 
+    Q_SIGNAL void preferFullscreenChanged();
+
+    Q_SIGNAL void isDefaultChanged();
+
 private:
     KConfigGroup m_group;
     bool m_showRebootReminder = true;
+    bool m_preferFullscreen = false;
 };

@@ -11,6 +11,7 @@ UserSettings::UserSettings()
     : m_group(KSharedConfig::openConfig(u"bazzite-updaterrc"_s), u"Settings"_s)
 {
     m_showRebootReminder = m_group.readEntry("showRebootReminder", true);
+    m_preferFullscreen = m_group.readEntry("preferFullscreen", false);
 }
 
 void UserSettings::setShowRebootReminder(bool show)
@@ -23,9 +24,24 @@ void UserSettings::setShowRebootReminder(bool show)
     m_group.sync();
 
     Q_EMIT showRebootReminderChanged();
+    Q_EMIT isDefaultChanged();
+}
+
+void UserSettings::setPreferFullscreen(bool prefer)
+{
+    if (m_preferFullscreen == prefer)
+        return;
+
+    m_preferFullscreen = prefer;
+    m_group.writeEntry("preferFullscreen", prefer);
+    m_group.sync();
+
+    Q_EMIT preferFullscreenChanged();
+    Q_EMIT isDefaultChanged();
 }
 
 void UserSettings::restoreDefaults()
 {
     setShowRebootReminder(true);
+    setPreferFullscreen(false);
 }

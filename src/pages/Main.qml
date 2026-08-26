@@ -24,11 +24,24 @@ StatefulApp.StatefulWindow {
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
 
-    visibility: UseFullscreen ? Window.FullScreen : Window.Windowed
+    visibility: (UseFullscreen || UserSettings.preferFullscreen) ? Window.FullScreen : Window.Windowed
 
     onClosing: close => {
         close.accepted = false;
         actionQuit.triggered();
+    }
+
+    Shortcut {
+        sequences: ["F11"]
+        context: Qt.ApplicationShortcut
+        enabled: !UseFullscreen
+
+        onActivated: {
+            if (root.visibility === Window.Windowed)
+                root.visibility = Window.FullScreen;
+            else if (root.visibility === Window.FullScreen)
+                root.visibility = Window.Windowed;
+        }
     }
 
     // Handle global drawer navigation for controllers
