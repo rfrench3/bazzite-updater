@@ -15,17 +15,6 @@ ScrollingPage {
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Settings")
 
-    function handleInput(buttonId, button_down) {
-        if (button_down == false)
-            return;
-
-        switch (buttonId) {
-        case 0: // A
-            rebootReminderSwitch.animateClick();
-            break;
-        }
-    }
-
     GP.PageNavigation {
         targetScrollbar: page.scrollBar
         active: !globalDrawer.drawerOpen
@@ -37,9 +26,7 @@ ScrollingPage {
 
     FC.FormCard {
         FC.FormSwitchDelegate {
-            id: rebootReminderSwitch
-
-            text: i18n("Remind me to reboot on exit") + GP.Labels.spacer + GP.Labels.south
+            text: i18n("Remind me to reboot on exit")
             description: i18n("After a command has finished, quitting the app asks for confirmation and reminds you that a reboot is needed to apply the changes.")
 
             checked: UserSettings.showRebootReminder
