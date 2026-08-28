@@ -13,7 +13,7 @@ TextArea {
     property alias length: view.count
     required property var model
 
-    readonly property ScrollBar scrollBar: scrollView.ScrollBar.vertical
+    property alias scrollBar: vBar
     readonly property Flickable flickable: view
 
     readOnly: true
@@ -23,6 +23,10 @@ TextArea {
         id: scrollView
         anchors.fill: parent
         anchors.margins: 5
+
+        ScrollBar.vertical: ScrollBar {
+            id: vBar
+        }
 
         ListView {
             id: view

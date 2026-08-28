@@ -15,6 +15,16 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+struct Settings {
+    bool showRebootReminder = true;
+    bool preferFullscreen = false;
+    bool preferConsole = false;
+
+    // allow settingsObj1 == settingsObj2 comparisons
+    bool operator==(const Settings &) const = default;
+};
+static const Settings defaults = Settings();
+
 /* Writable per-user preferences, stored in ~/.config/bazzite-updaterrc.
  * These only affect how the UI presents itself. Anything that decides which
  * command gets run stays in the read-only system config, see findConfigFile().
@@ -50,27 +60,37 @@ public:
     // Whether the app should be in fullscreen mode (it will always use fullscreen in gamescope session)
     Q_PROPERTY(bool preferFullscreen READ preferFullscreen WRITE setPreferFullscreen NOTIFY preferFullscreenChanged)
 
+    // Whether the console panels should start in the opened state
+    Q_PROPERTY(bool preferConsole READ preferConsole WRITE setPreferConsole NOTIFY preferConsoleChanged)
+
     // Whether any settings differ from their default setting
     Q_PROPERTY(bool isDefault READ isDefault NOTIFY isDefaultChanged)
 
     bool showRebootReminder() const
     {
-        return m_showRebootReminder;
+        return settings.showRebootReminder;
     }
 
     void setShowRebootReminder(bool show);
 
     bool preferFullscreen() const
     {
-        return m_preferFullscreen;
-    }
-
-    bool isDefault() const
-    {
-        return m_showRebootReminder == true && m_preferFullscreen == false;
+        return settings.preferFullscreen;
     }
 
     void setPreferFullscreen(bool prefer);
+
+    bool preferConsole() const
+    {
+        return settings.preferConsole;
+    }
+
+    void setPreferConsole(bool prefer);
+
+    bool isDefault() const
+    {
+        return settings == defaults;
+    }
 
     Q_INVOKABLE void restoreDefaults();
 
@@ -78,10 +98,11 @@ public:
 
     Q_SIGNAL void preferFullscreenChanged();
 
+    Q_SIGNAL void preferConsoleChanged();
+
     Q_SIGNAL void isDefaultChanged();
 
 private:
     KConfigGroup m_group;
-    bool m_showRebootReminder = true;
-    bool m_preferFullscreen = false;
+    Settings settings;
 };

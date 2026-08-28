@@ -38,8 +38,8 @@ FC.FormCardPage {
 
     FC.FormCard {
         FC.FormSwitchDelegate {
-            text: i18n("Remind me to reboot on exit")
-            description: i18n("After a command has finished, quitting the app asks for confirmation and reminds you that a reboot is needed to apply the changes.")
+            text: i18n("Reboot on exit reminder")
+            description: i18n("Display a popup when exiting the app after a command completes, reminding you to reboot to apply changes.")
 
             checked: UserSettings.showRebootReminder
 
@@ -54,8 +54,8 @@ FC.FormCardPage {
         FormDelegateSeparatorFixed {}
 
         FC.FormSwitchDelegate {
-            text: i18n("Display in fullscreen")
-            description: i18n("Should the application always use fullscreen mode?")
+            text: i18n("Default fullscreen state")
+            description: i18n("Should the application launch in fullscreen mode?")
 
             checked: UserSettings.preferFullscreen
 
@@ -64,6 +64,22 @@ FC.FormCardPage {
 
                 // Assigning to checked drops the binding, put it back
                 checked = Qt.binding(() => UserSettings.preferFullscreen);
+            }
+        }
+
+        FormDelegateSeparatorFixed {}
+
+        FC.FormSwitchDelegate {
+            text: i18n("Default console state")
+            description: i18n("Should the console panels start opened?")
+
+            checked: UserSettings.preferConsole
+
+            onToggled: {
+                UserSettings.preferConsole = checked;
+
+                // Assigning to checked drops the binding, put it back
+                checked = Qt.binding(() => UserSettings.preferConsole);
             }
         }
     }

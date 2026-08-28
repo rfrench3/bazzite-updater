@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import QtQuick
@@ -57,8 +57,8 @@ FC.FormCardPage {
     ]
 
     GP.PageNavigation {
-        targetScrollbar: consoleDrawer.drawerOpen ? null : page.scrollbar
-        active: !globalDrawer.drawerOpen
+        targetScrollbar: page.scrollbar
+        active: !globalDrawer.drawerOpen && !consoleDrawer.drawerOpen
     }
 
     FC.FormHeader {
