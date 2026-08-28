@@ -36,6 +36,7 @@
 #include <qqml.h>
 
 #include <qqmlpropertymap.h>
+#include <qstylehints.h>
 #include <unistd.h>
 
 #include "k_config.h"
@@ -46,7 +47,7 @@ inline constexpr float BASE_HEIGHT = 1080.0;
 using namespace Qt::Literals::StringLiterals;
 
 // Handle non-gui functionality: Replace the bazzite-updater process with the selected process defined by the config.ini
-void commandLine(int argc, char *argv[], QCoreApplication &app);
+void commandLine(char *argv[], QCoreApplication &app);
 
 int main(int argc, char *argv[])
 {
@@ -85,7 +86,7 @@ int main(int argc, char *argv[])
     KirigamiAppDefaults::apply(&app);
 
     // exits early if the command line options are used
-    commandLine(argc, argv, app);
+    commandLine(argv, app);
 
     if (Utils::KDE_SESSION) {
         if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
@@ -105,12 +106,19 @@ int main(int argc, char *argv[])
 
         if (useBreeze) {
             auto manager = KColorSchemeManager::instance();
+            auto styleHints = app.styleHints();
 
             // Respect desktop color scheme, but force breeze dark for gamescope session
-            if (app.styleHints()->colorScheme() == Qt::ColorScheme::Dark || Utils::GAMESCOPE_SESSION)
-                manager->activateSchemeId(u"BreezeDark"_s);
-            else
-                manager->activateSchemeId(u"BreezeLight"_s);
+            auto applyTheme = [manager](Qt::ColorScheme scheme) {
+                if (scheme == Qt::ColorScheme::Dark || Utils::GAMESCOPE_SESSION)
+                    manager->activateSchemeId(u"BreezeDark"_s);
+                else
+                    manager->activateSchemeId(u"BreezeLight"_s);
+            };
+
+            applyTheme(styleHints->colorScheme());
+
+            QObject::connect(styleHints, &QStyleHints::colorSchemeChanged, applyTheme);
         }
     }
 
@@ -151,7 +159,7 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
-void commandLine(int argc, char *argv[], QCoreApplication &app)
+void commandLine(char *argv[], QCoreApplication &app)
 {
     QCommandLineParser parser;
     parser.addHelpOption();

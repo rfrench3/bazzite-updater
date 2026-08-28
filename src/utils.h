@@ -19,7 +19,6 @@ namespace Utils
 
 using namespace Qt::Literals::StringLiterals;
 
-static const bool IN_FLATPAK = QFileInfo::exists(u"/.flatpak-info"_s);
 const bool GAMESCOPE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"gamescope"_s);
 const bool KDE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"kde"_s);
 

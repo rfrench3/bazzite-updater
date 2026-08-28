@@ -6,7 +6,7 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
-import org.kde.kirigamiaddons.statefulapp as StatefulApp
+// import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater

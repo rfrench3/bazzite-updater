@@ -7,7 +7,7 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.statefulapp as StatefulApp
-import org.kde.kirigamiaddons.formcard as FormCard
+// import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
@@ -377,6 +377,7 @@ StatefulApp.StatefulWindow {
 
             // Only the reminder can be silenced, not the warning about a running command.
             visible: !AppState.commandRunning
+            enabled: visible
 
             text: i18n("Do not show this again") + GP.Labels.spacer + GP.Labels.north
 
