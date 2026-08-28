@@ -75,10 +75,6 @@ int main(int argc, char *argv[])
             qputenv("QT_SCALE_FACTOR", QByteArray::number(final_scale));
         }
 
-        // Use the Qt theme KDE uses (unthemed outside of KDE)
-        if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORMTHEME"))
-            qputenv("QT_QPA_PLATFORMTHEME", QByteArray::fromStdString("kde"));
-
         UseFullscreen = true;
     }
 
@@ -105,20 +101,8 @@ int main(int argc, char *argv[])
         }
 
         if (useBreeze) {
-            auto manager = KColorSchemeManager::instance();
-            auto styleHints = app.styleHints();
-
-            // Respect desktop color scheme, but force breeze dark for gamescope session
-            auto applyTheme = [manager](Qt::ColorScheme scheme) {
-                if (scheme == Qt::ColorScheme::Dark || Utils::GAMESCOPE_SESSION)
-                    manager->activateSchemeId(u"BreezeDark"_s);
-                else
-                    manager->activateSchemeId(u"BreezeLight"_s);
-            };
-
-            applyTheme(styleHints->colorScheme());
-
-            QObject::connect(styleHints, &QStyleHints::colorSchemeChanged, applyTheme);
+            // Reliably respects color/icon scheme outside of KDE
+            static auto dbus = Utils::DbusListener();
         }
     }
 

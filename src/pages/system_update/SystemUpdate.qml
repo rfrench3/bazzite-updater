@@ -89,10 +89,10 @@ Kirigami.Page {
                 Image {
                     anchors.fill: parent
 
-                    antialiasing: true
                     source: (AppConfig.osAboutData.programLogo) ? "file:/" + AppConfig.osAboutData.programLogo : "qrc:/fallbackLogo"
-                    sourceSize.width: 1024
-                    sourceSize.height: 1024
+
+                    sourceSize: Qt.size(width, height)
+                    antialiasing: true
                 }
             }
 

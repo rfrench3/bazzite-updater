@@ -69,6 +69,7 @@ target_link_libraries(bazzite-updater
     Qt6::Quick
     Qt6::QuickControls2
     Qt6::Svg
+    Qt6::DBus
     KF6::I18n
     KF6::I18nQml
     KF6::IconThemes

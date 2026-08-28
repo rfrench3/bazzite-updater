@@ -50,6 +50,7 @@ find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
     QuickControls2
     Svg
     Test
+    DBus
 )
 
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
