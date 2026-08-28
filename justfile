@@ -3,26 +3,7 @@ default:
 
 # generate new translations template
 potfile:
-    #!/bin/bash
-    PROJECT_NAME="bazzite-updater"
-    POT_FILE="po/${PROJECT_NAME}.pot"
-    echo "Extracting messages for ${PROJECT_NAME}..."
-    find src -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.qml" \) > po/source_files.txt
-    xgettext --from-code=UTF-8 -C -kde \
-        --files-from=po/source_files.txt \
-        -ci18n -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 \
-        -ktr2i18n:1 -kI18N_NOOP:1 -kI18N_NOOP2:1c,2 \
-        -kaliasLocale -kki18n:1 -kki18nc:1c,2 -kki18np:1,2 -kki18ncp:1c,2,3 \
-        -o ${POT_FILE}
-    rm po/source_files.txt
-    echo "Done! Template generated at ${POT_FILE}"
-    for po_file in po/*/${PROJECT_NAME}.po; do
-        if [ -f "$po_file" ]; then
-            echo "Updating $po_file..."
-            msgmerge -U "$po_file" "${POT_FILE}"
-        fi
-    done
-    echo "All translations updated!"
+    cmake -DPROJECT_NAME=bazzite-updater -DSOURCE_DIR=$PWD -P $PWD/cmake/UpdateTranslations.cmake
 
 # devcontainer
 build:

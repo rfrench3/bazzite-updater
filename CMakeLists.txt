@@ -3,6 +3,10 @@
 
 cmake_minimum_required(VERSION 3.22)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 file(READ "version.txt" APP_VERSION)
 project(bazzite-updater VERSION ${APP_VERSION})
 
@@ -126,6 +130,14 @@ else()
     DESTINATION "/etc/bazzite-updater"
   )
 endif()
+
+add_custom_target(potfile
+    COMMAND ${CMAKE_COMMAND}
+        -DPROJECT_NAME=${PROJECT_NAME}
+        -DSOURCE_DIR="${PROJECT_SOURCE_DIR}"
+        -P "${PROJECT_SOURCE_DIR}/cmake/UpdateTranslations.cmake"
+    COMMENT "Updating translation templates and po files..."
+)
 
 ki18n_install(po)
 
