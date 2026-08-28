@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
+// SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import QtQuick
-import QtQuick.Controls as QQC2
+import QtQuick.Controls
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
@@ -11,8 +11,19 @@ import org.kde.kirigamiaddons.formcard as FC
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
 
-ScrollingPage {
+FC.FormCardPage {
     id: page
+
+    function grabScrollbar(item) {
+        if (item.contentItem?.ScrollBar?.vertical)
+            return item.contentItem.ScrollBar.vertical;
+
+        if (item.parent)
+            return grabScrollbar(item.parent);
+
+        console.warn("Parent scrollbar not found, controller scrolling will not function!");
+    }
+    property ScrollBar scrollbar: page.grabScrollbar(page)
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Other Utilities")
 
@@ -46,8 +57,8 @@ ScrollingPage {
     ]
 
     GP.PageNavigation {
-        targetScrollbar: consoleDrawer.drawerOpen ? null : page.scrollBar
-        active: !globalDrawer.drawerOpen
+        targetScrollbar: page.scrollbar
+        active: !globalDrawer.drawerOpen && !consoleDrawer.drawerOpen
     }
 
     FC.FormHeader {
@@ -58,10 +69,10 @@ ScrollingPage {
     FC.FormCard {
         id: rollbackFC
 
-        visible: AppConfig.ini.Commands.systemRollbackCommand
+        visible: AppConfig.ini.Commands.systemRollbackCommand || ""
 
         FC.FormTextDelegate {
-            text: i18n("This will return your base system to before its current update. Your user files will not be affected, and the system will not automatically update until told to do so again.")
+            text: i18n("This will revert the last update to your system. Your user-level files such as documents and games will not be affected.")
             textItem.wrapMode: Text.Wrap
         }
 
@@ -91,7 +102,7 @@ ScrollingPage {
                 });
             }
 
-            trailing: QQC2.BusyIndicator {
+            trailing: BusyIndicator {
                 id: rollbackBusyIndicator
                 running: AppState.rollbackRunning
             }
@@ -101,85 +112,13 @@ ScrollingPage {
 
     FC.FormHeader {
         title: i18n("System Image Information")
+        visible: RebaseHelperBackend.currentImage.load_successful
     }
-
-    FC.FormCard {
-        FC.FormTextDelegate {
-            textItem.wrapMode: Text.WordWrap
-            text: RebaseHelperBackend.currentImage.name + ":" + RebaseHelperBackend.currentImage.branch
-
-            description: i18n("Current Image")
-        }
-
-        FormDelegateSeparatorFixed {}
-
-        FC.FormTextDelegate {
-            textItem.wrapMode: Text.WordWrap
-            text: RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"]
-
-            description: i18n("Last Update")
-        }
-
-        FormDelegateSeparatorFixed {
-            visible: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
-        }
-
-        Loader {
-            active: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
-            Layout.fillWidth: true
-
-            sourceComponent: FC.FormTextDelegate {
-                text: {
-                    switch (RebaseHelperBackend.bestDriver) {
-                    case Gpu.Drivers.BASE:
-                        return i18n("The best drivers for your GPU are provided by the Linux kernel.");
-                    case Gpu.Drivers.NVIDIA:
-                        return i18n("The best drivers for your GPU are ") + "nvidia.";
-                    case Gpu.Drivers.NVIDIA_OPEN:
-                        return i18n("The best drivers for your GPU are ") + "nvidia-open.";
-                    case Gpu.Drivers.UNSUPPORTED:
-                        return i18n("Your GPU is unsupported.");
-                    case Gpu.Drivers.UNKNOWN:
-                        return "";
-                    default:
-                        return "Report to the app developer if you see this!";
-                    }
-                }
-
-                readonly property int __current: {
-                    if (RebaseHelperBackend.currentImage.name.endsWith("nvidia-open"))
-                        return Gpu.Drivers.NVIDIA_OPEN;
-                    else if (RebaseHelperBackend.currentImage.name.endsWith("nvidia"))
-                        return Gpu.Drivers.NVIDIA;
-                    else
-                        return Gpu.Drivers.BASE;
-                }
-
-                description: {
-                    if (RebaseHelperBackend.bestDriver == __current)
-                        return i18n("You have the best drivers installed.");
-
-                    switch (__current) {
-                    case Gpu.Drivers.BASE:
-                        return i18n("You do not have any nvidia drivers installed.");
-                    case Gpu.Drivers.NVIDIA:
-                        return i18n("You currently have nvidia installed.");
-                    case Gpu.Drivers.NVIDIA_OPEN:
-                        return i18n("You currently have nvidia-open installed.");
-                    }
-                }
-            }
-        }
-    }
-
-    FCSystemInfo {
-        Layout.topMargin: Kirigami.Units.largeSpacing * 4
-    }
+    FCSystemInfo {}
 
     FC.FormHeader {
-        title: i18n("Advanced Information") + " (os-release)"
+        title: i18nc("card to display info from os-release", "Additional Information")
     }
-
     FCOsRelease {}
 
     ConsoleDrawer {

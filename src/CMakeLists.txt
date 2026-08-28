@@ -47,17 +47,16 @@ ecm_target_qml_sources(bazzite-updater
     # ${CMAKE_CURRENT_SOURCE_DIR}/pages/rebase_helper/RebasePart.qml # remove until implemented
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssPage.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/FCRssDelegate.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/AtomModel.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssModel.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataOS.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/pages/settings/Settings.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleView.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleDrawer.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/components/AppDialog.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/ScrollingPage.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/FCSystemInfo.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/FCOsRelease.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/FormDelegateSeparatorFixed.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FormCardCollapsible.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FCOsRelease.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FCSystemInfo.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FormDelegateSeparatorFixed.qml
     ${ABOUTAPP_OUTPUT}
 )
 
@@ -70,6 +69,7 @@ target_link_libraries(bazzite-updater
     Qt6::Quick
     Qt6::QuickControls2
     Qt6::Svg
+    Qt6::DBus
     KF6::I18n
     KF6::I18nQml
     KF6::IconThemes
@@ -77,8 +77,8 @@ target_link_libraries(bazzite-updater
     KF6::ConfigCore
     KF6::ConfigGui
     KF6::ColorScheme
+    KirigamiApp
     KirigamiAddonsStatefulApp
-    # qt6-controllable
 )
 
 add_subdirectory(components)

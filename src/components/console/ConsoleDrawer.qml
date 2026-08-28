@@ -14,15 +14,17 @@ Kirigami.OverlayDrawer {
     id: root
 
     required property var model
-    property var page: parent
     property alias extraColumnItems: columnAdditional.data
 
     edge: Qt.BottomEdge
 
     modal: false
-    drawerOpen: false
+    drawerOpen: UserSettings.preferConsole
 
-    height: page.height / 2
+    interactiveResizeEnabled: true
+
+    maximumSize: parent.height - Kirigami.Units.gridUnit * 2.5
+    preferredSize: parent.height * 0.5
 
     function handleInput(buttonId, button_down) {
         if (!button_down)

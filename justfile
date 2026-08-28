@@ -1,15 +1,32 @@
 default:
     just --list
 
-# devcontainer
-build:
-    cmake -B build -D_INCLUDE_SUBMODULES=ON -DTESTING_BUILD=ON
-    cmake --build build
+# generate new translations template
+potfile:
+    cmake -DPROJECT_NAME=bazzite-updater -DSOURCE_DIR=$PWD -P $PWD/cmake/UpdateTranslations.cmake
 
 # devcontainer
-run:
+build:
+    cmake -B build -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=$PWD/build/install-root -D_USE_XDG_CONFIG=ON
+    cmake --build build --target install
+
+# devcontainer
+install-controllable:
+    cd /workspaces/bazzite-updater/src/components/controllable
     just build
-    ./build/bin/bazzite-updater
+    sudo cmake --install build
+    cd /workspaces/bazzite-updater
+
+# devcontainer
+brun:
+    #!/usr/bin/env bash
+    just build
+    just run
+
+run:
+    #!/usr/bin/env bash
+    source ./build/prefix.sh
+    bazzite-updater
 
 # devcontainer
 test:
@@ -31,15 +48,6 @@ build-terra-44:
     #!/usr/bin/env bash
     podman run --rm --cap-add=SYS_ADMIN --privileged --volume ./packaging/terra:/anda --volume mock_cache:/var/cache/mock --workdir /anda ghcr.io/terrapkg/builder:f44 anda build -c terra-44-x86_64 bazzite-updater/pkg
     just terra-post
-
-# host
-build-flatpak: output
-    #!/usr/bin/env bash
-    set -eou pipefail
-    flatpak-builder --force-clean --repo=output/repo builddir .flatpak-manifest.json
-    flatpak build-bundle output/repo output/bazzite-updater.flatpak io.github.rfrench3.bazzite-updater
-    rm -r output/repo
-    rm -r builddir
 
 # devcontainer, copy src/resources to proper location
 symlink-configs:

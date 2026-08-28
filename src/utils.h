@@ -3,14 +3,23 @@
 
 #pragma once
 
+#include <QColor>
 #include <QFileInfo>
 #include <QJSValue>
 #include <QModelIndex>
 #include <QProcess>
 #include <QQmlEngine>
+#include <qcolor.h>
+#include <qhashfunctions.h>
 #include <qlogging.h>
 #include <qobject.h>
 #include <qtclasshelpermacros.h>
+#include <qtmetamacros.h>
+
+#include <QDBusVariant>
+#include <qtypes.h>
+
+inline constexpr uint NO_SCHEME = 99;
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -19,11 +28,29 @@ namespace Utils
 
 using namespace Qt::Literals::StringLiterals;
 
-static const bool IN_FLATPAK = QFileInfo::exists(u"/.flatpak-info"_s);
 const bool GAMESCOPE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"gamescope"_s);
 const bool KDE_SESSION = qEnvironmentVariable("XDG_CURRENT_DESKTOP").trimmed().toLower().contains(u"kde"_s);
 
 void startProcess(QProcess *process, const QStringList &command);
+
+// TODO: This was necessary to force the app to respect color schemes outside of KDE.
+//       Ideally, this entire class wouldn't need to exist.
+class DbusListener : public QObject
+{
+    Q_OBJECT
+
+    uint prevColorScheme = NO_SCHEME;
+
+public:
+    explicit DbusListener(QObject *parent = nullptr);
+
+    // Make sure the color scheme is correct on launch
+    void initSetColorScheme();
+
+public:
+    // Make sure the color scheme is correct when it changes mid-run
+    Q_INVOKABLE void onPortalSettingChanged(const QString &nameSpace, const QString &key, const QDBusVariant &value);
+};
 }
 
 namespace SingletonInternals

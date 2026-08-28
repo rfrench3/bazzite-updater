@@ -93,7 +93,7 @@ RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
 
 void RebaseHelperBackend::setGpuDrivers()
 {
-    const auto path = u"/usr/libexec/bazzite_detect_nvidia_support_status"_s;
+    const auto path = u"/usr/libexec/bazzite-detect-nvidia-support-status"_s;
 
     if (!QFile::exists(path))
         return;

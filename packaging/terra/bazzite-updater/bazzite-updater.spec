@@ -1,7 +1,7 @@
 %global appid io.github.rfrench3.bazzite-updater
 
 Name:           bazzite-updater
-Version:        0.8.1.rc1
+Version:        0.10.0
 Release:        1%{?dist}
 Summary:        Update your system
 
@@ -20,6 +20,7 @@ BuildRequires:  extra-cmake-modules
 BuildRequires:  kf6-rpm-macros
 BuildRequires:  cmake(SDL3)
 BuildRequires:  cmake(Qt6Core)
+BuildRequires:  cmake(Qt6DBus)
 BuildRequires:  cmake(Qt6Gui)
 BuildRequires:  cmake(Qt6Qml)
 BuildRequires:  cmake(Qt6QuickControls2)
@@ -39,6 +40,7 @@ Requires:       kf6-kirigami%{?_isa}
 Requires:       kf6-kirigami-addons%{?_isa}
 Requires:       kf6-qqc2-desktop-style%{?_isa}
 Requires:       qt6-controllable%{?_isa}
+Requires:       qqc2-breeze-style%{?_isa}
 Requires:       hicolor-icon-theme
 Requires:       systemd%{?_isa} >= 258
 
@@ -62,12 +64,13 @@ By default, it is configured for Bazzite.
 
 %install
 %cmake_install
+%find_lang bazzite-updater
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_kf6_metainfodir}/%{appid}.*.xml || :
 desktop-file-validate %{buildroot}%{_kf6_datadir}/applications/%{appid}.desktop
 
-%files
+%files -f bazzite-updater.lang
 %license LICENSES/{BSD-3-Clause.txt,CC0-1.0.txt,GPL-2.0-or-later.txt}
 %doc README.md
 %{_bindir}/bazzite-updater

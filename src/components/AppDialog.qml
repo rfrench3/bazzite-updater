@@ -9,7 +9,7 @@ Kirigami.PromptDialog {
 
     required property var activeDialogParent
 
-    maximumWidth: Kirigami.Units.gridUnit * 30 // matches a formcard's max width
+    maximumWidth: Kirigami.Units.gridUnit * 20
 
     Connections {
         target: root

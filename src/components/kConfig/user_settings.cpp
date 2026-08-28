@@ -10,22 +10,53 @@
 UserSettings::UserSettings()
     : m_group(KSharedConfig::openConfig(u"bazzite-updaterrc"_s), u"Settings"_s)
 {
-    m_showRebootReminder = m_group.readEntry("showRebootReminder", true);
+    settings.showRebootReminder = m_group.readEntry("showRebootReminder", defaults.showRebootReminder);
+    settings.preferFullscreen = m_group.readEntry("preferFullscreen", defaults.preferFullscreen);
+    settings.preferConsole = m_group.readEntry("preferConsole", defaults.preferConsole);
 }
 
 void UserSettings::setShowRebootReminder(bool show)
 {
-    if (m_showRebootReminder == show)
+    if (settings.showRebootReminder == show)
         return;
 
-    m_showRebootReminder = show;
+    settings.showRebootReminder = show;
     m_group.writeEntry("showRebootReminder", show);
     m_group.sync();
 
     Q_EMIT showRebootReminderChanged();
+    Q_EMIT isDefaultChanged();
+}
+
+void UserSettings::setPreferFullscreen(bool prefer)
+{
+    if (settings.preferFullscreen == prefer)
+        return;
+
+    settings.preferFullscreen = prefer;
+    m_group.writeEntry("preferFullscreen", prefer);
+    m_group.sync();
+
+    Q_EMIT preferFullscreenChanged();
+    Q_EMIT isDefaultChanged();
+}
+
+void UserSettings::setPreferConsole(bool prefer)
+{
+    if (settings.preferConsole == prefer)
+        return;
+
+    settings.preferConsole = prefer;
+    m_group.writeEntry("preferConsole", prefer);
+    m_group.sync();
+
+    Q_EMIT preferConsoleChanged();
+    Q_EMIT isDefaultChanged();
 }
 
 void UserSettings::restoreDefaults()
 {
-    setShowRebootReminder(true);
+    setShowRebootReminder(defaults.showRebootReminder);
+    setPreferFullscreen(defaults.preferFullscreen);
+    setPreferConsole(defaults.preferConsole);
 }

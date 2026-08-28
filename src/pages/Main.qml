@@ -7,7 +7,7 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.statefulapp as StatefulApp
-import org.kde.kirigamiaddons.formcard as FormCard
+// import org.kde.kirigamiaddons.formcard as FormCard
 
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
@@ -24,11 +24,24 @@ StatefulApp.StatefulWindow {
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
 
-    visibility: UseFullscreen ? Window.FullScreen : Window.Windowed
+    visibility: (UseFullscreen || UserSettings.preferFullscreen) ? Window.FullScreen : Window.Windowed
 
     onClosing: close => {
         close.accepted = false;
         actionQuit.triggered();
+    }
+
+    Shortcut {
+        sequences: ["F11"]
+        context: Qt.ApplicationShortcut
+        enabled: !UseFullscreen
+
+        onActivated: {
+            if (root.visibility === Window.Windowed)
+                root.visibility = Window.FullScreen;
+            else if (root.visibility === Window.FullScreen)
+                root.visibility = Window.Windowed;
+        }
     }
 
     // Handle global drawer navigation for controllers
@@ -39,8 +52,8 @@ StatefulApp.StatefulWindow {
         target: GP.Gamepad
 
         function onButtonEvent(buttonId, button_down) {
-            if (activeDialog) {
-                activeDialog.handleInput(buttonId, button_down);
+            if (root.activeDialog) {
+                root.activeDialog.handleInput(buttonId, button_down);
                 return;
             }
 
@@ -58,8 +71,8 @@ StatefulApp.StatefulWindow {
                 return;
             }
 
-            if (typeof pageStack.currentItem.handleInput === "function") {
-                pageStack.currentItem.handleInput(buttonId, button_down);
+            if (typeof root.pageStack.currentItem.handleInput === "function") {
+                root.pageStack.currentItem.handleInput(buttonId, button_down);
                 return;
             }
         }
@@ -67,6 +80,13 @@ StatefulApp.StatefulWindow {
 
     globalDrawer: Kirigami.GlobalDrawer {
         id: globalDrawer
+
+        Behavior on width {
+            NumberAnimation {
+                duration: Kirigami.Units.shortDuration
+                easing.type: Easing.InOutQuad
+            }
+        }
 
         // In some versions of Kirigami, the drawer width does not function properly. Therefore it must be manually set
         FontMetrics {
@@ -89,9 +109,40 @@ StatefulApp.StatefulWindow {
         width: getMaxActionTextWidth() + Kirigami.Units.iconSizes.medium + (Kirigami.Units.largeSpacing * 4)
 
         Shortcut {
-            sequences: ["F1", "Ctrl+M", "Escape"]
+            sequences: [StandardKey.Back, StandardKey.Close, "F1", "Ctrl+M", "Escape"]
             context: Qt.ApplicationShortcut
-            onActivated: globalDrawer.drawerOpen = !globalDrawer.drawerOpen
+            onActivated: {
+                if (root.activeDialog)
+                    root.activeDialog.reject();
+                else
+                    globalDrawer.drawerOpen = !globalDrawer.drawerOpen;
+            }
+        }
+
+        Shortcut {
+            sequences: ["Return"]
+            context: Qt.ApplicationShortcut
+            enabled: globalDrawer.drawerOpen || root.activeDialog
+            onActivated: {
+                if (root.activeDialog) {
+                    root.activeDialog.accept();
+                } else
+                    globalDrawer.drawerOpen = false;
+            }
+        }
+
+        Shortcut {
+            sequences: ["Up"]
+            context: Qt.ApplicationShortcut
+            enabled: globalDrawer.drawerOpen
+            onActivated: globalDrawer.__navigateGlobalDrawer(-1)
+        }
+
+        Shortcut {
+            sequences: ["Down"]
+            context: Qt.ApplicationShortcut
+            enabled: globalDrawer.drawerOpen
+            onActivated: globalDrawer.__navigateGlobalDrawer(1)
         }
 
         QQC2.ActionGroup {
@@ -109,7 +160,7 @@ StatefulApp.StatefulWindow {
 
                 checked: true
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("SystemUpdate.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("SystemUpdate.qml")
             },
             Kirigami.Action {
 
@@ -119,7 +170,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
             },
             Kirigami.Action {
 
@@ -129,7 +180,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("RssPage.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("RssPage.qml")
             },
             Kirigami.Action {
                 separator: true
@@ -144,13 +195,13 @@ StatefulApp.StatefulWindow {
                 onTriggered: pageStack.initialPage = Qt.resolvedUrl("Settings.qml")
             },
             Kirigami.Action {
-                text: i18n("About %1", AppConfig.osAboutData.displayName)
+                text: i18nc("About (user's OS)", "About %1", AppConfig.osAboutData.displayName)
                 icon.name: "help-about-symbolic"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataOS.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("AboutDataOS.qml")
             },
             Kirigami.Action {
                 text: i18n("About Bazzite Updater")
@@ -159,7 +210,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: pageStack.initialPage = Qt.resolvedUrl("AboutDataApp.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("AboutDataApp.qml")
             },
             Kirigami.Action {
                 separator: true
@@ -168,6 +219,8 @@ StatefulApp.StatefulWindow {
                 id: actionReboot
                 text: i18n("Reboot System") + GP.Labels.spacer + GP.Labels.north
                 icon.name: AppState.commandSucceeded ? "system-shutdown-update-symbolic" : "system-shutdown-symbolic"
+
+                enabled: !AppState.commandRunning
 
                 onTriggered: {
                     rebootDialog.open();
@@ -253,9 +306,11 @@ StatefulApp.StatefulWindow {
         title: i18nc("@title:window", "Reboot System")
         standardButtons: Kirigami.Dialog.NoButton
 
+        enabled: !AppState.commandRunning
+
         activeDialogParent: root
 
-        subtitle: AppState.commandRunning ? i18n("This will reboot the system,\nbut %1 is still in progress!\nRebooting now will cause it to not apply.", AppState.rollbackRunning ? i18n("a rollback") : AppState.rebaseRunning ? i18n("a rebase") : AppState.updateRunning ? i18n("an update") : i18n("a command")) : i18n("This will reboot the system.")
+        subtitle: i18n("This will reboot the system.")
 
         customFooterActions: [
             Kirigami.Action {
@@ -281,14 +336,9 @@ StatefulApp.StatefulWindow {
         // Wait a little while to ensure "your reboot has failed" isn't ever visible momentarily before rebooting succeeds
         Timer {
             id: rebootTimer
-            interval: 2000
+            interval: 5000
             repeat: false
-            onTriggered: {
-                if (AppState.commandSucceeded)
-                    root.showPassiveNotification(i18n("The system reboot has failed. Reboot manually to apply changes."), Kirigami.short);
-                else
-                    root.showPassiveNotification(i18n("The system reboot has failed."), Kirigami.short);
-            }
+            onTriggered: root.showPassiveNotification(i18n("The app was unable to reboot. Reboot through your system menu to apply changes."))
         }
 
         function handleInput(buttonId, button_down) {
@@ -316,19 +366,10 @@ StatefulApp.StatefulWindow {
             if (!AppState.commandRunning)
                 return AppState.commandSucceeded ? i18n("You must reboot to apply changes.") : i18n("No command is running, you may exit.");
 
-            let statusText;
-
-            if (AppState.rollbackRunning) {
-                statusText = i18n("A rollback is still in progress!");
-            } else if (AppState.rebaseRunning) {
-                statusText = i18n("A rebase is still in progress!");
-            } else if (AppState.updateRunning) {
-                statusText = i18n("An update is still in progress!");
-            } else {
-                statusText = i18n("A command is still in progress!");
-            }
-
-            return i18n("%1 %2", statusText, i18n("A system update will continue on exit, but a rollback or rebase will be cancelled."));
+            if (AppConfig.ini.Commands?.allowEarlyExit !== "true")
+                return i18n("You should not exit the application until the running command completes. If you exit early, it may break your system.");
+            else
+                return i18n("If you exit the application before the running command completes, it may not apply its changes.");
         }
 
         QQC2.CheckBox {
@@ -336,6 +377,7 @@ StatefulApp.StatefulWindow {
 
             // Only the reminder can be silenced, not the warning about a running command.
             visible: !AppState.commandRunning
+            enabled: visible
 
             text: i18n("Do not show this again") + GP.Labels.spacer + GP.Labels.north
 
@@ -355,7 +397,8 @@ StatefulApp.StatefulWindow {
         customFooterActions: [
             Kirigami.Action {
                 id: confirmExit
-                text: i18n("Exit") + GP.Labels.spacer + GP.Labels.south
+                text: i18nc("dialog to exit the application", "Exit") + GP.Labels.spacer + GP.Labels.south
+                enabled: AppConfig.ini.Commands?.allowEarlyExit === "true" || !AppState.commandRunning
 
                 onTriggered: exitDialog.accept()
             },

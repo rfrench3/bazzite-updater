@@ -3,6 +3,10 @@
 
 cmake_minimum_required(VERSION 3.22)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 file(READ "version.txt" APP_VERSION)
 project(bazzite-updater VERSION ${APP_VERSION})
 
@@ -10,6 +14,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(TESTING_BUILD "Enable testing features like filler text in the console view." OFF)
 option(_INCLUDE_SUBMODULES "Compile the git submodules alongside the normal application." OFF)
+option(_USE_XDG_CONFIG "Install config files to CMAKE_INSTALL_PREFIX/etc/xdg instead of /etc. Used for development." OFF)
 
 if(TESTING_BUILD)
   add_compile_definitions(TESTING_BUILD=1)
@@ -45,6 +50,7 @@ find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
     QuickControls2
     Svg
     Test
+    DBus
 )
 
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
@@ -103,14 +109,35 @@ add_subdirectory(src)
 install(FILES io.github.rfrench3.bazzite-updater.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES io.github.rfrench3.bazzite-updater.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps/)
 install(FILES io.github.rfrench3.bazzite-updater.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(
-  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/"
-  DESTINATION "/etc/bazzite-updater"
-  PATTERN "service-as-program.sh" EXCLUDE
-)
-install(
-  PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/service-as-program.sh"
-  DESTINATION "/etc/bazzite-updater"
+
+if(_USE_XDG_CONFIG)
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/"
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/etc/xdg/bazzite-updater"
+    PATTERN "service-as-program.sh" EXCLUDE
+  )
+  install(
+    PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/service-as-program.sh"
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/etc/xdg/bazzite-updater"
+  )
+else()
+  install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/"
+    DESTINATION "/etc/bazzite-updater"
+    PATTERN "service-as-program.sh" EXCLUDE
+  )
+  install(
+    PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/src/resources/service-as-program.sh"
+    DESTINATION "/etc/bazzite-updater"
+  )
+endif()
+
+add_custom_target(potfile
+    COMMAND ${CMAKE_COMMAND}
+        -DPROJECT_NAME=${PROJECT_NAME}
+        -DSOURCE_DIR="${PROJECT_SOURCE_DIR}"
+        -P "${PROJECT_SOURCE_DIR}/cmake/UpdateTranslations.cmake"
+    COMMENT "Updating translation templates and po files..."
 )
 
 ki18n_install(po)
