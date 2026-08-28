@@ -26,6 +26,9 @@ TextArea {
 
         ScrollBar.vertical: ScrollBar {
             id: vBar
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
         }
 
         ListView {
