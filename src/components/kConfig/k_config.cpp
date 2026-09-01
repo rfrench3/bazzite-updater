@@ -73,6 +73,19 @@ AppConfig::AppConfig()
 
         aboutData.close();
     }
+
+    QFile rebaseFile(findConfigFile(u"bazzite-updater/rebase-targets.json"_s));
+    if (!rebaseFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Failed to open rebase-targets.json";
+        rebaseTargets[u"valid"_s] = false;
+
+    } else {
+        QByteArray file = rebaseFile.readAll();
+        QJsonDocument doc = QJsonDocument::fromJson(file);
+        rebaseTargets = doc.object();
+        rebaseTargets[u"valid"_s] = true;
+        rebaseFile.close();
+    }
 }
 
 // Convert the key=value format of os-release into a QJsonObject entirely made of QStrings

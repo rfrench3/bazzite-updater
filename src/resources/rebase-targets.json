@@ -1,0 +1,72 @@
+[
+    {
+        "url": "docker://ghcr.io/ublue-os",
+        "images": [
+            {
+                "name": "bazzite",
+                "features": ["kde"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-deck",
+                "features": ["kde", "gamemode"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-nvidia",
+                "features": ["kde", "nvidia-legacy"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-nvidia-open",
+                "features": ["kde", "nvidia"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-deck-nvidia",
+                "features": ["kde", "gamemode", "nvidia"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-gnome",
+                "features": ["gnome"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-gnome-nvidia",
+                "features": ["gnome", "nvidia-legacy"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-gnome-nvidia-open",
+                "features": ["gnome", "nvidia"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-deck-gnome",
+                "features": ["gnome", "gamemode"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
+                "name": "bazzite-dx",
+                "features": ["kde", "gamemode", "devtools"],
+                "tags": ["stable"]
+            },
+            {
+                "name": "bazzite-dx-gnome",
+                "features": ["gnome", "gamemode", "devtools"],
+                "tags": ["stable"]
+            },
+            {
+                "name": "bazzite-dx-nvidia",
+                "features": ["kde", "gamemode", "nvidia", "devtools"],
+                "tags": ["stable"]
+            },
+            {
+                "name": "bazzite-dx-nvidia-gnome",
+                "features": ["gnome", "gamemode", "nvidia", "devtools"],
+                "tags": ["stable"]
+            }
+        ]
+    }
+]

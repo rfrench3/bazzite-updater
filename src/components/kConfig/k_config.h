@@ -81,12 +81,14 @@ public: // singleton methods
 public:
     Q_PROPERTY(QJsonObject osAboutData MEMBER aboutOs CONSTANT)
     Q_PROPERTY(QJsonObject osRelease MEMBER osRelease CONSTANT)
+    Q_PROPERTY(QJsonObject rebaseTargets MEMBER rebaseTargets CONSTANT)
     Q_PROPERTY(QVariantMap ini READ config CONSTANT)
 
     void setupOsRelease(QFile &file);
 
     QJsonObject aboutOs;
     QJsonObject osRelease;
+    QJsonObject rebaseTargets;
 
     // Full path for service-as-program.sh
     QString serviceHelperScript;
