@@ -53,6 +53,10 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         return;
     }
 
+    // parse the console output to determine if the update has failed, always initialize to false
+    static bool moduleFail;
+    moduleFail = false;
+
     auto onFinish = [=, this](int exit_code) {
         const auto conclude = [=](int code, bool command) {
             callback.call({code});
@@ -62,10 +66,10 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         };
 
         // Check for errors
-        if (exit_code != 0) {
+        if (exit_code != 0 || moduleFail == true) {
             conclude(1, false);
             qWarning() << "Update failed with exit code " << exit_code;
-            m_console->newLine(u"The update has failed: exit code %1"_s.arg(exit_code), Console::LogLevel::Error);
+            m_console->newLine(u"The update has failed. Read the above output for more details."_s, Console::LogLevel::Error);
             return;
         }
 
@@ -109,6 +113,12 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             log_level = LogLevel::Warn;
         else if (level == u"ERROR"_s)
             log_level = LogLevel::Error;
+
+        if (msg == u"module_fail"_s) {
+            log_level = LogLevel::ErrorCritical;
+            msg = json.value(u"module"_s).toString();
+            moduleFail = true;
+        }
 
         auto out = formatForConsole(msg);
         if (!out.trimmed().isEmpty())
