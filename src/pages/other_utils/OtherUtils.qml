@@ -93,7 +93,7 @@ FC.FormCardPage {
 
             onClicked: {
                 showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
-                RebaseHelperBackend.rollbackImage(function (callback) {
+                OtherUtilsBackend.rollbackImage(function (callback) {
                     if (callback != 0) {
                         showPassiveNotification(i18n("Rollback Failed."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, consoleDrawer.open);
                     } else {
@@ -111,8 +111,64 @@ FC.FormCardPage {
     }
 
     FC.FormHeader {
+        title: i18n("Rebase System Image")
+    }
+
+    readonly property list<var> rebaseTargets: AppConfig.rebaseTargets || []
+
+    Repeater {
+        model: page.rebaseTargets
+        delegate: ColumnLayout {
+            id: rebaseDelegate
+
+            clip: true
+            spacing: Kirigami.Units.gridUnit
+            Layout.fillWidth: true
+
+            required property string url
+            required property list<var> images
+
+            Repeater {
+                model: rebaseDelegate.images
+                delegate: FC.FormCard {
+                    id: rebaseImgDelegate
+                    required property string name
+                    required property list<string> features
+                    required property list<string> tags
+
+                    FC.FormTextDelegate {
+                        text: rebaseImgDelegate.name
+                    }
+
+                    FormDelegateSeparatorFixed {}
+
+                    FC.FormTextDelegate {
+                        text: {
+                            let txt = "Features: ";
+                            for (let idx in rebaseImgDelegate.features) {
+                                txt += rebaseImgDelegate.features[idx] + ", ";
+                            }
+                        }
+                    }
+
+                    FormDelegateSeparatorFixed {}
+
+                    FC.FormTextDelegate {
+                        text: {
+                            let txt = "Tags: ";
+                            for (let idx in rebaseImgDelegate.tags) {
+                                txt += rebaseImgDelegate.tags[idx] + ", ";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    FC.FormHeader {
         title: i18n("System Image Information")
-        visible: RebaseHelperBackend.currentImage.load_successful
+        visible: OtherUtilsBackend.currentImage.load_successful
     }
     FCSystemInfo {}
 
@@ -123,6 +179,6 @@ FC.FormCardPage {
 
     ConsoleDrawer {
         id: consoleDrawer
-        model: RebaseHelperBackend.consoleModel
+        model: OtherUtilsBackend.consoleModel
     }
 }

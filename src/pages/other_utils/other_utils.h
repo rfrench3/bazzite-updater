@@ -66,7 +66,7 @@ public:
     bool m_isValid = false;
 };
 
-class RebaseHelperBackend : public QObject
+class OtherUtilsBackend : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -83,7 +83,7 @@ class RebaseHelperBackend : public QObject
     void setGpuDrivers();
 
 public:
-    RebaseHelperBackend(QObject *parent = nullptr);
+    OtherUtilsBackend(QObject *parent = nullptr);
 
     osImage currentImage() const
     {

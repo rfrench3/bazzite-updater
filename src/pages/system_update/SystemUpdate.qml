@@ -154,8 +154,8 @@ Kirigami.Page {
                     const last_update = i18nc("label, last update to the system.", "Last Update") + ": ";
                     if (sessionStorage.updateCompleted)
                         return last_update + i18n("Right now!");
-                    if (RebaseHelperBackend.currentImage.load_successful)
-                        return last_update + RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"];
+                    if (OtherUtilsBackend.currentImage.load_successful)
+                        return last_update + OtherUtilsBackend.currentImage.datePretty["day"] + " " + OtherUtilsBackend.currentImage.datePretty["month"] + ", " + OtherUtilsBackend.currentImage.datePretty["year"];
 
                     return "";
                 }

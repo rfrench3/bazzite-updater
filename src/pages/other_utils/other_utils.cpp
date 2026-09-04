@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "rebase_helper.h"
+#include "other_utils.h"
 #include "k_config.h"
 #include "utils.h"
 
@@ -71,7 +71,7 @@ osImage osImage::fromJson(const QString &filePath)
     return img;
 }
 
-RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
+OtherUtilsBackend::OtherUtilsBackend(QObject *parent)
     : QObject(parent)
 {
     m_console = new Console::Model(this);
@@ -91,7 +91,7 @@ RebaseHelperBackend::RebaseHelperBackend(QObject *parent)
     setGpuDrivers();
 }
 
-void RebaseHelperBackend::setGpuDrivers()
+void OtherUtilsBackend::setGpuDrivers()
 {
     const auto path = u"/usr/libexec/bazzite-detect-nvidia-support-status"_s;
 
@@ -132,7 +132,7 @@ void RebaseHelperBackend::setGpuDrivers()
 }
 
 // ROLLBACK
-void RebaseHelperBackend::rollbackImage(QJSValue callback)
+void OtherUtilsBackend::rollbackImage(QJSValue callback)
 {
     if (!callback.isCallable()) {
         qDebug() << "Callback is not callable, command run refused";

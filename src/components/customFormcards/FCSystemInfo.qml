@@ -5,7 +5,7 @@ import org.kde.kirigamiaddons.formcard as FC
 import io.github.rfrench3.bazzite_updater
 
 Loader {
-    active: RebaseHelperBackend.currentImage.load_successful
+    active: OtherUtilsBackend.currentImage.load_successful
     visible: active
 
     Layout.fillWidth: true
@@ -21,7 +21,7 @@ Loader {
 
             FC.FormTextDelegate {
                 textItem.wrapMode: Text.WordWrap
-                text: RebaseHelperBackend.currentImage.name + ":" + RebaseHelperBackend.currentImage.branch
+                text: OtherUtilsBackend.currentImage.name + ":" + OtherUtilsBackend.currentImage.branch
 
                 description: i18n("Current Image")
             }
@@ -30,22 +30,22 @@ Loader {
 
             FC.FormTextDelegate {
                 textItem.wrapMode: Text.WordWrap
-                text: RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"]
+                text: OtherUtilsBackend.currentImage.datePretty["day"] + " " + OtherUtilsBackend.currentImage.datePretty["month"] + ", " + OtherUtilsBackend.currentImage.datePretty["year"]
 
                 description: i18n("Last Update")
             }
 
             FormDelegateSeparatorFixed {
-                visible: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
+                visible: OtherUtilsBackend.bestDriver != Gpu.Drivers.UNKNOWN
             }
 
             Loader {
-                active: RebaseHelperBackend.bestDriver != Gpu.Drivers.UNKNOWN
+                active: OtherUtilsBackend.bestDriver != Gpu.Drivers.UNKNOWN
                 Layout.fillWidth: true
 
                 sourceComponent: FC.FormTextDelegate {
                     text: {
-                        switch (RebaseHelperBackend.bestDriver) {
+                        switch (OtherUtilsBackend.bestDriver) {
                         case Gpu.Drivers.BASE:
                             return i18n("The best drivers for your GPU are provided by the Linux kernel.");
                         case Gpu.Drivers.NVIDIA:
@@ -62,16 +62,16 @@ Loader {
                     }
 
                     readonly property int __current: {
-                        if (RebaseHelperBackend.currentImage.name.endsWith("nvidia-open"))
+                        if (OtherUtilsBackend.currentImage.name.endsWith("nvidia-open"))
                             return Gpu.Drivers.NVIDIA_OPEN;
-                        else if (RebaseHelperBackend.currentImage.name.endsWith("nvidia"))
+                        else if (OtherUtilsBackend.currentImage.name.endsWith("nvidia"))
                             return Gpu.Drivers.NVIDIA;
                         else
                             return Gpu.Drivers.BASE;
                     }
 
                     description: {
-                        if (RebaseHelperBackend.bestDriver == __current)
+                        if (OtherUtilsBackend.bestDriver == __current)
                             return i18n("You have the best drivers installed.");
 
                         switch (__current) {
@@ -88,70 +88,70 @@ Loader {
         }
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.name || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.name || i18n("loading...")
             description: i18n("Image")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.vendor || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.vendor || i18n("loading...")
             description: i18n("Vendor")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.ref || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.ref || i18n("loading...")
             description: i18n("Ref")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.tag || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.tag || i18n("loading...")
             description: i18n("Tag")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.branch || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.branch || i18n("loading...")
             description: i18n("Branch")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.baseName || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.baseName || i18n("loading...")
             description: i18n("Base Name")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.fedoraVersion || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.fedoraVersion || i18n("loading...")
             description: i18n("Fedora Version")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.version || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.version || i18n("loading...")
             description: i18n("Version")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.versionPretty || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.versionPretty || i18n("loading...")
             description: i18n("Version (Pretty)")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: RebaseHelperBackend.currentImage.datePretty["day"] + " " + RebaseHelperBackend.currentImage.datePretty["month"] + ", " + RebaseHelperBackend.currentImage.datePretty["year"] || i18n("loading...")
+            text: OtherUtilsBackend.currentImage.datePretty["day"] + " " + OtherUtilsBackend.currentImage.datePretty["month"] + ", " + OtherUtilsBackend.currentImage.datePretty["year"] || i18n("loading...")
             description: i18n("Release Date")
         }
     }

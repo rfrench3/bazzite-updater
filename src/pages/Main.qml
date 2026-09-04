@@ -170,7 +170,7 @@ StatefulApp.StatefulWindow {
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
-                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("RebaseHelper.qml")
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("OtherUtils.qml")
             },
             Kirigami.Action {
 
