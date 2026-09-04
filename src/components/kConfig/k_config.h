@@ -85,15 +85,11 @@ public:
     Q_PROPERTY(QVariantList rebaseTargets MEMBER rebaseTargets CONSTANT)
     Q_PROPERTY(QVariantMap ini READ config CONSTANT)
 
-    Q_PROPERTY(QByteArray rebaseTargetsBytes MEMBER rebaseTargetsB CONSTANT)
-
     void setupOsRelease(QFile &file);
 
     QJsonObject aboutOs;
     QJsonObject osRelease;
     QVariantList rebaseTargets;
-
-    QByteArray rebaseTargetsB;
 
     // Full path for service-as-program.sh
     QString serviceHelperScript;
