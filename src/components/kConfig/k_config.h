@@ -14,6 +14,7 @@
 #include <qobject.h>
 #include <qqmlengine.h>
 #include <qqmlintegration.h>
+#include <qstringview.h>
 #include <qtclasshelpermacros.h>
 #include <qtmetamacros.h>
 #include <qtpreprocessorsupport.h>
@@ -81,14 +82,18 @@ public: // singleton methods
 public:
     Q_PROPERTY(QJsonObject osAboutData MEMBER aboutOs CONSTANT)
     Q_PROPERTY(QJsonObject osRelease MEMBER osRelease CONSTANT)
-    Q_PROPERTY(QJsonObject rebaseTargets MEMBER rebaseTargets CONSTANT)
+    Q_PROPERTY(QVariantList rebaseTargets MEMBER rebaseTargets CONSTANT)
     Q_PROPERTY(QVariantMap ini READ config CONSTANT)
+
+    Q_PROPERTY(QByteArray rebaseTargetsBytes MEMBER rebaseTargetsB CONSTANT)
 
     void setupOsRelease(QFile &file);
 
     QJsonObject aboutOs;
     QJsonObject osRelease;
-    QJsonObject rebaseTargets;
+    QVariantList rebaseTargets;
+
+    QByteArray rebaseTargetsB;
 
     // Full path for service-as-program.sh
     QString serviceHelperScript;

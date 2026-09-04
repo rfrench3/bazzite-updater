@@ -3,7 +3,7 @@ default:
 
 # generate new translations template
 potfile:
-    cmake -DPROJECT_NAME=bazzite-updater -DSOURCE_DIR=$PWD -P $PWD/cmake/UpdateTranslations.cmake
+    cmake --build build --target potfile
 
 # devcontainer
 build:
