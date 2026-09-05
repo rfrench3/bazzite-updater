@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2025-2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -61,121 +63,126 @@ FC.FormCardPage {
         active: !globalDrawer.drawerOpen && !consoleDrawer.drawerOpen
     }
 
-    FC.FormHeader {
-        title: i18n("Rollback Last Update")
-        visible: rollbackFC.visible
-    }
+    AsyncLoader {
+        sourceComponent: PageContentLayout {
 
-    FC.FormCard {
-        id: rollbackFC
+            FC.FormHeader {
+                title: i18n("Rollback Last Update")
+                visible: rollbackFC.visible
+            }
 
-        visible: AppConfig.ini.Commands.systemRollbackCommand || ""
+            FC.FormCard {
+                id: rollbackFC
 
-        FC.FormTextDelegate {
-            text: i18n("This will revert the last update to your system. Your user-level files such as documents and games will not be affected.")
-            textItem.wrapMode: Text.Wrap
-        }
+                visible: AppConfig.ini.Commands.systemRollbackCommand || ""
 
-        FormDelegateSeparatorFixed {}
+                FC.FormTextDelegate {
+                    text: i18n("This will revert the last update to your system. Your user-level files such as documents and games will not be affected.")
+                    textItem.wrapMode: Text.Wrap
+                }
 
-        FC.FormCheckDelegate {
-            id: rollbackConfirm
-            text: i18n("Confirm")
+                FormDelegateSeparatorFixed {}
 
-            enabled: AppState.allowCommands
-        }
+                FC.FormCheckDelegate {
+                    id: rollbackConfirm
+                    text: i18n("Confirm")
 
-        FormDelegateSeparatorFixed {}
+                    enabled: AppState.allowCommands
+                }
 
-        FC.FormButtonDelegate {
-            text: i18n("Initiate Rollback")
-            enabled: rollbackConfirm.checked && rollbackConfirm.enabled
+                FormDelegateSeparatorFixed {}
 
-            onClicked: {
-                showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
-                OtherUtilsBackend.rollbackImage(function (callback) {
-                    if (callback != 0) {
-                        showPassiveNotification(i18n("Rollback Failed."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, consoleDrawer.open);
-                    } else {
-                        showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
+                FC.FormButtonDelegate {
+                    text: i18n("Initiate Rollback")
+                    enabled: rollbackConfirm.checked && rollbackConfirm.enabled
+
+                    onClicked: {
+                        showPassiveNotification(i18n("Rollback Started"), Kirigami.short);
+                        OtherUtilsBackend.rollbackImage(function (callback) {
+                            if (callback != 0) {
+                                showPassiveNotification(i18n("Rollback Failed."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, consoleDrawer.open);
+                            } else {
+                                showPassiveNotification(i18n("Rollback Succeeded!"), Kirigami.short);
+                            }
+                        });
                     }
-                });
+
+                    trailing: BusyIndicator {
+                        id: rollbackBusyIndicator
+                        running: AppState.rollbackRunning
+                    }
+                    trailingLogo.visible: !rollbackBusyIndicator.running
+                }
             }
 
-            trailing: BusyIndicator {
-                id: rollbackBusyIndicator
-                running: AppState.rollbackRunning
+            FC.FormHeader {
+                title: i18n("Rebase System Image")
             }
-            trailingLogo.visible: !rollbackBusyIndicator.running
-        }
-    }
 
-    FC.FormHeader {
-        title: i18n("Rebase System Image")
-    }
-
-    readonly property list<var> rebaseTargets: AppConfig.rebaseTargets || []
-
-    Repeater {
-        model: page.rebaseTargets
-        delegate: ColumnLayout {
-            id: rebaseDelegate
-
-            clip: true
-            spacing: Kirigami.Units.gridUnit
-            Layout.fillWidth: true
-
-            required property string url
-            required property list<var> images
+            readonly property list<var> rebaseTargets: AppConfig.rebaseTargets || []
 
             Repeater {
-                model: rebaseDelegate.images
-                delegate: FC.FormCard {
-                    id: rebaseImgDelegate
-                    required property string name
-                    required property list<string> features
-                    required property list<string> tags
+                model: page.rebaseTargets
+                delegate: ColumnLayout {
+                    id: rebaseDelegate
 
-                    FC.FormTextDelegate {
-                        text: rebaseImgDelegate.name
-                    }
+                    clip: true
+                    spacing: Kirigami.Units.gridUnit
+                    Layout.fillWidth: true
 
-                    FormDelegateSeparatorFixed {}
+                    required property string url
+                    required property list<var> images
 
-                    FC.FormTextDelegate {
-                        text: {
-                            let txt = "Features: ";
-                            for (let idx in rebaseImgDelegate.features) {
-                                txt += rebaseImgDelegate.features[idx] + ", ";
+                    Repeater {
+                        model: rebaseDelegate.images
+                        delegate: FC.FormCard {
+                            id: rebaseImgDelegate
+                            required property string name
+                            required property list<string> features
+                            required property list<string> tags
+
+                            FC.FormTextDelegate {
+                                text: rebaseImgDelegate.name
                             }
-                        }
-                    }
 
-                    FormDelegateSeparatorFixed {}
+                            FormDelegateSeparatorFixed {}
 
-                    FC.FormTextDelegate {
-                        text: {
-                            let txt = "Tags: ";
-                            for (let idx in rebaseImgDelegate.tags) {
-                                txt += rebaseImgDelegate.tags[idx] + ", ";
+                            FC.FormTextDelegate {
+                                text: {
+                                    let txt = "Features: ";
+                                    for (let idx in rebaseImgDelegate.features) {
+                                        txt += rebaseImgDelegate.features[idx] + ", ";
+                                    }
+                                }
+                            }
+
+                            FormDelegateSeparatorFixed {}
+
+                            FC.FormTextDelegate {
+                                text: {
+                                    let txt = "Tags: ";
+                                    for (let idx in rebaseImgDelegate.tags) {
+                                        txt += rebaseImgDelegate.tags[idx] + ", ";
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+
+            FC.FormHeader {
+                title: i18n("System Image Information")
+                visible: OtherUtilsBackend.currentImage.load_successful
+            }
+            FCSystemInfo {}
+
+            FC.FormHeader {
+                title: i18nc("card to display info from os-release", "Additional Information")
+            }
+            FCOsRelease {}
         }
     }
-
-    FC.FormHeader {
-        title: i18n("System Image Information")
-        visible: OtherUtilsBackend.currentImage.load_successful
-    }
-    FCSystemInfo {}
-
-    FC.FormHeader {
-        title: i18nc("card to display info from os-release", "Additional Information")
-    }
-    FCOsRelease {}
 
     ConsoleDrawer {
         id: consoleDrawer
