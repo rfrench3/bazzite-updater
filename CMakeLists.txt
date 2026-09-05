@@ -12,14 +12,8 @@ project(bazzite-updater VERSION ${APP_VERSION})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(TESTING_BUILD "Enable testing features like filler text in the console view." OFF)
 option(_INCLUDE_SUBMODULES "Compile the git submodules alongside the normal application." OFF)
 option(_USE_XDG_CONFIG "Install config files to CMAKE_INSTALL_PREFIX/etc/xdg instead of /etc. Used for development." OFF)
-
-if(TESTING_BUILD)
-  add_compile_definitions(TESTING_BUILD=1)
-endif()
-
 ### Install SDL3 ###
 
 find_package(SDL3 REQUIRED)
@@ -75,28 +69,6 @@ ecm_setup_version(${PROJECT_VERSION}
 
 ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard REQUIRED)
 ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp REQUIRED)
-
-### Define macros for later use ###
-
-string(TIMESTAMP TODAY_DATE "%Y-%m-%d")
-string(TIMESTAMP CURRENT_YEAR "%Y")
-
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/LICENSES/GPL-2.0-only.txt" GPL2_ONLY_LICENSE_RAW)
-string(REPLACE "\n" "\\n" GPL2_ONLY_LICENSE "${GPL2_ONLY_LICENSE_RAW}")
-string(REPLACE "\"" "\\\"" GPL2_ONLY_LICENSE "${GPL2_ONLY_LICENSE}")
-
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/LICENSES/LicenseRef-KDE-Accepted-GPL.txt" KDE_ACCEPTED_GPL_LICENSE_RAW)
-string(REPLACE "\n" "\\n" KDE_ACCEPTED_GPL_LICENSE "${KDE_ACCEPTED_GPL_LICENSE_RAW}")
-string(REPLACE "\"" "\\\"" KDE_ACCEPTED_GPL_LICENSE "${KDE_ACCEPTED_GPL_LICENSE}")
-
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/LICENSES/GPL-3.0-only.txt" GPL3_ONLY_LICENSE_RAW)
-string(REPLACE "\n" "\\n" GPL3_ONLY_LICENSE "${GPL3_ONLY_LICENSE_RAW}")
-string(REPLACE "\"" "\\\"" GPL3_ONLY_LICENSE "${GPL3_ONLY_LICENSE}")
-
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/LICENSES/APACHELICENSE-2.0.txt" APACHE2_LICENSE_RAW)
-string(REPLACE "\n" "\\n" APACHE2_LICENSE "${APACHE2_LICENSE_RAW}")
-string(REPLACE "\"" "\\\"" APACHE2_LICENSE "${APACHE2_LICENSE}")
-
 
 add_subdirectory(src)
 

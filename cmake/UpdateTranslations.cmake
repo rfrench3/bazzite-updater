@@ -12,7 +12,8 @@ file(GLOB_RECURSE SOURCE_FILES
 set(FILES_LIST "${SOURCE_DIR}/po/source_files.txt")
 file(WRITE "${FILES_LIST}" "")
 foreach(F IN LISTS SOURCE_FILES)
-  file(APPEND "${FILES_LIST}" "${F}\n")
+  file(RELATIVE_PATH REL_F "${SOURCE_DIR}" "${F}")
+  file(APPEND "${FILES_LIST}" "${REL_F}\n")
 endforeach()
 
 execute_process(

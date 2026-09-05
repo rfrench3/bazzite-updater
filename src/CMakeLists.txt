@@ -8,55 +8,56 @@ ecm_add_qml_module(bazzite-updater
     io.github.rfrench3.bazzite_updater
 )
 
+set(PG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pages")
+set(COMP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/components")
+
 target_sources(bazzite-updater
     PRIVATE
     main.cpp
     utils.h
     utils.cpp
     resources.qrc
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/system_update.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/system_update.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/other_utils/other_utils.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/other_utils/other_utils.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/console/console.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/console/console.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/k_config.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/k_config.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/user_settings.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig/user_settings.cpp
+    ${PG_DIR}/system_update/system_update.cpp
+    ${PG_DIR}/system_update/system_update.h
+    ${PG_DIR}/other_utils/other_utils.h
+    ${PG_DIR}/other_utils/other_utils.cpp
+    ${COMP_DIR}/console/console.h
+    ${COMP_DIR}/console/console.cpp
+    ${COMP_DIR}/kConfig/k_config.h
+    ${COMP_DIR}/kConfig/k_config.cpp
+    ${COMP_DIR}/kConfig/user_settings.h
+    ${COMP_DIR}/kConfig/user_settings.cpp
 )
 
 target_include_directories(bazzite-updater
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/other_utils
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/console
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/kConfig
+    ${PG_DIR}/system_update
+    ${PG_DIR}/other_utils
+    ${COMP_DIR}/console
+    ${COMP_DIR}/kConfig
 )
-
-# adds the licenses into the About files without making a huge mess in the source code
-set(ABOUTAPP_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataApp.qml")
-set(ABOUTAPP_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/pages/AboutDataApp.qml")
-configure_file(${ABOUTAPP_INPUT} ${ABOUTAPP_OUTPUT} @ONLY)
 
 ecm_target_qml_sources(bazzite-updater
     SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/Main.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/system_update/SystemUpdate.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/other_utils/OtherUtils.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssPage.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/FCRssDelegate.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/rss_feed/RssModel.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/AboutDataOS.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/pages/settings/Settings.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleView.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/console/ConsoleDrawer.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/AppDialog.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FormCardCollapsible.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FCOsRelease.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FCSystemInfo.qml
-    ${CMAKE_CURRENT_SOURCE_DIR}/components/customFormcards/FormDelegateSeparatorFixed.qml
-    ${ABOUTAPP_OUTPUT}
+    ${PG_DIR}/Main.qml
+    ${PG_DIR}/system_update/SystemUpdate.qml
+    ${PG_DIR}/other_utils/OtherUtils.qml
+    ${PG_DIR}/rss_feed/RssPage.qml
+    ${PG_DIR}/rss_feed/FCRssDelegate.qml
+    ${PG_DIR}/rss_feed/RssModel.qml
+    ${PG_DIR}/AboutDataApp.qml
+    ${PG_DIR}/AboutDataOS.qml
+    ${PG_DIR}/settings/Settings.qml
+    ${PG_DIR}/rebase_page/RebasePage.qml
+    ${COMP_DIR}/console/ConsoleView.qml
+    ${COMP_DIR}/console/ConsoleDrawer.qml
+    ${COMP_DIR}/AppDialog.qml
+    ${COMP_DIR}/AsyncLoader.qml
+    ${COMP_DIR}/PageContentLayout.qml
+    ${COMP_DIR}/customFormcards/FormCardCollapsible.qml
+    ${COMP_DIR}/customFormcards/FCOsRelease.qml
+    ${COMP_DIR}/customFormcards/FCSystemInfo.qml
+    ${COMP_DIR}/customFormcards/FormDelegateSeparatorFixed.qml
 )
 
 target_link_libraries(bazzite-updater
