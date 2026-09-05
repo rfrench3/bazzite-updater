@@ -49,11 +49,12 @@ ecm_target_qml_sources(bazzite-updater
     ${PG_DIR}/AboutDataOS.qml
     ${PG_DIR}/settings/Settings.qml
     ${PG_DIR}/rebase_page/RebasePage.qml
-    ${COMP_DIR}/console/ConsoleView.qml
-    ${COMP_DIR}/console/ConsoleDrawer.qml
     ${COMP_DIR}/AppDialog.qml
+    ${COMP_DIR}/AppPage.qml
     ${COMP_DIR}/AsyncLoader.qml
     ${COMP_DIR}/PageContentLayout.qml
+    ${COMP_DIR}/console/ConsoleView.qml
+    ${COMP_DIR}/console/ConsoleDrawer.qml
     ${COMP_DIR}/customFormcards/FormCardCollapsible.qml
     ${COMP_DIR}/customFormcards/FCOsRelease.qml
     ${COMP_DIR}/customFormcards/FCSystemInfo.qml

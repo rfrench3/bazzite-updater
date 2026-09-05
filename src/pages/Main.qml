@@ -165,12 +165,22 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
 
                 text: i18n("Other Utilities")
-                icon.name: "system-reboot-symbolic"
+                icon.name: "applications-accessories-symbolic"
 
                 checkable: true
                 QQC2.ActionGroup.group: pageSelector
 
                 onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("OtherUtils.qml")
+            },
+            Kirigami.Action {
+
+                text: i18n("Rebase Helper")
+                icon.name: "system-reboot-symbolic"
+
+                checkable: true
+                QQC2.ActionGroup.group: pageSelector
+
+                onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("RebasePage.qml")
             },
             Kirigami.Action {
 

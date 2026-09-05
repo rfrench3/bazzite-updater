@@ -13,41 +13,13 @@ import org.kde.kirigamiaddons.formcard as FC
 import io.github.rfrench3.bazzite_updater
 import io.github.rfrench3.controllable as GP
 
-FC.FormCardPage {
+AppPage {
     id: page
-
-    function grabScrollbar(item) {
-        if (item.contentItem?.ScrollBar?.vertical)
-            return item.contentItem.ScrollBar.vertical;
-
-        if (item.parent)
-            return grabScrollbar(item.parent);
-
-        console.warn("Parent scrollbar not found, controller scrolling will not function!");
-    }
-    property ScrollBar scrollbar: page.grabScrollbar(page)
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Other Utilities")
 
-    function handleInput(buttonId, button_down) {
-        if (button_down == false)
-            return;
-
-        if (consoleDrawer.drawerOpen) {
-            consoleDrawer.handleInput(buttonId, button_down);
-            return;
-        }
-
-        switch (buttonId) {
-        case 3: // Y
-            toggleConsole.trigger();
-            // Closes up to 5 passive notifications
-            for (let i = 0; i < 5; ++i) {
-                hidePassiveNotification();
-            }
-            break;
-        }
-    }
+    drawer: consoleDrawer
+    actionToggleDrawer: toggleConsole
 
     actions: [
         Kirigami.Action {
@@ -59,7 +31,7 @@ FC.FormCardPage {
     ]
 
     GP.PageNavigation {
-        targetScrollbar: page.scrollbar
+        targetScrollbar: page.scrollBar
         active: !globalDrawer.drawerOpen && !consoleDrawer.drawerOpen
     }
 
@@ -112,62 +84,6 @@ FC.FormCardPage {
                         running: AppState.rollbackRunning
                     }
                     trailingLogo.visible: !rollbackBusyIndicator.running
-                }
-            }
-
-            FC.FormHeader {
-                title: i18n("Rebase System Image")
-            }
-
-            readonly property list<var> rebaseTargets: AppConfig.rebaseTargets || []
-
-            Repeater {
-                model: page.rebaseTargets
-                delegate: ColumnLayout {
-                    id: rebaseDelegate
-
-                    clip: true
-                    spacing: Kirigami.Units.gridUnit
-                    Layout.fillWidth: true
-
-                    required property string url
-                    required property list<var> images
-
-                    Repeater {
-                        model: rebaseDelegate.images
-                        delegate: FC.FormCard {
-                            id: rebaseImgDelegate
-                            required property string name
-                            required property list<string> features
-                            required property list<string> tags
-
-                            FC.FormTextDelegate {
-                                text: rebaseImgDelegate.name
-                            }
-
-                            FormDelegateSeparatorFixed {}
-
-                            FC.FormTextDelegate {
-                                text: {
-                                    let txt = "Features: ";
-                                    for (let idx in rebaseImgDelegate.features) {
-                                        txt += rebaseImgDelegate.features[idx] + ", ";
-                                    }
-                                }
-                            }
-
-                            FormDelegateSeparatorFixed {}
-
-                            FC.FormTextDelegate {
-                                text: {
-                                    let txt = "Tags: ";
-                                    for (let idx in rebaseImgDelegate.tags) {
-                                        txt += rebaseImgDelegate.tags[idx] + ", ";
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
 
