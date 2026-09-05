@@ -15,25 +15,16 @@ import io.github.rfrench3.controllable as GP
 
 import QtQml.XmlListModel
 
-FC.FormCardPage {
+AppPage {
     id: page
 
     topPadding: Kirigami.Units.largeSpacing * 4
 
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("Changelogs")
 
-    function grabScrollbar(item) {
-        if (item.contentItem?.ScrollBar?.vertical)
-            return item.contentItem.ScrollBar.vertical;
-
-        if (item.parent)
-            return grabScrollbar(item.parent);
-
-        console.warn("Parent scrollbar not found, controller scrolling will not function!");
-    }
-
     GP.PageNavigation {
-        targetScrollbar: page.grabScrollbar(page)
+        targetScrollbar: page.scrollBar
+        active: !globalDrawer.drawerOpen
     }
 
     FC.FormCard {
@@ -96,11 +87,6 @@ FC.FormCardPage {
             required property string content
 
             Layout.fillWidth: true
-
-            // TODO: This might not be needed with the switch to a normal FormCardPage.
-            // Tab navigation must manually be tracked because it is based on load order. Moving down and then back up can load things in a strange order
-            // KeyNavigation.backtab: (delegate.index > 0) ? repeater.itemAt(delegate.index - 1) : delegate.forceActiveFocus(delegate.nextItemInFocusChain(false))
-            // KeyNavigation.tab: (delegate.index < repeater.count - 1) ? repeater.itemAt(delegate.index + 1) : delegate.forceActiveFocus(delegate.nextItemInFocusChain(true))
 
             Item {
                 implicitHeight: Kirigami.Units.mediumSpacing
