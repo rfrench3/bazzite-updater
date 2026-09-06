@@ -48,6 +48,11 @@
                 "tags": ["stable", "testing", "unstable"]
             },
             {
+                "name": "bazzite-deck-nvidia-gnome",
+                "features": ["gnome", "gamemode", "nvidia"],
+                "tags": ["stable", "testing", "unstable"]
+            },
+            {
                 "name": "bazzite-dx",
                 "features": ["kde", "gamemode", "devtools"],
                 "tags": ["stable"]
