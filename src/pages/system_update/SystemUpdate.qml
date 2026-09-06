@@ -6,7 +6,6 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
-// import org.kde.kirigamiaddons.statefulapp as StatefulApp
 import org.kde.kirigamiaddons.formcard as FC
 
 import io.github.rfrench3.bazzite_updater
@@ -15,10 +14,10 @@ import io.github.rfrench3.controllable as GP
 Kirigami.Page {
     id: page
 
-    // HACK: Global drawer gamepad labels are placed in the page titles
+    // Global drawer gamepad labels are placed in the page titles
     title: GP.Labels.east + GP.Labels.spacer_large + i18n("System Update")
 
-    function handleInput(buttonId, button_down) {
+    function handleInput(buttonId: int, button_down: bool): void {
         if (button_down == false)
             return;
 
@@ -36,39 +35,56 @@ Kirigami.Page {
         switch (buttonId) {
         case 3: // Y
             toggleConsole.trigger();
-            // Closes up to 5 passive notifications
-            for (let i = 0; i < 5; ++i) {
-                hidePassiveNotification();
-            }
             break;
         }
     }
 
-    Kirigami.Action {
-        id: updateAction
-        text: i18n("Update System Image and Software") + GP.Labels.spacer + GP.Labels.south
-        shortcut: "Return"
-        enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate && (AppConfig.ini.Commands?.systemUpdateCommand || "")
+    actions: [
+        Kirigami.Action {
+            id: updateAction
+            text: i18n("Start update") + GP.Labels.spacer + GP.Labels.south
+            shortcut: "Return"
+            enabled: AppState.allowCommands && !SystemUpdateBackend.blockUpdate && (AppConfig.ini.Commands?.systemUpdateCommand || "")
 
-        onTriggered: {
-            sessionStorage.mainText = i18n("System Updating");
+            onTriggered: {
+                sessionStorage.mainText = i18n("System Updating");
 
-            showPassiveNotification(i18n("Update Started"), Kirigami.short);
-            SystemUpdateBackend.runUpdate(callback => {
-                if (callback != 0) {
-                    showPassiveNotification(i18n("Update Failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
-                        consoleDrawer.drawerOpen = true;
-                    });
-                    sessionStorage.mainText = "";
-                    return;
+                showPassiveNotification(i18n("Update Started"), Kirigami.short);
+                SystemUpdateBackend.runUpdate(callback => {
+                    if (callback != 0) {
+                        if (consoleDrawer.drawerOpen) {
+                            showPassiveNotification(i18n("Update Failed."), Kirigami.short);
+                        } else {
+                            showPassiveNotification(i18n("Update Failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
+                                toggleConsole.trigger();
+                            });
+                        }
+                        sessionStorage.mainText = "";
+                        return;
+                    }
+
+                    showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
+                    sessionStorage.updateCompleted = true;
+                    sessionStorage.mainText = i18n("System Updated!");
+                });
+            }
+        },
+        Kirigami.Action {
+            id: toggleConsole
+            text: "Toggle Console" + GP.Labels.spacer + GP.Labels.north
+            shortcut: "F12"
+            onTriggered: {
+                // hide notifications when opening the drawer
+                if (!consoleDrawer.drawerOpen) {
+                    for (let i = 0; i < 5; ++i) {
+                        hidePassiveNotification();
+                    }
                 }
 
-                showPassiveNotification(i18n("Update Succeeded!"), Kirigami.short);
-                sessionStorage.updateCompleted = true;
-                sessionStorage.mainText = i18n("System Updated!");
-            });
+                consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen;
+            }
         }
-    }
+    ]
 
     ColumnLayout {
         id: pageContents
@@ -182,15 +198,6 @@ Kirigami.Page {
             indeterminate: AppState.updateRunning
         }
     }
-
-    actions: [
-        Kirigami.Action {
-            id: toggleConsole
-            text: "Toggle Console" + GP.Labels.spacer + GP.Labels.north
-            shortcut: "F12"
-            onTriggered: consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen
-        }
-    ]
 
     ConsoleDrawer {
         id: consoleDrawer
