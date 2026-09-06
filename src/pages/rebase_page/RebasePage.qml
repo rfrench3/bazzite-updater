@@ -47,8 +47,21 @@ AppPage {
             }
 
             FCSystemImage {
+                url: OtherUtilsBackend.currentImage.ref
                 image: OtherUtilsBackend.currentImage.name
                 tag: OtherUtilsBackend.currentImage.branch
+
+                // look for current image in rebase-targets.json
+                features: {
+                    let targets = AppConfig.rebaseTargets || [];
+                    for (let t of targets) {
+                        for (let img of (t.images || [])) {
+                            if (`${t.url}/${img.name}` === OtherUtilsBackend.currentImage.ref)
+                                return img.features;
+                        }
+                    }
+                    return [i18n("Features are unknown")];
+                }
             }
 
             FC.FormHeader {

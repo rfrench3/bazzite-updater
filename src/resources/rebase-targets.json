@@ -1,6 +1,6 @@
 [
     {
-        "url": "docker://ghcr.io/ublue-os",
+        "url": "ostree-image-signed:docker://ghcr.io/ublue-os",
         "images": [
             {
                 "name": "bazzite",

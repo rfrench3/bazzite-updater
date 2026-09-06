@@ -1,5 +1,5 @@
 import QtQuick
-// import QtQuick.Layouts
+import QtQuick.Layouts
 import org.kde.kirigamiaddons.formcard as FC
 
 FC.FormCard {
@@ -7,31 +7,20 @@ FC.FormCard {
     property string url: ""
     property string image: ""
     property string tag: ""
+    property list<string> features: []
 
     FC.FormTextDelegate {
-        id: urlFD
+        visible: root.image || root.tag
+        text: i18n("Image: %1:%2", root.image, root.tag)
+    }
+
+    FormDelegateSeparatorFixed {
+        visible: (root.image || root.tag) && root.url
+    }
+
+    FC.FormTextDelegate {
+        text: root.features.join(", ")
+        description: root.url
         visible: root.url
-        enabled: visible
-        text: i18n("Source: %1", root.url)
-    }
-
-    FormDelegateSeparatorFixed {
-        visible: urlFD.visible && imgFD.visible
-    }
-
-    FC.FormTextDelegate {
-        id: imgFD
-        visible: root.image
-        text: i18n("Image: %1", root.image)
-    }
-
-    FormDelegateSeparatorFixed {
-        visible: imgFD.visible && tagFD.visible
-    }
-
-    FC.FormTextDelegate {
-        id: tagFD
-        visible: root.tag
-        text: i18n("Tag: %1", root.tag)
     }
 }
