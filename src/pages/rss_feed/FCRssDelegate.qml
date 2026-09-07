@@ -42,7 +42,32 @@ FormCardCollapsible {
                 id: contentText
 
                 visible: abstractDelegate.visible
-                text: delegate.content
+
+                // Without the messy regex, most images tend to grow far beyond the bounds of the formcard.
+                // 516 is the precalculated exact max width images have in formcards that aren't width-constrained.
+                text: delegate.content.replace(/<img\b([^>]*)\s*\/?>/gi, function (imgTag: string): string {
+                    // Extract current width and height values
+                    const widthMatch = imgTag.match(/\bwidth\s*=\s*["'](\d+)["']/i);
+                    const heightMatch = imgTag.match(/\bheight\s*=\s*["'](\d+)["']/i);
+
+                    if (widthMatch) {
+                        const origWidth = parseInt(widthMatch[1], 10);
+
+                        if (origWidth > 516) {
+                            // Replace width with capped max value
+                            imgTag = imgTag.replace(/\bwidth\s*=\s*["']\d+["']/i, 'width="516"');
+
+                            if (heightMatch) {
+                                const origHeight = parseInt(heightMatch[1], 10);
+                                // Calculate proportional height
+                                const newHeight = Math.round((origHeight * 516) / origWidth);
+                                imgTag = imgTag.replace(/\bheight\s*=\s*["']\d+["']/i, 'height="' + newHeight + '"');
+                            }
+                        }
+                    }
+
+                    return imgTag;
+                })
 
                 textFormat: Text.RichText
 
