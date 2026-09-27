@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 18:36+0300\n"
+"POT-Creation-Date: 2026-09-27 22:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /workspaces/bazzite-updater/src/components/console/ConsoleDrawer.qml:63
+#: src/components/console/ConsoleDrawer.qml:63
 msgid "Copy to Clipboard"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/components/console/ConsoleDrawer.qml:66
+#: src/components/console/ConsoleDrawer.qml:66
 msgid "Text Copied"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/components/console/ConsoleDrawer.qml:73
+#: src/components/console/ConsoleDrawer.qml:73
 msgid "Close"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/components/console/ConsoleView.qml:78
+#: src/components/console/ConsoleView.qml:78
 msgid "Warning: "
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/components/console/ConsoleView.qml:82
+#: src/components/console/ConsoleView.qml:82
 msgid "Error: "
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/components/console/ConsoleView.qml:85
+#: src/components/console/ConsoleView.qml:85
 msgid "Debug: "
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/components/console/ConsoleView.qml:89
+#: src/components/console/ConsoleView.qml:89
 msgid "Critical Error: "
 msgstr ""
 
@@ -55,125 +55,148 @@ msgctxt "button label"
 msgid "Display os-release"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:15
-msgid "Display less information"
+#: src/components/customFormcards/FCSystemImage.qml:14
+msgid "Image: %1:%2"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:15
-msgid "Display more information"
-msgstr ""
-
-#: src/components/customFormcards/FCSystemInfo.qml:26
+#: src/components/customFormcards/FCSystemInfo.qml:21
 msgid "Current Image"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:35
+#: src/components/customFormcards/FCSystemInfo.qml:30
 msgid "Last Update"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:50
+#: src/components/customFormcards/FCSystemInfo.qml:45
 msgid "The best drivers for your GPU are provided by the Linux kernel."
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:52
-#: src/components/customFormcards/FCSystemInfo.qml:54
+#: src/components/customFormcards/FCSystemInfo.qml:47
+#: src/components/customFormcards/FCSystemInfo.qml:49
 msgid "The best drivers for your GPU are "
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:56
+#: src/components/customFormcards/FCSystemInfo.qml:51
 msgid "Your GPU is unsupported."
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:75
+#: src/components/customFormcards/FCSystemInfo.qml:70
 msgid "You have the best drivers installed."
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:79
+#: src/components/customFormcards/FCSystemInfo.qml:74
 msgid "You do not have any nvidia drivers installed."
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:81
+#: src/components/customFormcards/FCSystemInfo.qml:76
 msgid "You currently have nvidia installed."
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:83
+#: src/components/customFormcards/FCSystemInfo.qml:78
 msgid "You currently have nvidia-open installed."
 msgstr ""
 
 #: src/components/customFormcards/FCSystemInfo.qml:91
-#: src/components/customFormcards/FCSystemInfo.qml:98
-#: src/components/customFormcards/FCSystemInfo.qml:105
-#: src/components/customFormcards/FCSystemInfo.qml:112
-#: src/components/customFormcards/FCSystemInfo.qml:119
-#: src/components/customFormcards/FCSystemInfo.qml:126
-#: src/components/customFormcards/FCSystemInfo.qml:133
-#: src/components/customFormcards/FCSystemInfo.qml:140
-#: src/components/customFormcards/FCSystemInfo.qml:147
-#: src/components/customFormcards/FCSystemInfo.qml:154
+msgid "Display less information"
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:91
+msgid "Display more information"
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:94
+#: src/components/customFormcards/FCSystemInfo.qml:101
+#: src/components/customFormcards/FCSystemInfo.qml:108
+#: src/components/customFormcards/FCSystemInfo.qml:115
+#: src/components/customFormcards/FCSystemInfo.qml:122
+#: src/components/customFormcards/FCSystemInfo.qml:129
+#: src/components/customFormcards/FCSystemInfo.qml:136
+#: src/components/customFormcards/FCSystemInfo.qml:143
+#: src/components/customFormcards/FCSystemInfo.qml:150
+#: src/components/customFormcards/FCSystemInfo.qml:157
 msgid "loading..."
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:92
+#: src/components/customFormcards/FCSystemInfo.qml:95
 msgid "Image"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:99
+#: src/components/customFormcards/FCSystemInfo.qml:102
 msgid "Vendor"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:106
+#: src/components/customFormcards/FCSystemInfo.qml:109
 msgid "Ref"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:113
+#: src/components/customFormcards/FCSystemInfo.qml:116
 msgid "Tag"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:120
+#: src/components/customFormcards/FCSystemInfo.qml:123
 msgid "Branch"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:127
+#: src/components/customFormcards/FCSystemInfo.qml:130
 msgid "Base Name"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:134
+#: src/components/customFormcards/FCSystemInfo.qml:137
 msgid "Fedora Version"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:141
+#: src/components/customFormcards/FCSystemInfo.qml:144
 msgid "Version"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:148
+#: src/components/customFormcards/FCSystemInfo.qml:151
 msgid "Version (Pretty)"
 msgstr ""
 
-#: src/components/customFormcards/FCSystemInfo.qml:155
+#: src/components/customFormcards/FCSystemInfo.qml:158
 msgid "Release Date"
 msgstr ""
 
-#: src/components/customFormcards/FormCardCollapsible.qml:37
+#: src/components/customFormcards/FCSystemInfo.qml:178
+msgid "Close layered packages view"
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:178
+msgid "View layered packages (%1)"
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:181
+msgid "Layered Packages (%1):"
+msgstr ""
+
+#: src/components/customFormcards/FCSystemInfo.qml:186
+msgid ""
+"Layering packages is a last-resort for when there is no other way to install "
+"a package. Avoid layering packages whenever possible, as it can cause system "
+"updates to fail."
+msgstr ""
+
+#: src/components/customFormcards/FormCardCollapsible.qml:39
 msgid "Read more"
 msgstr ""
 
-#: src/components/customFormcards/FormCardCollapsible.qml:45
+#: src/components/customFormcards/FormCardCollapsible.qml:47
 msgid "Read less"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/main.cpp:113
+#: src/main.cpp:113
 msgid "Bazzite Updater"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/main.cpp:115
+#: src/main.cpp:115
 msgid "Updating and rebasing utility for Bazzite"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/main.cpp:117
+#: src/main.cpp:117
 msgid "© 2025-2026 Robert French"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/main.cpp:118
+#: src/main.cpp:118
 msgid ""
 "This application can be used through a controller or keyboard to perform "
 "various update-related system tasks!"
@@ -184,7 +207,7 @@ msgctxt "@title"
 msgid "About Application"
 msgstr ""
 
-#: src/pages/AboutDataOS.qml:8 src/pages/Main.qml:208
+#: src/pages/AboutDataOS.qml:8 src/pages/Main.qml:198
 msgctxt "About (user's OS)"
 msgid "About %1"
 msgstr ""
@@ -194,262 +217,251 @@ msgctxt "@title:window"
 msgid "Bazzite Updater"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/Main.qml:155
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:18
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:116
+#: src/pages/Main.qml:155 src/pages/system_update/SystemUpdate.qml:18
+#: src/pages/system_update/SystemUpdate.qml:116
 msgid "System Update"
 msgstr ""
 
-#: src/pages/Main.qml:167 src/pages/other_utils/OtherUtils.qml:30
+#: src/pages/Main.qml:167 src/pages/other_utils/OtherUtils.qml:19
 msgid "Other Utilities"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/Main.qml:177
-#: /workspaces/bazzite-updater/src/pages/rss_feed/RssPage.qml:23
+#: src/pages/Main.qml:177 src/pages/rss_feed/RssPage.qml:23
 msgid "Announcements"
 msgstr ""
 
-#: src/pages/Main.qml:199 src/pages/settings/Settings.qml:17
+#: src/pages/Main.qml:189 src/pages/settings/Settings.qml:17
 msgid "Settings"
 msgstr ""
 
-#: src/pages/Main.qml:217
+#: src/pages/Main.qml:207
 msgid "About Bazzite Updater"
 msgstr ""
 
-#: src/pages/Main.qml:230
+#: src/pages/Main.qml:220
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:241
+#: src/pages/Main.qml:231
 msgid "Quit"
 msgstr ""
 
-#: src/pages/Main.qml:316
+#: src/pages/Main.qml:306
 msgctxt "@title:window"
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:323
+#: src/pages/Main.qml:313
 msgid "This will reboot the system."
 msgstr ""
 
-#: src/pages/Main.qml:328
+#: src/pages/Main.qml:318
 msgid "Reboot"
 msgstr ""
 
-#: src/pages/Main.qml:334 src/pages/Main.qml:417
+#: src/pages/Main.qml:324 src/pages/Main.qml:407
 msgid "Cancel"
 msgstr ""
 
-#: src/pages/Main.qml:351
+#: src/pages/Main.qml:341
 msgid ""
 "The app was unable to reboot. Reboot through your system menu to apply "
 "changes."
 msgstr ""
 
-#: src/pages/Main.qml:370
+#: src/pages/Main.qml:360
 msgid "Exit Application"
 msgstr ""
 
-#: src/pages/Main.qml:377
+#: src/pages/Main.qml:367
 msgid "You must reboot to apply changes."
 msgstr ""
 
-#: src/pages/Main.qml:377
+#: src/pages/Main.qml:367
 msgid "No command is running, you may exit."
 msgstr ""
 
-#: src/pages/Main.qml:380
+#: src/pages/Main.qml:370
 msgid ""
 "You should not exit the application until the running command completes. If "
 "you exit early, it may break your system."
 msgstr ""
 
-#: src/pages/Main.qml:382
+#: src/pages/Main.qml:372
 msgid ""
 "If you exit the application before the running command completes, it may not "
 "apply its changes."
 msgstr ""
 
-#: src/pages/Main.qml:392
+#: src/pages/Main.qml:382
 msgid "Do not show this again"
 msgstr ""
 
-#: src/pages/Main.qml:410
+#: src/pages/Main.qml:400
 msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rebase_helper/RebaseHelper.qml:53
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:74
-msgid "Toggle Console"
-msgstr ""
-
-#: /workspaces/bazzite-updater/src/pages/rebase_helper/RebaseHelper.qml:65
+#: src/pages/other_utils/OtherUtils.qml:42
 msgid "Rollback Last Update"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:81
+#: src/pages/other_utils/OtherUtils.qml:52
 msgid ""
 "This will revert the last update to your system. Your user-level files such "
 "as documents and games will not be affected."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:89
+#: src/pages/other_utils/OtherUtils.qml:60
 msgid "Confirm"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:97
+#: src/pages/other_utils/OtherUtils.qml:68
 msgid "Initiate Rollback"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:101
+#: src/pages/other_utils/OtherUtils.qml:72
 msgid "Rollback Started"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:104
+#: src/pages/other_utils/OtherUtils.qml:75
 msgid "Rollback Failed."
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rebase_helper/RebaseHelper.qml:98
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:58
+#: src/pages/other_utils/OtherUtils.qml:75
+#: src/pages/system_update/SystemUpdate.qml:58
 msgid "Open console"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:106
+#: src/pages/other_utils/OtherUtils.qml:77
 msgid "Rollback Succeeded!"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:120
-msgid "Rebase System Image"
-msgstr ""
-
-#: src/pages/other_utils/OtherUtils.qml:176
+#: src/pages/other_utils/OtherUtils.qml:91
 msgid "System Image Information"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:182
+#: src/pages/other_utils/OtherUtils.qml:97
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rebase_helper/rebase_helper.cpp:161
+#: src/pages/other_utils/other_utils.cpp:164
 msgid "Rollback program was not found or failed to start."
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "January"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "February"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "March"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "April"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "May"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "June"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "July"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "August"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "September"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "October"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "November"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:96
+#: src/pages/rss_feed/FCRssDelegate.qml:96
 msgid "December"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:136
+#: src/pages/rss_feed/FCRssDelegate.qml:136
 msgid "in the future"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:140
+#: src/pages/rss_feed/FCRssDelegate.qml:140
 msgid "just now"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:145
+#: src/pages/rss_feed/FCRssDelegate.qml:145
 msgid "minute ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:145
+#: src/pages/rss_feed/FCRssDelegate.qml:145
 msgid "minutes ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:151
+#: src/pages/rss_feed/FCRssDelegate.qml:151
 msgid "hour ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:151
+#: src/pages/rss_feed/FCRssDelegate.qml:151
 msgid "hours ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:157
+#: src/pages/rss_feed/FCRssDelegate.qml:157
 msgid "day ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:157
+#: src/pages/rss_feed/FCRssDelegate.qml:157
 msgid "days ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:163
+#: src/pages/rss_feed/FCRssDelegate.qml:163
 msgid "month ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:163
+#: src/pages/rss_feed/FCRssDelegate.qml:163
 msgid "months ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:168
+#: src/pages/rss_feed/FCRssDelegate.qml:168
 msgid "year ago"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/rss_feed/FCRssDelegate.qml:168
+#: src/pages/rss_feed/FCRssDelegate.qml:168
 msgid "years ago"
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:45
+#: src/pages/rss_feed/RssPage.qml:36
 msgctxt "@info:placeholder"
 msgid "No changelogs have been provided."
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:51
+#: src/pages/rss_feed/RssPage.qml:42
 msgctxt "@info:placeholder"
 msgid "Loading changelog"
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:71
+#: src/pages/rss_feed/RssPage.qml:62
 msgctxt "@info:placeholder"
 msgid "Error loading changelogs:"
 msgstr ""
 
-#: src/pages/rss_feed/RssPage.qml:76
+#: src/pages/rss_feed/RssPage.qml:67
 msgctxt "@info:placeholder"
 msgid "An error has occurred loading changelogs."
 msgstr ""
@@ -512,23 +524,23 @@ msgstr ""
 msgid "Changelogs RSS feed"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:45
+#: src/pages/system_update/SystemUpdate.qml:45
 msgid "Start update"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:50
+#: src/pages/system_update/SystemUpdate.qml:50
 msgid "System Updating"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:52
+#: src/pages/system_update/SystemUpdate.qml:52
 msgid "Update Started"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:56
+#: src/pages/system_update/SystemUpdate.qml:56
 msgid "Update Failed."
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:58
+#: src/pages/system_update/SystemUpdate.qml:58
 msgid "Update Failed. Check console for more details."
 msgstr ""
 
@@ -540,23 +552,27 @@ msgstr ""
 msgid "System Updated!"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:129
+#: src/pages/system_update/SystemUpdate.qml:74
+msgid "Toggle Console"
+msgstr ""
+
+#: src/pages/system_update/SystemUpdate.qml:129
 msgid "Click to update System Image and Software"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:170
+#: src/pages/system_update/SystemUpdate.qml:170
 msgctxt "label, last update to the system."
 msgid "Last Update"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:172
+#: src/pages/system_update/SystemUpdate.qml:172
 msgid "Right now!"
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:188
+#: src/pages/system_update/SystemUpdate.qml:188
 msgid "The System Update command is not defined."
 msgstr ""
 
-#: /workspaces/bazzite-updater/src/pages/system_update/SystemUpdate.qml:189
+#: src/pages/system_update/SystemUpdate.qml:189
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
