@@ -21,8 +21,6 @@ target_sources(bazzite-updater
     ${PG_DIR}/system_update/system_update.h
     ${PG_DIR}/other_utils/other_utils.h
     ${PG_DIR}/other_utils/other_utils.cpp
-    ${PG_DIR}/rebase_page/rebase_model.h
-    ${PG_DIR}/rebase_page/rebase_model.cpp
     ${COMP_DIR}/console/console.h
     ${COMP_DIR}/console/console.cpp
     ${COMP_DIR}/kConfig/k_config.h
@@ -35,7 +33,6 @@ target_include_directories(bazzite-updater
     PRIVATE
     ${PG_DIR}/system_update
     ${PG_DIR}/other_utils
-    ${PG_DIR}/rebase_page
     ${COMP_DIR}/console
     ${COMP_DIR}/kConfig
 )
@@ -51,7 +48,6 @@ ecm_target_qml_sources(bazzite-updater
     ${PG_DIR}/AboutDataApp.qml
     ${PG_DIR}/AboutDataOS.qml
     ${PG_DIR}/settings/Settings.qml
-    ${PG_DIR}/rebase_page/RebasePage.qml
     ${COMP_DIR}/AppDialog.qml
     ${COMP_DIR}/AppPage.qml
     ${COMP_DIR}/AsyncLoader.qml
