@@ -20,6 +20,7 @@ install-controllable:
 # devcontainer
 brun:
     #!/usr/bin/env bash
+    set -eo pipefail
     just build
     just run
 
@@ -43,6 +44,7 @@ run-f44:
 # host (Bazzite)
 brun-f44:
     #!/usr/bin/env bash
+    set -eo pipefail
     just build-f44
     source ./build_bazzite/prefix.sh
     ./build_bazzite/install-root/bin/bazzite-updater
