@@ -22,6 +22,7 @@
 #include "console.h"
 #include "k_config.h"
 #include "system_update.h"
+#include "update_steps_model.h"
 #include "utils.h"
 
 #include <QJsonDocument>
@@ -44,6 +45,7 @@ SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
     : QObject(parent)
 {
     m_console = new Console::Model(this);
+    m_updateStepsModel = new UpdateStepsNS::Model(this);
 }
 
 void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
@@ -70,16 +72,20 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             conclude(1, false);
             qWarning() << "Update failed with exit code " << exit_code;
             m_console->newLine(u"The update has failed. Read the above output for more details."_s, Console::LogLevel::Error);
+            m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
+            m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
+            m_updateStepsModel->updateData(u"Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
+            m_updateStepsModel->updateData(u"UserFlatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
             return;
         }
 
         // TODO UPDATESTEPS: very temporary and inefficient.
         // A proper model needs to be used, and it needs to keep track of any modules failing.
-        updateStepsModel[0] = u"System 2 2 1"_s;
-        updateStepsModel[1] = u"Brew 2 2 1"_s;
-        updateStepsModel[2] = u"Flatpak 2 2 1"_s;
-        updateStepsModel[3] = u"UserFlatpak 2 2 1"_s;
-        updateStepsModelChanged();
+
+        m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
+        m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
+        m_updateStepsModel->updateData(u"Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
+        m_updateStepsModel->updateData(u"UserFlatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
 
         conclude(0, true);
     };
@@ -136,26 +142,24 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
 
             switch (current) {
             case SYSTEM:
-                updateStepsModel[0] = u"System -1 2 0"_s;
+                m_updateStepsModel->updateData(u"System"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case BREW:
-                updateStepsModel[0] = u"System 2 2 1"_s;
-                updateStepsModel[1] = u"Brew -1 2 0"_s;
+                m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
+                m_updateStepsModel->updateData(u"Brew"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case FLATPAK:
-                updateStepsModel[0] = u"System 2 2 1"_s;
-                updateStepsModel[1] = u"Brew 2 2 1"_s;
-                updateStepsModel[2] = u"Flatpak -1 2 0"_s;
+                // updateStepsModel[0] = u"System 2 2 1"_s;
+                // updateStepsModel[1] = u"Brew 2 2 1"_s;
+                // updateStepsModel[2] = u"Flatpak -1 2 0"_s;
                 break;
             case USER_FLATPAK:
-                updateStepsModel[0] = u"System 2 2 1"_s;
-                updateStepsModel[1] = u"Brew 2 2 1"_s;
-                updateStepsModel[2] = u"Flatpak 2 2 1"_s;
-                updateStepsModel[3] = u"UserFlatpak -1 2 0"_s;
+                // updateStepsModel[0] = u"System 2 2 1"_s;
+                // updateStepsModel[1] = u"Brew 2 2 1"_s;
+                // updateStepsModel[2] = u"Flatpak 2 2 1"_s;
+                // updateStepsModel[3] = u"UserFlatpak -1 2 0"_s;
                 break;
             }
-
-            updateStepsModelChanged();
         }
 
         using namespace Console;

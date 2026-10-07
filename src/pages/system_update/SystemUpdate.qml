@@ -124,19 +124,16 @@ Kirigami.Page {
             // NOTE: The card's real width is currently bound by the fixed-width progress bar below this FC
             maximumWidth: pageContents.implicitWidth - Kirigami.Units.smallSpacing
 
-            FormDelegateCollapsible {
+            FC.FormButtonDelegate {
                 id: updateButton
-                button.text: i18n("Click to update System Image and Software")
-                button.enabled: updateAction.enabled
+                text: i18n("Click to update System Image and Software")
+                enabled: updateAction.enabled
 
-                button.onClicked: {
+                onClicked: {
                     updateAction.trigger();
-                    // expanded = true;
                 }
 
-                expanded: SystemUpdateBackend.updateStepsModel[0] !== ""
-
-                button.trailing: Loader {
+                trailing: Loader {
                     sourceComponent: {
                         if (AppState.updateRunning)
                             return busyComponent;
@@ -169,9 +166,9 @@ Kirigami.Page {
                     }
                 }
 
-                button.trailingLogo.visible: !AppState.updateRunning && !AppState.commandSucceeded
+                trailingLogo.visible: !AppState.updateRunning && !AppState.commandSucceeded
 
-                button.description: {
+                description: {
                     const last_update = i18nc("label, last update to the system.", "Last Update") + ": ";
                     if (sessionStorage.updateCompleted)
                         return last_update + i18n("Right now!");
@@ -179,11 +176,6 @@ Kirigami.Page {
                         return last_update + OtherUtilsBackend.currentImage.datePretty["day"] + " " + OtherUtilsBackend.currentImage.datePretty["month"] + ", " + OtherUtilsBackend.currentImage.datePretty["year"];
 
                     return "";
-                }
-
-                FC.AbstractFormDelegate {
-                    contentItem: UpdateSteps {}
-                    background: Item {}
                 }
             }
 
@@ -199,6 +191,7 @@ Kirigami.Page {
                 description: i18n("Make sure the config file (/etc/bazzite-updater/config.ini) is present.")
             }
         }
+        UpdateSteps {}
         Item {
             implicitWidth: Kirigami.Units.gridUnit * 19
         }

@@ -7,6 +7,8 @@ import QtQuick.Layouts
 
 import org.kde.kirigami as Kirigami
 
+import io.github.rfrench3.bazzite_updater
+
 ColumnLayout {
     id: root
 
@@ -15,14 +17,10 @@ ColumnLayout {
 
         delegate: RowLayout {
             id: del
-            required property string modelData
-
-            visible: modelData
-
-            readonly property string module: modelData.split(" ")[0]
-            readonly property int progress: parseInt(modelData.split(" ")[1])
-            readonly property int total: parseInt(modelData.split(" ")[2])
-            readonly property int finished: parseInt(modelData.split(" ")[3])
+            required property string module
+            required property int progress_current
+            required property int progress_total
+            required property int exit_status
 
             spacing: Kirigami.Units.gridUnit
 
@@ -32,16 +30,16 @@ ColumnLayout {
 
             ProgressBar {
                 Layout.fillWidth: true
-                indeterminate: del.progress === -1
-                value: del.progress
-                to: del.total
+                indeterminate: del.progress_current === -1
+                value: del.progress_current
+                to: del.progress_total
             }
 
             Loader {
                 sourceComponent: {
-                    if (del.finished === 0)
+                    if (del.exit_status === 0)
                         return busyComponent;
-                    if (del.finished === 1)
+                    if (del.exit_status === 1)
                         return checkmarkComponent;
                     return errorComponent;
                 }

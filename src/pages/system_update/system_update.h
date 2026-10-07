@@ -21,6 +21,7 @@
 #include <qprocess.h>
 
 #include "console.h"
+#include "update_steps_model.h"
 #include "utils.h"
 
 using namespace Qt::Literals::StringLiterals;
@@ -60,12 +61,13 @@ public:
 
     Console::Model *m_console;
 
-    // ["module_name int_current int_total int_status"]
-    QStringList updateStepsModel = {u""_s, u""_s, u""_s, u""_s, u""_s, u""_s, u""_s};
-    Q_PROPERTY(QStringList updateStepsModel MEMBER updateStepsModel NOTIFY updateStepsModelChanged)
-    Q_SIGNAL void updateStepsModelChanged();
-    // TODO UPDATESTEPS: very temporary and inefficient.
-    // A proper model needs to be used, and it needs to keep track of any modules failing.
+    UpdateStepsNS::Model *m_updateStepsModel;
+
+    Q_PROPERTY(UpdateStepsNS::Model *updateStepsModel READ updateStepsModel CONSTANT)
+    UpdateStepsNS::Model *updateStepsModel() const
+    {
+        return m_updateStepsModel;
+    }
 
     Q_INVOKABLE void runUpdate(QJSValue callback);
 
