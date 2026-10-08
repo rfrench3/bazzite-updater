@@ -57,10 +57,11 @@ Loader {
                 }
 
                 readonly property int __current: {
-                    if (OtherUtilsBackend.currentImage.name.endsWith("nvidia-open"))
-                        return Gpu.Drivers.NVIDIA_OPEN;
-                    else if (OtherUtilsBackend.currentImage.name.endsWith("nvidia"))
+                    // Directly check for the few images that have the legacy drivers
+                    if (["bazzite-nvidia", "bazzite-gnome-nvidia"].includes(OtherUtilsBackend.currentImage.name))
                         return Gpu.Drivers.NVIDIA;
+                    else if (OtherUtilsBackend.currentImage.name.includes("nvidia"))
+                        return Gpu.Drivers.NVIDIA_OPEN;
                     else
                         return Gpu.Drivers.BASE;
                 }
