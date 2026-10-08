@@ -75,12 +75,11 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
             m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
             m_updateStepsModel->updateData(u"Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
-            m_updateStepsModel->updateData(u"UserFlatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
+            m_updateStepsModel->updateData(u"User Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
             return;
         }
 
-        // TODO UPDATESTEPS: very temporary and inefficient.
-        // A proper model needs to be used, and it needs to keep track of any modules failing.
+        // TODO UPDATESTEPS: needs to keep track of any modules failing instead of just saying all failed or all succeeded
 
         m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
         m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
@@ -119,10 +118,10 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         QString module_name = json.value(u"module_name"_s).toString();
         QString title = json.value(u"title"_s).toString();
 
-        // Parse Uupd output to neatly display progress
+        // TODO: The current output of Uupd is too inconsistent to get more detailed information.
+        // If the output improves, update this
         {
-            // TODO UPDATESTEPS: very temporary and inefficient.
-            // A proper model needs to be used, and it needs to keep track of any modules failing.
+            // TODO UPDATESTEPS: needs to keep track of any modules failing.
             enum Progress {
                 SYSTEM,
                 BREW,
@@ -140,6 +139,8 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             else if (title == u"Flatpak"_s)
                 current = USER_FLATPAK;
 
+            // 1st num = -1 makes the progress bar indeterminate, 1st num = 2nd num makes the progress bar full.
+            // TODO: These should be replaced with actual progress numbers when they can be parsed reliably.
             switch (current) {
             case SYSTEM:
                 m_updateStepsModel->updateData(u"System"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
@@ -149,15 +150,12 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
                 m_updateStepsModel->updateData(u"Brew"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case FLATPAK:
-                // updateStepsModel[0] = u"System 2 2 1"_s;
-                // updateStepsModel[1] = u"Brew 2 2 1"_s;
-                // updateStepsModel[2] = u"Flatpak -1 2 0"_s;
+                m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
+                m_updateStepsModel->updateData(u"Flatpak"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case USER_FLATPAK:
-                // updateStepsModel[0] = u"System 2 2 1"_s;
-                // updateStepsModel[1] = u"Brew 2 2 1"_s;
-                // updateStepsModel[2] = u"Flatpak 2 2 1"_s;
-                // updateStepsModel[3] = u"UserFlatpak -1 2 0"_s;
+                m_updateStepsModel->updateData(u"Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
+                m_updateStepsModel->updateData(u"User Flatpak"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             }
         }

@@ -52,8 +52,6 @@ public:
 
     void updateData(const QString &module, int progress_current, int progress_total, ExitStatus exit_status, bool create_new = true);
 
-    QStringList modulesList() const;
-
 private:
     struct Line {
         QString module;

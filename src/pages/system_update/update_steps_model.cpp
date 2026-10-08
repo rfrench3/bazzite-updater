@@ -73,12 +73,3 @@ void Model::updateData(const QString &module, int progress_current, int progress
         endInsertRows();
     }
 }
-
-QStringList Model::modulesList() const
-{
-    QStringList list;
-    for (auto line : m_lines) {
-        list.append(line.module);
-    }
-    return list;
-}
