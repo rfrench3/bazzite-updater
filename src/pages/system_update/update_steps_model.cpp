@@ -52,7 +52,6 @@ QHash<int, QByteArray> Model::roleNames() const
     };
 }
 
-// TODO: Some way to update only specific entries like exit status without needing to re-specify progress_current/total is needed
 void Model::updateData(const QString &module, int progress_current, int progress_total, ExitStatus exit_status, bool create_new)
 {
     Line data{module, progress_current, progress_total, exit_status};
@@ -62,6 +61,28 @@ void Model::updateData(const QString &module, int progress_current, int progress
     });
 
     if (it != m_lines.end()) {
+        // TODO: This is a messy way of not changing specific values.
+        if (progress_current == -2)
+            data.progress_current = it->progress_current;
+        if (progress_total == -2)
+            data.progress_total = it->progress_total;
+        if (exit_status == NO_CHANGE)
+            data.exit_status = it->exit_status;
+
+        // If a module has already exited with an error, do not allow that to be overwritten.
+        if (it->exit_status == ERROR)
+            data.exit_status = ERROR;
+
+        if (data.exit_status == SUCCESS) {
+            data.progress_current = 2;
+            data.progress_total = 2;
+        }
+
+        if (data.exit_status == ERROR) {
+            data.progress_current = 0;
+            data.progress_total = 2;
+        }
+
         *it = data;
         int i = std::distance(m_lines.begin(), it);
         Q_EMIT dataChanged(index(i, 0), index(i, 0));

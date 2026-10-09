@@ -30,7 +30,8 @@ Q_ENUM_NS(Roles)
 enum ExitStatus {
     RUNNING,
     SUCCESS,
-    ERROR
+    ERROR,
+    NO_CHANGE
 };
 Q_ENUM_NS(ExitStatus)
 
@@ -52,6 +53,8 @@ public:
 
     void clearData();
 
+    // To not change a field, set -2 for current/total progress or NO_CHANGE for exit_status.
+    // An exit_status of ERROR cannot be overwritten.
     void updateData(const QString &module, int progress_current, int progress_total, ExitStatus exit_status, bool create_new = true);
 
 private:

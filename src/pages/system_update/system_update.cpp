@@ -69,19 +69,19 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             return;
         };
 
+        // Ensure modules are not left as "running", an exit status of error will not be overwritten
+        using namespace UpdateStepsModules;
+        for (const QString &module : {SYSTEM, BREW, FLATPAK, USER_FLATPAK}) {
+            m_updateStepsModel->updateData(module, -2, -2, UpdateStepsNS::ExitStatus::SUCCESS);
+        }
+
         // Check for errors
         if (exit_code != 0 || moduleFail == true) {
             conclude(1, false);
             qWarning() << "Update failed with exit code " << exit_code;
             m_console->newLine(u"The update has failed. Read the above output for more details."_s, Console::LogLevel::Error);
-
-            // TODO: updateData needs to be able to only update specific values to ensure nothing is left "running"
             return;
         }
-
-        // The update didn't fail which means all modules succeeded, and this is the last one that isn't set to success
-        m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
-
         conclude(0, true);
     };
 
@@ -127,35 +127,52 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             };
             Progress current = UNKNOWN;
 
-            if (title == u"System"_s)
+            if (title == u"System"_s) {
                 current = SYSTEM;
+            }
 
-            if (module_name == u"Brew"_s)
+            if (module_name == u"Brew"_s) {
                 current = BREW;
+            }
 
-            else if (module_name == u"Flatpak"_s)
+            else if (module_name == u"Flatpak"_s) {
                 current = FLATPAK;
+            }
 
-            else if (title == u"Flatpak"_s)
+            else if (title == u"Flatpak"_s) {
                 current = USER_FLATPAK;
+            }
+
+            // TODO: Attempt to parse the progress of the current step
+            int progress_current = -1;
+            int progress_total = 2;
+
+            // // parse for any *[integerA/integerB]*
+            // static const QRegularExpression regex(QStringLiteral(R"(\[(\d+)/(\d+)\])"));
+
+            // auto match = regex.match(line);
+            // if (match.hasMatch()) {
+            //     progress_current = match.captured(1).toInt();
+            //     progress_total = match.captured(2).toInt();
+            // }
 
             // 1st num = -1 makes the progress bar indeterminate, 1st num = 2nd num makes the progress bar full.
             // TODO: These should be replaced with actual progress numbers when they can be parsed reliably.
             switch (current) {
             case SYSTEM:
-                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case BREW:
                 m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(UpdateStepsModules::BREW, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::BREW, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case FLATPAK:
                 m_updateStepsModel->updateData(UpdateStepsModules::BREW, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case USER_FLATPAK:
                 m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             default:
                 break;
