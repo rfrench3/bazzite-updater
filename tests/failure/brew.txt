@@ -1,0 +1,9 @@
+{"level":"DEBUG","msg":"Brew module","module_name":"Brew","module_configuration":{"Title":"Brew","Description":"CLI Apps","Enabled":true,"MultiUser":false,"DryRun":false,"UserDescription":null}}
+{"level":"INFO","msg":"Updating","title":"Brew","description":"CLI Apps","progress":1,"total":4,"step_progress":0,"overall":25}
+{"level":"DEBUG","msg":"==> Updating Homebrew..."}
+{"level":"DEBUG","msg":"fatal: unable to access 'https://github.com/Homebrew/brew/': Could not resolve host: github.com"}
+{"level":"DEBUG","msg":"fatal: unable to access 'https://github.com/valkyrie00/homebrew-bbrew/': Could not resolve host: github.com"}
+{"level":"DEBUG","msg":"Error: Fetching /home/linuxbrew/.linuxbrew/Homebrew failed!"}
+{"level":"DEBUG","msg":"Fetching /var/home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/valkyrie00/homebrew-bbrew failed!"}
+{"level":"DEBUG","msg":"Failed to download https://formulae.brew.sh/api/internal/packages.x86_64_linux.jws.json!"}
+{"level":"WARN","msg":"Error occurred while waiting for external command","error":"exit status 1"}

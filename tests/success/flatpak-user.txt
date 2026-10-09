@@ -1,0 +1,38 @@
+{"level":"INFO","msg":"Updating","title":"Flatpak","description":"Apps for User: uupduser","progress":3,"total":4,"step_progress":0,"overall":75}
+{"level":"DEBUG","msg":"Looking for updates…"}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":"Info: runtime org.kde.Sdk branch 6.8 is end-of-life, with reason:"}
+{"level":"DEBUG","msg":"   We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":"Info: runtime org.kde.Sdk branch 6.9 is end-of-life, with reason:"}
+{"level":"DEBUG","msg":"   We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":"Info: runtime org.kde.Platform branch 6.9 is end-of-life, with reason:"}
+{"level":"DEBUG","msg":"   We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":"Info: runtime org.kde.Platform branch 6.8 is end-of-life, with reason:"}
+{"level":"DEBUG","msg":"   We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"DEBUG","msg":"Info: applications using this runtime:"}
+{"level":"DEBUG","msg":"   org.kde.xdg-portal-test-kde"}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":" 1.\t   \torg.kde.Platform.Locale\t6.9\tr"}
+{"level":"DEBUG","msg":" 2.\t   \torg.kde.Platform\t6.9\tr"}
+{"level":"DEBUG","msg":" 3.\t   \torg.kde.Sdk.Locale\t6.9\tr"}
+{"level":"DEBUG","msg":" 4.\t   \torg.kde.Sdk\t6.9\tr"}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":""}
+{"level":"DEBUG","msg":"Uninstalling 1/4…"}
+{"level":"DEBUG","msg":"Uninstalling 2/4…"}
+{"level":"DEBUG","msg":"Uninstalling 3/4…"}
+{"level":"DEBUG","msg":"Uninstalling 4/4…"}
+{"level":"DEBUG","msg":"Uninstall complete."}
+{"level":"DEBUG","msg":"Updating appstream data for user remote flathub-1"}
+{"level":"DEBUG","msg":"F: Warning: Treating remote fetch error as non-fatal since app/org.kde.xdg-portal-test-kde/x86_64/master is already installed: No such ref 'app/org.kde.xdg-portal-test-kde/x86_64/master' in remote xdg-portal-test-kde-origin"}
+{"level":"DEBUG","msg":"F: Warning: Treating remote fetch error as non-fatal since runtime/org.freedesktop.Platform.openh264/x86_64/2.5.1 is already installed: No such ref 'runtime/org.freedesktop.Platform.openh264/x86_64/2.5.1' in remote flathub"}
+{"level":"DEBUG","msg":"F: Warning: Treating remote fetch error as non-fatal since runtime/org.freedesktop.Platform.GL.default/x86_64/24.08extra is already installed: No such ref 'runtime/org.freedesktop.Platform.GL.default/x86_64/24.08extra' in remote flathub"}
+{"level":"DEBUG","msg":"F: Warning: Treating remote fetch error as non-fatal since runtime/org.freedesktop.Platform.GL.default/x86_64/24.08 is already installed: No such ref 'runtime/org.freedesktop.Platform.GL.default/x86_64/24.08' in remote flathub"}
+{"level":"INFO","msg":"Updates Completed Successfully"}
+uupd-manual.service: Deactivated successfully.
+Finished uupd-manual.service - Universal Blue Update Oneshot Service - Manual Activation.
+uupd-manual.service: Consumed 30.525s CPU time over 9min 7.866s wall clock time, 1.1G memory peak.

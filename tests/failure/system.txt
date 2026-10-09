@@ -1,0 +1,10 @@
+Starting uupd-manual.service - Universal Blue Update Oneshot Service - Manual Activation...
+{"level":"DEBUG","msg":"Using rpm-ostree fallback as system driver"}
+{"level":"ERROR","msg":"Failed checking for updates"}
+{"level":"DEBUG","msg":"System Updater module status","enabled":true}
+{"level":"DEBUG","msg":"System module","module_name":"System","module_configuration":{"Title":"System","Description":"rpm-ostree","Enabled":true,"MultiUser":false,"DryRun":false,"UserDescription":null}}
+{"level":"INFO","msg":"Updating","title":"System","description":"rpm-ostree","progress":0,"total":4,"step_progress":0,"overall":0}
+{"level":"DEBUG","msg":"Executing update","module":"system","cli":["/usr/bin/rpm-ostree","upgrade"]}
+{"level":"DEBUG","msg":"Pulling manifest: ostree-image-signed:docker://ghcr.io/ublue-os/bazzite-dx:stable"}
+{"level":"DEBUG","msg":"error: Preparing import: Fetching manifest: failed to invoke method OpenImage: pinging container registry ghcr.io: Get \"https://ghcr.io/v2/\": dial tcp: lookup ghcr.io: Temporary failure in name resolution"}
+{"level":"WARN","msg":"Error occurred while waiting for external command","error":"exit status 1"}

@@ -1,0 +1,50 @@
+{"level":"DEBUG","msg":"Flatpak module","module_name":"Flatpak","module_configuration":{"Title":"Flatpak","Description":"System Apps","Enabled":true,"MultiUser":true,"DryRun":false,"UserDescription":"Apps for User:"}}
+{"level":"INFO","msg":"Updating","title":"Flatpak","description":"System Apps","progress":2,"total":4,"step_progress":0,"overall":50}
+{"level":"DEBUG","msg":"Info: org.kde.Sdk is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"DEBUG","msg":"Info: org.kde.Sdk.Locale is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"DEBUG","msg":"Updating app/com.dec05eba.gpu_screen_recorder/x86_64/stable"}
+libostree pull from 'flathub' for app/com.dec05eba.gpu_screen_recorder/x86_64/stable complete
+security: GPG: summary+commit 
+security: SIGN: disabled http: TLS
+delta: parts: 1 loose: 3
+transfer: secs: 0 size: 226.6 kB
+system: Pulled app/com.dec05eba.gpu_screen_recorder/x86_64/stable from flathub
+system: Updated app/com.dec05eba.gpu_screen_recorder/x86_64/stable from flathub
+{"level":"DEBUG","msg":"Updating runtime/org.kde.Platform.Locale/x86_64/6.10"}
+libostree pull from 'flathub' for runtime/org.kde.Platform.Locale/x86_64/6.10 complete
+security: GPG: summary+commit 
+security: SIGN: disabled http: TLS
+non-delta: meta: 4 content: 0
+transfer: secs: 0 size: 18.5 kB
+system: Pulled runtime/org.kde.Platform.Locale/x86_64/6.10 from flathub
+system: Updated runtime/org.kde.Platform.Locale/x86_64/6.10 from flathub
+{"level":"DEBUG","msg":"Updating runtime/org.kde.Platform/x86_64/6.10"}
+libostree pull from 'flathub' for runtime/org.kde.Platform/x86_64/6.10 complete
+security: GPG: summary+commit 
+security: SIGN: disabled http: TLS
+delta: parts: 22 loose: 3
+transfer: secs: 3 size: 20.8 MB
+system: Pulled runtime/org.kde.Platform/x86_64/6.10 from flathub
+system: Updated runtime/org.kde.Platform/x86_64/6.10 from flathub
+{"level":"DEBUG","msg":"Updating runtime/org.kde.Sdk.Locale/x86_64/6.10"}
+libostree pull from 'flathub' for runtime/org.kde.Sdk.Locale/x86_64/6.10 complete
+security: GPG: summary+commit 
+security: SIGN: disabled http: TLS
+non-delta: meta: 4 content: 0
+transfer: secs: 0 size: 18.5 kB
+system: Pulled runtime/org.kde.Sdk.Locale/x86_64/6.10 from flathub
+system: Updated runtime/org.kde.Sdk.Locale/x86_64/6.10 from flathub
+{"level":"DEBUG","msg":"Updating runtime/org.kde.Sdk/x86_64/6.10"}
+libostree pull from 'flathub' for runtime/org.kde.Sdk/x86_64/6.10 complete
+security: GPG: summary+commit 
+security: SIGN: disabled http: TLS
+delta: parts: 36 loose: 7
+transfer: secs: 8 size: 57.0 MB
+system: Pulled runtime/org.kde.Sdk/x86_64/6.10 from flathub
+system: Updated runtime/org.kde.Sdk/x86_64/6.10 from flathub
+libostree pull from 'flathub' for appstream2/x86_64 complete
+security: GPG: summary+commit 
+security: SIGN: disabled http: TLS
+non-delta: meta: 7 content: 7
+transfer: secs: 1 size: 10.8 MB
+system: Pulled appstream2/x86_64 from flathub

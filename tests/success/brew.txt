@@ -1,0 +1,7 @@
+{"level":"DEBUG","msg":"Brew module","module_name":"Brew","module_configuration":{"Title":"Brew","Description":"CLI Apps","Enabled":true,"MultiUser":false,"DryRun":false,"UserDescription":null}}
+{"level":"INFO","msg":"Updating","title":"Brew","description":"CLI Apps","progress":1,"total":4,"step_progress":0,"overall":25}
+{"level":"DEBUG","msg":"==> Updating Homebrew..."}
+{"level":"DEBUG","msg":"Updated 2 taps (homebrew/core and homebrew/cask)."}
+{"level":"DEBUG","msg":"==> New Formulae"}
+{"level":"DEBUG","msg":"rubocop: Ruby static code analyzer and formatter, based on the community Ruby style guide"}
+{"level":"DEBUG","msg":"snx-rs: Open-source client for Check Point VPN tunnels"}
