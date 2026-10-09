@@ -55,6 +55,8 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         return;
     }
 
+    m_updateStepsModel->clearData();
+
     // parse the console output to determine if the update has failed, always initialize to false
     static bool moduleFail;
     moduleFail = false;
@@ -72,19 +74,13 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             conclude(1, false);
             qWarning() << "Update failed with exit code " << exit_code;
             m_console->newLine(u"The update has failed. Read the above output for more details."_s, Console::LogLevel::Error);
-            m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
-            m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
-            m_updateStepsModel->updateData(u"Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
-            m_updateStepsModel->updateData(u"User Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::ERROR, false);
+
+            // TODO: updateData needs to be able to only update specific values to ensure nothing is left "running"
             return;
         }
 
-        // TODO UPDATESTEPS: needs to keep track of any modules failing instead of just saying all failed or all succeeded
-
-        m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
-        m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
-        m_updateStepsModel->updateData(u"Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
-        m_updateStepsModel->updateData(u"UserFlatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
+        // The update didn't fail which means all modules succeeded, and this is the last one that isn't set to success
+        m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS, false);
 
         conclude(0, true);
     };
@@ -123,12 +119,16 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
         {
             // TODO UPDATESTEPS: needs to keep track of any modules failing.
             enum Progress {
+                UNKNOWN,
                 SYSTEM,
                 BREW,
                 FLATPAK,
                 USER_FLATPAK
             };
-            static Progress current = SYSTEM;
+            Progress current = UNKNOWN;
+
+            if (title == u"System"_s)
+                current = SYSTEM;
 
             if (module_name == u"Brew"_s)
                 current = BREW;
@@ -143,19 +143,21 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             // TODO: These should be replaced with actual progress numbers when they can be parsed reliably.
             switch (current) {
             case SYSTEM:
-                m_updateStepsModel->updateData(u"System"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case BREW:
-                m_updateStepsModel->updateData(u"System"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(u"Brew"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
+                m_updateStepsModel->updateData(UpdateStepsModules::BREW, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case FLATPAK:
-                m_updateStepsModel->updateData(u"Brew"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(u"Flatpak"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::BREW, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
+                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
                 break;
             case USER_FLATPAK:
-                m_updateStepsModel->updateData(u"Flatpak"_s, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(u"User Flatpak"_s, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
+                m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, -1, 2, UpdateStepsNS::ExitStatus::RUNNING);
+                break;
+            default:
                 break;
             }
         }
@@ -176,6 +178,16 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
             log_level = LogLevel::ErrorCritical;
             msg = json.value(u"module"_s).toString();
             moduleFail = true;
+
+            // parse for UpdateSteps
+            if (msg.contains(u"System Update"_s))
+                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
+            else if (msg.contains(u"Brew Update"_s))
+                m_updateStepsModel->updateData(UpdateStepsModules::BREW, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
+            else if (msg.contains(u"System Apps"_s))
+                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
+            else if (msg.contains(u"Apps for User"_s))
+                m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
         }
 
         auto out = formatForConsole(msg);

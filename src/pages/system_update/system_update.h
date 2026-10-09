@@ -29,6 +29,15 @@ using namespace Qt::Literals::StringLiterals;
 QString formatForConsole(const QByteArray &bytes);
 QString formatForConsole(QString line);
 
+// TODO: When uupd is easier to parse, the entire UpdateSteps backend should be redone
+namespace UpdateStepsModules
+{
+inline const QString SYSTEM = u"System"_s;
+inline const QString BREW = u"Brew"_s;
+inline const QString FLATPAK = u"Flatpak"_s;
+inline const QString USER_FLATPAK = u"User Flatpak"_s;
+};
+
 class SystemUpdateBackend : public QObject
 {
     Q_OBJECT

@@ -73,3 +73,10 @@ void Model::updateData(const QString &module, int progress_current, int progress
         endInsertRows();
     }
 }
+
+void Model::clearData()
+{
+    beginResetModel();
+    m_lines.clear();
+    endResetModel();
+}

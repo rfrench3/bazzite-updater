@@ -50,6 +50,8 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
+    void clearData();
+
     void updateData(const QString &module, int progress_current, int progress_total, ExitStatus exit_status, bool create_new = true);
 
 private:
