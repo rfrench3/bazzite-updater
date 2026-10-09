@@ -45,25 +45,9 @@ class SystemUpdateBackend : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(Console::Model *consoleModel MEMBER m_console CONSTANT)
-    Q_PROPERTY(int progressLevel READ progressLevel NOTIFY progressLevelChanged)
     Q_PROPERTY(bool blockUpdate READ blockUpdate NOTIFY blockUpdateChanged)
 
-    int m_progressLevel = 0;
     bool m_blockUpdate = false;
-    QProcess m_journalctlProcess;
-
-    struct UpdateErrors {
-        bool System_Update = false;
-        bool Brew_Update = false;
-        bool System_Apps = false;
-        bool Apps_for_User = false;
-        bool Distroboxes_for_User = false;
-        bool Unknown_Error = false;
-    };
-
-    UpdateErrors m_updateErrorStatus;
-
-    QString m_placeholderTextColor;
 
 public:
     SystemUpdateBackend(QObject *parent = nullptr);
@@ -79,13 +63,6 @@ public:
     }
 
     Q_INVOKABLE void runUpdate(QJSValue callback);
-
-    int progressLevel() const
-    {
-        return m_progressLevel;
-    }
-    void setProgressLevel(int progressLevel);
-    Q_SIGNAL void progressLevelChanged();
 
     bool blockUpdate() const
     {

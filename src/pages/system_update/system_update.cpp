@@ -199,12 +199,6 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue())
     m_console->runProcess(configIni.getValue(u"Commands"_s, u"systemUpdateCommand"_s).split(u' '), onFinish, onError, parser);
 }
 
-void SystemUpdateBackend::setProgressLevel(int progressLevel)
-{
-    m_progressLevel = progressLevel;
-    Q_EMIT progressLevelChanged();
-}
-
 void SystemUpdateBackend::setBlockUpdate(bool updateError)
 {
     m_blockUpdate = updateError;
