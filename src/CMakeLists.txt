@@ -10,6 +10,7 @@ ecm_add_qml_module(bazzite-updater
 
 set(PG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pages")
 set(COMP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/components")
+set(FC_DIR "${COMP_DIR}/customFormcards")
 
 target_sources(bazzite-updater
     PRIVATE
@@ -61,12 +62,12 @@ ecm_target_qml_sources(bazzite-updater
     ${COMP_DIR}/PageContentLayout.qml
     ${COMP_DIR}/console/ConsoleView.qml
     ${COMP_DIR}/console/ConsoleDrawer.qml
-    ${COMP_DIR}/customFormcards/FormCardCollapsible.qml
-    ${COMP_DIR}/customFormcards/FCOsRelease.qml
-    ${COMP_DIR}/customFormcards/FCSystemInfo.qml
-    ${COMP_DIR}/customFormcards/FCSystemImage.qml
-    ${COMP_DIR}/customFormcards/FormDelegateSeparatorFixed.qml
-    ${COMP_DIR}/customFormcards/FormDelegateCollapsible.qml
+    ${FC_DIR}/FormCardCollapsible.qml
+    ${FC_DIR}/FCOsRelease.qml
+    ${FC_DIR}/FCSystemInfo.qml
+    ${FC_DIR}/FCSystemImage.qml
+    ${FC_DIR}/FormDelegateSeparatorFixed.qml
+    ${FC_DIR}/FormDelegateCollapsible.qml
 )
 
 target_link_libraries(bazzite-updater
