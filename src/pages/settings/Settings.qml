@@ -126,12 +126,5 @@ FC.FormCardPage {
             text: AppConfig.ini.General?.rssFeed
             description: i18n("Changelogs RSS feed")
         }
-
-        FormDelegateSeparatorFixed {}
-
-        FC.FormTextDelegate {
-            text: AppConfig.ini.Rebase?.enabled
-            description: i18n("Enable the system rebase page")
-        }
     }
 }
