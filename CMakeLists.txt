@@ -105,12 +105,12 @@ else()
   )
 endif()
 
+find_program(BASH_EXECUTABLE bash REQUIRED)
 add_custom_target(potfile
-    COMMAND ${CMAKE_COMMAND}
-        -DPROJECT_NAME=${PROJECT_NAME}
-        -DSOURCE_DIR="${PROJECT_SOURCE_DIR}"
-        -P "${PROJECT_SOURCE_DIR}/cmake/UpdateTranslations.cmake"
-    COMMENT "Updating translation templates and po files..."
+    COMMAND ${BASH_EXECUTABLE} "${PROJECT_SOURCE_DIR}/po/update-translations.sh"
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+    COMMENT "Updating potfiles..."
+    VERBATIM
 )
 
 ki18n_install(po)

@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the bazzite-updater package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: bazzite-updater\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 14:09+0000\n"
+"POT-Creation-Date: 2026-10-26 15:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: src/main.cpp:99
+msgid "Bazzite Updater"
+msgstr ""
+
+#: src/main.cpp:101
+msgid "Updating and rebasing utility for Bazzite"
+msgstr ""
+
+#: src/main.cpp:103
+msgid "© 2025-2026 Robert French"
+msgstr ""
+
+#: src/main.cpp:104
+msgid ""
+"This application can be used through a controller or keyboard to perform "
+"various update-related system tasks!"
+msgstr ""
+
+#: src/pages/other_utils/other_utils.cpp:120
+msgid "Rollback program was not found or failed to start."
+msgstr ""
+
+#: src/pages/system_update/system_update.cpp:127
+msgid "There is not enough free space available for system updates."
+msgstr ""
 
 #: src/components/console/ConsoleDrawer.qml:63
 msgid "Copy to Clipboard"
@@ -185,24 +211,6 @@ msgstr ""
 msgid "Read less"
 msgstr ""
 
-#: src/main.cpp:99
-msgid "Bazzite Updater"
-msgstr ""
-
-#: src/main.cpp:101
-msgid "Updating and rebasing utility for Bazzite"
-msgstr ""
-
-#: src/main.cpp:103
-msgid "© 2025-2026 Robert French"
-msgstr ""
-
-#: src/main.cpp:104
-msgid ""
-"This application can be used through a controller or keyboard to perform "
-"various update-related system tasks!"
-msgstr ""
-
 #: src/pages/AboutDataApp.qml:8
 msgctxt "@title"
 msgid "About Application"
@@ -349,10 +357,6 @@ msgstr ""
 #: src/pages/other_utils/OtherUtils.qml:97
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
-msgstr ""
-
-#: src/pages/other_utils/other_utils.cpp:120
-msgid "Rollback program was not found or failed to start."
 msgstr ""
 
 #: src/pages/rebase_page/FCSystemImage.qml:25
@@ -612,8 +616,4 @@ msgstr ""
 
 #: src/pages/system_update/SystemUpdate.qml:256
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
-msgstr ""
-
-#: src/pages/system_update/system_update.cpp:127
-msgid "There is not enough free space available for system updates."
 msgstr ""
