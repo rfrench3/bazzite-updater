@@ -8,7 +8,7 @@ XmlListModel {
     id: root
 
     // Input a list of [atom, rss1, rss2], output the correct option
-    function chooseType(options) {
+    function chooseType(options: list<string>): string {
         const feedType = AppConfig.ini.General?.rssFeedType;
         if (feedType === "atom")
             return options[0];
