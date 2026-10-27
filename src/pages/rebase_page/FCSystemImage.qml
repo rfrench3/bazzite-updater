@@ -134,6 +134,14 @@ FC.FormCard {
                     FormDelegateCollapsible {
                         text: i18nc("List of tags classified as stable, testing, etc", "List of %1 tags".arg(delegateRoot.groupTag))
 
+                        // TODO: This looks bad, but clearly differentiates lists from buttons
+                        button.trailing: KG.Icon {
+                            source: "cursor-arrow"
+                            implicitHeight: 24
+                            implicitWidth: 24
+                        }
+                        button.trailingLogo.visible: false
+
                         ListView {
                             id: tagsView
                             Layout.fillWidth: true
@@ -141,9 +149,13 @@ FC.FormCard {
                             clip: true
                             model: delegateRoot.groupList
 
+                            KG.WheelHandler {
+                                target: tagsView
+                            }
+
                             QQC2.ScrollBar.vertical: QQC2.ScrollBar {
                                 id: vbar
-                                policy: QQC2.ScrollBar.AsNeeded
+                                policy: QQC2.ScrollBar.AlwaysOn
                             }
                             readonly property real scrollbarWidth: vbar.visible ? vbar.width : 0
 

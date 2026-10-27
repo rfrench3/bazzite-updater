@@ -16,7 +16,8 @@ import io.github.rfrench3.bazzite_updater
 // TODO:
 // - improve controller support for selections. It can be navigated, but left/right should move to buttons to the left/right
 // - formcard separators are weird and need to be fixed
-// - scrolling prioritizes the page over the tag region
+// - make sure controller scrolling works in the tag list
+// - figure out the best way to display "tag" button vs "list of tags" dropdown
 // - controller/tab navigation order and scrolling and ensuring selected item stays displayed
 // - the buttons on the rebase tag vs rebase tags list should be significantly different
 
