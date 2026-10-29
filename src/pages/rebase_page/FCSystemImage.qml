@@ -45,6 +45,20 @@ FC.FormCard {
 
     signal tagClicked(string tag)
 
+    signal listViewFocused(Item item)
+
+    function closeActiveListView(): void {
+        const item = Window.activeFocusItem;
+        if (!QmlUtils.isDescendentOf(item, root))
+            return;
+
+        const collapsible = QmlUtils.getParentOfType(item, FormDelegateCollapsible);
+        if (collapsible) {
+            collapsible.expanded = false;
+            collapsible.button.forceActiveFocus(Qt.TabFocusReason);
+        }
+    }
+
     function fetchAllTags(): void {
         fetching = true;
         root.fetchTagsButtonText = i18n("Fetching tags");
@@ -84,10 +98,12 @@ FC.FormCard {
     }
 
     FormDelegateCollapsible {
+        id: collapsible
         text: root.features.join(", ")
         description: `${root.url}/${root.name}`
 
         Repeater {
+            id: collapsibleRepeater
             model: root.tagsSorted
 
             delegate: Loader {
@@ -134,13 +150,11 @@ FC.FormCard {
                     FormDelegateCollapsible {
                         text: i18nc("List of tags classified as stable, testing, etc", "List of %1 tags".arg(delegateRoot.groupTag))
 
-                        // TODO: This looks bad, but clearly differentiates lists from buttons
-                        button.trailing: KG.Icon {
-                            source: "cursor-arrow"
+                        button.leading: KG.Icon {
+                            source: "application-menu"
                             implicitHeight: 24
                             implicitWidth: 24
                         }
-                        button.trailingLogo.visible: false
 
                         ListView {
                             id: tagsView
@@ -148,6 +162,43 @@ FC.FormCard {
                             Layout.preferredHeight: Math.min(contentHeight, root.maxListHeight)
                             clip: true
                             model: delegateRoot.groupList
+
+                            currentIndex: 0
+                            highlightFollowsCurrentItem: true
+                            highlightMoveDuration: 0
+                            highlightRangeMode: ListView.NoHighlightRange
+                            activeFocusOnTab: true
+
+                            onActiveFocusChanged: activeFocus ? root.listViewFocused(this) : root.listViewFocused(null)
+
+                            // TODO: this just matches the current onHover appearance of a formcard button,
+                            //  ideally the button would just act like it's being hovered over
+                            highlight: Rectangle {
+                                color: KG.Theme.textColor
+                                opacity: tagsView.activeFocus ? 0.07 : 0
+                            }
+
+                            // Keep the current item scrolled into view whenever it changes,
+                            // regardless of what changed it (Tab, arrows, mouse).
+                            onCurrentIndexChanged: positionViewAtIndex(currentIndex, ListView.Contain)
+
+                            // Tab doesn't normally navigate through listView entries
+                            Keys.onTabPressed: event => {
+                                if (currentIndex < count - 1) {
+                                    incrementCurrentIndex();
+                                    event.accepted = true;
+                                } else {
+                                    event.accepted = false;
+                                }
+                            }
+                            Keys.onBacktabPressed: event => {
+                                if (currentIndex > 0) {
+                                    decrementCurrentIndex();
+                                    event.accepted = true;
+                                } else {
+                                    event.accepted = false;
+                                }
+                            }
 
                             KG.WheelHandler {
                                 target: tagsView
@@ -158,6 +209,7 @@ FC.FormCard {
                                 policy: QQC2.ScrollBar.AlwaysOn
                             }
                             readonly property real scrollbarWidth: vbar.visible ? vbar.width : 0
+                            readonly property var scrollbar: vbar
 
                             delegate: FC.FormButtonDelegate {
                                 required property string modelData
@@ -166,6 +218,10 @@ FC.FormCard {
                                 width: tagsView.width - tagsView.scrollbarWidth
                                 text: isCurrent ? modelData + " " + i18n("(Current Tag)") : modelData
                                 enabled: AppState.allowCommands && !isCurrent
+
+                                // The ListView owns focus
+                                focusPolicy: Qt.NoFocus
+
                                 onClicked: root.tagClicked(modelData)
                             }
                         }

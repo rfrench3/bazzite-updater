@@ -19,8 +19,9 @@ FC.FormCardPage {
     property Item drawer: null
     property Item actionToggleDrawer: null
 
-    // Allow additional actions to be implemented when necessary
-    function moreHandleInput(buttonId: int, button_down: bool): void {
+    // Allow additional actions to be implemented when necessary,
+    // Return true to stop propagation
+    function moreHandleInput(buttonId: int, button_down: bool): bool {
     }
 
     function handleInput(buttonId: int, button_down: bool): void {

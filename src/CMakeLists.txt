@@ -46,8 +46,10 @@ target_include_directories(bazzite-updater
     ${COMP_DIR}/kConfig
 )
 
-set_source_files_properties(${COMP_DIR}/AppDialogManager.qml PROPERTIES
-    QT_QML_SINGLETON_TYPE TRUE)
+set_source_files_properties(
+  ${COMP_DIR}/AppDialogManager.qml
+  ${COMP_DIR}/QmlUtils.qml
+  PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 ecm_target_qml_sources(bazzite-updater
     SOURCES
@@ -67,6 +69,7 @@ ecm_target_qml_sources(bazzite-updater
     ${COMP_DIR}/AppPage.qml
     ${COMP_DIR}/AsyncLoader.qml
     ${COMP_DIR}/PageContentLayout.qml
+    ${COMP_DIR}/QmlUtils.qml
     ${COMP_DIR}/console/ConsoleView.qml
     ${COMP_DIR}/console/ConsoleDrawer.qml
     ${FC_DIR}/FormCardCollapsible.qml

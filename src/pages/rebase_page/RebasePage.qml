@@ -15,14 +15,41 @@ import io.github.rfrench3.bazzite_updater
 
 // TODO:
 // - improve controller support for selections. It can be navigated, but left/right should move to buttons to the left/right
-// - formcard separators are weird and need to be fixed
 // - make sure controller scrolling works in the tag list
 // - figure out the best way to display "tag" button vs "list of tags" dropdown
 // - controller/tab navigation order and scrolling and ensuring selected item stays displayed
 // - the buttons on the rebase tag vs rebase tags list should be significantly different
 
+// TODO later
+// - try to get the separators working
+
 AppPage {
     id: page
+
+    property Item focusedViewCard: null
+
+    function focusedImageCard(item: Item): FCSystemImage {
+        if (item instanceof FCSystemImage)
+            return item as FCSystemImage;
+        if (item.parent)
+            return focusedImageCard(item.parent);
+        return null;
+    }
+
+    function moreHandleInput(buttonId: int, button_down: bool): bool {
+        if (!button_down)
+            return false;
+
+        if (buttonId === 1) {
+            const card = focusedImageCard(Window.activeFocusItem);
+            if (card) {
+                card.closeActiveListView();
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     readonly property var currentImage: ({
             url: RebaseModel.currentImage.url,
@@ -45,8 +72,19 @@ AppPage {
     ]
 
     GP.PageNavigation {
-        targetScrollbar: page.scrollBar
+        targetScrollbar: page.focusedViewCard ? getScrollbar(page.focusedViewCard) : page.scrollBar
         active: !globalDrawer.drawerOpen && !consoleDrawer.drawerOpen
+
+        // TODO: controller input handling needs a major overhaul, potentially create an event-based system?
+        // event.accepted = true/false
+        function getScrollbar(item) {
+            if (!item)
+                return page.scrollBar;
+            if (item instanceof ListView)
+                return item.scrollbar;
+            if (item.parent)
+                return getScrollbar(item.parent);
+        }
     }
     drawer: consoleDrawer
 
@@ -74,6 +112,10 @@ AppPage {
                     rebaseDialog.imageRef = page.currentImage.ref;
                     rebaseDialog.tag = tag;
                     AppDialogManager.show(rebaseDialog);
+                }
+
+                onListViewFocused: item => {
+                    page.focusedViewCard = item;
                 }
             }
 
