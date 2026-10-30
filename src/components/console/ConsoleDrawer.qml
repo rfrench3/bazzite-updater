@@ -14,7 +14,7 @@ Kirigami.OverlayDrawer {
     id: root
 
     required property var model
-    property alias extraColumnItems: columnAdditional.data
+    default property alias extraColumnItems: columnAdditional.data
 
     edge: Qt.BottomEdge
 
@@ -76,6 +76,7 @@ Kirigami.OverlayDrawer {
 
             ColumnLayout {
                 id: columnAdditional
+                Layout.alignment: Qt.AlignTop
             }
         }
     }
