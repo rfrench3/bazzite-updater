@@ -268,30 +268,31 @@ Kirigami.Page {
         id: consoleDrawer
         model: SystemUpdateBackend.consoleModel
 
+        readonly property ostreeDeployment __img: AppData.ostree.deployments.find(img => img.isCurrent)
+        readonly property int __layeredCount: __img.layeredPackages?.length || 0
+
+        includeAtStart: {
+            const list = [];
+
+            if (RebaseModel.currentImage.name && RebaseModel.currentImage.currentTag)
+                list.push(`${RebaseModel.currentImage.name}:${RebaseModel.currentImage.currentTag}`);
+
+            if (OtherUtilsBackend.currentImage.version)
+                list.push(OtherUtilsBackend.currentImage.version);
+
+            if (__layeredCount !== 0)
+                list.push(i18np("%1 Layered package", "%1 Layered packages", __layeredCount));
+
+            return list.join('\n');
+        }
+
         Item {
             Layout.fillHeight: true
         }
 
         // displays useful information in a page users usually screenshot when something goes wrong
         QQC2.Label {
-            readonly property ostreeDeployment __img: AppData.ostree.deployments.find(img => img.isCurrent)
-            readonly property int __layeredCount: __img.layeredPackages?.length || 0
-
-            text: {
-                const list = [];
-
-                if (RebaseModel.currentImage.name && RebaseModel.currentImage.currentTag)
-                    list.push(`${RebaseModel.currentImage.name}:${RebaseModel.currentImage.currentTag}`);
-
-                if (OtherUtilsBackend.currentImage.version)
-                    list.push(OtherUtilsBackend.currentImage.version);
-
-                if (__layeredCount !== 0)
-                    list.push(i18np("%1 Layered package", "%1 Layered packages", __layeredCount));
-
-                return list.join('\n');
-            }
-
+            text: consoleDrawer.includeAtStart
             color: systemPalette.placeholderText
         }
 

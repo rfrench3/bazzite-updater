@@ -44,9 +44,12 @@ void Model::newLine(const QString &content, LogLevel level)
     endInsertRows();
 }
 
-void Model::copyToClipboard() const
+void Model::copyToClipboard(const QString includeAtStart) const
 {
     QString plainText;
+
+    if (!includeAtStart.isEmpty())
+        plainText += includeAtStart;
 
     for (int row = 0; row < rowCount(); ++row) {
         plainText += data(index(row, 0), Qt::DisplayRole).toString() + QStringLiteral("\n");

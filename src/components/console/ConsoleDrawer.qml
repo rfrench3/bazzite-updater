@@ -16,6 +16,11 @@ Kirigami.OverlayDrawer {
     required property var model
     default property alias extraColumnItems: columnAdditional.data
 
+    property alias buttonClipboard: copy
+    property alias buttonClose: closeBtn
+
+    property string includeAtStart: ""
+
     edge: Qt.BottomEdge
 
     modal: false
@@ -35,7 +40,7 @@ Kirigami.OverlayDrawer {
             copy.animateClick();
             break;
         case 3: // Y
-            close.animateClick();
+            closeBtn.animateClick();
             break;
         }
     }
@@ -59,16 +64,17 @@ Kirigami.OverlayDrawer {
 
             Button {
                 id: copy
+
                 Layout.fillWidth: true
                 text: i18n("Copy to Clipboard") + GP.Labels.spacer + GP.Labels.west
                 onClicked: {
-                    root.model.copyToClipboard();
+                    root.model.copyToClipboard(root.includeAtStart + "\n");
                     showPassiveNotification(i18n("Text Copied"), Kirigami.short);
                 }
             }
 
             Button {
-                id: close
+                id: closeBtn
                 Layout.fillWidth: true
                 text: i18n("Close") + GP.Labels.spacer + GP.Labels.north
                 onClicked: root.close()

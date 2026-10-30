@@ -53,7 +53,7 @@ private:
     QVector<Line> m_lines;
 
 public:
-    Q_INVOKABLE void copyToClipboard() const;
+    Q_INVOKABLE void copyToClipboard(const QString includeAtStart = u""_s) const;
 
     // Runs the defined process until completion. Does not use custom LogLevel logic.
     // onFinish and onError can be provided to run custom logic upon QProcess::finished and QProcess::errorOccurred.
