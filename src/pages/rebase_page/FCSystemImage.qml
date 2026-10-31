@@ -232,7 +232,7 @@ FC.FormCard {
                                 readonly property bool isCurrent: modelData === root.currentTag
 
                                 width: tagsView.width - tagsView.scrollbarWidth
-                                text: isCurrent ? modelData + " " + i18n("(Current Tag)") : modelData
+                                text: isCurrent ? i18n("%1 (Current Tag)".arg(modelData)) : modelData
                                 enabled: AppState.allowCommands && !isCurrent
 
                                 // The ListView owns focus

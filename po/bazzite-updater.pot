@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazzite-updater\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 15:18+0000\n"
+"POT-Creation-Date: 2026-10-31 22:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,15 +44,15 @@ msgstr ""
 msgid "There is not enough free space available for system updates."
 msgstr ""
 
-#: src/components/console/ConsoleDrawer.qml:63
+#: src/components/console/ConsoleDrawer.qml:69
 msgid "Copy to Clipboard"
 msgstr ""
 
-#: src/components/console/ConsoleDrawer.qml:66
+#: src/components/console/ConsoleDrawer.qml:72
 msgid "Text Copied"
 msgstr ""
 
-#: src/components/console/ConsoleDrawer.qml:73
+#: src/components/console/ConsoleDrawer.qml:79
 msgid "Close"
 msgstr ""
 
@@ -216,7 +216,7 @@ msgctxt "@title"
 msgid "About Application"
 msgstr ""
 
-#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:208
+#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:214
 msgctxt "About (user's OS)"
 msgid "About %1"
 msgstr ""
@@ -226,91 +226,92 @@ msgctxt "@title:window"
 msgid "Bazzite Updater"
 msgstr ""
 
-#: src/pages/Main.qml:153 src/pages/system_update/SystemUpdate.qml:18
-#: src/pages/system_update/SystemUpdate.qml:156
+#: src/pages/Main.qml:159 src/pages/system_update/SystemUpdate.qml:20
+#: src/pages/system_update/SystemUpdate.qml:158
 msgid "System Update"
 msgstr ""
 
-#: src/pages/Main.qml:165 src/pages/other_utils/OtherUtils.qml:19
+#: src/pages/Main.qml:171 src/pages/other_utils/OtherUtils.qml:19
 msgid "Other Utilities"
 msgstr ""
 
-#: src/pages/Main.qml:177 src/pages/rebase_page/RebasePage.qml:35
+#: src/pages/Main.qml:183 src/pages/rebase_page/RebasePage.qml:165
 msgid "Rebase Helper"
 msgstr ""
 
-#: src/pages/Main.qml:187 src/pages/rss_feed/RssPage.qml:23
+#: src/pages/Main.qml:193 src/pages/rss_feed/RssPage.qml:23
 msgid "Announcements"
 msgstr ""
 
-#: src/pages/Main.qml:199 src/pages/settings/Settings.qml:17
+#: src/pages/Main.qml:205 src/pages/settings/Settings.qml:17
 msgid "Settings"
 msgstr ""
 
-#: src/pages/Main.qml:217
+#: src/pages/Main.qml:223
 msgid "About Bazzite Updater"
 msgstr ""
 
-#: src/pages/Main.qml:230
+#: src/pages/Main.qml:236
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:241
+#: src/pages/Main.qml:247
 msgid "Quit"
 msgstr ""
 
-#: src/pages/Main.qml:317
+#: src/pages/Main.qml:323
 msgctxt "@title:window"
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:322 src/pages/system_update/SystemUpdate.qml:104
+#: src/pages/Main.qml:328 src/pages/system_update/SystemUpdate.qml:106
 msgid "This will reboot the system."
 msgstr ""
 
-#: src/pages/Main.qml:327
+#: src/pages/Main.qml:333
 msgid "Reboot"
 msgstr ""
 
-#: src/pages/Main.qml:333 src/pages/Main.qml:414
+#: src/pages/Main.qml:339 src/pages/Main.qml:420
+#: src/pages/rebase_page/RebasePage.qml:340
 msgid "Cancel"
 msgstr ""
 
-#: src/pages/Main.qml:350
+#: src/pages/Main.qml:356
 msgid ""
 "The app was unable to reboot. Reboot through your system menu to apply "
 "changes."
 msgstr ""
 
-#: src/pages/Main.qml:369
+#: src/pages/Main.qml:375
 msgid "Exit Application"
 msgstr ""
 
-#: src/pages/Main.qml:374
+#: src/pages/Main.qml:380
 msgid "You must reboot to apply system updates."
 msgstr ""
 
-#: src/pages/Main.qml:374
+#: src/pages/Main.qml:380
 msgid "No command is running, you may exit safely."
 msgstr ""
 
-#: src/pages/Main.qml:377
+#: src/pages/Main.qml:383
 msgid ""
 "You should not exit the application until the running command completes. If "
 "you exit early, it may break your system."
 msgstr ""
 
-#: src/pages/Main.qml:379
+#: src/pages/Main.qml:385
 msgid ""
 "If you exit the application before the running command completes, it may not "
 "apply its changes."
 msgstr ""
 
-#: src/pages/Main.qml:389
+#: src/pages/Main.qml:395
 msgid "Do not show this again"
 msgstr ""
 
-#: src/pages/Main.qml:407
+#: src/pages/Main.qml:413
 msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr ""
@@ -342,7 +343,7 @@ msgid "Rollback Failed."
 msgstr ""
 
 #: src/pages/other_utils/OtherUtils.qml:75
-#: src/pages/system_update/SystemUpdate.qml:58
+#: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr ""
 
@@ -363,58 +364,73 @@ msgstr ""
 msgid "Fetch all tags"
 msgstr ""
 
-#: src/pages/rebase_page/FCSystemImage.qml:50
+#: src/pages/rebase_page/FCSystemImage.qml:96
 msgid "Fetching tags"
 msgstr ""
 
-#: src/pages/rebase_page/FCSystemImage.qml:56
+#: src/pages/rebase_page/FCSystemImage.qml:102
 msgid "Failed to fetch tags."
 msgstr ""
 
-#: src/pages/rebase_page/FCSystemImage.qml:126
-#: src/pages/rebase_page/FCSystemImage.qml:155
-msgid "(Current Tag)"
+#: src/pages/rebase_page/FCSystemImage.qml:167
+msgid ""
+"Tags marked with a date or version will not receive security or feature "
+"updates. You should only use them temporarily if you are waiting for a "
+"critical bug to be fixed in the latest version."
 msgstr ""
 
-#: src/pages/rebase_page/FCSystemImage.qml:135
+#: src/pages/rebase_page/FCSystemImage.qml:175
+#: src/pages/rebase_page/FCSystemImage.qml:235
+msgid "%1 (Current Tag)"
+msgstr ""
+
+#: src/pages/rebase_page/FCSystemImage.qml:184
 msgctxt "List of tags classified as stable, testing, etc"
 msgid "List of %1 tags"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:57
+#: src/pages/rebase_page/RebasePage.qml:198
 msgid "Current System Image"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:80
+#: src/pages/rebase_page/RebasePage.qml:225
 msgid "Available System Images"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:96
+#: src/pages/rebase_page/RebasePage.qml:242
 msgid "Filter by Features"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:138
+#: src/pages/rebase_page/RebasePage.qml:282
 msgid "Results (%1)"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:171
+#: src/pages/rebase_page/RebasePage.qml:319
 msgid "Confirm rebase"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:172
+#: src/pages/rebase_page/RebasePage.qml:320
 msgid ""
-"Rebase to %1? This will take a long time, and you will need to restart "
-"afterwards to apply the changes.\n"
+"This will take a long time, and you will need to restart afterwards to apply "
+"the changes.\n"
+"Target: %1\n"
 "\n"
-"You may need to input your password multiple times to proceed."
+"You may need to input your password multiple times to proceed. If you rebase "
+"to a tag with a date or version, you will not get system-level security and "
+"feature updates until you return to a base tag."
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:178
+#: src/pages/rebase_page/RebasePage.qml:326
 msgid "The rebase succeeded! Restart to apply changes."
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:180
+#: src/pages/rebase_page/RebasePage.qml:328
 msgid "The rebase failed. Check the console for more information."
+msgstr ""
+
+#: src/pages/rebase_page/RebasePage.qml:335
+msgctxt "Dialog confirmation"
+msgid "Ok"
 msgstr ""
 
 #: src/pages/rss_feed/FCRssDelegate.qml:105
@@ -549,71 +565,77 @@ msgstr ""
 msgid "Enable the system rebase page"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:45
+#: src/pages/system_update/SystemUpdate.qml:47
 msgid "Start update"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:50
+#: src/pages/system_update/SystemUpdate.qml:52
 msgid "System Updating"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:52
+#: src/pages/system_update/SystemUpdate.qml:54
 msgid "Update Started"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:56
+#: src/pages/system_update/SystemUpdate.qml:58
 msgid "Update Failed."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:58
+#: src/pages/system_update/SystemUpdate.qml:60
 msgid "Update Failed. Check console for more details."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:66
+#: src/pages/system_update/SystemUpdate.qml:68
 msgid "Update Succeeded!"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:68
+#: src/pages/system_update/SystemUpdate.qml:70
 msgid "System Updated!"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:72
+#: src/pages/system_update/SystemUpdate.qml:74
 msgid "You must reboot to apply changes."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:74
+#: src/pages/system_update/SystemUpdate.qml:76
 msgid "No reboot necessary."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:84
+#: src/pages/system_update/SystemUpdate.qml:86
 msgid "Toggle Console"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:101
+#: src/pages/system_update/SystemUpdate.qml:103
 msgid "Update Error"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:109
+#: src/pages/system_update/SystemUpdate.qml:111
 msgid "Ok"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:169
+#: src/pages/system_update/SystemUpdate.qml:171
 msgid "Click to update System Image and Software"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:212
+#: src/pages/system_update/SystemUpdate.qml:214
 msgctxt "label, last update to the system."
 msgid "Last Update"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:214
+#: src/pages/system_update/SystemUpdate.qml:216
 msgid "Right now!"
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:255
+#: src/pages/system_update/SystemUpdate.qml:257
 msgid "The System Update command is not defined."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:256
+#: src/pages/system_update/SystemUpdate.qml:258
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
+
+#: src/pages/system_update/SystemUpdate.qml:284
+msgid "%1 Layered package"
+msgid_plural "%1 Layered packages"
+msgstr[0] ""
+msgstr[1] ""
