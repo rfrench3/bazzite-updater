@@ -272,7 +272,7 @@ Kirigami.Page {
         readonly property int __layeredCount: __img.layeredPackages?.length || 0
 
         includeAtStart: {
-            const list = [];
+            const list = ["Bazzite Updater %1".arg(ApplicationVersion)];
 
             if (RebaseModel.currentImage.name && RebaseModel.currentImage.currentTag)
                 list.push(`${RebaseModel.currentImage.name}:${RebaseModel.currentImage.currentTag}`);

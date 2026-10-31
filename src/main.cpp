@@ -126,6 +126,8 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty(u"UseFullscreen"_s, UseFullscreen);
 
+    engine.rootContext()->setContextProperty(u"ApplicationVersion"_s, QStringLiteral(BAZZITE_UPDATER_VERSION_STRING));
+
     // load AppData on startup instead of on first access
     AppData::instance();
 
