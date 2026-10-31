@@ -70,6 +70,7 @@ ecm_target_qml_sources(bazzite-updater
     ${COMP_DIR}/AsyncLoader.qml
     ${COMP_DIR}/PageContentLayout.qml
     ${COMP_DIR}/QmlUtils.qml
+    ${COMP_DIR}/NavGrid.qml
     ${COMP_DIR}/console/ConsoleView.qml
     ${COMP_DIR}/console/ConsoleDrawer.qml
     ${FC_DIR}/FormCardCollapsible.qml

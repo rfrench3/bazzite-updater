@@ -46,6 +46,7 @@ StatefulApp.StatefulWindow {
 
     // Handle global drawer navigation for controllers
 
+    // TODO: gamepad button handling needs a major overhaul, this should be removed when it is ready
     Connections {
         target: GP.Gamepad
 
@@ -54,6 +55,11 @@ StatefulApp.StatefulWindow {
                 AppDialogManager.activeDialog.handleInput(buttonId, button_down);
                 return;
             }
+
+            // this is a bad system that must be fully reworked
+            if (typeof root.pageStack.currentItem.moreHandleInput === "function")
+                if (root.pageStack.currentItem.moreHandleInput(buttonId, button_down))
+                    return;
 
             switch (buttonId) {
             case 1: // B

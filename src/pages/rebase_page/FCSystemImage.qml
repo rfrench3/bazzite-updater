@@ -47,16 +47,48 @@ FC.FormCard {
 
     signal listViewFocused(Item item)
 
-    function closeActiveListView(): void {
+    function closeActiveListView(): bool {
         const item = Window.activeFocusItem;
         if (!QmlUtils.isDescendentOf(item, root))
-            return;
+            return false;
 
-        const collapsible = QmlUtils.getParentOfType(item, FormDelegateCollapsible);
+        const collapsible = QmlUtils.getParentOfType(item.parent, FormDelegateCollapsible);
         if (collapsible) {
+            if (collapsible.expanded !== true)
+                return false;
             collapsible.expanded = false;
             collapsible.button.forceActiveFocus(Qt.TabFocusReason);
+            return true;
         }
+        return false;
+    }
+
+    function incrementListView(): bool {
+        const view = activeListView();
+        if (!view || view.currentIndex >= view.count - 1)
+            return false;
+        view.incrementCurrentIndex();
+        return true;
+    }
+
+    function decrementListView(): bool {
+        const view = activeListView();
+        if (!view || view.currentIndex <= 0)
+            return false;
+        view.decrementCurrentIndex();
+        return true;
+    }
+
+    function activeListView(): ListView {
+        const item = Window.activeFocusItem;
+
+        if (!QmlUtils.isDescendentOf(item, root))
+            return null;
+
+        if (item instanceof ListView)
+            return item;
+
+        return QmlUtils.getParentOfType(item, ListView);
     }
 
     function fetchAllTags(): void {
@@ -132,6 +164,7 @@ FC.FormCard {
                         text: root.fetchTagsButtonText
                         enabled: !root.hasFetched && !root.fetching
                         onClicked: root.fetchAllTags()
+                        description: i18n("Tags marked with a date or version will not receive security or feature updates. You should only use them temporarily if you are waiting for a critical bug to be fixed in the latest version.")
                     }
                 }
 
@@ -139,7 +172,7 @@ FC.FormCard {
                     id: groupTagButton
                     FC.FormButtonDelegate {
                         readonly property bool isCurrent: delegateRoot.groupTag === root.currentTag
-                        text: isCurrent ? delegateRoot.groupTag + " " + i18n("(Current Tag)") : delegateRoot.groupTag
+                        text: isCurrent ? i18n("%1 (Current Tag)".arg(delegateRoot.groupTag)) : delegateRoot.groupTag
                         enabled: AppState.allowCommands && !isCurrent
                         onClicked: root.tagClicked(delegateRoot.groupTag)
                     }
@@ -156,6 +189,7 @@ FC.FormCard {
                             implicitWidth: 24
                         }
 
+                        property alias listView: tagsView
                         ListView {
                             id: tagsView
                             Layout.fillWidth: true
@@ -181,24 +215,6 @@ FC.FormCard {
                             // Keep the current item scrolled into view whenever it changes,
                             // regardless of what changed it (Tab, arrows, mouse).
                             onCurrentIndexChanged: positionViewAtIndex(currentIndex, ListView.Contain)
-
-                            // Tab doesn't normally navigate through listView entries
-                            Keys.onTabPressed: event => {
-                                if (currentIndex < count - 1) {
-                                    incrementCurrentIndex();
-                                    event.accepted = true;
-                                } else {
-                                    event.accepted = false;
-                                }
-                            }
-                            Keys.onBacktabPressed: event => {
-                                if (currentIndex > 0) {
-                                    decrementCurrentIndex();
-                                    event.accepted = true;
-                                } else {
-                                    event.accepted = false;
-                                }
-                            }
 
                             KG.WheelHandler {
                                 target: tagsView

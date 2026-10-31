@@ -16,19 +16,24 @@ FC.FormCardPage {
     }
     readonly property ScrollBar scrollBar: grabScrollbar(root)
 
-    property Item drawer: null
-    property Item actionToggleDrawer: null
+    property var drawer: null
+    property var actionToggleDrawer: null
 
     // Allow additional actions to be implemented when necessary,
     // Return true to stop propagation
     function moreHandleInput(buttonId: int, button_down: bool): bool {
+        return false;
     }
 
-    function handleInput(buttonId: int, button_down: bool): void {
+    // return true to stop propagation
+    function handleInput(buttonId: int, button_down: bool): bool {
+        if (moreHandleInput(buttonId, button_down))
+            return true;
+
         if (button_down) {
             if (root.drawer?.drawerOpen) {
                 root.drawer.handleInput(buttonId, button_down);
-                return;
+                return false;
             }
 
             if (root.actionToggleDrawer?.trigger && buttonId == 3) {
@@ -39,6 +44,6 @@ FC.FormCardPage {
                 }
             }
         }
-        moreHandleInput(buttonId, button_down);
+        return false;
     }
 }
