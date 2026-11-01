@@ -22,6 +22,12 @@
 
 <br>
 
+<h1 align="center">Other Linux Distributions</h1>
+
+<p>If you are a developer that wants to ship Bazzite Updater for your own distribution, I would be happy to help make that happen!</p>
+
+<br>
+
 <h1 align="center">Requirements</h1>
 
 By default, this interface is configured to use bazzite's `uupd` system service for updating and `bazzite-rollback-helper` for rolling back updates. If you do not use these systems, you will need to edit `/etc/bazzite-updater/config.ini` to match your systems.
