@@ -48,20 +48,9 @@ SystemUpdateBackend::SystemUpdateBackend(QObject *parent)
     m_updateStepsModel = new UpdateStepsNS::Model(this);
 }
 
-// Keep track of the current module. Necessary because most lines of uupd output do not display their connected module.
-enum class Progress {
-    UNKNOWN,
-    SYSTEM,
-    BREW,
-    FLATPAK,
-    USER_FLATPAK
-};
-static Progress current_module = Progress::UNKNOWN;
-
 void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue messageCallback = QJSValue())
 {
     m_updateStepsModel->clearData();
-    current_module = Progress::UNKNOWN;
 
     // parse the console output to determine if the update has failed, always initialize to false
     static bool moduleFail;
@@ -76,10 +65,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue mes
         };
 
         // Ensure modules are not left as "running", an exit status of error will not be overwritten
-        using namespace UpdateStepsModules;
-        for (const QString &module : {SYSTEM, BREW, FLATPAK, USER_FLATPAK}) {
-            m_updateStepsModel->updateData(module, -2, -2, UpdateStepsNS::ExitStatus::SUCCESS);
-        }
+        m_updateStepsModel->setAllRunningExitStatus(UpdateStepsNS::ExitStatus::SUCCESS);
 
         // Check for errors
         if (exit_code != 0 || moduleFail == true) {
@@ -91,8 +77,9 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue mes
         conclude(0, true);
     };
 
-    auto onError = [=](QProcess::ProcessError error) {
+    auto onError = [=, this](QProcess::ProcessError error) {
         qWarning() << "Update errored with ProcessError " << error;
+        m_updateStepsModel->setAllRunningExitStatus(UpdateStepsNS::ExitStatus::ERROR);
         callback.call({1});
         appState.setUpdateRunning(false);
         appState.setCommandSucceeded(false);
@@ -111,76 +98,39 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue mes
 
         auto json = QJsonDocument::fromJson(line.toUtf8()).object();
 
-        if (!(json.contains(u"level"_s) && json.contains(u"msg"_s)))
+        if (!(json.contains(u"level"_s) && json.contains(u"msg"_s) && json.contains(u"module"_s)))
             return;
 
         QString level = json.value(u"level"_s).toString();
         QString msg = json.value(u"msg"_s).toString();
+        QString module = json.value(u"module"_s).toString();
+        QString output = json.value(u"output"_s).toString();
 
-        QString module_name = json.value(u"module_name"_s).toString();
-        QString title = json.value(u"title"_s).toString();
+        QString consoleOutput = (output.isEmpty()) ? msg : output;
 
-        QString description = json.value(u"description"_s).toString();
+        // Parse the exit code
+        UpdateStepsNS::ExitStatus status = UpdateStepsNS::ExitStatus::NO_CHANGE;
+        if (const QJsonValue exitVal = json.value(u"exit_code"_s); exitVal.isDouble())
+            status = exitVal.toInt() == 0 ? UpdateStepsNS::ExitStatus::SUCCESS : UpdateStepsNS::ExitStatus::ERROR;
 
-        if (current_module == Progress::SYSTEM) {
-            if (line.contains(u"Insufficient free space"_s) || line.contains(u"min-free-space-percent"_s)) {
+        if (module == u"system"_s) {
+            if (output.contains(u"Insufficient free space"_s) || output.contains(u"min-free-space-percent"_s)) {
                 messageCallback.call({i18n("There is not enough free space available for system updates.")});
-                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
+                m_updateStepsModel->updateData(module, -2, -2, UpdateStepsNS::ExitStatus::NO_CHANGE, false);
             }
         }
 
-        // If the output of Uupd improves, update this
         {
-            if (title == u"System"_s) {
-                current_module = Progress::SYSTEM;
-            }
+            int progress_current = UpdateStepsNS::ProgressNoChange;
+            int progress_total = UpdateStepsNS::ProgressNoChange;
 
-            else if (module_name == u"Brew"_s) {
-                current_module = Progress::BREW;
-            }
-
-            else if (module_name == u"Flatpak"_s) {
-                current_module = Progress::FLATPAK;
-            }
-
-            else if (title == u"Flatpak"_s && description.startsWith(u"Apps for User"_s)) {
-                current_module = Progress::USER_FLATPAK;
-            }
-
-            int progress_current = -1;
-            int progress_total = 2;
-
-            // parse for any *[integerA/integerB]*
             static const QRegularExpression regex(QStringLiteral(R"(\[(\d+)/(\d+)\])"));
-
-            // Attempt to parse the progress of the current step
-            auto match = regex.match(line);
+            auto match = regex.match(output);
             if (match.hasMatch()) {
                 progress_current = match.captured(1).toInt();
                 progress_total = match.captured(2).toInt();
             }
-
-            // 1st num = -1 makes the progress bar indeterminate, 1st num = 2nd num makes the progress bar full.
-            // When progress is known, it will be displayed instead of the indeterminate state.
-            switch (current_module) {
-            case Progress::SYSTEM:
-                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
-                break;
-            case Progress::BREW:
-                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(UpdateStepsModules::BREW, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
-                break;
-            case Progress::FLATPAK:
-                m_updateStepsModel->updateData(UpdateStepsModules::BREW, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
-                break;
-            case Progress::USER_FLATPAK:
-                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, 2, 2, UpdateStepsNS::ExitStatus::SUCCESS);
-                m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, progress_current, progress_total, UpdateStepsNS::ExitStatus::RUNNING);
-                break;
-            default:
-                break;
-            }
+            m_updateStepsModel->updateData(module, progress_current, progress_total, status);
         }
 
         using namespace Console;
@@ -195,23 +145,16 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue mes
         else if (level == u"ERROR"_s)
             log_level = LogLevel::Error;
 
-        if (msg == u"module_fail"_s) {
-            log_level = LogLevel::ErrorCritical;
-            msg = json.value(u"module"_s).toString();
-            moduleFail = true;
+        if (msg == u"Command output"_s)
+            log_level = LogLevel::Debug;
 
-            // parse for UpdateSteps
-            if (msg.contains(u"System Update"_s))
-                m_updateStepsModel->updateData(UpdateStepsModules::SYSTEM, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
-            else if (msg.contains(u"Brew Update"_s))
-                m_updateStepsModel->updateData(UpdateStepsModules::BREW, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
-            else if (msg.contains(u"System Apps"_s))
-                m_updateStepsModel->updateData(UpdateStepsModules::FLATPAK, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
-            else if (msg.contains(u"Apps for User"_s))
-                m_updateStepsModel->updateData(UpdateStepsModules::USER_FLATPAK, 0, 2, UpdateStepsNS::ExitStatus::ERROR);
+        // don't send output from module_fail, the output is the entire output of the command (very large)
+        if (msg == u"module_fail"_s) {
+            moduleFail = true;
+            return;
         }
 
-        auto out = formatForConsole(msg);
+        auto out = formatForConsole(consoleOutput);
         if (!out.trimmed().isEmpty())
             m_console->newLine(out, log_level);
     };

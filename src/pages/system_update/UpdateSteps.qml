@@ -25,7 +25,7 @@ ColumnLayout {
             spacing: Kirigami.Units.gridUnit
 
             Label {
-                text: del.module
+                text: del.module.charAt(0).toUpperCase() + del.module.slice(1)
             }
 
             ProgressBar {
@@ -44,9 +44,9 @@ ColumnLayout {
 
             Loader {
                 sourceComponent: {
-                    if (del.exit_status === 0)
+                    if (del.exit_status === -1)
                         return busyComponent;
-                    if (del.exit_status === 1)
+                    if (del.exit_status === 0)
                         return checkmarkComponent;
                     return errorComponent;
                 }

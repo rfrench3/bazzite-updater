@@ -52,47 +52,55 @@ QHash<int, QByteArray> Model::roleNames() const
     };
 }
 
+static void applyFinalState(Model::Line &l)
+{
+    if (l.exit_status == SUCCESS) {
+        l.progress_current = 2;
+        l.progress_total = 2;
+    } else if (l.exit_status == ERROR) {
+        l.progress_current = 0;
+        l.progress_total = 2;
+    }
+}
+
 void Model::updateData(const QString &module, int progress_current, int progress_total, ExitStatus exit_status, bool create_new)
 {
-    Line data{module, progress_current, progress_total, exit_status};
-
-    auto it = std::find_if(m_lines.begin(), m_lines.end(), [&](const auto &line) {
+    auto it = std::find_if(m_lines.begin(), m_lines.end(), [&](const Line &line) {
         return line.module == module;
     });
 
     if (it != m_lines.end()) {
-        // TODO: This is a messy way of not changing specific values.
-        if (progress_current == -2)
-            data.progress_current = it->progress_current;
-        if (progress_total == -2)
-            data.progress_total = it->progress_total;
-        if (exit_status == NO_CHANGE)
-            data.exit_status = it->exit_status;
+        // Once a module has an exit status (SUCCESS or ERROR) it is frozen.
+        if (it->exit_status != RUNNING)
+            return;
 
-        // If a module has already exited with an error, do not allow that to be overwritten.
-        if (it->exit_status == ERROR)
-            data.exit_status = ERROR;
-
-        if (data.exit_status == SUCCESS) {
-            data.progress_current = 2;
-            data.progress_total = 2;
-        }
-
-        if (data.exit_status == ERROR) {
-            data.progress_current = 0;
-            data.progress_total = 2;
-        }
+        Line data = *it;
+        if (progress_current != ProgressNoChange)
+            data.progress_current = progress_current;
+        if (progress_total != ProgressNoChange)
+            data.progress_total = progress_total;
+        if (exit_status != NO_CHANGE)
+            data.exit_status = exit_status;
+        applyFinalState(data);
 
         *it = data;
-        int i = std::distance(m_lines.begin(), it);
+        const int i = std::distance(m_lines.begin(), it);
         Q_EMIT dataChanged(index(i, 0), index(i, 0));
         return;
     }
-    if (create_new) {
-        beginInsertRows(QModelIndex(), m_lines.size(), m_lines.size());
-        m_lines.append(data);
-        endInsertRows();
-    }
+
+    if (!create_new || module.isEmpty())
+        return;
+
+    Line data{module,
+              progress_current == ProgressNoChange ? ProgressIndeterminate : progress_current,
+              progress_total == ProgressNoChange ? 2 : progress_total,
+              exit_status == NO_CHANGE ? RUNNING : exit_status};
+    applyFinalState(data);
+
+    beginInsertRows(QModelIndex(), m_lines.size(), m_lines.size());
+    m_lines.append(data);
+    endInsertRows();
 }
 
 void Model::clearData()
@@ -100,4 +108,21 @@ void Model::clearData()
     beginResetModel();
     m_lines.clear();
     endResetModel();
+}
+
+QStringList Model::modules() const
+{
+    QStringList result;
+    result.reserve(m_lines.size());
+    for (const Line &line : m_lines)
+        result.append(line.module);
+    return result;
+}
+
+void Model::setAllRunningExitStatus(ExitStatus exit_status)
+{
+    for (int i = 0; i < m_lines.size(); ++i) {
+        if (m_lines.at(i).exit_status == RUNNING)
+            updateData(m_lines.at(i).module, ProgressNoChange, ProgressNoChange, exit_status, false);
+    }
 }

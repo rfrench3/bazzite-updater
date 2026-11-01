@@ -2,13 +2,9 @@
 
 set -euo pipefail
 
-cd /workspaces/bazzite-updater/tests/success
+cd /workspaces/bazzite-updater/tests
 
-cat ./system.txt
-sleep 1
-cat ./brew.txt
-sleep 1
-cat ./flatpak.txt
-sleep 1
-cat ./flatpak-user.txt
-sleep 1
+while IFS= read -r line || [[ -n "$line" ]]; do
+    echo "$line"
+    sleep 0.05
+done < "./uupd-success.txt"
