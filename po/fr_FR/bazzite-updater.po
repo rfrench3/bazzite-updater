@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 22:35+0000\n"
+"POT-Creation-Date: 2026-11-02 18:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Rollback program was not found or failed to start."
 msgstr ""
 
-#: src/pages/system_update/system_update.cpp:127
+#: src/pages/system_update/system_update.cpp:118
 msgid "There is not enough free space available for system updates."
 msgstr ""
 
@@ -371,19 +371,24 @@ msgstr ""
 msgid "Failed to fetch tags."
 msgstr ""
 
-#: src/pages/rebase_page/FCSystemImage.qml:167
+#: src/pages/rebase_page/FCSystemImage.qml:117
+msgctxt "all tags, used in 'List of {tag} tags' string."
+msgid "all"
+msgstr ""
+
+#: src/pages/rebase_page/FCSystemImage.qml:177
 msgid ""
 "Tags marked with a date or version will not receive security or feature "
 "updates. You should only use them temporarily if you are waiting for a "
 "critical bug to be fixed in the latest version."
 msgstr ""
 
-#: src/pages/rebase_page/FCSystemImage.qml:175
-#: src/pages/rebase_page/FCSystemImage.qml:235
+#: src/pages/rebase_page/FCSystemImage.qml:185
+#: src/pages/rebase_page/FCSystemImage.qml:245
 msgid "%1 (Current Tag)"
 msgstr ""
 
-#: src/pages/rebase_page/FCSystemImage.qml:184
+#: src/pages/rebase_page/FCSystemImage.qml:194
 msgctxt "List of tags classified as stable, testing, etc"
 msgid "List of %1 tags"
 msgstr ""

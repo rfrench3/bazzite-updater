@@ -113,6 +113,12 @@ FC.FormCard {
                 });
             }
 
+            newSorted.push({
+                "tag": i18nc("all tags, used in 'List of {tag} tags' string.", "all"),
+                "list": filterSortTags(allTags, "")
+            });
+
+            // pass an empty string as tag to only sort elements
             function filterSortTags(list: list<string>, tag: string): list<string> {
                 let result = list.filter(x => x.startsWith(tag) && x !== tag);
 
@@ -120,7 +126,11 @@ FC.FormCard {
                 const dateRe = /\d{4}-?\d{2}-?\d{2}/;
                 const undated = result.filter(x => !dateRe.test(x)).sort().reverse();
                 const dated = result.filter(x => dateRe.test(x)).sort().reverse();
-                result = [tag].concat(undated, dated);
+
+                if (tag !== "")
+                    result = [tag].concat(undated, dated);
+                else
+                    result = undated.concat(dated);
 
                 return result;
             }
