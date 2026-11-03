@@ -189,6 +189,8 @@ StatefulApp.StatefulWindow {
                 onTriggered: root.pageStack.initialPage = Qt.resolvedUrl("RebasePage.qml")
             },
             Kirigami.Action {
+                enabled: (AppConfig.ini.General?.rssFeed ?? "") !== ""
+                visible: enabled
 
                 text: i18n("Announcements")
                 icon.name: "feed-subscribe-symbolic"

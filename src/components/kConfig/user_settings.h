@@ -25,6 +25,7 @@ struct Settings {
 };
 static const Settings defaults = Settings();
 
+// TODO: consider switching this to .kcfg
 /* Writable per-user preferences, stored in ~/.config/bazzite-updaterrc.
  * These only affect how the UI presents itself. Anything that decides which
  * command gets run stays in the read-only system config, see findConfigFile().

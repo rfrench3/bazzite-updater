@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 16:53+0000\n"
+"POT-Creation-Date: 2026-11-03 17:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -225,7 +225,7 @@ msgctxt "@title"
 msgid "About Application"
 msgstr ""
 
-#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:214
+#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:216
 msgctxt "About (user's OS)"
 msgid "About %1"
 msgstr ""
@@ -248,79 +248,79 @@ msgstr ""
 msgid "Rebase Helper"
 msgstr ""
 
-#: src/pages/Main.qml:193 src/pages/rss_feed/RssPage.qml:23
+#: src/pages/Main.qml:195 src/pages/rss_feed/RssPage.qml:23
 msgid "Announcements"
 msgstr ""
 
-#: src/pages/Main.qml:205 src/pages/settings/Settings.qml:17
+#: src/pages/Main.qml:207 src/pages/settings/Settings.qml:17
 msgid "Settings"
 msgstr ""
 
-#: src/pages/Main.qml:223
+#: src/pages/Main.qml:225
 msgid "About Bazzite Updater"
 msgstr ""
 
-#: src/pages/Main.qml:236
+#: src/pages/Main.qml:238
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:247
+#: src/pages/Main.qml:249
 msgid "Quit"
 msgstr ""
 
-#: src/pages/Main.qml:323
+#: src/pages/Main.qml:325
 msgctxt "@title:window"
 msgid "Reboot System"
 msgstr ""
 
-#: src/pages/Main.qml:328 src/pages/system_update/SystemUpdate.qml:106
+#: src/pages/Main.qml:330 src/pages/system_update/SystemUpdate.qml:106
 msgid "This will reboot the system."
 msgstr ""
 
-#: src/pages/Main.qml:333
+#: src/pages/Main.qml:335
 msgid "Reboot"
 msgstr ""
 
-#: src/pages/Main.qml:339 src/pages/Main.qml:420
+#: src/pages/Main.qml:341 src/pages/Main.qml:422
 #: src/pages/rebase_page/RebasePage.qml:340
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/pages/Main.qml:356
+#: src/pages/Main.qml:358
 msgid ""
 "The app was unable to reboot. Reboot through your system menu to apply "
 "changes."
 msgstr ""
 
-#: src/pages/Main.qml:375
+#: src/pages/Main.qml:377
 msgid "Exit Application"
 msgstr ""
 
-#: src/pages/Main.qml:380
+#: src/pages/Main.qml:382
 msgid "You must reboot to apply system updates."
 msgstr ""
 
-#: src/pages/Main.qml:380
+#: src/pages/Main.qml:382
 msgid "No command is running, you may exit safely."
 msgstr ""
 
-#: src/pages/Main.qml:383
+#: src/pages/Main.qml:385
 msgid ""
 "You should not exit the application until the running command completes. If "
 "you exit early, it may break your system."
 msgstr ""
 
-#: src/pages/Main.qml:385
+#: src/pages/Main.qml:387
 msgid ""
 "If you exit the application before the running command completes, it may not "
 "apply its changes."
 msgstr ""
 
-#: src/pages/Main.qml:395
+#: src/pages/Main.qml:397
 msgid "Do not show this again"
 msgstr ""
 
-#: src/pages/Main.qml:413
+#: src/pages/Main.qml:415
 msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr ""
@@ -578,6 +578,10 @@ msgstr ""
 msgid "OS Settings (read-only)"
 msgstr ""
 
+#: src/pages/settings/Settings.qml:105
+msgid "No system update command is defined."
+msgstr ""
+
 #: src/pages/settings/Settings.qml:106
 msgid "System Update Command"
 msgstr ""
@@ -592,6 +596,10 @@ msgstr ""
 
 #: src/pages/settings/Settings.qml:120
 msgid "Allow commands to be cancelled early?"
+msgstr ""
+
+#: src/pages/settings/Settings.qml:126
+msgid "No announcements/changelogs source is set."
 msgstr ""
 
 #: src/pages/settings/Settings.qml:127

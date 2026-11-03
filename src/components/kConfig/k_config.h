@@ -55,6 +55,7 @@ public:
 
 inline SingletonInternals::VarMapPlus configIni = SingletonInternals::ConfigIni::instance().ini;
 
+// TODO: Instead of using QVariantMap and QVariantList, enforce the present data and default values with strict types
 class AppConfig : public QObject
 {
     Q_OBJECT

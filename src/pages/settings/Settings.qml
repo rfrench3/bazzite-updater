@@ -102,7 +102,7 @@ FC.FormCardPage {
 
     FC.FormCard {
         FC.FormTextDelegate {
-            text: AppConfig.ini.Commands?.systemUpdateCommand
+            text: AppConfig.ini.Commands?.systemUpdateCommand || i18n("No system update command is defined.")
             description: i18n("System Update Command")
         }
 
@@ -116,21 +116,21 @@ FC.FormCardPage {
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: AppConfig.ini.Commands?.allowEarlyExit
+            text: AppConfig.ini.Commands?.allowEarlyExit || "true"
             description: i18n("Allow commands to be cancelled early?")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: AppConfig.ini.General?.rssFeed
+            text: AppConfig.ini.General?.rssFeed || i18n("No announcements/changelogs source is set.")
             description: i18n("Changelogs RSS feed")
         }
 
         FormDelegateSeparatorFixed {}
 
         FC.FormTextDelegate {
-            text: AppConfig.ini.Rebase?.enabled
+            text: AppConfig.ini.Rebase?.enabled || "false"
             description: i18n("Enable the system rebase page")
         }
     }

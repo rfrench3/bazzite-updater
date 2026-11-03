@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 16:53+0000\n"
+"POT-Creation-Date: 2026-11-03 17:43+0000\n"
 "PO-Revision-Date: 2026-09-18 18:56+0300\n"
 "Last-Translator: Saltane <101461606+Saltane@users.noreply.github.com>\n"
 "Language-Team: Ukrainian <101461606+Saltane@users.noreply.github.com>\n"
@@ -231,7 +231,7 @@ msgctxt "@title"
 msgid "About Application"
 msgstr "Про застосунок"
 
-#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:214
+#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:216
 msgctxt "About (user's OS)"
 msgid "About %1"
 msgstr "Про %1"
@@ -255,45 +255,45 @@ msgstr "Інші інструменти"
 msgid "Rebase Helper"
 msgstr "Не вдалося перебазувати."
 
-#: src/pages/Main.qml:193 src/pages/rss_feed/RssPage.qml:23
+#: src/pages/Main.qml:195 src/pages/rss_feed/RssPage.qml:23
 msgid "Announcements"
 msgstr "Оголошення"
 
-#: src/pages/Main.qml:205 src/pages/settings/Settings.qml:17
+#: src/pages/Main.qml:207 src/pages/settings/Settings.qml:17
 msgid "Settings"
 msgstr "Налаштування"
 
-#: src/pages/Main.qml:223
+#: src/pages/Main.qml:225
 msgid "About Bazzite Updater"
 msgstr "Про Центр оновлень Bazzite"
 
-#: src/pages/Main.qml:236
+#: src/pages/Main.qml:238
 msgid "Reboot System"
 msgstr "Перезапустити систему"
 
-#: src/pages/Main.qml:247
+#: src/pages/Main.qml:249
 msgid "Quit"
 msgstr "Вийти"
 
-#: src/pages/Main.qml:323
+#: src/pages/Main.qml:325
 msgctxt "@title:window"
 msgid "Reboot System"
 msgstr "Перезапустити систему"
 
-#: src/pages/Main.qml:328 src/pages/system_update/SystemUpdate.qml:106
+#: src/pages/Main.qml:330 src/pages/system_update/SystemUpdate.qml:106
 msgid "This will reboot the system."
 msgstr "Це перезапустить систему."
 
-#: src/pages/Main.qml:333
+#: src/pages/Main.qml:335
 msgid "Reboot"
 msgstr "Перезапустити"
 
-#: src/pages/Main.qml:339 src/pages/Main.qml:420
+#: src/pages/Main.qml:341 src/pages/Main.qml:422
 #: src/pages/rebase_page/RebasePage.qml:340
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/pages/Main.qml:356
+#: src/pages/Main.qml:358
 msgid ""
 "The app was unable to reboot. Reboot through your system menu to apply "
 "changes."
@@ -301,21 +301,21 @@ msgstr ""
 "Не вдалося перезапустити систему. Здійсніть перезапуск самостійно для "
 "застосування змін."
 
-#: src/pages/Main.qml:375
+#: src/pages/Main.qml:377
 msgid "Exit Application"
 msgstr "Вийти із застосунку"
 
-#: src/pages/Main.qml:380
+#: src/pages/Main.qml:382
 #, fuzzy
 msgid "You must reboot to apply system updates."
 msgstr "Ви мусите перезапустити систему для застосування змін."
 
-#: src/pages/Main.qml:380
+#: src/pages/Main.qml:382
 #, fuzzy
 msgid "No command is running, you may exit safely."
 msgstr "Жодної команди не запущено, можете закрити застосунок."
 
-#: src/pages/Main.qml:383
+#: src/pages/Main.qml:385
 msgid ""
 "You should not exit the application until the running command completes. If "
 "you exit early, it may break your system."
@@ -323,7 +323,7 @@ msgstr ""
 "Не варто виходити із застосунку до завершення поточних команд. Якщо вийти "
 "зарано, це може зламати Вашу систему."
 
-#: src/pages/Main.qml:385
+#: src/pages/Main.qml:387
 msgid ""
 "If you exit the application before the running command completes, it may not "
 "apply its changes."
@@ -331,11 +331,11 @@ msgstr ""
 "Якщо вийти із застосунку до завершення поточної команди, він може не "
 "застосувати зміни."
 
-#: src/pages/Main.qml:395
+#: src/pages/Main.qml:397
 msgid "Do not show this again"
 msgstr "Не показувати це знову"
 
-#: src/pages/Main.qml:413
+#: src/pages/Main.qml:415
 msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Вийти"
@@ -609,6 +609,11 @@ msgstr "Скинути налаштування"
 msgid "OS Settings (read-only)"
 msgstr "Налаштування системи (лише для читання)"
 
+#: src/pages/settings/Settings.qml:105
+#, fuzzy
+msgid "No system update command is defined."
+msgstr "Команди для відкату систему не визначено."
+
 #: src/pages/settings/Settings.qml:106
 msgid "System Update Command"
 msgstr "Команда для оновлення системи"
@@ -624,6 +629,10 @@ msgstr "Команда для відкату системи"
 #: src/pages/settings/Settings.qml:120
 msgid "Allow commands to be cancelled early?"
 msgstr "Дозволити скасовувати команди завчасно?"
+
+#: src/pages/settings/Settings.qml:126
+msgid "No announcements/changelogs source is set."
+msgstr ""
 
 #: src/pages/settings/Settings.qml:127
 msgid "Changelogs RSS feed"
