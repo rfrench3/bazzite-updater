@@ -94,6 +94,41 @@ AppPage {
             FCSystemInfo {}
 
             FC.FormHeader {
+                title: i18n("General Utilities")
+                visible: addToSteamFC.visible
+            }
+            FC.FormCard {
+                id: addToSteamFC
+
+                visible: OtherUtilsBackend.addToSteamAvailable
+
+                FC.FormButtonDelegate {
+                    id: steamButton
+                    text: i18n("Add Bazzite Updater to your Steam library")
+                    description: i18n("You will need to restart Steam if it is running for Bazzite Updater to appear in your library.")
+                    enabled: !OtherUtilsBackend.consoleModel.processRunning && !__ran
+                    property bool __ran: false
+
+                    onClicked: {
+                        OtherUtilsBackend.addToSteam(function (callback) {
+                            __ran = true;
+                            if (callback != 0) {
+                                showPassiveNotification(i18n("Adding Bazzite Updater to Steam Failed."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, consoleDrawer.open);
+                            } else {
+                                showPassiveNotification(i18n("Adding Bazzite Updater to Steam Succeeded!"), Kirigami.short);
+                            }
+                        });
+                    }
+
+                    trailing: BusyIndicator {
+                        id: steamBusy
+                        running: !steamButton.enabled && !steamButton.__ran
+                    }
+                    trailingLogo.visible: !steamBusy.running
+                }
+            }
+
+            FC.FormHeader {
                 title: i18nc("card to display info from os-release", "Additional Information")
             }
             FCOsRelease {}

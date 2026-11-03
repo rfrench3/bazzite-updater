@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "other_utils.h"
+#include "console.h"
 #include "k_config.h"
 #include "utils.h"
 
@@ -76,6 +77,8 @@ osImage osImage::fromJson(const QString &filePath)
 OtherUtilsBackend::OtherUtilsBackend(QObject *parent)
     : QObject(parent)
 {
+    addToSteamAvailable = QFileInfo(u"/usr/bin/steamos-add-to-steam"_s).isExecutable();
+
     m_console = new Console::Model(this);
 
     QString path;
@@ -120,6 +123,37 @@ void OtherUtilsBackend::rollbackImage(QJSValue callback)
             m_console->newLine(i18n("Rollback program was not found or failed to start."), Console::LogLevel::ErrorCritical);
 
         appState.setRollbackRunning(false);
+        callback.call({1});
+    };
+
+    m_console->runProcess(cmd, onFinish, onError);
+}
+
+void OtherUtilsBackend::addToSteam(QJSValue callback)
+{
+    if (!callback.isCallable()) {
+        qDebug() << "Callback is not callable, command run refused";
+        return;
+    }
+
+    if (!appState.allowCommands()) {
+        qDebug() << "Command called when not allowed, ignored";
+        return;
+    }
+
+    const QStringList cmd = {u"/usr/bin/steamos-add-to-steam"_s, u"bazzite-updater"_s};
+
+    auto onFinish = [=, this](int exit_code) {
+        if (exit_code == 0)
+            m_console->newLine(i18n("If steam is open, you must restart it before Bazzite Updater will appear in your library."), Console::LogLevel::Info);
+
+        callback.call({exit_code});
+    };
+
+    auto onError = [=, this](QProcess::ProcessError error) {
+        if (error == QProcess::FailedToStart)
+            m_console->newLine(i18n("steamos-add-to-steam program was not found or failed to start."), Console::LogLevel::ErrorCritical);
+
         callback.call({1});
     };
 

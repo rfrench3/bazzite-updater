@@ -86,11 +86,14 @@ public:
         return m_osImage_current;
     }
 
+    bool commandInProgress = false;
+
     // ROLLBACK
     Q_INVOKABLE void rollbackImage(QJSValue callback);
 
-    // // REBASE
-    // Q_INVOKABLE void rebaseImage(const QString new_image, QJSValue callback);
+    bool addToSteamAvailable = false;
+    Q_PROPERTY(bool addToSteamAvailable MEMBER addToSteamAvailable CONSTANT)
+    Q_INVOKABLE void addToSteam(QJSValue callback);
 
     Console::Model *m_console;
 };

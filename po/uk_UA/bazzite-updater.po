@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 18:00+0000\n"
+"POT-Creation-Date: 2026-11-03 16:53+0000\n"
 "PO-Revision-Date: 2026-09-18 18:56+0300\n"
 "Last-Translator: Saltane <101461606+Saltane@users.noreply.github.com>\n"
 "Language-Team: Ukrainian <101461606+Saltane@users.noreply.github.com>\n"
@@ -38,8 +38,19 @@ msgstr ""
 "Цим застосунком можна керувати з допомогою контролеру або клавіатури для "
 "виконання оновчих завдань!"
 
-#: src/pages/other_utils/other_utils.cpp:120
+#: src/pages/other_utils/other_utils.cpp:123
 msgid "Rollback program was not found or failed to start."
+msgstr "Програму для відкату не знайдено або не вдалося запустити."
+
+#: src/pages/other_utils/other_utils.cpp:148
+msgid ""
+"If steam is open, you must restart it before Bazzite Updater will appear in "
+"your library."
+msgstr ""
+
+#: src/pages/other_utils/other_utils.cpp:155
+#, fuzzy
+msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr "Програму для відкату не знайдено або не вдалося запустити."
 
 #: src/pages/system_update/system_update.cpp:118
@@ -358,6 +369,7 @@ msgid "Rollback Failed."
 msgstr "Не вдалося відкотити"
 
 #: src/pages/other_utils/OtherUtils.qml:75
+#: src/pages/other_utils/OtherUtils.qml:116
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr "Відкрити консоль"
@@ -371,6 +383,29 @@ msgid "System Image Information"
 msgstr "Дані про образ системи"
 
 #: src/pages/other_utils/OtherUtils.qml:97
+#, fuzzy
+msgid "General Utilities"
+msgstr "Інші інструменти"
+
+#: src/pages/other_utils/OtherUtils.qml:107
+msgid "Add Bazzite Updater to your Steam library"
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:108
+msgid ""
+"You will need to restart Steam if it is running for Bazzite Updater to "
+"appear in your library."
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:116
+msgid "Adding Bazzite Updater to Steam Failed."
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:118
+msgid "Adding Bazzite Updater to Steam Succeeded!"
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:132
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr "Додаткові дані"

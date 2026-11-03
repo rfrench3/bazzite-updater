@@ -11,9 +11,11 @@
 #include <functional>
 #include <qcontainerfwd.h>
 #include <qqmlintegration.h>
+#include <qtmetamacros.h>
 
 using std::function;
 
+// TODO: This will almost certainly be replaced by KDE Kwi when it is ready for use
 namespace Console
 {
 Q_NAMESPACE
@@ -58,10 +60,16 @@ public:
     // Runs the defined process until completion. Does not use custom LogLevel logic.
     // onFinish and onError can be provided to run custom logic upon QProcess::finished and QProcess::errorOccurred.
     // customFormatter can be used to edit/reject lines of text before they are sent to the view.
-    void runProcess(QStringList process,
+    // Returns false if the command did not run, otherwise (including on error) returns true.
+    bool runProcess(QStringList process,
                     function<void(int)> onFinish = nullptr,
                     function<void(QProcess::ProcessError)> onError = nullptr,
                     function<void(QString, LogLevel)> customFormatter = nullptr);
+
+    Q_PROPERTY(bool processRunning MEMBER processRunning NOTIFY processRunningChanged)
+    Q_SIGNAL void processRunningChanged();
+
+    bool processRunning = false;
 };
 
 }

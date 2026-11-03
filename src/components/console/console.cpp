@@ -59,11 +59,14 @@ void Model::copyToClipboard(const QString includeAtStart) const
         QApplication::clipboard()->setText(plainText);
 }
 
-void Model::runProcess(QStringList process,
+bool Model::runProcess(QStringList process,
                        function<void(int)> onFinish,
                        function<void(QProcess::ProcessError)> onError,
                        function<void(QString, LogLevel)> lineFormatter)
 {
+    if (processRunning)
+        return false;
+
     QProcess *command = new QProcess(this);
 
     // Default to just printing a new line, while allowing more advanced custom logic
@@ -94,12 +97,16 @@ void Model::runProcess(QStringList process,
     connect(command, &QProcess::finished, this, [=, this](int exitCode, QProcess::ExitStatus exitStatus) {
         newLine(u"Command finished with exit code %1 and exit status %2"_s.arg(exitCode).arg(exitStatus), Console::LogLevel::Info);
         onFinish(exitCode);
+        processRunning = false;
+        Q_EMIT processRunningChanged();
         command->deleteLater();
     });
 
     connect(command, &QProcess::errorOccurred, this, [=, this](QProcess::ProcessError error) {
         newLine(u"Command failed with error code: %1"_s.arg(error), Console::LogLevel::Error);
         onError(error);
+        processRunning = false;
+        Q_EMIT processRunningChanged();
         command->deleteLater();
     });
 
@@ -109,5 +116,8 @@ void Model::runProcess(QStringList process,
     display << u">"_s << process;
     newLine(display.join(u' '), LogLevel::Info);
 
+    processRunning = true;
+    Q_EMIT processRunningChanged();
     Utils::startProcess(command, {u"/usr/bin/sh"_s, u"-c"_s, process.join(u' ')});
+    return true;
 }
