@@ -13,6 +13,7 @@
 #include <qjsonvalue.h>
 #include <qlogging.h>
 #include <qprocess.h>
+#include <qstandardpaths.h>
 #include <qtmetamacros.h>
 
 // TODO: Move into AppData
@@ -141,7 +142,7 @@ void OtherUtilsBackend::addToSteam(QJSValue callback)
         return;
     }
 
-    const QStringList cmd = {u"/usr/bin/steamos-add-to-steam"_s, u"bazzite-updater"_s};
+    const QStringList cmd = {u"/usr/bin/steamos-add-to-steam"_s, QStandardPaths::findExecutable(u"bazzite-updater"_s)};
 
     auto onFinish = [=, this](int exit_code) {
         if (exit_code == 0)
