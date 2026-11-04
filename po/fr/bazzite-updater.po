@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: bazzite-updater\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-03 17:43+0000\n"
-"PO-Revision-Date: 2026-11-04 18:07+0100\n"
+"PO-Revision-Date: 2026-11-04 22:35+0100\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <international-french@discourse.gnome.org>\n"
 "Language: fr\n"
@@ -25,7 +25,7 @@ msgstr "Mises à jour"
 
 #: src/main.cpp:101
 msgid "Updating and rebasing utility for Bazzite"
-msgstr "Outil de mise à jour et de changement de base de Bazzite"
+msgstr "Utilitaire de mise à jour et de rebasage de Bazzite"
 
 #: src/main.cpp:103
 msgid "© 2025-2026 Robert French"
@@ -92,7 +92,7 @@ msgstr "Erreur critique :"
 #: src/components/customFormcards/FCOsRelease.qml:19
 msgctxt "button label"
 msgid "Hide os-release"
-msgstr "Cacher os-release"
+msgstr "Masquer os-release"
 
 #: src/components/customFormcards/FCOsRelease.qml:19
 msgctxt "button label"
@@ -289,7 +289,7 @@ msgstr "Redémarrer le système"
 
 #: src/pages/Main.qml:330 src/pages/system_update/SystemUpdate.qml:106
 msgid "This will reboot the system."
-msgstr "Cela va redémarrer votre appareil"
+msgstr "Cela va redémarrer votre appareil."
 
 #: src/pages/Main.qml:335
 msgid "Reboot"
@@ -349,14 +349,15 @@ msgstr "Quitter"
 
 #: src/pages/other_utils/OtherUtils.qml:42
 msgid "Rollback Last Update"
-msgstr "Retourner à une version antérieure"
+msgstr "Retour arrière à une version antérieure"
 
 #: src/pages/other_utils/OtherUtils.qml:52
 msgid ""
 "This will revert the last update to your system. Your user-level files such "
 "as documents and games will not be affected."
 msgstr ""
-"Cela va annuler votre dernière mise à jour système. Vos fichiers utilisateurs"
+"Cela va annuler votre dernière mise à jour système. Vos fichiers "
+"utilisateurs comme vos documents et vos jeux ne seront pas affectés."
 
 #: src/pages/other_utils/OtherUtils.qml:60
 msgid "Confirm"
@@ -364,15 +365,15 @@ msgstr "Confirmer"
 
 #: src/pages/other_utils/OtherUtils.qml:68
 msgid "Initiate Rollback"
-msgstr "Commencer le retour en arrière"
+msgstr "Commencer le retour arrière"
 
 #: src/pages/other_utils/OtherUtils.qml:72
 msgid "Rollback Started"
-msgstr "Début du retour en arrière"
+msgstr "Début du retour arrière"
 
 #: src/pages/other_utils/OtherUtils.qml:75
 msgid "Rollback Failed."
-msgstr "Échec du retour en arrière."
+msgstr "Échec du retour arrière."
 
 #: src/pages/other_utils/OtherUtils.qml:75
 #: src/pages/other_utils/OtherUtils.qml:116
@@ -382,7 +383,7 @@ msgstr "Ouvrir la console"
 
 #: src/pages/other_utils/OtherUtils.qml:77
 msgid "Rollback Succeeded!"
-msgstr "Retour arrière effectué avec succès !"
+msgstr "Retour arrière réussi !"
 
 #: src/pages/other_utils/OtherUtils.qml:91
 msgid "System Image Information"
@@ -637,7 +638,7 @@ msgstr "Aucune commande de retour arrière système est définie."
 
 #: src/pages/settings/Settings.qml:113
 msgid "System Rollback Command"
-msgstr "Commande de retour arrière système"
+msgstr "Commande système pour le retour arrière "
 
 #: src/pages/settings/Settings.qml:120
 msgid "Allow commands to be cancelled early?"
@@ -677,7 +678,7 @@ msgstr "La mise à jour a échouée. Veuillez utiliser."
 
 #: src/pages/system_update/SystemUpdate.qml:68
 msgid "Update Succeeded!"
-msgstr "Mise à jour "
+msgstr "Mise à jour réussie !"
 
 #: src/pages/system_update/SystemUpdate.qml:70
 msgid "System Updated!"
