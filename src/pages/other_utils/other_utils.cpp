@@ -137,7 +137,7 @@ void OtherUtilsBackend::addToSteam(QJSValue callback)
         return;
     }
 
-    if (!appState.allowCommands()) {
+    if (m_console->processRunning) {
         qDebug() << "Command called when not allowed, ignored";
         return;
     }
