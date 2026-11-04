@@ -1,11 +1,19 @@
 // SPDX-FileCopyrightText: 2026 Robert French <frenchrobertm@outlook.com>
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+import QtQml
+import QtQml.Models
 import QtQml.XmlListModel
 import io.github.rfrench3.bazzite_updater
 
-XmlListModel {
+ListModel {
     id: root
+
+    // Expose status and reload() so external views can treat this like XmlListModel
+    readonly property int status: xmlModel.status
+    function reload(): void {
+        xmlModel.reload();
+    }
 
     // Input a list of [atom, rss1, rss2], output the correct option
     function chooseType(options: list<string>): string {
@@ -18,28 +26,72 @@ XmlListModel {
             return options[2];
     }
 
-    source: AppConfig.ini.General?.rssFeed
+    property XmlListModel _xmlModel: XmlListModel {
+        id: xmlModel
 
-    query: chooseType(["/feed/entry", "/RDF/item", "/rss/channel/item"])
+        source: AppConfig.ini.General?.rssFeed
+        query: root.chooseType(["/feed/entry", "/RDF/item", "/rss/channel/item"])
 
-    XmlListModelRole {
-        name: "title"
-        elementName: "title"
+        XmlListModelRole {
+            name: "title"
+            elementName: "title"
+        }
+
+        XmlListModelRole {
+            name: "content"
+            elementName: root.chooseType(["content", "description", "description"])
+        }
+
+        XmlListModelRole {
+            name: "link"
+            elementName: "link"
+            attributeName: root.chooseType(["href", "", ""])
+        }
+
+        XmlListModelRole {
+            name: "updated"
+            elementName: root.chooseType(["updated", "date", "pubDate"])
+        }
+
+        onStatusChanged: {
+            if (status === XmlListModel.Loading) {
+                root.clear();
+            } else if (status === XmlListModel.Ready) {
+                root.rebuildSortedModel();
+            }
+        }
     }
 
-    XmlListModelRole {
-        name: "content"
-        elementName: root.chooseType(["content", "description", "description"])
-    }
+    // Sort by date/time by using javascript's Date()
+    function rebuildSortedModel(): void {
+        const roleTitle = Qt.UserRole;
+        const roleContent = Qt.UserRole + 1;
+        const roleLink = Qt.UserRole + 2;
+        const roleUpdated = Qt.UserRole + 3;
 
-    XmlListModelRole {
-        name: "link"
-        elementName: "link"
-        attributeName: root.chooseType(["href", "", ""])
-    }
+        let items = [];
+        const rowCount = xmlModel.count;
 
-    XmlListModelRole {
-        name: "updated"
-        elementName: root.chooseType(["updated", "date", "pubDate"])
+        for (let i = 0; i < rowCount; ++i) {
+            const idx = xmlModel.index(i, 0);
+            const updatedStr = String(xmlModel.data(idx, roleUpdated) ?? "");
+            const timestamp = new Date(updatedStr).getTime();
+
+            items.push({
+                title: String(xmlModel.data(idx, roleTitle) ?? ""),
+                content: String(xmlModel.data(idx, roleContent) ?? ""),
+                link: String(xmlModel.data(idx, roleLink) ?? ""),
+                updated: updatedStr,
+                _timestamp: isNaN(timestamp) ? 0 : timestamp
+            });
+        }
+
+        // Sort descending (newest first)
+        items.sort((a, b) => b._timestamp - a._timestamp);
+
+        root.clear();
+        for (const item of items) {
+            root.append(item);
+        }
     }
 }

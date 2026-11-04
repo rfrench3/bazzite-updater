@@ -30,22 +30,22 @@ run:
     bazzite-updater
 
 # host (Requires Fedora44 distrobox with all necessary dependencies)
-build-f44:
-    distrobox enter Fedora44 -- bash -c "\
+build-f45:
+    distrobox enter f45 -- bash -c "\
         cmake -B build_bazzite -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=\$PWD/build_bazzite/install-root -D_USE_XDG_CONFIG=ON && \
         cmake --build build_bazzite --target install"
 
 # host (Bazzite)
-run-f44:
+run-f45:
     #!/usr/bin/env bash
     source ./build_bazzite/prefix.sh
     bazzite-updater
 
 # host (Bazzite)
-brun-f44:
+brun-f45:
     #!/usr/bin/env bash
     set -eo pipefail
-    just build-f44
+    just build-f45
     source ./build_bazzite/prefix.sh
     ./build_bazzite/install-root/bin/bazzite-updater
 
