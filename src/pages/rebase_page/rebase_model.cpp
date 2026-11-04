@@ -190,7 +190,7 @@ void RebaseModel::runRebase(QString image, QJSValue callback = QJSValue())
     } else {
         if (image.contains(u"docker://"_s))
             image = image.mid(image.indexOf(u"docker://"_s) + 9);
-        program << u"bootc switch %1"_s.arg(image);
+        program << u"bootc switch --enforce-container-sigpolicy %1"_s.arg(image);
     }
 
     // TODO: potentially try the default "bazzite" password before prompting user, if possible?
