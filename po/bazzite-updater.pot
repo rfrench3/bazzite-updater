@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazzite-updater\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 17:43+0000\n"
+"POT-Creation-Date: 2026-11-05 18:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,17 +36,17 @@ msgid ""
 "various update-related system tasks!"
 msgstr ""
 
-#: src/pages/other_utils/other_utils.cpp:123
+#: src/pages/other_utils/other_utils.cpp:124
 msgid "Rollback program was not found or failed to start."
 msgstr ""
 
-#: src/pages/other_utils/other_utils.cpp:148
+#: src/pages/other_utils/other_utils.cpp:149
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
 msgstr ""
 
-#: src/pages/other_utils/other_utils.cpp:155
+#: src/pages/other_utils/other_utils.cpp:156
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr ""
 
@@ -324,6 +324,12 @@ msgstr ""
 #: src/pages/Main.qml:415
 msgctxt "dialog to exit the application"
 msgid "Exit"
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:27
+#: src/pages/rebase_page/RebasePage.qml:171
+#: src/pages/system_update/SystemUpdate.qml:86
+msgid "Toggle Console"
 msgstr ""
 
 #: src/pages/other_utils/OtherUtils.qml:42
@@ -647,10 +653,6 @@ msgstr ""
 msgid "No reboot necessary."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:86
-msgid "Toggle Console"
-msgstr ""
-
 #: src/pages/system_update/SystemUpdate.qml:103
 msgid "Update Error"
 msgstr ""
@@ -680,7 +682,12 @@ msgstr ""
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:284
+#: src/pages/system_update/SystemUpdate.qml:276
+msgctxt "progress bar displaying used storage space vs total available space"
+msgid "System Drive Used (%1)"
+msgstr ""
+
+#: src/pages/system_update/SystemUpdate.qml:346
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] ""

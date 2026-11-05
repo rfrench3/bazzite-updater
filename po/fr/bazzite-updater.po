@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bazzite-updater\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 17:43+0000\n"
+"POT-Creation-Date: 2026-11-05 18:18+0000\n"
 "PO-Revision-Date: 2026-11-04 22:35+0100\n"
 "Last-Translator: Mimolet <themimolet@proton.me>\n"
 "Language-Team: French <international-french@discourse.gnome.org>\n"
@@ -39,12 +39,12 @@ msgstr ""
 "Cette application peut être utilisée avec une manette ou un clavier pour "
 "effectuer des tâches de mises à jour système !"
 
-#: src/pages/other_utils/other_utils.cpp:123
+#: src/pages/other_utils/other_utils.cpp:124
 msgid "Rollback program was not found or failed to start."
 msgstr ""
 "Le programme de retour en arrière n'a pas été trouvé ou n'a pas pu démarrer."
 
-#: src/pages/other_utils/other_utils.cpp:148
+#: src/pages/other_utils/other_utils.cpp:149
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
@@ -52,7 +52,7 @@ msgstr ""
 "Steam a besoin d'être relancé pour que Bazzite Updater puisse apparaître "
 "dans votre bibliothèque."
 
-#: src/pages/other_utils/other_utils.cpp:155
+#: src/pages/other_utils/other_utils.cpp:156
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr ""
 "Le programme steamos-add-to-steam n'a pas été trouvé ou n'a pas pu démarrer."
@@ -346,6 +346,12 @@ msgstr "Ne plus afficher ce message"
 msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Quitter"
+
+#: src/pages/other_utils/OtherUtils.qml:27
+#: src/pages/rebase_page/RebasePage.qml:171
+#: src/pages/system_update/SystemUpdate.qml:86
+msgid "Toggle Console"
+msgstr "Afficher/masquer la console"
 
 #: src/pages/other_utils/OtherUtils.qml:42
 msgid "Rollback Last Update"
@@ -692,10 +698,6 @@ msgstr "Un redémarrage est nécessaire pour appliquer les changements."
 msgid "No reboot necessary."
 msgstr "Aucun redémarrage nécassaire."
 
-#: src/pages/system_update/SystemUpdate.qml:86
-msgid "Toggle Console"
-msgstr "Afficher/masquer la console"
-
 #: src/pages/system_update/SystemUpdate.qml:103
 msgid "Update Error"
 msgstr "Erreur de mise à jour"
@@ -727,7 +729,12 @@ msgstr ""
 "Veuillez vérifier que le fichier de configuration (/etc/bazzite-updater/"
 "config.ini) est présent."
 
-#: src/pages/system_update/SystemUpdate.qml:284
+#: src/pages/system_update/SystemUpdate.qml:276
+msgctxt "progress bar displaying used storage space vs total available space"
+msgid "System Drive Used (%1)"
+msgstr ""
+
+#: src/pages/system_update/SystemUpdate.qml:346
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 paquet superposé"

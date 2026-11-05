@@ -21,6 +21,7 @@ install-controllable:
 brun:
     #!/usr/bin/env bash
     set -eo pipefail
+    just potfile
     just build
     just run
 

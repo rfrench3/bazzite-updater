@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 17:43+0000\n"
+"POT-Creation-Date: 2026-11-05 18:18+0000\n"
 "PO-Revision-Date: 2026-09-18 18:56+0300\n"
 "Last-Translator: Saltane <101461606+Saltane@users.noreply.github.com>\n"
 "Language-Team: Ukrainian <101461606+Saltane@users.noreply.github.com>\n"
@@ -38,17 +38,17 @@ msgstr ""
 "Цим застосунком можна керувати з допомогою контролеру або клавіатури для "
 "виконання оновчих завдань!"
 
-#: src/pages/other_utils/other_utils.cpp:123
+#: src/pages/other_utils/other_utils.cpp:124
 msgid "Rollback program was not found or failed to start."
 msgstr "Програму для відкату не знайдено або не вдалося запустити."
 
-#: src/pages/other_utils/other_utils.cpp:148
+#: src/pages/other_utils/other_utils.cpp:149
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
 msgstr ""
 
-#: src/pages/other_utils/other_utils.cpp:155
+#: src/pages/other_utils/other_utils.cpp:156
 #, fuzzy
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr "Програму для відкату не знайдено або не вдалося запустити."
@@ -339,6 +339,12 @@ msgstr "Не показувати це знову"
 msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Вийти"
+
+#: src/pages/other_utils/OtherUtils.qml:27
+#: src/pages/rebase_page/RebasePage.qml:171
+#: src/pages/system_update/SystemUpdate.qml:86
+msgid "Toggle Console"
+msgstr "Перемкнути консоль"
 
 #: src/pages/other_utils/OtherUtils.qml:42
 msgid "Rollback Last Update"
@@ -678,10 +684,6 @@ msgstr "Ви мусите перезапустити систему для за�
 msgid "No reboot necessary."
 msgstr ""
 
-#: src/pages/system_update/SystemUpdate.qml:86
-msgid "Toggle Console"
-msgstr "Перемкнути консоль"
-
 #: src/pages/system_update/SystemUpdate.qml:103
 #, fuzzy
 msgid "Update Error"
@@ -713,7 +715,12 @@ msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
 "Переконайтеся, що файл налаштувань (/etc/bazzite-updater/config.ini) існує."
 
-#: src/pages/system_update/SystemUpdate.qml:284
+#: src/pages/system_update/SystemUpdate.qml:276
+msgctxt "progress bar displaying used storage space vs total available space"
+msgid "System Drive Used (%1)"
+msgstr ""
+
+#: src/pages/system_update/SystemUpdate.qml:346
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] ""
