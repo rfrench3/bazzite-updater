@@ -24,7 +24,7 @@ AppPage {
     actions: [
         Kirigami.Action {
             id: toggleConsole
-            text: "Toggle Console" + GP.Labels.spacer + GP.Labels.north
+            text: i18n("Toggle Console") + GP.Labels.spacer + GP.Labels.north
             shortcut: "F12"
             onTriggered: consoleDrawer.drawerOpen = !consoleDrawer.drawerOpen
         }
