@@ -13,6 +13,7 @@
 #include <qtmetamacros.h>
 
 #include <QtConcurrent>
+#include <qtypes.h>
 
 using namespace Qt::StringLiterals;
 
@@ -100,6 +101,18 @@ public:
     bool operator==(const Ostree &) const = default;
 };
 
+struct StorageSpace {
+    Q_GADGET
+    QML_VALUE_TYPE(storageSpace)
+public:
+    qint64 total = 0;
+    qint64 used = 0;
+    Q_PROPERTY(qint64 total MEMBER total CONSTANT)
+    Q_PROPERTY(qint64 used MEMBER used CONSTANT)
+
+    static StorageSpace load();
+};
+
 // Asynchronously loads data
 class AppData : public QObject
 {
@@ -166,6 +179,15 @@ public:
     }
     Q_SIGNAL void aboutDataOsChanged();
     void loadAboutDataOs(const QJsonObject &osRelease); // only run after os-release is completed
+
+    Q_PROPERTY(StorageSpace storageSpace READ getStorageSpace NOTIFY storageSpaceChanged)
+    StorageSpace storageSpace;
+    const StorageSpace &getStorageSpace() const
+    {
+        return storageSpace;
+    }
+    Q_SIGNAL void storageSpaceChanged();
+    void loadStorageSpace();
 };
 inline static AppData *appData = AppData::instance();
 

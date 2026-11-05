@@ -264,6 +264,68 @@ Kirigami.Page {
         }
     }
 
+    // Resolves https://github.com/rfrench3/bazzite-updater/issues/56
+    RowLayout {
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: Kirigami.Units.gridUnit
+
+        QQC2.Label {
+            id: storageLabel
+            // the double arg keeps the confusing "%1%" out of a translation string
+            text: i18nc("progress bar displaying used storage space vs total available space", "System Drive Used (%1)".arg("%1%".arg(Math.floor(AppData.storageSpace.used * 100 / AppData.storageSpace.total))))
+
+            // Putting colors here instead of just in the progress bar to avoid "binding loop detected" spam
+            readonly property color okColor: Kirigami.Theme.highlightColor
+            readonly property color warnColor: Kirigami.Theme.neutralTextColor
+            readonly property color critColor: Kirigami.Theme.negativeTextColor
+        }
+        QQC2.ProgressBar {
+            id: storageBar
+            from: 0
+            to: AppData.storageSpace.total
+            value: AppData.storageSpace.used
+
+            property color barColor: {
+                const ratio = AppData.storageSpace.used / Math.max(1, AppData.storageSpace.total);
+                if (ratio > 0.9)
+                    return storageLabel.critColor;
+                if (ratio > 0.7)
+                    return storageLabel.warnColor;
+                return storageLabel.okColor;
+            }
+
+            Behavior on barColor {
+                ColorAnimation {
+                    duration: Kirigami.Units.longDuration
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
+            Behavior on value {
+                NumberAnimation {
+                    duration: Kirigami.Units.longDuration
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
+            Behavior on to {
+                NumberAnimation {
+                    duration: Kirigami.Units.longDuration
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
+            Kirigami.Theme.inherit: false
+            Kirigami.Theme.highlightColor: barColor
+            Kirigami.Theme.focusColor: barColor
+            Kirigami.Theme.alternateBackgroundColor: barColor
+
+            palette.highlight: barColor
+            palette.dark: barColor
+        }
+    }
+
     ConsoleDrawer {
         id: consoleDrawer
         model: SystemUpdateBackend.consoleModel

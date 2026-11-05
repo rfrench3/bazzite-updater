@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "utils.h"
+#include "data.h"
 #include <qcontainerfwd.h>
 #include <qguiapplication.h>
 #include <qlogging.h>
@@ -120,6 +121,9 @@ void AppState::setCommandSucceeded(bool succeeded)
 
 void AppState::sendUpdateSignals(sendSignals signal)
 {
+    // re-evaluate storage usage after an update
+    appData->loadStorageSpace();
+
     Q_EMIT commandRunningChanged();
     Q_EMIT allowCommandsChanged();
     switch (signal) {

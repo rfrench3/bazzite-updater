@@ -1,7 +1,9 @@
 #include "data.h"
+#include <qchar.h>
 #include <qcontainerfwd.h>
 #include <qjsonobject.h>
 #include <qtconcurrentrun.h>
+#include <qtmetamacros.h>
 
 AppData::AppData(QObject *parent)
     : QObject(parent)
@@ -9,7 +11,33 @@ AppData::AppData(QObject *parent)
     reloadOstree();
     loadBestDrivers();
     loadOsRelease();
+    loadStorageSpace();
 };
+
+StorageSpace StorageSpace::load()
+{
+    for (const QString &path : {u"/sysroot"_s, u"/var"_s}) {
+        if (!QDir(path).exists())
+            continue;
+
+        QStorageInfo info(path);
+        if (!info.isValid() || !info.isReady())
+            continue;
+
+        return StorageSpace{info.bytesTotal(), info.bytesTotal() - info.bytesFree()};
+    }
+    return {};
+}
+
+void AppData::loadStorageSpace()
+{
+    QtConcurrent::run([]() {
+        return StorageSpace::load();
+    }).then(this, [this](StorageSpace data) {
+        storageSpace = data;
+        Q_EMIT storageSpaceChanged();
+    });
+}
 
 // (ex: u"bazzite-updater/config.ini"_s) Returns the full path to the config file that should be used.
 QString findConfigFile(const QString &relativePath)
