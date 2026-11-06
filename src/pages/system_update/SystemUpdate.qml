@@ -273,7 +273,7 @@ Kirigami.Page {
         QQC2.Label {
             id: storageLabel
             // the double arg keeps the confusing "%1%" out of a translation string
-            text: i18nc("progress bar displaying used storage space vs total available space", "System Drive Used (%1)".arg("%1%".arg(Math.floor(AppData.storageSpace.used * 100 / AppData.storageSpace.total))))
+            text: i18nc("progress bar displaying used storage space vs total available space", "System Drive Used (%1)", "%1%".arg(Math.floor(AppData.storageSpace.used * 100 / AppData.storageSpace.total)))
 
             // Putting colors here instead of just in the progress bar to avoid "binding loop detected" spam
             readonly property color okColor: Kirigami.Theme.highlightColor

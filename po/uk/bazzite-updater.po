@@ -2,13 +2,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2026 Saltane <101461606+Saltane@users.noreply.github.com>
+# SPDX-FileCopyrightText: 2026 Andrii Butsvin <58703326+andreysey@users.noreply.github.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-05 18:18+0000\n"
-"PO-Revision-Date: 2026-09-18 18:56+0300\n"
-"Last-Translator: Saltane <101461606+Saltane@users.noreply.github.com>\n"
+"PO-Revision-Date: 2026-11-06 12:00+0100\n"
+"Last-Translator: Andrii Butsvin <58703326+andreysey@users.noreply.github.com>\n"
 "Language-Team: Ukrainian <101461606+Saltane@users.noreply.github.com>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -35,8 +36,8 @@ msgid ""
 "This application can be used through a controller or keyboard to perform "
 "various update-related system tasks!"
 msgstr ""
-"Цим застосунком можна керувати з допомогою контролеру або клавіатури для "
-"виконання оновчих завдань!"
+"Цим застосунком можна керувати за допомогою контролера або клавіатури, щоб "
+"виконувати різні системні завдання, пов'язані з оновленням!"
 
 #: src/pages/other_utils/other_utils.cpp:124
 msgid "Rollback program was not found or failed to start."
@@ -47,15 +48,16 @@ msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
 msgstr ""
+"Якщо Steam відкрито, перезапустіть його, щоб Центр оновлень Bazzite з'явився "
+"у Вашій бібліотеці."
 
 #: src/pages/other_utils/other_utils.cpp:156
-#, fuzzy
 msgid "steamos-add-to-steam program was not found or failed to start."
-msgstr "Програму для відкату не знайдено або не вдалося запустити."
+msgstr "Програму steamos-add-to-steam не знайдено або не вдалося запустити."
 
 #: src/pages/system_update/system_update.cpp:118
 msgid "There is not enough free space available for system updates."
-msgstr ""
+msgstr "Недостатньо вільного місця для оновлення системи."
 
 #: src/components/console/ConsoleDrawer.qml:69
 msgid "Copy to Clipboard"
@@ -98,6 +100,8 @@ msgstr "Показати дані про випуск"
 #: src/components/customFormcards/FCSystemInfo.qml:22
 msgid "There is a pending system update. You must reboot to apply it."
 msgstr ""
+"Є незастосоване оновлення системи. Ви мусите перезапустити систему, щоб "
+"застосувати його."
 
 #: src/components/customFormcards/FCSystemInfo.qml:33
 msgid "Current Image"
@@ -109,12 +113,12 @@ msgstr "Останнє оновлення"
 
 #: src/components/customFormcards/FCSystemInfo.qml:56
 msgid "The best drivers for your GPU are provided by the Linux kernel."
-msgstr "Найліпші драйвери для Вашого графічного процесору надані ядром Linux."
+msgstr "Найліпші драйвери для Вашого графічного процесора надані ядром Linux."
 
 #: src/components/customFormcards/FCSystemInfo.qml:58
 #: src/components/customFormcards/FCSystemInfo.qml:60
 msgid "The best drivers for your GPU are "
-msgstr "Найліпшими драйверами для Вашого графічного процесору є "
+msgstr "Найліпшими драйверами для Вашого графічного процесора є "
 
 #: src/components/customFormcards/FCSystemInfo.qml:62
 msgid "Your GPU is unsupported."
@@ -138,15 +142,15 @@ msgstr "Встановлено вільний драйвер Nvidia."
 
 #: src/components/customFormcards/FCSystemInfo.qml:107
 msgid "Close layered packages view"
-msgstr ""
+msgstr "Закрити перелік накладених пакунків"
 
 #: src/components/customFormcards/FCSystemInfo.qml:107
 msgid "View layered packages (%1)"
-msgstr ""
+msgstr "Переглянути накладені пакунки (%1)"
 
 #: src/components/customFormcards/FCSystemInfo.qml:110
 msgid "Layered Packages (%1):"
-msgstr ""
+msgstr "Накладені пакунки (%1):"
 
 #: src/components/customFormcards/FCSystemInfo.qml:113
 msgid ""
@@ -154,6 +158,9 @@ msgid ""
 "a package. Avoid layering packages whenever possible, as it can cause system "
 "updates to fail."
 msgstr ""
+"Накладання пакунків — крайній захід, коли пакунок неможливо встановити іншим "
+"способом. Уникайте накладання пакунків, бо через нього оновлення системи "
+"можуть завершуватися помилкою."
 
 #: src/components/customFormcards/FCSystemInfo.qml:124
 msgid "Display less information"
@@ -251,9 +258,8 @@ msgid "Other Utilities"
 msgstr "Інші інструменти"
 
 #: src/pages/Main.qml:183 src/pages/rebase_page/RebasePage.qml:165
-#, fuzzy
 msgid "Rebase Helper"
-msgstr "Не вдалося перебазувати."
+msgstr "Помічник перебазування"
 
 #: src/pages/Main.qml:195 src/pages/rss_feed/RssPage.qml:23
 msgid "Announcements"
@@ -306,14 +312,12 @@ msgid "Exit Application"
 msgstr "Вийти із застосунку"
 
 #: src/pages/Main.qml:382
-#, fuzzy
 msgid "You must reboot to apply system updates."
-msgstr "Ви мусите перезапустити систему для застосування змін."
+msgstr "Ви мусите перезапустити систему, щоб застосувати оновлення."
 
 #: src/pages/Main.qml:382
-#, fuzzy
 msgid "No command is running, you may exit safely."
-msgstr "Жодної команди не запущено, можете закрити застосунок."
+msgstr "Жодної команди не запущено, можете безпечно вийти."
 
 #: src/pages/Main.qml:385
 msgid ""
@@ -389,27 +393,28 @@ msgid "System Image Information"
 msgstr "Дані про образ системи"
 
 #: src/pages/other_utils/OtherUtils.qml:97
-#, fuzzy
 msgid "General Utilities"
-msgstr "Інші інструменти"
+msgstr "Загальні інструменти"
 
 #: src/pages/other_utils/OtherUtils.qml:107
 msgid "Add Bazzite Updater to your Steam library"
-msgstr ""
+msgstr "Додати Центр оновлень Bazzite до бібліотеки Steam"
 
 #: src/pages/other_utils/OtherUtils.qml:108
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
 msgstr ""
+"Якщо Steam запущено, його потрібно буде перезапустити, щоб Центр оновлень "
+"Bazzite з'явився у Вашій бібліотеці."
 
 #: src/pages/other_utils/OtherUtils.qml:116
 msgid "Adding Bazzite Updater to Steam Failed."
-msgstr ""
+msgstr "Не вдалося додати Центр оновлень Bazzite до Steam."
 
 #: src/pages/other_utils/OtherUtils.qml:118
 msgid "Adding Bazzite Updater to Steam Succeeded!"
-msgstr ""
+msgstr "Центр оновлень Bazzite успішно додано до Steam!"
 
 #: src/pages/other_utils/OtherUtils.qml:132
 msgctxt "card to display info from os-release"
@@ -418,20 +423,20 @@ msgstr "Додаткові дані"
 
 #: src/pages/rebase_page/FCSystemImage.qml:25
 msgid "Fetch all tags"
-msgstr ""
+msgstr "Отримати всі теги"
 
 #: src/pages/rebase_page/FCSystemImage.qml:96
 msgid "Fetching tags"
-msgstr ""
+msgstr "Отримуємо теги"
 
 #: src/pages/rebase_page/FCSystemImage.qml:102
 msgid "Failed to fetch tags."
-msgstr ""
+msgstr "Не вдалося отримати теги."
 
 #: src/pages/rebase_page/FCSystemImage.qml:117
 msgctxt "all tags, used in 'List of {tag} tags' string."
 msgid "all"
-msgstr ""
+msgstr "усі"
 
 #: src/pages/rebase_page/FCSystemImage.qml:177
 msgid ""
@@ -439,39 +444,39 @@ msgid ""
 "updates. You should only use them temporarily if you are waiting for a "
 "critical bug to be fixed in the latest version."
 msgstr ""
+"Теги з датою або версією не отримуватимуть оновлень безпеки чи нових "
+"функцій. Використовуйте їх лише тимчасово, якщо чекаєте на виправлення "
+"критичної помилки в останній версії."
 
 #: src/pages/rebase_page/FCSystemImage.qml:185
 #: src/pages/rebase_page/FCSystemImage.qml:245
-#, fuzzy
 msgid "%1 (Current Tag)"
-msgstr "%1 (поточний)"
+msgstr "%1 (поточний тег)"
 
 #: src/pages/rebase_page/FCSystemImage.qml:194
 msgctxt "List of tags classified as stable, testing, etc"
 msgid "List of %1 tags"
-msgstr ""
+msgstr "Список тегів: %1"
 
 #: src/pages/rebase_page/RebasePage.qml:198
-#, fuzzy
 msgid "Current System Image"
-msgstr "Поточний образ"
+msgstr "Поточний образ системи"
 
 #: src/pages/rebase_page/RebasePage.qml:225
 msgid "Available System Images"
-msgstr ""
+msgstr "Доступні образи системи"
 
 #: src/pages/rebase_page/RebasePage.qml:242
 msgid "Filter by Features"
-msgstr ""
+msgstr "Фільтрувати за можливостями"
 
 #: src/pages/rebase_page/RebasePage.qml:282
 msgid "Results (%1)"
-msgstr ""
+msgstr "Результати (%1)"
 
 #: src/pages/rebase_page/RebasePage.qml:319
-#, fuzzy
 msgid "Confirm rebase"
-msgstr "Підтвердити"
+msgstr "Підтвердити перебазування"
 
 #: src/pages/rebase_page/RebasePage.qml:320
 msgid ""
@@ -483,30 +488,33 @@ msgid ""
 "to a tag with a date or version, you will not get system-level security and "
 "feature updates until you return to a base tag."
 msgstr ""
+"Це займе багато часу, і після цього потрібно буде перезапустити систему, щоб "
+"застосувати зміни.\n"
+"Ціль: %1\n"
+"\n"
+"Можливо, доведеться кілька разів ввести пароль. Якщо перебазуватися на тег з "
+"датою або версією, Ви не отримуватимете оновлень безпеки й нових функцій "
+"системи, доки не повернетеся на основний тег."
 
 #: src/pages/rebase_page/RebasePage.qml:326
-#, fuzzy
 msgid "The rebase succeeded! Restart to apply changes."
-msgstr "Ви мусите перезапустити систему для застосування змін."
+msgstr "Перебазування успішне! Перезапустіть систему, щоб застосувати зміни."
 
 #: src/pages/rebase_page/RebasePage.qml:328
-#, fuzzy
 msgid "The rebase failed. Check the console for more information."
-msgstr "Не вдалося оновити. Перевірте консоль для докладнощів."
+msgstr "Не вдалося перебазувати. Перевірте консоль для докладнощів."
 
 #: src/pages/rebase_page/RebasePage.qml:335
 msgctxt "Dialog confirmation"
 msgid "Ok"
-msgstr ""
+msgstr "Гаразд"
 
 #: src/pages/rss_feed/FCRssDelegate.qml:105
-#, fuzzy
 msgctxt "elapsed time"
 msgid "in the future"
 msgstr "у майбутньому"
 
 #: src/pages/rss_feed/FCRssDelegate.qml:107
-#, fuzzy
 msgctxt "elapsed time"
 msgid "just now"
 msgstr "щойно"
@@ -554,7 +562,7 @@ msgstr[2] "%1 років тому"
 #: src/pages/rss_feed/FCRssDelegate.qml:120
 msgctxt "absolute date followed by relative time, e.g. 5 March (2 days ago)"
 msgid "%1 (%2)"
-msgstr ""
+msgstr "%1 (%2)"
 
 #: src/pages/rss_feed/RssPage.qml:36
 msgctxt "@info:placeholder"
@@ -616,9 +624,8 @@ msgid "OS Settings (read-only)"
 msgstr "Налаштування системи (лише для читання)"
 
 #: src/pages/settings/Settings.qml:105
-#, fuzzy
 msgid "No system update command is defined."
-msgstr "Команди для відкату систему не визначено."
+msgstr "Команду оновлення системи не визначено."
 
 #: src/pages/settings/Settings.qml:106
 msgid "System Update Command"
@@ -638,7 +645,7 @@ msgstr "Дозволити скасовувати команди завчасн�
 
 #: src/pages/settings/Settings.qml:126
 msgid "No announcements/changelogs source is set."
-msgstr ""
+msgstr "Джерело оголошень і переліку змін не задано."
 
 #: src/pages/settings/Settings.qml:127
 msgid "Changelogs RSS feed"
@@ -646,7 +653,7 @@ msgstr "RSS-стрічка переліку змін"
 
 #: src/pages/settings/Settings.qml:134
 msgid "Enable the system rebase page"
-msgstr ""
+msgstr "Увімкнути сторінку перебазування системи"
 
 #: src/pages/system_update/SystemUpdate.qml:47
 msgid "Start update"
@@ -682,16 +689,15 @@ msgstr "Ви мусите перезапустити систему для за�
 
 #: src/pages/system_update/SystemUpdate.qml:76
 msgid "No reboot necessary."
-msgstr ""
+msgstr "Перезапуск не потрібен."
 
 #: src/pages/system_update/SystemUpdate.qml:103
-#, fuzzy
 msgid "Update Error"
-msgstr "Оновлення розпочато"
+msgstr "Помилка оновлення"
 
 #: src/pages/system_update/SystemUpdate.qml:111
 msgid "Ok"
-msgstr ""
+msgstr "Гаразд"
 
 #: src/pages/system_update/SystemUpdate.qml:171
 msgid "Click to update System Image and Software"
@@ -718,18 +724,14 @@ msgstr ""
 #: src/pages/system_update/SystemUpdate.qml:276
 msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
-msgstr ""
+msgstr "Використано системного диска (%1)"
 
 #: src/pages/system_update/SystemUpdate.qml:346
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#, fuzzy
-#~ msgid "(Current Tag)"
-#~ msgstr "(поточний)"
+msgstr[0] "%1 накладений пакунок"
+msgstr[1] "%1 накладені пакунки"
+msgstr[2] "%1 накладених пакунків"
 
 #~ msgid "January"
 #~ msgstr "Січень"

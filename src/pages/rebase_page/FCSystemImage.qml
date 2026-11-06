@@ -182,7 +182,7 @@ FC.FormCard {
                     id: groupTagButton
                     FC.FormButtonDelegate {
                         readonly property bool isCurrent: delegateRoot.groupTag === root.currentTag
-                        text: isCurrent ? i18n("%1 (Current Tag)".arg(delegateRoot.groupTag)) : delegateRoot.groupTag
+                        text: isCurrent ? i18n("%1 (Current Tag)", delegateRoot.groupTag) : delegateRoot.groupTag
                         enabled: AppState.allowCommands && !isCurrent
                         onClicked: root.tagClicked(delegateRoot.groupTag)
                     }
@@ -191,7 +191,7 @@ FC.FormCard {
                 Component {
                     id: tagsCollapsible
                     FormDelegateCollapsible {
-                        text: i18nc("List of tags classified as stable, testing, etc", "List of %1 tags".arg(delegateRoot.groupTag))
+                        text: i18nc("List of tags classified as stable, testing, etc", "List of %1 tags", delegateRoot.groupTag)
 
                         button.leading: KG.Icon {
                             source: "application-menu"
@@ -242,7 +242,7 @@ FC.FormCard {
                                 readonly property bool isCurrent: modelData === root.currentTag
 
                                 width: tagsView.width - tagsView.scrollbarWidth
-                                text: isCurrent ? i18n("%1 (Current Tag)".arg(modelData)) : modelData
+                                text: isCurrent ? i18n("%1 (Current Tag)", modelData) : modelData
                                 enabled: AppState.allowCommands && !isCurrent
 
                                 // The ListView owns focus
