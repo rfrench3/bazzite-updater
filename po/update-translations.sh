@@ -41,9 +41,13 @@ xgettext --files-from=- \
     --join-existing \
     --output="$POTFILE"
 
+# Remove timestamp to avoid git diffs
+sed -i '/"POT-Creation-Date:/d' "$POTFILE"
+
 echo "Updating pofiles..."
 for po in "$BASEDIR"/po/*/bazzite-updater.po; do
     msgmerge -U "$po" "$POTFILE"
+    sed -i -e '/"POT-Creation-Date:/d' -e '/"PO-Revision-Date:/d' "$po"
 done
 
 echo "Done."
