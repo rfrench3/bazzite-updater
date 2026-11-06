@@ -36,8 +36,8 @@ msgid ""
 "This application can be used through a controller or keyboard to perform "
 "various update-related system tasks!"
 msgstr ""
-"Цим застосунком можна керувати з допомогою контролеру або клавіатури для "
-"виконання оновчих завдань!"
+"Цим застосунком можна керувати за допомогою контролера або клавіатури, щоб "
+"виконувати різні системні завдання, пов'язані з оновленням!"
 
 #: src/pages/other_utils/other_utils.cpp:124
 msgid "Rollback program was not found or failed to start."
@@ -113,12 +113,12 @@ msgstr "Останнє оновлення"
 
 #: src/components/customFormcards/FCSystemInfo.qml:56
 msgid "The best drivers for your GPU are provided by the Linux kernel."
-msgstr "Найліпші драйвери для Вашого графічного процесору надані ядром Linux."
+msgstr "Найліпші драйвери для Вашого графічного процесора надані ядром Linux."
 
 #: src/components/customFormcards/FCSystemInfo.qml:58
 #: src/components/customFormcards/FCSystemInfo.qml:60
 msgid "The best drivers for your GPU are "
-msgstr "Найліпшими драйверами для Вашого графічного процесору є "
+msgstr "Найліпшими драйверами для Вашого графічного процесора є "
 
 #: src/components/customFormcards/FCSystemInfo.qml:62
 msgid "Your GPU is unsupported."
