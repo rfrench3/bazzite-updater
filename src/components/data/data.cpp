@@ -146,8 +146,25 @@ QJsonObject runJson(const QString &program, const QStringList &args)
 {
     QProcess proc;
     proc.start(program, args);
-    if (!proc.waitForFinished(15000) || proc.exitStatus() != QProcess::NormalExit || proc.exitCode() != 0)
+
+    if (!proc.waitForStarted(5000)) {
+        qWarning() << "Failed to start process:" << program << args << "| Error:" << proc.errorString();
         return {};
+    }
+
+    if (!proc.waitForFinished(15000)) {
+        qWarning() << "Process timed out after 15s:" << program << args;
+        proc.kill();
+        return {};
+    }
+
+    if (proc.exitStatus() != QProcess::NormalExit || proc.exitCode() != 0) {
+        const QString stdErr = QString::fromUtf8(proc.readAllStandardError()).trimmed();
+        qWarning() << "Process exited with error:" << program << args << "| Exit status:" << proc.exitStatus() << "| Exit code:" << proc.exitCode()
+                   << "| stderr:" << stdErr;
+        return {};
+    }
+
     return QJsonDocument::fromJson(proc.readAllStandardOutput()).object();
 }
 
