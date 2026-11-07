@@ -1,0 +1,722 @@
+# Tradução brasileira do Bazzite Updater.
+# Copyright (C) 2026, Robert French
+# This file is distributed under the same license as the bazzite-updater package.
+# Brazilian Portuguese translation.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bazzite-updater\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 18:18+0000\n"
+"PO-Revision-Date: 2026-11-07 00:00-0300\n"
+"Last-Translator: \n"
+"Language-Team: Brazilian Portuguese\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/main.cpp:99
+msgid "Bazzite Updater"
+msgstr "Atualizador do Bazzite"
+
+#: src/main.cpp:101
+msgid "Updating and rebasing utility for Bazzite"
+msgstr "Utilitário de atualização e rebase do Bazzite"
+
+#: src/main.cpp:103
+msgid "© 2025-2026 Robert French"
+msgstr "© 2025-2026 Robert French"
+
+#: src/main.cpp:104
+msgid ""
+"This application can be used through a controller or keyboard to perform "
+"various update-related system tasks!"
+msgstr ""
+"Este aplicativo pode ser usado com um controle ou teclado para realizar "
+"várias tarefas de atualização do sistema!"
+
+#: src/pages/other_utils/other_utils.cpp:124
+msgid "Rollback program was not found or failed to start."
+msgstr "O programa de reversão não foi encontrado ou não pôde ser iniciado."
+
+#: src/pages/other_utils/other_utils.cpp:149
+msgid ""
+"If steam is open, you must restart it before Bazzite Updater will appear in "
+"your library."
+msgstr ""
+"Se o Steam estiver aberto, reinicie-o para que o Atualizador do Bazzite "
+"apareça na sua biblioteca."
+
+#: src/pages/other_utils/other_utils.cpp:156
+msgid "steamos-add-to-steam program was not found or failed to start."
+msgstr "O programa steamos-add-to-steam não foi encontrado ou não pôde ser iniciado."
+
+#: src/pages/system_update/system_update.cpp:118
+msgid "There is not enough free space available for system updates."
+msgstr "Não há espaço livre suficiente para as atualizações do sistema."
+
+#: src/components/console/ConsoleDrawer.qml:69
+msgid "Copy to Clipboard"
+msgstr "Copiar para a área de transferência"
+
+#: src/components/console/ConsoleDrawer.qml:72
+msgid "Text Copied"
+msgstr "Texto copiado"
+
+#: src/components/console/ConsoleDrawer.qml:79
+msgid "Close"
+msgstr "Fechar"
+
+#: src/components/console/ConsoleView.qml:78
+msgid "Warning: "
+msgstr "Aviso: "
+
+#: src/components/console/ConsoleView.qml:82
+msgid "Error: "
+msgstr "Erro: "
+
+#: src/components/console/ConsoleView.qml:85
+msgid "Debug: "
+msgstr "Depuração: "
+
+#: src/components/console/ConsoleView.qml:89
+msgid "Critical Error: "
+msgstr "Erro crítico: "
+
+#: src/components/customFormcards/FCOsRelease.qml:19
+msgctxt "button label"
+msgid "Hide os-release"
+msgstr "Ocultar os-release"
+
+#: src/components/customFormcards/FCOsRelease.qml:19
+msgctxt "button label"
+msgid "Display os-release"
+msgstr "Exibir os-release"
+
+#: src/components/customFormcards/FCSystemInfo.qml:22
+msgid "There is a pending system update. You must reboot to apply it."
+msgstr "Há uma atualização do sistema pendente. Reinicie o computador para aplicá-la."
+
+#: src/components/customFormcards/FCSystemInfo.qml:33
+msgid "Current Image"
+msgstr "Imagem atual"
+
+#: src/components/customFormcards/FCSystemInfo.qml:42
+msgid "Last Update"
+msgstr "Última atualização"
+
+#: src/components/customFormcards/FCSystemInfo.qml:56
+msgid "The best drivers for your GPU are provided by the Linux kernel."
+msgstr "Os melhores drivers para sua GPU são fornecidos pelo kernel Linux."
+
+#: src/components/customFormcards/FCSystemInfo.qml:58
+#: src/components/customFormcards/FCSystemInfo.qml:60
+msgid "The best drivers for your GPU are "
+msgstr "Os melhores drivers para sua GPU são "
+
+#: src/components/customFormcards/FCSystemInfo.qml:62
+msgid "Your GPU is unsupported."
+msgstr "Sua GPU não é compatível."
+
+#: src/components/customFormcards/FCSystemInfo.qml:82
+msgid "You have the best drivers installed."
+msgstr "Você já tem os melhores drivers instalados."
+
+#: src/components/customFormcards/FCSystemInfo.qml:86
+msgid "You do not have any nvidia drivers installed."
+msgstr "Você não tem nenhum driver NVIDIA instalado."
+
+#: src/components/customFormcards/FCSystemInfo.qml:88
+msgid "You currently have nvidia installed."
+msgstr "No momento, você tem o driver NVIDIA instalado."
+
+#: src/components/customFormcards/FCSystemInfo.qml:90
+msgid "You currently have nvidia-open installed."
+msgstr "No momento, você tem o driver NVIDIA Open instalado."
+
+#: src/components/customFormcards/FCSystemInfo.qml:107
+msgid "Close layered packages view"
+msgstr "Fechar a visualização dos pacotes em camadas"
+
+#: src/components/customFormcards/FCSystemInfo.qml:107
+msgid "View layered packages (%1)"
+msgstr "Ver pacotes em camadas (%1)"
+
+#: src/components/customFormcards/FCSystemInfo.qml:110
+msgid "Layered Packages (%1):"
+msgstr "Pacotes em camadas (%1):"
+
+#: src/components/customFormcards/FCSystemInfo.qml:113
+msgid ""
+"Layering packages is a last-resort for when there is no other way to install "
+"a package. Avoid layering packages whenever possible, as it can cause system "
+"updates to fail."
+msgstr ""
+"Adicionar pacotes em camadas deve ser o último recurso, quando não houver "
+"outra forma de instalar um pacote. Evite isso sempre que possível, pois pode "
+"fazer com que as atualizações do sistema falhem."
+
+#: src/components/customFormcards/FCSystemInfo.qml:124
+msgid "Display less information"
+msgstr "Exibir menos informações"
+
+#: src/components/customFormcards/FCSystemInfo.qml:124
+msgid "Display more information"
+msgstr "Exibir mais informações"
+
+#: src/components/customFormcards/FCSystemInfo.qml:127
+#: src/components/customFormcards/FCSystemInfo.qml:134
+#: src/components/customFormcards/FCSystemInfo.qml:141
+#: src/components/customFormcards/FCSystemInfo.qml:148
+#: src/components/customFormcards/FCSystemInfo.qml:155
+#: src/components/customFormcards/FCSystemInfo.qml:162
+#: src/components/customFormcards/FCSystemInfo.qml:169
+#: src/components/customFormcards/FCSystemInfo.qml:176
+#: src/components/customFormcards/FCSystemInfo.qml:183
+#: src/components/customFormcards/FCSystemInfo.qml:190
+msgid "loading..."
+msgstr "carregando..."
+
+#: src/components/customFormcards/FCSystemInfo.qml:128
+msgid "Image"
+msgstr "Imagem"
+
+#: src/components/customFormcards/FCSystemInfo.qml:135
+msgid "Vendor"
+msgstr "Fornecedor"
+
+#: src/components/customFormcards/FCSystemInfo.qml:142
+msgid "Ref"
+msgstr "Referência"
+
+#: src/components/customFormcards/FCSystemInfo.qml:149
+msgid "Tag"
+msgstr "Tag"
+
+#: src/components/customFormcards/FCSystemInfo.qml:156
+msgid "Branch"
+msgstr "Ramo"
+
+#: src/components/customFormcards/FCSystemInfo.qml:163
+msgid "Base Name"
+msgstr "Nome da base"
+
+#: src/components/customFormcards/FCSystemInfo.qml:170
+msgid "Fedora Version"
+msgstr "Versão do Fedora"
+
+#: src/components/customFormcards/FCSystemInfo.qml:177
+msgid "Version"
+msgstr "Versão"
+
+#: src/components/customFormcards/FCSystemInfo.qml:184
+msgid "Version (Pretty)"
+msgstr "Versão (formatada)"
+
+#: src/components/customFormcards/FCSystemInfo.qml:191
+msgid "Release Date"
+msgstr "Data de lançamento"
+
+#: src/components/customFormcards/FormCardCollapsible.qml:39
+msgid "Read more"
+msgstr "Ler mais"
+
+#: src/components/customFormcards/FormCardCollapsible.qml:47
+msgid "Read less"
+msgstr "Ler menos"
+
+#: src/pages/AboutDataApp.qml:8
+msgctxt "@title"
+msgid "About Application"
+msgstr "Sobre o aplicativo"
+
+#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:216
+msgctxt "About (user's OS)"
+msgid "About %1"
+msgstr "Sobre %1"
+
+#: src/pages/Main.qml:20
+msgctxt "@title:window"
+msgid "Bazzite Updater"
+msgstr "Atualizador do Bazzite"
+
+#: src/pages/Main.qml:159 src/pages/system_update/SystemUpdate.qml:20
+#: src/pages/system_update/SystemUpdate.qml:158
+msgid "System Update"
+msgstr "Atualização do sistema"
+
+#: src/pages/Main.qml:171 src/pages/other_utils/OtherUtils.qml:19
+msgid "Other Utilities"
+msgstr "Outros utilitários"
+
+#: src/pages/Main.qml:183 src/pages/rebase_page/RebasePage.qml:165
+msgid "Rebase Helper"
+msgstr "Assistente de rebase"
+
+#: src/pages/Main.qml:195 src/pages/rss_feed/RssPage.qml:23
+msgid "Announcements"
+msgstr "Avisos"
+
+#: src/pages/Main.qml:207 src/pages/settings/Settings.qml:17
+msgid "Settings"
+msgstr "Configurações"
+
+#: src/pages/Main.qml:225
+msgid "About Bazzite Updater"
+msgstr "Sobre o Atualizador do Bazzite"
+
+#: src/pages/Main.qml:238
+msgid "Reboot System"
+msgstr "Reiniciar o sistema"
+
+#: src/pages/Main.qml:249
+msgid "Quit"
+msgstr "Sair"
+
+#: src/pages/Main.qml:325
+msgctxt "@title:window"
+msgid "Reboot System"
+msgstr "Reiniciar o sistema"
+
+#: src/pages/Main.qml:330 src/pages/system_update/SystemUpdate.qml:106
+msgid "This will reboot the system."
+msgstr "O sistema será reiniciado."
+
+#: src/pages/Main.qml:335
+msgid "Reboot"
+msgstr "Reiniciar"
+
+#: src/pages/Main.qml:341 src/pages/Main.qml:422
+#: src/pages/rebase_page/RebasePage.qml:340
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/pages/Main.qml:358
+msgid ""
+"The app was unable to reboot. Reboot through your system menu to apply "
+"changes."
+msgstr ""
+"Não foi possível reiniciar o computador pelo aplicativo. Reinicie-o pelo "
+"menu do sistema para aplicar as alterações."
+
+#: src/pages/Main.qml:377
+msgid "Exit Application"
+msgstr "Sair do aplicativo"
+
+#: src/pages/Main.qml:382
+msgid "You must reboot to apply system updates."
+msgstr "Você precisa reiniciar o computador para aplicar as atualizações do sistema."
+
+#: src/pages/Main.qml:382
+msgid "No command is running, you may exit safely."
+msgstr "Nenhum comando está em execução; você pode sair com segurança."
+
+#: src/pages/Main.qml:385
+msgid ""
+"You should not exit the application until the running command completes. If "
+"you exit early, it may break your system."
+msgstr ""
+"Não saia do aplicativo antes que o comando em execução termine. Sair antes "
+"pode danificar o sistema."
+
+#: src/pages/Main.qml:387
+msgid ""
+"If you exit the application before the running command completes, it may not "
+"apply its changes."
+msgstr ""
+"Se você sair do aplicativo antes que o comando em execução termine, as "
+"alterações talvez não sejam aplicadas."
+
+#: src/pages/Main.qml:397
+msgid "Do not show this again"
+msgstr "Não mostrar novamente"
+
+#: src/pages/Main.qml:415
+msgctxt "dialog to exit the application"
+msgid "Exit"
+msgstr "Sair"
+
+#: src/pages/other_utils/OtherUtils.qml:27
+#: src/pages/rebase_page/RebasePage.qml:171
+#: src/pages/system_update/SystemUpdate.qml:86
+msgid "Toggle Console"
+msgstr "Mostrar/ocultar o console"
+
+#: src/pages/other_utils/OtherUtils.qml:42
+msgid "Rollback Last Update"
+msgstr "Reverter a última atualização"
+
+#: src/pages/other_utils/OtherUtils.qml:52
+msgid ""
+"This will revert the last update to your system. Your user-level files such "
+"as documents and games will not be affected."
+msgstr ""
+"Isso reverterá a última atualização do sistema. Seus arquivos pessoais, como "
+"documentos e jogos, não serão afetados."
+
+#: src/pages/other_utils/OtherUtils.qml:60
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: src/pages/other_utils/OtherUtils.qml:68
+msgid "Initiate Rollback"
+msgstr "Iniciar reversão"
+
+#: src/pages/other_utils/OtherUtils.qml:72
+msgid "Rollback Started"
+msgstr "Reversão iniciada"
+
+#: src/pages/other_utils/OtherUtils.qml:75
+msgid "Rollback Failed."
+msgstr "Falha na reversão."
+
+#: src/pages/other_utils/OtherUtils.qml:75
+#: src/pages/other_utils/OtherUtils.qml:116
+#: src/pages/system_update/SystemUpdate.qml:60
+msgid "Open console"
+msgstr "Abrir console"
+
+#: src/pages/other_utils/OtherUtils.qml:77
+msgid "Rollback Succeeded!"
+msgstr "Reversão concluída!"
+
+#: src/pages/other_utils/OtherUtils.qml:91
+msgid "System Image Information"
+msgstr "Informações da imagem do sistema"
+
+#: src/pages/other_utils/OtherUtils.qml:97
+msgid "General Utilities"
+msgstr "Utilitários gerais"
+
+#: src/pages/other_utils/OtherUtils.qml:107
+msgid "Add Bazzite Updater to your Steam library"
+msgstr "Adicionar o Atualizador do Bazzite à sua biblioteca Steam"
+
+#: src/pages/other_utils/OtherUtils.qml:108
+msgid ""
+"You will need to restart Steam if it is running for Bazzite Updater to "
+"appear in your library."
+msgstr ""
+"Se o Steam estiver em execução, será necessário reiniciá-lo para que o "
+"Atualizador do Bazzite apareça na sua biblioteca."
+
+#: src/pages/other_utils/OtherUtils.qml:116
+msgid "Adding Bazzite Updater to Steam Failed."
+msgstr "Falha ao adicionar o Atualizador do Bazzite ao Steam."
+
+#: src/pages/other_utils/OtherUtils.qml:118
+msgid "Adding Bazzite Updater to Steam Succeeded!"
+msgstr "Atualizador do Bazzite adicionado ao Steam!"
+
+#: src/pages/other_utils/OtherUtils.qml:132
+msgctxt "card to display info from os-release"
+msgid "Additional Information"
+msgstr "Informações adicionais"
+
+#: src/pages/rebase_page/FCSystemImage.qml:25
+msgid "Fetch all tags"
+msgstr "Buscar todas as tags"
+
+#: src/pages/rebase_page/FCSystemImage.qml:96
+msgid "Fetching tags"
+msgstr "Buscando tags"
+
+#: src/pages/rebase_page/FCSystemImage.qml:102
+msgid "Failed to fetch tags."
+msgstr "Falha ao buscar as tags."
+
+#: src/pages/rebase_page/FCSystemImage.qml:117
+msgctxt "all tags, used in 'List of {tag} tags' string."
+msgid "all"
+msgstr "todas"
+
+#: src/pages/rebase_page/FCSystemImage.qml:177
+msgid ""
+"Tags marked with a date or version will not receive security or feature "
+"updates. You should only use them temporarily if you are waiting for a "
+"critical bug to be fixed in the latest version."
+msgstr ""
+"Tags identificadas por uma data ou versão não recebem atualizações de "
+"segurança ou novos recursos. Use-as apenas temporariamente enquanto aguarda "
+"a correção de um erro crítico na versão mais recente."
+
+#: src/pages/rebase_page/FCSystemImage.qml:185
+#: src/pages/rebase_page/FCSystemImage.qml:245
+msgid "%1 (Current Tag)"
+msgstr "%1 (tag atual)"
+
+#: src/pages/rebase_page/FCSystemImage.qml:194
+msgctxt "List of tags classified as stable, testing, etc"
+msgid "List of %1 tags"
+msgstr "Lista de tags %1"
+
+#: src/pages/rebase_page/RebasePage.qml:198
+msgid "Current System Image"
+msgstr "Imagem atual do sistema"
+
+#: src/pages/rebase_page/RebasePage.qml:225
+msgid "Available System Images"
+msgstr "Imagens de sistema disponíveis"
+
+#: src/pages/rebase_page/RebasePage.qml:242
+msgid "Filter by Features"
+msgstr "Filtrar por recursos"
+
+#: src/pages/rebase_page/RebasePage.qml:282
+msgid "Results (%1)"
+msgstr "Resultados (%1)"
+
+#: src/pages/rebase_page/RebasePage.qml:319
+msgid "Confirm rebase"
+msgstr "Confirmar rebase"
+
+#: src/pages/rebase_page/RebasePage.qml:320
+msgid ""
+"This will take a long time, and you will need to restart afterwards to apply "
+"the changes.\n"
+"Target: %1\n"
+"\n"
+"You may need to input your password multiple times to proceed. If you rebase "
+"to a tag with a date or version, you will not get system-level security and "
+"feature updates until you return to a base tag."
+msgstr ""
+"Isso levará bastante tempo e será necessário reiniciar depois para aplicar "
+"as alterações.\n"
+"Destino: %1\n"
+"\n"
+"Pode ser necessário digitar sua senha várias vezes. Se você mudar para uma "
+"tag com data ou versão, não receberá atualizações de segurança nem de "
+"recursos do sistema até voltar para uma tag base."
+
+#: src/pages/rebase_page/RebasePage.qml:326
+msgid "The rebase succeeded! Restart to apply changes."
+msgstr "Rebase concluído! Reinicie para aplicar as alterações."
+
+#: src/pages/rebase_page/RebasePage.qml:328
+msgid "The rebase failed. Check the console for more information."
+msgstr "Falha no rebase. Consulte o console para mais informações."
+
+#: src/pages/rebase_page/RebasePage.qml:335
+msgctxt "Dialog confirmation"
+msgid "Ok"
+msgstr "OK"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:105
+msgctxt "elapsed time"
+msgid "in the future"
+msgstr "no futuro"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:107
+msgctxt "elapsed time"
+msgid "just now"
+msgstr "agora mesmo"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:109
+msgctxt "elapsed time"
+msgid "%1 minute ago"
+msgid_plural "%1 minutes ago"
+msgstr[0] "há %1 minuto"
+msgstr[1] "há %1 minutos"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:111
+msgctxt "elapsed time"
+msgid "%1 hour ago"
+msgid_plural "%1 hours ago"
+msgstr[0] "há %1 hora"
+msgstr[1] "há %1 horas"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:113
+msgctxt "elapsed time"
+msgid "%1 day ago"
+msgid_plural "%1 days ago"
+msgstr[0] "há %1 dia"
+msgstr[1] "há %1 dias"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:115
+msgctxt "elapsed time"
+msgid "%1 month ago"
+msgid_plural "%1 months ago"
+msgstr[0] "há %1 mês"
+msgstr[1] "há %1 meses"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:117
+msgctxt "elapsed time"
+msgid "%1 year ago"
+msgid_plural "%1 years ago"
+msgstr[0] "há %1 ano"
+msgstr[1] "há %1 anos"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:120
+msgctxt "absolute date followed by relative time, e.g. 5 March (2 days ago)"
+msgid "%1 (%2)"
+msgstr "%1 (%2)"
+
+#: src/pages/rss_feed/RssPage.qml:36
+msgctxt "@info:placeholder"
+msgid "No changelogs have been provided."
+msgstr "Nenhum registro de alterações foi fornecido."
+
+#: src/pages/rss_feed/RssPage.qml:42
+msgctxt "@info:placeholder"
+msgid "Loading changelog"
+msgstr "Carregando registro de alterações"
+
+#: src/pages/rss_feed/RssPage.qml:62
+msgctxt "@info:placeholder"
+msgid "Error loading changelogs:"
+msgstr "Erro ao carregar os registros de alterações:"
+
+#: src/pages/rss_feed/RssPage.qml:67
+msgctxt "@info:placeholder"
+msgid "An error has occurred loading changelogs."
+msgstr "Ocorreu um erro ao carregar os registros de alterações."
+
+#: src/pages/settings/Settings.qml:36
+msgid "Interface Settings"
+msgstr "Configurações da interface"
+
+#: src/pages/settings/Settings.qml:41
+msgid "Reboot on exit reminder"
+msgstr "Lembrete para reiniciar ao sair"
+
+#: src/pages/settings/Settings.qml:42
+msgid ""
+"Display a popup when exiting the app after a command completes, reminding "
+"you to reboot to apply changes."
+msgstr ""
+"Exibir um aviso ao sair do aplicativo após a conclusão de um comando, "
+"lembrando você de reiniciar para aplicar as alterações."
+
+#: src/pages/settings/Settings.qml:57
+msgid "Default fullscreen state"
+msgstr "Modo de tela cheia padrão"
+
+#: src/pages/settings/Settings.qml:58
+msgid "Should the application launch in fullscreen mode?"
+msgstr "O aplicativo deve iniciar em tela cheia?"
+
+#: src/pages/settings/Settings.qml:73
+msgid "Default console state"
+msgstr "Estado padrão do console"
+
+#: src/pages/settings/Settings.qml:74
+msgid "Should the console panels start opened?"
+msgstr "Os painéis do console devem iniciar abertos?"
+
+#: src/pages/settings/Settings.qml:91
+msgid "Restore Defaults"
+msgstr "Restaurar padrões"
+
+#: src/pages/settings/Settings.qml:100
+msgid "OS Settings (read-only)"
+msgstr "Configurações do sistema operacional (somente leitura)"
+
+#: src/pages/settings/Settings.qml:105
+msgid "No system update command is defined."
+msgstr "Nenhum comando de atualização do sistema foi definido."
+
+#: src/pages/settings/Settings.qml:106
+msgid "System Update Command"
+msgstr "Comando de atualização do sistema"
+
+#: src/pages/settings/Settings.qml:112
+msgid "No system rollback command is defined."
+msgstr "Nenhum comando de reversão do sistema foi definido."
+
+#: src/pages/settings/Settings.qml:113
+msgid "System Rollback Command"
+msgstr "Comando de reversão do sistema"
+
+#: src/pages/settings/Settings.qml:120
+msgid "Allow commands to be cancelled early?"
+msgstr "Permitir o cancelamento antecipado de comandos?"
+
+#: src/pages/settings/Settings.qml:126
+msgid "No announcements/changelogs source is set."
+msgstr "Nenhuma fonte de avisos/registros de alterações foi definida."
+
+#: src/pages/settings/Settings.qml:127
+msgid "Changelogs RSS feed"
+msgstr "Feed RSS de registros de alterações"
+
+#: src/pages/settings/Settings.qml:134
+msgid "Enable the system rebase page"
+msgstr "Ativar a página de rebase do sistema"
+
+#: src/pages/system_update/SystemUpdate.qml:47
+msgid "Start update"
+msgstr "Iniciar atualização"
+
+#: src/pages/system_update/SystemUpdate.qml:52
+msgid "System Updating"
+msgstr "Atualizando o sistema"
+
+#: src/pages/system_update/SystemUpdate.qml:54
+msgid "Update Started"
+msgstr "Atualização iniciada"
+
+#: src/pages/system_update/SystemUpdate.qml:58
+msgid "Update Failed."
+msgstr "Falha na atualização."
+
+#: src/pages/system_update/SystemUpdate.qml:60
+msgid "Update Failed. Check console for more details."
+msgstr "Falha na atualização. Consulte o console para mais detalhes."
+
+#: src/pages/system_update/SystemUpdate.qml:68
+msgid "Update Succeeded!"
+msgstr "Atualização concluída!"
+
+#: src/pages/system_update/SystemUpdate.qml:70
+msgid "System Updated!"
+msgstr "Sistema atualizado!"
+
+#: src/pages/system_update/SystemUpdate.qml:74
+msgid "You must reboot to apply changes."
+msgstr "Você precisa reiniciar para aplicar as alterações."
+
+#: src/pages/system_update/SystemUpdate.qml:76
+msgid "No reboot necessary."
+msgstr "Não é necessário reiniciar."
+
+#: src/pages/system_update/SystemUpdate.qml:103
+msgid "Update Error"
+msgstr "Erro de atualização"
+
+#: src/pages/system_update/SystemUpdate.qml:111
+msgid "Ok"
+msgstr "OK"
+
+#: src/pages/system_update/SystemUpdate.qml:171
+msgid "Click to update System Image and Software"
+msgstr "Clique para atualizar a imagem do sistema e os programas"
+
+#: src/pages/system_update/SystemUpdate.qml:214
+msgctxt "label, last update to the system."
+msgid "Last Update"
+msgstr "Última atualização"
+
+#: src/pages/system_update/SystemUpdate.qml:216
+msgid "Right now!"
+msgstr "Agora mesmo!"
+
+#: src/pages/system_update/SystemUpdate.qml:257
+msgid "The System Update command is not defined."
+msgstr "O comando de atualização do sistema não foi definido."
+
+#: src/pages/system_update/SystemUpdate.qml:258
+msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
+msgstr "Verifique se o arquivo de configuração (/etc/bazzite-updater/config.ini) existe."
+
+#: src/pages/system_update/SystemUpdate.qml:276
+msgctxt "progress bar displaying used storage space vs total available space"
+msgid "System Drive Used (%1)"
+msgstr "Espaço usado no disco do sistema (%1)"
+
+#: src/pages/system_update/SystemUpdate.qml:346
+msgid "%1 Layered package"
+msgid_plural "%1 Layered packages"
+msgstr[0] "%1 pacote em camadas"
+msgstr[1] "%1 pacotes em camadas"
