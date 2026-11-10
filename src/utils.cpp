@@ -147,10 +147,4 @@ void AppState::rebootSystem(QJSValue callback)
     callback.call({1});
 }
 
-void AppState::appendCommandError(QByteArray error)
-{
-    cmd_out.append(error);
-    Q_EMIT commandErrorChanged();
-}
-
 }
