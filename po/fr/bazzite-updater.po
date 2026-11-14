@@ -13,7 +13,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Gtranslator 51.0\n"
 
@@ -694,7 +693,7 @@ msgstr "Un redémarrage est nécessaire pour appliquer les changements."
 
 #: src/pages/system_update/SystemUpdate.qml:76
 msgid "No reboot necessary."
-msgstr "Aucun redémarrage nécassaire."
+msgstr "Aucun redémarrage nécessaire."
 
 #: src/pages/system_update/SystemUpdate.qml:103
 msgid "Update Error"
@@ -730,7 +729,7 @@ msgstr ""
 #: src/pages/system_update/SystemUpdate.qml:276
 msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
-msgstr ""
+msgstr "Lecteur système utilisé (%1)"
 
 #: src/pages/system_update/SystemUpdate.qml:346
 msgid "%1 Layered package"
@@ -738,38 +737,3 @@ msgid_plural "%1 Layered packages"
 msgstr[0] "%1 paquet superposé"
 msgstr[1] "%1 paquets superposés"
 
-#~ msgid "January"
-#~ msgstr "janvier"
-
-#~ msgid "February"
-#~ msgstr "février"
-
-#~ msgid "March"
-#~ msgstr "mars"
-
-#~ msgid "April"
-#~ msgstr "avril"
-
-#~ msgid "May"
-#~ msgstr "mai"
-
-#~ msgid "June"
-#~ msgstr "juin"
-
-#~ msgid "July"
-#~ msgstr "juillet"
-
-#~ msgid "August"
-#~ msgstr "août"
-
-#~ msgid "September"
-#~ msgstr "septembre"
-
-#~ msgid "October"
-#~ msgstr "octobre"
-
-#~ msgid "November"
-#~ msgstr "novembre"
-
-#~ msgid "December"
-#~ msgstr "décembre"
