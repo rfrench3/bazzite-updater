@@ -244,24 +244,37 @@ AppPage {
                 }
 
                 onRpmOstreeRemoveClicked: packages => {
+                    removeRunning = true;
+
                     OtherUtilsBackend.rpmOstreeRemove(packages, exit => {
-                        if (exit === 0)
+                        removeRunning = false;
+                        if (exit === 0) {
+                            removeCompleted = true;
                             showPassiveNotification(i18n("If those layered packages caused updates to fail, you should now be able to update successfully."), Kirigami.short);
-                        else
+                        } else {
                             showPassiveNotification(i18n("Removing layered packages failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
                                 toggleConsole.trigger();
                             });
+                        }
                     });
                 }
 
                 onRpmOstreeResetClicked: {
+                    resetRunning = true;
+
                     OtherUtilsBackend.rpmOstreeReset(exit => {
-                        if (exit === 0)
+                        resetRunning = false;
+                        if (exit === 0) {
+                            resetCompleted = true;
+
+                            // TODO: this could be handled better, but a reset means all removable packages are gone
+                            removeCompleted = true;
                             showPassiveNotification(i18n("If layered packages caused updates to fail, you should now be able to update successfully."), Kirigami.short);
-                        else
+                        } else {
                             showPassiveNotification(i18n("Removing layered packages failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
                                 toggleConsole.trigger();
                             });
+                        }
                     });
                 }
             }

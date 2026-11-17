@@ -113,28 +113,7 @@ Loader {
         }
 
         FormDelegateSeparatorFixed {
-            visible: layeredPackagesInfo.visible
-            below: layeredPackagesInfo.itemBelowPrev
-        }
-
-        FormDelegateCollapsible {
-            id: layeredPackagesInfo
-
-            readonly property ostreeDeployment currentImage: AppData.ostree.deployments.find(img => img.isCurrent) || {}
-            readonly property int count: currentImage.layeredPackages?.length || 0
-
-            visible: count !== 0
-            text: expanded ? i18n("Close layered packages view") : i18n("View layered packages (%1)", count)
-
-            FC.FormTextAreaDelegate {
-                label: i18n("Layered Packages (%1):", layeredPackagesInfo.count)
-                readOnly: true
-                text: layeredPackagesInfo.currentImage.layeredPackages?.join(", ") ?? ""
-                description: i18n("Layering packages is a last-resort for when there is no other way to install a package. Avoid layering packages whenever possible, as it can cause system updates to fail.")
-            }
-        }
-        FormDelegateSeparatorFixed {
-            above: layeredPackagesInfo.visible ? layeredPackagesInfo.itemAboveNext : null
+            visible: detailedInfo.visible
             below: detailedInfo.itemBelowPrev
         }
 

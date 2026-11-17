@@ -16,6 +16,8 @@ FC.FormCard {
 
     property real maxListHeight: KG.Units.gridUnit * 16
 
+    // TODO: Layered package information should probably come from the staged image in certain places,
+    //       so that it properly updates when you remove layered packages
     readonly property ostreeDeployment currentImage: AppData.ostree.deployments.find(img => img.isCurrent) || {}
     readonly property list<string> layeredPackages: currentImage.layeredPackages || []
 
@@ -27,6 +29,12 @@ FC.FormCard {
 
     signal rpmOstreeRemoveClicked(list<string> packages)
     signal rpmOstreeResetClicked
+
+    property bool removeRunning: false
+    property bool removeCompleted: false
+
+    property bool resetRunning: false
+    property bool resetCompleted: false
 
     function closeActiveListView(): bool {
         const item = Window.activeFocusItem;
@@ -86,6 +94,18 @@ FC.FormCard {
 
         FormDelegateSeparatorFixed {}
 
+        FC.FormTextDelegate {
+            visible: AppState.isGamescopeSession
+
+            textItem.font.bold: true
+            textItem.wrapMode: Text.WordWrap
+            text: i18n("Certain features, such as managing layered packages and rebasing, require your password and are only available in desktop mode. Plese open Bazzite Updater in desktop mode to access these features.")
+        }
+
+        FormDelegateSeparatorFixed {
+            visible: AppState.isGamescopeSession
+        }
+
         FormListView {
             id: tagsView
 
@@ -103,22 +123,33 @@ FC.FormCard {
 
                         focusPolicy: Qt.NoFocus
 
-                        enabled: AppState.allowCommands
+                        enabled: AppState.allowCommands && !AppState.isGamescopeSession && !root.resetCompleted
                         text: i18n("Remove all layered packages")
                         onClicked: root.rpmOstreeResetClicked()
+
+                        trailing: QQC2.BusyIndicator {
+                            running: root.resetRunning
+                        }
+                        trailingLogo.visible: !root.resetRunning
                     }
                 }
 
                 DelegateChoice {
                     index: 1
                     delegate: FC.FormButtonDelegate {
+                        id: buttonRemove
                         width: tagsView.width - tagsView.scrollbarWidth
 
                         focusPolicy: Qt.NoFocus
 
-                        enabled: root.selectedPackages.length > 0 && AppState.allowCommands
+                        enabled: root.selectedPackages.length > 0 && AppState.allowCommands && !AppState.isGamescopeSession && !root.removeCompleted && !root.resetCompleted
                         text: i18n("Remove selected packages")
                         onClicked: root.rpmOstreeRemoveClicked(root.selectedPackages)
+
+                        trailing: QQC2.BusyIndicator {
+                            running: root.removeRunning
+                        }
+                        trailingLogo.visible: !root.removeRunning
                     }
                 }
 
@@ -131,6 +162,8 @@ FC.FormCard {
 
                         // The ListView owns focus
                         focusPolicy: Qt.NoFocus
+
+                        enabled: !AppState.isGamescopeSession
 
                         onClicked: {
                             if (checked)

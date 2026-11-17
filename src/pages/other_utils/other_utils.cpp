@@ -103,7 +103,7 @@ void OtherUtilsBackend::rollbackImage(QJSValue callback)
         return;
     }
 
-    if (!appState.allowCommands()) {
+    if (!appState.allowCommands() || m_console->processRunning) {
         qDebug() << "Command called when not allowed, ignored";
         return;
     }
@@ -169,12 +169,12 @@ void OtherUtilsBackend::rpmOstreeRemove(QStringList packages, QJSValue callback)
         return;
     }
 
-    if (!appState.allowCommands()) {
+    if (!appState.allowCommands() || m_console->processRunning) {
         qDebug() << "Command called when not allowed, ignored";
         return;
     }
 
-    QStringList cmd = {u"rpm-ostree"_s, u"remove"_s};
+    QStringList cmd = {u"pkexec"_s, u"rpm-ostree"_s, u"remove"_s};
     cmd.append(packages);
 
     // Don't set commandSucceeded because a user would run this when an update fails and then start an update again
@@ -195,21 +195,6 @@ void OtherUtilsBackend::rpmOstreeRemove(QStringList packages, QJSValue callback)
     m_console->runProcess(cmd, onFinish, onError);
 }
 
-/*TODO FIXME:
- * required two password prompts (I expected only one), and then doesnt work
- *     probably can be fixed with pkexec
-
- > rpm-ostree reset
- error: Updating deployment: GDBus.Error:org.freedesktop.DBus.Error.AccessDenied: rpmostreed OS operation UpdateDeployment not allowed for user
-
- Command finished with exit code 1 and exit status 0
- > rpm-ostree reset
-
-
- TODO: should it track one "major" rpm-ostree command per session at all?
- One command at a time per visible console instance would be MUCH easier,
- and rpm-ostree itself will just error if conflicting commands are run anyways.
- */
 void OtherUtilsBackend::rpmOstreeReset(QJSValue callback)
 {
     if (!callback.isCallable()) {
@@ -217,27 +202,27 @@ void OtherUtilsBackend::rpmOstreeReset(QJSValue callback)
         return;
     }
 
-    if (!appState.allowCommands()) {
+    if (!appState.allowCommands() || m_console->processRunning) {
         qDebug() << "Command called when not allowed, ignored";
         return;
     }
 
-    const QStringList cmd = {u"rpm-ostree"_s, u"reset"_s};
+    const QStringList cmd = {u"pkexec"_s, u"rpm-ostree"_s, u"reset"_s};
 
     // Don't set commandSucceeded because a user would run this when an update fails and then start an update again
     auto onFinish = [=](int exit_code) {
         callback.call({exit_code});
-        appState.setRebaseRunning(false);
+        appState.setResetRunning(false);
     };
 
     auto onError = [=, this](QProcess::ProcessError error) {
         if (error == QProcess::FailedToStart)
             m_console->newLine(i18n("rpm-ostree was not found or failed to start."), Console::LogLevel::ErrorCritical);
 
-        appState.setRebaseRunning(false);
+        appState.setResetRunning(false);
         callback.call({1});
     };
 
-    appState.setRebaseRunning(true);
+    appState.setResetRunning(true);
     m_console->runProcess(cmd, onFinish, onError);
 }
