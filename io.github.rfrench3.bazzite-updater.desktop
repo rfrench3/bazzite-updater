@@ -3,8 +3,10 @@
 [Desktop Entry]
 Name=Bazzite Updater
 Name[uk]=Центр оновлень Bazzite
+Name[fr]=Mises à jour
 Comment=Update your system
 Comment[uk]=Оновлює Вашу систему
+Comment[fr]=Mettez votre système à jour
 Exec=bazzite-updater
 Icon=io.github.rfrench3.bazzite-updater
 Type=Application
@@ -12,3 +14,4 @@ Terminal=false
 Categories=Qt;KDE;System;
 Keywords=update;system;
 Keywords[uk]=update;оновити;
+Keywords[fr]=update;system;mises;jour;jours;maj;màj;système;
