@@ -96,20 +96,32 @@ namespace SingletonInternals
 
 void AppState::setUpdateRunning(bool running)
 {
-    m_updateRunning = running;
+    m_runningOperation = running ? Operation::Update : Operation::NoOperation;
     sendUpdateSignals(UPDATE);
 }
 
 void AppState::setRollbackRunning(bool running)
 {
-    m_rollbackRunning = running;
+    m_runningOperation = running ? Operation::Rollback : Operation::NoOperation;
     sendUpdateSignals(ROLLBACK);
 }
 
 void AppState::setRebaseRunning(bool running)
 {
-    m_rebaseRunning = running;
+    m_runningOperation = running ? Operation::Rebase : Operation::NoOperation;
     sendUpdateSignals(REBASE);
+}
+
+void AppState::setResetRunning(bool running)
+{
+    m_runningOperation = running ? Operation::Reset : Operation::NoOperation;
+    sendUpdateSignals(RESET);
+}
+
+void AppState::setRemoveRunning(bool running)
+{
+    m_runningOperation = running ? Operation::Remove : Operation::NoOperation;
+    sendUpdateSignals(REMOVE);
 }
 
 void AppState::setCommandSucceeded(bool succeeded)
@@ -135,6 +147,12 @@ void AppState::sendUpdateSignals(sendSignals signal)
         break;
     case REBASE:
         Q_EMIT rebaseRunningChanged();
+        break;
+    case RESET:
+        Q_EMIT resetRunningChanged();
+        break;
+    case REMOVE:
+        Q_EMIT removeRunningChanged();
         break;
     }
 }

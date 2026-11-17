@@ -84,6 +84,8 @@ private:
     Q_PROPERTY(bool updateRunning READ updateRunning NOTIFY updateRunningChanged)
     Q_PROPERTY(bool rollbackRunning READ rollbackRunning NOTIFY rollbackRunningChanged)
     Q_PROPERTY(bool rebaseRunning READ rebaseRunning NOTIFY rebaseRunningChanged)
+    Q_PROPERTY(bool resetRunning READ resetRunning NOTIFY resetRunningChanged)
+    Q_PROPERTY(bool removeRunning READ removeRunning NOTIFY removeRunningChanged)
 
     Q_PROPERTY(bool commandRunning READ commandRunning NOTIFY commandRunningChanged)
     Q_PROPERTY(bool commandSucceeded READ commandSucceeded NOTIFY commandSucceededChanged)
@@ -94,7 +96,18 @@ private:
     enum sendSignals {
         UPDATE,
         REBASE,
-        ROLLBACK
+        ROLLBACK,
+        RESET,
+        REMOVE
+    };
+
+    enum class Operation {
+        NoOperation,
+        Update,
+        Rollback,
+        Rebase,
+        Reset,
+        Remove
     };
 
     // Rebasing is not possible in gamescope session due to its required password input, which gamescope session fails to display.
@@ -103,19 +116,27 @@ private:
 public:
     bool updateRunning() const
     {
-        return m_updateRunning;
+        return m_runningOperation == Operation::Update;
     }
     bool rollbackRunning() const
     {
-        return m_rollbackRunning;
+        return m_runningOperation == Operation::Rollback;
     }
     bool rebaseRunning() const
     {
-        return m_rebaseRunning;
+        return m_runningOperation == Operation::Rebase;
+    }
+    bool resetRunning() const
+    {
+        return m_runningOperation == Operation::Reset;
+    }
+    bool removeRunning() const
+    {
+        return m_runningOperation == Operation::Remove;
     }
     bool commandRunning() const
     {
-        return m_updateRunning || m_rollbackRunning || m_rebaseRunning;
+        return m_runningOperation != Operation::NoOperation;
     }
     bool commandSucceeded() const
     {
@@ -129,6 +150,8 @@ public:
     void setUpdateRunning(bool running);
     void setRollbackRunning(bool running);
     void setRebaseRunning(bool running);
+    void setResetRunning(bool running);
+    void setRemoveRunning(bool running);
     void setCommandSucceeded(bool succeeded);
 
     Q_INVOKABLE void rebootSystem(QJSValue callback);
@@ -136,6 +159,8 @@ public:
     Q_SIGNAL void updateRunningChanged();
     Q_SIGNAL void rollbackRunningChanged();
     Q_SIGNAL void rebaseRunningChanged();
+    Q_SIGNAL void resetRunningChanged();
+    Q_SIGNAL void removeRunningChanged();
     Q_SIGNAL void commandRunningChanged();
     Q_SIGNAL void commandSucceededChanged();
     Q_SIGNAL void allowCommandsChanged();
@@ -143,10 +168,9 @@ public:
     void sendUpdateSignals(sendSignals signal);
 
 private:
-    bool m_updateRunning = false;
-    bool m_rollbackRunning = false;
-    bool m_rebaseRunning = false;
     bool m_commandSucceeded = false;
+
+    Operation m_runningOperation = Operation::NoOperation;
 };
 
 }
