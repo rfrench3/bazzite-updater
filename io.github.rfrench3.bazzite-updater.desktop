@@ -2,8 +2,10 @@
 # SPDX-FileCopyrightText: 2025 Robert French <frenchrobertm@outlook.com>
 [Desktop Entry]
 Name=Bazzite Updater
+Name[cs]=Aktualizátor Bazzite
 Name[uk]=Центр оновлень Bazzite
 Comment=Update your system
+Comment[cs]=Aktualizujte svůj systém
 Comment[uk]=Оновлює Вашу систему
 Exec=bazzite-updater
 Icon=io.github.rfrench3.bazzite-updater
@@ -11,4 +13,5 @@ Type=Application
 Terminal=false
 Categories=Qt;KDE;System;
 Keywords=update;system;
+Keywords[cs]=aktualizace;systém;
 Keywords[uk]=update;оновити;

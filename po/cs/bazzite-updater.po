@@ -1,0 +1,735 @@
+# Czech translation for bazzite-updater.
+# Copyright (C) 2026, Robert French
+# This file is distributed under the same license as the bazzite-updater package.
+# Daniel Rusek <mail@asciiwolf.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bazzite-updater\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2026-11-17 17:42+0100\n"
+"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"X-Generator: Poedit 3.10\n"
+
+#: src/main.cpp:99
+msgid "Bazzite Updater"
+msgstr "Aktualizátor Bazzite"
+
+#: src/main.cpp:101
+msgid "Updating and rebasing utility for Bazzite"
+msgstr "Nástroj pro aktualizaci a rebase systému Bazzite"
+
+#: src/main.cpp:103
+msgid "© 2025-2026 Robert French"
+msgstr "© 2025–2026 Robert French"
+
+#: src/main.cpp:104
+msgid ""
+"This application can be used through a controller or keyboard to perform "
+"various update-related system tasks!"
+msgstr ""
+"Tuto aplikaci lze ovládat pomocí ovladače nebo klávesnice a provádět v ní "
+"různé systémové úlohy související s aktualizacemi!"
+
+#: src/pages/other_utils/other_utils.cpp:124
+msgid "Rollback program was not found or failed to start."
+msgstr "Program pro vrácení změn nebyl nalezen nebo se jej nepodařilo spustit."
+
+#: src/pages/other_utils/other_utils.cpp:149
+msgid ""
+"If steam is open, you must restart it before Bazzite Updater will appear in "
+"your library."
+msgstr ""
+"Pokud je Steam spuštěný, musíte jej restartovat, aby se Aktualizátor Bazzite "
+"zobrazil ve vaší knihovně."
+
+#: src/pages/other_utils/other_utils.cpp:156
+msgid "steamos-add-to-steam program was not found or failed to start."
+msgstr ""
+"Program steamos-add-to-steam nebyl nalezen nebo se jej nepodařilo spustit."
+
+#: src/pages/system_update/system_update.cpp:118
+msgid "There is not enough free space available for system updates."
+msgstr "Pro aktualizace systému není k dispozici dostatek volného místa."
+
+#: src/components/console/ConsoleDrawer.qml:69
+msgid "Copy to Clipboard"
+msgstr "Kopírovat do schránky"
+
+#: src/components/console/ConsoleDrawer.qml:72
+msgid "Text Copied"
+msgstr "Text zkopírován"
+
+#: src/components/console/ConsoleDrawer.qml:79
+msgid "Close"
+msgstr "Zavřít"
+
+#: src/components/console/ConsoleView.qml:78
+msgid "Warning: "
+msgstr "Varování: "
+
+#: src/components/console/ConsoleView.qml:82
+msgid "Error: "
+msgstr "Chyba: "
+
+#: src/components/console/ConsoleView.qml:85
+msgid "Debug: "
+msgstr "Ladění: "
+
+#: src/components/console/ConsoleView.qml:89
+msgid "Critical Error: "
+msgstr "Kritická chyba: "
+
+#: src/components/customFormcards/FCOsRelease.qml:19
+msgctxt "button label"
+msgid "Hide os-release"
+msgstr "Skrýt os-release"
+
+#: src/components/customFormcards/FCOsRelease.qml:19
+msgctxt "button label"
+msgid "Display os-release"
+msgstr "Zobrazit os-release"
+
+#: src/components/customFormcards/FCSystemInfo.qml:22
+msgid "There is a pending system update. You must reboot to apply it."
+msgstr ""
+"Je k dispozici čekající aktualizace systému. K jejímu použití je nutné "
+"provést restart."
+
+#: src/components/customFormcards/FCSystemInfo.qml:33
+msgid "Current Image"
+msgstr "Aktuální obraz"
+
+#: src/components/customFormcards/FCSystemInfo.qml:42
+msgid "Last Update"
+msgstr "Poslední aktualizace"
+
+#: src/components/customFormcards/FCSystemInfo.qml:56
+msgid "The best drivers for your GPU are provided by the Linux kernel."
+msgstr "Nejlepší ovladače pro vaši grafickou kartu poskytuje jádro Linuxu."
+
+#: src/components/customFormcards/FCSystemInfo.qml:58
+#: src/components/customFormcards/FCSystemInfo.qml:60
+msgid "The best drivers for your GPU are "
+msgstr "Nejlepší ovladače pro vaši grafickou kartu jsou "
+
+#: src/components/customFormcards/FCSystemInfo.qml:62
+msgid "Your GPU is unsupported."
+msgstr "Vaše grafická karta není podporována."
+
+#: src/components/customFormcards/FCSystemInfo.qml:82
+msgid "You have the best drivers installed."
+msgstr "Máte nainstalovány nejlepší ovladače."
+
+#: src/components/customFormcards/FCSystemInfo.qml:86
+msgid "You do not have any nvidia drivers installed."
+msgstr "Nemáte nainstalovány žádné ovladače nvidia."
+
+#: src/components/customFormcards/FCSystemInfo.qml:88
+msgid "You currently have nvidia installed."
+msgstr "Momentálně máte nainstalovány ovladače nvidia."
+
+#: src/components/customFormcards/FCSystemInfo.qml:90
+msgid "You currently have nvidia-open installed."
+msgstr "Momentálně máte nainstalovány ovladače nvidia-open."
+
+#: src/components/customFormcards/FCSystemInfo.qml:107
+msgid "Close layered packages view"
+msgstr "Zavřít zobrazení vrstvených balíčků"
+
+#: src/components/customFormcards/FCSystemInfo.qml:107
+msgid "View layered packages (%1)"
+msgstr "Zobrazit vrstvené balíčky (%1)"
+
+#: src/components/customFormcards/FCSystemInfo.qml:110
+msgid "Layered Packages (%1):"
+msgstr "Vrstvené balíčky (%1):"
+
+#: src/components/customFormcards/FCSystemInfo.qml:113
+msgid ""
+"Layering packages is a last-resort for when there is no other way to install "
+"a package. Avoid layering packages whenever possible, as it can cause system "
+"updates to fail."
+msgstr ""
+"Vrstvení balíčků je až krajním řešením pro případy, kdy balíček nelze "
+"nainstalovat žádným jiným způsobem. Pokud je to možné, vrstvení balíčků se "
+"vyhněte, protože může způsobit selhání aktualizací systému."
+
+#: src/components/customFormcards/FCSystemInfo.qml:124
+msgid "Display less information"
+msgstr "Zobrazit méně informací"
+
+#: src/components/customFormcards/FCSystemInfo.qml:124
+msgid "Display more information"
+msgstr "Zobrazit více informací"
+
+#: src/components/customFormcards/FCSystemInfo.qml:127
+#: src/components/customFormcards/FCSystemInfo.qml:134
+#: src/components/customFormcards/FCSystemInfo.qml:141
+#: src/components/customFormcards/FCSystemInfo.qml:148
+#: src/components/customFormcards/FCSystemInfo.qml:155
+#: src/components/customFormcards/FCSystemInfo.qml:162
+#: src/components/customFormcards/FCSystemInfo.qml:169
+#: src/components/customFormcards/FCSystemInfo.qml:176
+#: src/components/customFormcards/FCSystemInfo.qml:183
+#: src/components/customFormcards/FCSystemInfo.qml:190
+msgid "loading..."
+msgstr "načítání..."
+
+#: src/components/customFormcards/FCSystemInfo.qml:128
+msgid "Image"
+msgstr "Obraz"
+
+#: src/components/customFormcards/FCSystemInfo.qml:135
+msgid "Vendor"
+msgstr "Výrobce"
+
+#: src/components/customFormcards/FCSystemInfo.qml:142
+msgid "Ref"
+msgstr "Ref"
+
+#: src/components/customFormcards/FCSystemInfo.qml:149
+msgid "Tag"
+msgstr "Štítek"
+
+#: src/components/customFormcards/FCSystemInfo.qml:156
+msgid "Branch"
+msgstr "Větev"
+
+#: src/components/customFormcards/FCSystemInfo.qml:163
+msgid "Base Name"
+msgstr "Název základu"
+
+#: src/components/customFormcards/FCSystemInfo.qml:170
+msgid "Fedora Version"
+msgstr "Verze Fedory"
+
+#: src/components/customFormcards/FCSystemInfo.qml:177
+msgid "Version"
+msgstr "Verze"
+
+#: src/components/customFormcards/FCSystemInfo.qml:184
+msgid "Version (Pretty)"
+msgstr "Verze (hezčí)"
+
+#: src/components/customFormcards/FCSystemInfo.qml:191
+msgid "Release Date"
+msgstr "Datum vydání"
+
+#: src/components/customFormcards/FormCardCollapsible.qml:39
+msgid "Read more"
+msgstr "Číst více"
+
+#: src/components/customFormcards/FormCardCollapsible.qml:47
+msgid "Read less"
+msgstr "Číst méně"
+
+#: src/pages/AboutDataApp.qml:8
+msgctxt "@title"
+msgid "About Application"
+msgstr "O aplikaci"
+
+#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:216
+msgctxt "About (user's OS)"
+msgid "About %1"
+msgstr "O systému %1"
+
+#: src/pages/Main.qml:20
+msgctxt "@title:window"
+msgid "Bazzite Updater"
+msgstr "Aktualizátor Bazzite"
+
+#: src/pages/Main.qml:159 src/pages/system_update/SystemUpdate.qml:20
+#: src/pages/system_update/SystemUpdate.qml:158
+msgid "System Update"
+msgstr "Aktualizace systému"
+
+#: src/pages/Main.qml:171 src/pages/other_utils/OtherUtils.qml:19
+msgid "Other Utilities"
+msgstr "Další nástroje"
+
+#: src/pages/Main.qml:183 src/pages/rebase_page/RebasePage.qml:165
+msgid "Rebase Helper"
+msgstr "Pomocník pro rebase"
+
+#: src/pages/Main.qml:195 src/pages/rss_feed/RssPage.qml:23
+msgid "Announcements"
+msgstr "Oznámení"
+
+#: src/pages/Main.qml:207 src/pages/settings/Settings.qml:17
+msgid "Settings"
+msgstr "Nastavení"
+
+#: src/pages/Main.qml:225
+msgid "About Bazzite Updater"
+msgstr "O aplikaci Aktualizátor Bazzite"
+
+#: src/pages/Main.qml:238
+msgid "Reboot System"
+msgstr "Restartovat systém"
+
+#: src/pages/Main.qml:249
+msgid "Quit"
+msgstr "Ukončit"
+
+#: src/pages/Main.qml:325
+msgctxt "@title:window"
+msgid "Reboot System"
+msgstr "Restartovat systém"
+
+#: src/pages/Main.qml:330 src/pages/system_update/SystemUpdate.qml:106
+msgid "This will reboot the system."
+msgstr "Toto restartuje váš systém."
+
+#: src/pages/Main.qml:335
+msgid "Reboot"
+msgstr "Restartovat"
+
+#: src/pages/Main.qml:341 src/pages/Main.qml:422
+#: src/pages/rebase_page/RebasePage.qml:340
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: src/pages/Main.qml:358
+msgid ""
+"The app was unable to reboot. Reboot through your system menu to apply "
+"changes."
+msgstr ""
+"Aplikaci se nepodařilo restartovat systém. Pro uplatnění změn proveďte "
+"restart prostřednictvím systémové nabídky."
+
+#: src/pages/Main.qml:377
+msgid "Exit Application"
+msgstr "Ukončit aplikaci"
+
+#: src/pages/Main.qml:382
+msgid "You must reboot to apply system updates."
+msgstr "Pro uplatnění aktualizací systému je nutné provést restart."
+
+#: src/pages/Main.qml:382
+msgid "No command is running, you may exit safely."
+msgstr "Není spuštěn žádný příkaz, můžete bezpečně ukončit."
+
+#: src/pages/Main.qml:385
+msgid ""
+"You should not exit the application until the running command completes. If "
+"you exit early, it may break your system."
+msgstr ""
+"Aplikaci byste neměli ukončovat, dokud neskončí právě probíhající příkaz. "
+"Pokud ji ukončíte předčasně, může dojít k poškození systému."
+
+#: src/pages/Main.qml:387
+msgid ""
+"If you exit the application before the running command completes, it may not "
+"apply its changes."
+msgstr ""
+"Pokud aplikaci ukončíte před dokončením spuštěného příkazu, nemusí dojít k "
+"uplatnění jeho změn."
+
+#: src/pages/Main.qml:397
+msgid "Do not show this again"
+msgstr "Znovu nezobrazovat"
+
+#: src/pages/Main.qml:415
+msgctxt "dialog to exit the application"
+msgid "Exit"
+msgstr "Ukončit"
+
+#: src/pages/other_utils/OtherUtils.qml:27
+#: src/pages/rebase_page/RebasePage.qml:171
+#: src/pages/system_update/SystemUpdate.qml:86
+msgid "Toggle Console"
+msgstr "Přepnout konzoli"
+
+#: src/pages/other_utils/OtherUtils.qml:42
+msgid "Rollback Last Update"
+msgstr "Vrátit zpět poslední aktualizaci"
+
+#: src/pages/other_utils/OtherUtils.qml:52
+msgid ""
+"This will revert the last update to your system. Your user-level files such "
+"as documents and games will not be affected."
+msgstr ""
+"Tímto vrátíte zpět poslední aktualizaci systému. Vaše uživatelské soubory, "
+"jako jsou dokumenty a hry, zůstanou nedotčeny."
+
+#: src/pages/other_utils/OtherUtils.qml:60
+msgid "Confirm"
+msgstr "Potvrdit"
+
+#: src/pages/other_utils/OtherUtils.qml:68
+msgid "Initiate Rollback"
+msgstr "Zahájit vrácení změn"
+
+#: src/pages/other_utils/OtherUtils.qml:72
+msgid "Rollback Started"
+msgstr "Zahájeno vrácení změn"
+
+#: src/pages/other_utils/OtherUtils.qml:75
+msgid "Rollback Failed."
+msgstr "Vrácení změn selhalo."
+
+#: src/pages/other_utils/OtherUtils.qml:75
+#: src/pages/other_utils/OtherUtils.qml:116
+#: src/pages/system_update/SystemUpdate.qml:60
+msgid "Open console"
+msgstr "Otevřít konzoli"
+
+#: src/pages/other_utils/OtherUtils.qml:77
+msgid "Rollback Succeeded!"
+msgstr "Vrácení změn proběhlo úspěšně!"
+
+#: src/pages/other_utils/OtherUtils.qml:91
+msgid "System Image Information"
+msgstr "Informace o obrazu systému"
+
+#: src/pages/other_utils/OtherUtils.qml:97
+msgid "General Utilities"
+msgstr "Obecné nástroje"
+
+#: src/pages/other_utils/OtherUtils.qml:107
+msgid "Add Bazzite Updater to your Steam library"
+msgstr "Přidat Aktualizátor Bazzite do své Steam knihovny"
+
+#: src/pages/other_utils/OtherUtils.qml:108
+msgid ""
+"You will need to restart Steam if it is running for Bazzite Updater to "
+"appear in your library."
+msgstr ""
+"Pokud je Steam spuštěný, bude nutné jej restartovat, aby se Aktualizátor "
+"Bazzite zobrazil ve vaší knihovně."
+
+#: src/pages/other_utils/OtherUtils.qml:116
+msgid "Adding Bazzite Updater to Steam Failed."
+msgstr "Přidání Aktualizátoru Bazzite do služby Steam selhalo."
+
+#: src/pages/other_utils/OtherUtils.qml:118
+msgid "Adding Bazzite Updater to Steam Succeeded!"
+msgstr "Přidání Aktualizátoru Bazzite do služby Steam proběhlo úspěšně!"
+
+#: src/pages/other_utils/OtherUtils.qml:132
+msgctxt "card to display info from os-release"
+msgid "Additional Information"
+msgstr "Další informace"
+
+#: src/pages/rebase_page/FCSystemImage.qml:25
+msgid "Fetch all tags"
+msgstr "Načíst všechny štítky"
+
+#: src/pages/rebase_page/FCSystemImage.qml:96
+msgid "Fetching tags"
+msgstr "Načítání štítků"
+
+#: src/pages/rebase_page/FCSystemImage.qml:102
+msgid "Failed to fetch tags."
+msgstr "Nepodařilo se načíst štítky."
+
+#: src/pages/rebase_page/FCSystemImage.qml:117
+msgctxt "all tags, used in 'List of {tag} tags' string."
+msgid "all"
+msgstr "vše"
+
+#: src/pages/rebase_page/FCSystemImage.qml:177
+msgid ""
+"Tags marked with a date or version will not receive security or feature "
+"updates. You should only use them temporarily if you are waiting for a "
+"critical bug to be fixed in the latest version."
+msgstr ""
+"Štítky označené konkrétním datem nebo verzí nebudou dostávat bezpečnostní "
+"aktualizace ani aktualizace funkcí. Měli byste je používat pouze dočasně, "
+"pokud čekáte na opravu kritické chyby v nejnovější verzi."
+
+#: src/pages/rebase_page/FCSystemImage.qml:185
+#: src/pages/rebase_page/FCSystemImage.qml:245
+msgid "%1 (Current Tag)"
+msgstr "%1 (Aktuální štítek)"
+
+#: src/pages/rebase_page/FCSystemImage.qml:194
+msgctxt "List of tags classified as stable, testing, etc"
+msgid "List of %1 tags"
+msgstr "Seznam štítků %1"
+
+#: src/pages/rebase_page/RebasePage.qml:198
+msgid "Current System Image"
+msgstr "Aktuální obraz systému"
+
+#: src/pages/rebase_page/RebasePage.qml:225
+msgid "Available System Images"
+msgstr "Dostupné obrazy systému"
+
+#: src/pages/rebase_page/RebasePage.qml:242
+msgid "Filter by Features"
+msgstr "Filtrovat podle funkcí"
+
+#: src/pages/rebase_page/RebasePage.qml:282
+msgid "Results (%1)"
+msgstr "Výsledky (%1)"
+
+#: src/pages/rebase_page/RebasePage.qml:319
+msgid "Confirm rebase"
+msgstr "Potvrdit rebase"
+
+#: src/pages/rebase_page/RebasePage.qml:320
+msgid ""
+"This will take a long time, and you will need to restart afterwards to apply "
+"the changes.\n"
+"Target: %1\n"
+"\n"
+"You may need to input your password multiple times to proceed. If you rebase "
+"to a tag with a date or version, you will not get system-level security and "
+"feature updates until you return to a base tag."
+msgstr ""
+"Toto bude trvat dlouho a poté bude nutné provést restart, aby se změny "
+"projevily.\n"
+"Cíl: %1\n"
+"\n"
+"Pro pokračování může být nutné opakovaně zadat heslo. Pokud provedete rebase "
+"na štítek s konkrétním datem nebo verzí, nebudete dostávat bezpečnostní "
+"aktualizace ani aktualizace funkcí systému, dokud se nevrátíte na základní "
+"štítek."
+
+#: src/pages/rebase_page/RebasePage.qml:326
+msgid "The rebase succeeded! Restart to apply changes."
+msgstr "Rebase proběhl úspěšně! Pro uplatnění změn proveďte restart."
+
+#: src/pages/rebase_page/RebasePage.qml:328
+msgid "The rebase failed. Check the console for more information."
+msgstr "Rebase selhal. Další informace naleznete v konzoli."
+
+#: src/pages/rebase_page/RebasePage.qml:335
+msgctxt "Dialog confirmation"
+msgid "Ok"
+msgstr "OK"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:105
+msgctxt "elapsed time"
+msgid "in the future"
+msgstr "v budoucnu"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:107
+msgctxt "elapsed time"
+msgid "just now"
+msgstr "právě teď"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:109
+msgctxt "elapsed time"
+msgid "%1 minute ago"
+msgid_plural "%1 minutes ago"
+msgstr[0] "před %1 minutou"
+msgstr[1] "před %1 minutami"
+msgstr[2] "před %1 minutami"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:111
+msgctxt "elapsed time"
+msgid "%1 hour ago"
+msgid_plural "%1 hours ago"
+msgstr[0] "před %1 hodinou"
+msgstr[1] "před %1 hodinami"
+msgstr[2] "před %1 hodinami"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:113
+msgctxt "elapsed time"
+msgid "%1 day ago"
+msgid_plural "%1 days ago"
+msgstr[0] "před %1 dnem"
+msgstr[1] "před %1 dny"
+msgstr[2] "před %1 dny"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:115
+msgctxt "elapsed time"
+msgid "%1 month ago"
+msgid_plural "%1 months ago"
+msgstr[0] "před %1 měsícem"
+msgstr[1] "před %1 měsíci"
+msgstr[2] "před %1 měsíci"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:117
+msgctxt "elapsed time"
+msgid "%1 year ago"
+msgid_plural "%1 years ago"
+msgstr[0] "před %1 rokem"
+msgstr[1] "před %1 roky"
+msgstr[2] "před %1 lety"
+
+#: src/pages/rss_feed/FCRssDelegate.qml:120
+msgctxt "absolute date followed by relative time, e.g. 5 March (2 days ago)"
+msgid "%1 (%2)"
+msgstr "%1 (%2)"
+
+#: src/pages/rss_feed/RssPage.qml:36
+msgctxt "@info:placeholder"
+msgid "No changelogs have been provided."
+msgstr "Nebyly poskytnuty žádné seznamy změn."
+
+#: src/pages/rss_feed/RssPage.qml:42
+msgctxt "@info:placeholder"
+msgid "Loading changelog"
+msgstr "Načítání seznamu změn"
+
+#: src/pages/rss_feed/RssPage.qml:62
+msgctxt "@info:placeholder"
+msgid "Error loading changelogs:"
+msgstr "Chyba při načítání seznamů změn:"
+
+#: src/pages/rss_feed/RssPage.qml:67
+msgctxt "@info:placeholder"
+msgid "An error has occurred loading changelogs."
+msgstr "Při načítání seznamů změn došlo k chybě."
+
+#: src/pages/settings/Settings.qml:36
+msgid "Interface Settings"
+msgstr "Nastavení rozhraní"
+
+#: src/pages/settings/Settings.qml:41
+msgid "Reboot on exit reminder"
+msgstr "Připomenutí restartu při ukončení"
+
+#: src/pages/settings/Settings.qml:42
+msgid ""
+"Display a popup when exiting the app after a command completes, reminding "
+"you to reboot to apply changes."
+msgstr ""
+"Při ukončování aplikace po dokončení příkazu zobrazit vyskakovací okno, "
+"které připomene nutnost restartu pro uplatnění změn."
+
+#: src/pages/settings/Settings.qml:57
+msgid "Default fullscreen state"
+msgstr "Výchozí stav celé obrazovky"
+
+#: src/pages/settings/Settings.qml:58
+msgid "Should the application launch in fullscreen mode?"
+msgstr "Má se aplikace spustit v režimu celé obrazovky?"
+
+#: src/pages/settings/Settings.qml:73
+msgid "Default console state"
+msgstr "Výchozí stav konzole"
+
+#: src/pages/settings/Settings.qml:74
+msgid "Should the console panels start opened?"
+msgstr "Mají se panely konzole spustit v otevřeném stavu?"
+
+#: src/pages/settings/Settings.qml:91
+msgid "Restore Defaults"
+msgstr "Obnovit výchozí nastavení"
+
+#: src/pages/settings/Settings.qml:100
+msgid "OS Settings (read-only)"
+msgstr "Nastavení OS (pouze pro čtení)"
+
+#: src/pages/settings/Settings.qml:105
+msgid "No system update command is defined."
+msgstr "Není definován příkaz pro aktualizaci systému."
+
+#: src/pages/settings/Settings.qml:106
+msgid "System Update Command"
+msgstr "Příkaz pro aktualizaci systému"
+
+#: src/pages/settings/Settings.qml:112
+msgid "No system rollback command is defined."
+msgstr "Není definován příkaz pro vrácení změn systému."
+
+#: src/pages/settings/Settings.qml:113
+msgid "System Rollback Command"
+msgstr "Příkaz pro vrácení změn systému"
+
+#: src/pages/settings/Settings.qml:120
+msgid "Allow commands to be cancelled early?"
+msgstr "Umožnit předčasné zrušení příkazů?"
+
+#: src/pages/settings/Settings.qml:126
+msgid "No announcements/changelogs source is set."
+msgstr "Není nastaven zdroj oznámení / seznamů změn."
+
+#: src/pages/settings/Settings.qml:127
+msgid "Changelogs RSS feed"
+msgstr "RSS kanál se seznamy změn"
+
+#: src/pages/settings/Settings.qml:134
+msgid "Enable the system rebase page"
+msgstr "Povolit stránku pro rebase systému"
+
+#: src/pages/system_update/SystemUpdate.qml:47
+msgid "Start update"
+msgstr "Spustit aktualizaci"
+
+#: src/pages/system_update/SystemUpdate.qml:52
+msgid "System Updating"
+msgstr "Aktualizace systému"
+
+#: src/pages/system_update/SystemUpdate.qml:54
+msgid "Update Started"
+msgstr "Aktualizace zahájena"
+
+#: src/pages/system_update/SystemUpdate.qml:58
+msgid "Update Failed."
+msgstr "Aktualizace selhala."
+
+#: src/pages/system_update/SystemUpdate.qml:60
+msgid "Update Failed. Check console for more details."
+msgstr "Aktualizace selhala. Další podrobnosti naleznete v konzoli."
+
+#: src/pages/system_update/SystemUpdate.qml:68
+msgid "Update Succeeded!"
+msgstr "Aktualizace proběhla úspěšně!"
+
+#: src/pages/system_update/SystemUpdate.qml:70
+msgid "System Updated!"
+msgstr "Systém aktualizován!"
+
+#: src/pages/system_update/SystemUpdate.qml:74
+msgid "You must reboot to apply changes."
+msgstr "Pro uplatnění změn je nutné provést restart."
+
+#: src/pages/system_update/SystemUpdate.qml:76
+msgid "No reboot necessary."
+msgstr "Není nutný restart."
+
+#: src/pages/system_update/SystemUpdate.qml:103
+msgid "Update Error"
+msgstr "Chyba při aktualizaci"
+
+#: src/pages/system_update/SystemUpdate.qml:111
+msgid "Ok"
+msgstr "OK"
+
+#: src/pages/system_update/SystemUpdate.qml:171
+msgid "Click to update System Image and Software"
+msgstr "Kliknutím aktualizujete obraz systému a software"
+
+#: src/pages/system_update/SystemUpdate.qml:214
+msgctxt "label, last update to the system."
+msgid "Last Update"
+msgstr "Poslední aktualizace"
+
+#: src/pages/system_update/SystemUpdate.qml:216
+msgid "Right now!"
+msgstr "Právě teď!"
+
+#: src/pages/system_update/SystemUpdate.qml:257
+msgid "The System Update command is not defined."
+msgstr "Není definován příkaz System Update."
+
+#: src/pages/system_update/SystemUpdate.qml:258
+msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
+msgstr ""
+"Ujistěte se, že konfigurační soubor (/etc/bazzite-updater/config.ini) "
+"existuje."
+
+#: src/pages/system_update/SystemUpdate.qml:276
+msgctxt "progress bar displaying used storage space vs total available space"
+msgid "System Drive Used (%1)"
+msgstr "Využití systémového disku (%1)"
+
+#: src/pages/system_update/SystemUpdate.qml:346
+msgid "%1 Layered package"
+msgid_plural "%1 Layered packages"
+msgstr[0] "%1 vrstvený balíček"
+msgstr[1] "%1 vrstvené balíčky"
+msgstr[2] "%1 vrstvených balíčků"
