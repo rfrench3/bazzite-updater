@@ -58,7 +58,7 @@ msgstr "Програму steamos-add-to-steam не знайдено або не 
 msgid "rpm-ostree failed to start or was not found."
 msgstr ""
 
-#: src/pages/other_utils/other_utils.cpp:220
+#: src/pages/other_utils/other_utils.cpp:235
 #, fuzzy
 msgid "rpm-ostree was not found or failed to start."
 msgstr "Програму для відкату не знайдено або не вдалося запустити."

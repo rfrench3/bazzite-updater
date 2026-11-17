@@ -195,6 +195,21 @@ void OtherUtilsBackend::rpmOstreeRemove(QStringList packages, QJSValue callback)
     m_console->runProcess(cmd, onFinish, onError);
 }
 
+/*TODO FIXME:
+ * required two password prompts (I expected only one), and then doesnt work
+ *     probably can be fixed with pkexec
+
+ > rpm-ostree reset
+ error: Updating deployment: GDBus.Error:org.freedesktop.DBus.Error.AccessDenied: rpmostreed OS operation UpdateDeployment not allowed for user
+
+ Command finished with exit code 1 and exit status 0
+ > rpm-ostree reset
+
+
+ TODO: should it track one "major" rpm-ostree command per session at all?
+ One command at a time per visible console instance would be MUCH easier,
+ and rpm-ostree itself will just error if conflicting commands are run anyways.
+ */
 void OtherUtilsBackend::rpmOstreeReset(QJSValue callback)
 {
     if (!callback.isCallable()) {
