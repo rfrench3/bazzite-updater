@@ -76,6 +76,8 @@ ecm_target_qml_sources(bazzite-updater
     ${FC_DIR}/FormCardCollapsible.qml
     ${FC_DIR}/FCOsRelease.qml
     ${FC_DIR}/FCSystemInfo.qml
+    ${FC_DIR}/FormListView.qml
+    ${PG_DIR}/other_utils/FCLayeredPackages.qml
     ${PG_DIR}/rebase_page/FCSystemImage.qml
     ${FC_DIR}/FormDelegateSeparatorFixed.qml
     ${FC_DIR}/FormDelegateCollapsible.qml
