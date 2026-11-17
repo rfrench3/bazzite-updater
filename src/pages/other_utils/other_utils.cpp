@@ -11,6 +11,7 @@
 #include <QJsonObject>
 #include <qjsonparseerror.h>
 #include <qjsonvalue.h>
+#include <qjsvalue.h>
 #include <qlogging.h>
 #include <qprocess.h>
 #include <qstandardpaths.h>
@@ -158,5 +159,70 @@ void OtherUtilsBackend::addToSteam(QJSValue callback)
         callback.call({1});
     };
 
+    m_console->runProcess(cmd, onFinish, onError);
+}
+
+void OtherUtilsBackend::rpmOstreeRemove(QStringList packages, QJSValue callback)
+{
+    if (!callback.isCallable()) {
+        qDebug() << "Callback is not callable, command run refused";
+        return;
+    }
+
+    if (!appState.allowCommands()) {
+        qDebug() << "Command called when not allowed, ignored";
+        return;
+    }
+
+    QStringList cmd = {u"rpm-ostree"_s, u"remove"_s};
+    cmd.append(packages);
+
+    // Don't set commandSucceeded because a user would run this when an update fails and then start an update again
+    auto onFinish = [=](int exit_code) {
+        appState.setRemoveRunning(false);
+        callback.call({exit_code});
+    };
+
+    auto onError = [=, this](QProcess::ProcessError error) {
+        if (error == QProcess::FailedToStart)
+            m_console->newLine(i18n("rpm-ostree failed to start or was not found."), Console::LogLevel::ErrorCritical);
+
+        appState.setRemoveRunning(false);
+        callback.call({1});
+    };
+
+    appState.setRemoveRunning(true);
+    m_console->runProcess(cmd, onFinish, onError);
+}
+
+void OtherUtilsBackend::rpmOstreeReset(QJSValue callback)
+{
+    if (!callback.isCallable()) {
+        qDebug() << "Callback is not callable, command run refused";
+        return;
+    }
+
+    if (!appState.allowCommands()) {
+        qDebug() << "Command called when not allowed, ignored";
+        return;
+    }
+
+    const QStringList cmd = {u"rpm-ostree"_s, u"reset"_s};
+
+    // Don't set commandSucceeded because a user would run this when an update fails and then start an update again
+    auto onFinish = [=](int exit_code) {
+        callback.call({exit_code});
+        appState.setRebaseRunning(false);
+    };
+
+    auto onError = [=, this](QProcess::ProcessError error) {
+        if (error == QProcess::FailedToStart)
+            m_console->newLine(i18n("rpm-ostree was not found or failed to start."), Console::LogLevel::ErrorCritical);
+
+        appState.setRebaseRunning(false);
+        callback.call({1});
+    };
+
+    appState.setRebaseRunning(true);
     m_console->runProcess(cmd, onFinish, onError);
 }

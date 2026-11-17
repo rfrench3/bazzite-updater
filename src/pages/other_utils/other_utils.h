@@ -88,8 +88,11 @@ public:
 
     bool commandInProgress = false;
 
-    // ROLLBACK
     Q_INVOKABLE void rollbackImage(QJSValue callback);
+
+    Q_INVOKABLE void rpmOstreeRemove(QStringList packages, QJSValue callback);
+
+    Q_INVOKABLE void rpmOstreeReset(QJSValue callback);
 
     bool addToSteamAvailable = false;
     Q_PROPERTY(bool addToSteamAvailable MEMBER addToSteamAvailable CONSTANT)

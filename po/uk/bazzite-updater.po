@@ -7,7 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Andrii Butsvin <58703326+andreysey@users.noreply.github.com>\n"
+"Last-Translator: Andrii Butsvin "
+"<58703326+andreysey@users.noreply.github.com>\n"
 "Language-Team: Ukrainian <101461606+Saltane@users.noreply.github.com>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -37,11 +38,11 @@ msgstr ""
 "Цим застосунком можна керувати за допомогою контролера або клавіатури, щоб "
 "виконувати різні системні завдання, пов'язані з оновленням!"
 
-#: src/pages/other_utils/other_utils.cpp:124
+#: src/pages/other_utils/other_utils.cpp:125
 msgid "Rollback program was not found or failed to start."
 msgstr "Програму для відкату не знайдено або не вдалося запустити."
 
-#: src/pages/other_utils/other_utils.cpp:149
+#: src/pages/other_utils/other_utils.cpp:150
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
@@ -49,9 +50,18 @@ msgstr ""
 "Якщо Steam відкрито, перезапустіть його, щоб Центр оновлень Bazzite з'явився "
 "у Вашій бібліотеці."
 
-#: src/pages/other_utils/other_utils.cpp:156
+#: src/pages/other_utils/other_utils.cpp:157
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr "Програму steamos-add-to-steam не знайдено або не вдалося запустити."
+
+#: src/pages/other_utils/other_utils.cpp:188
+msgid "rpm-ostree failed to start or was not found."
+msgstr ""
+
+#: src/pages/other_utils/other_utils.cpp:220
+#, fuzzy
+msgid "rpm-ostree was not found or failed to start."
+msgstr "Програму для відкату не знайдено або не вдалося запустити."
 
 #: src/pages/system_update/system_update.cpp:118
 msgid "There is not enough free space available for system updates."
@@ -139,18 +149,22 @@ msgid "You currently have nvidia-open installed."
 msgstr "Встановлено вільний драйвер Nvidia."
 
 #: src/components/customFormcards/FCSystemInfo.qml:107
+#: src/pages/other_utils/FCLayeredPackages.qml:78
 msgid "Close layered packages view"
 msgstr "Закрити перелік накладених пакунків"
 
 #: src/components/customFormcards/FCSystemInfo.qml:107
+#: src/pages/other_utils/FCLayeredPackages.qml:78
 msgid "View layered packages (%1)"
 msgstr "Переглянути накладені пакунки (%1)"
 
 #: src/components/customFormcards/FCSystemInfo.qml:110
+#: src/pages/other_utils/FCLayeredPackages.qml:81
 msgid "Layered Packages (%1):"
 msgstr "Накладені пакунки (%1):"
 
 #: src/components/customFormcards/FCSystemInfo.qml:113
+#: src/pages/other_utils/FCLayeredPackages.qml:84
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -342,17 +356,27 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Вийти"
 
+#: src/pages/other_utils/FCLayeredPackages.qml:107
+#, fuzzy
+msgid "Remove all layered packages"
+msgstr "Закрити перелік накладених пакунків"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:120
+#, fuzzy
+msgid "Remove selected packages"
+msgstr "Закрити перелік накладених пакунків"
+
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
 #: src/pages/system_update/SystemUpdate.qml:86
 msgid "Toggle Console"
 msgstr "Перемкнути консоль"
 
-#: src/pages/other_utils/OtherUtils.qml:42
+#: src/pages/other_utils/OtherUtils.qml:187
 msgid "Rollback Last Update"
 msgstr "Відкотити попереднє оновлення"
 
-#: src/pages/other_utils/OtherUtils.qml:52
+#: src/pages/other_utils/OtherUtils.qml:197
 msgid ""
 "This will revert the last update to your system. Your user-level files such "
 "as documents and games will not be affected."
@@ -360,45 +384,70 @@ msgstr ""
 "Це відновить попередній стан системи. Ваші користувацькі файли, як-от "
 "документи та ігри, зачеплені не будуть."
 
-#: src/pages/other_utils/OtherUtils.qml:60
+#: src/pages/other_utils/OtherUtils.qml:205
 msgid "Confirm"
 msgstr "Підтвердити"
 
-#: src/pages/other_utils/OtherUtils.qml:68
+#: src/pages/other_utils/OtherUtils.qml:213
 msgid "Initiate Rollback"
 msgstr "Розпочати відкат"
 
-#: src/pages/other_utils/OtherUtils.qml:72
+#: src/pages/other_utils/OtherUtils.qml:217
 msgid "Rollback Started"
 msgstr "Відкат розпочато"
 
-#: src/pages/other_utils/OtherUtils.qml:75
+#: src/pages/other_utils/OtherUtils.qml:220
 msgid "Rollback Failed."
 msgstr "Не вдалося відкотити"
 
-#: src/pages/other_utils/OtherUtils.qml:75
-#: src/pages/other_utils/OtherUtils.qml:116
+#: src/pages/other_utils/OtherUtils.qml:220
+#: src/pages/other_utils/OtherUtils.qml:251
+#: src/pages/other_utils/OtherUtils.qml:262
+#: src/pages/other_utils/OtherUtils.qml:295
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr "Відкрити консоль"
 
-#: src/pages/other_utils/OtherUtils.qml:77
+#: src/pages/other_utils/OtherUtils.qml:222
 msgid "Rollback Succeeded!"
 msgstr "Відкат завершено!"
 
-#: src/pages/other_utils/OtherUtils.qml:91
+#: src/pages/other_utils/OtherUtils.qml:236
+#, fuzzy
+msgid "Layered Packages"
+msgstr "Накладені пакунки (%1):"
+
+#: src/pages/other_utils/OtherUtils.qml:249
+msgid ""
+"If those layered packages caused updates to fail, you should now be able to "
+"update successfully."
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:251
+#: src/pages/other_utils/OtherUtils.qml:262
+#, fuzzy
+msgid "Removing layered packages failed. Check console for more details."
+msgstr "Не вдалося оновити. Перевірте консоль для докладнощів."
+
+#: src/pages/other_utils/OtherUtils.qml:260
+msgid ""
+"If layered packages caused updates to fail, you should now be able to update "
+"successfully."
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:270
 msgid "System Image Information"
 msgstr "Дані про образ системи"
 
-#: src/pages/other_utils/OtherUtils.qml:97
+#: src/pages/other_utils/OtherUtils.qml:276
 msgid "General Utilities"
 msgstr "Загальні інструменти"
 
-#: src/pages/other_utils/OtherUtils.qml:107
+#: src/pages/other_utils/OtherUtils.qml:286
 msgid "Add Bazzite Updater to your Steam library"
 msgstr "Додати Центр оновлень Bazzite до бібліотеки Steam"
 
-#: src/pages/other_utils/OtherUtils.qml:108
+#: src/pages/other_utils/OtherUtils.qml:287
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
@@ -406,15 +455,15 @@ msgstr ""
 "Якщо Steam запущено, його потрібно буде перезапустити, щоб Центр оновлень "
 "Bazzite з'явився у Вашій бібліотеці."
 
-#: src/pages/other_utils/OtherUtils.qml:116
+#: src/pages/other_utils/OtherUtils.qml:295
 msgid "Adding Bazzite Updater to Steam Failed."
 msgstr "Не вдалося додати Центр оновлень Bazzite до Steam."
 
-#: src/pages/other_utils/OtherUtils.qml:118
+#: src/pages/other_utils/OtherUtils.qml:297
 msgid "Adding Bazzite Updater to Steam Succeeded!"
 msgstr "Центр оновлень Bazzite успішно додано до Steam!"
 
-#: src/pages/other_utils/OtherUtils.qml:132
+#: src/pages/other_utils/OtherUtils.qml:311
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr "Додаткові дані"

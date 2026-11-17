@@ -36,12 +36,12 @@ msgstr ""
 "Cette application peut être utilisée avec une manette ou un clavier pour "
 "effectuer des tâches de mises à jour système !"
 
-#: src/pages/other_utils/other_utils.cpp:124
+#: src/pages/other_utils/other_utils.cpp:125
 msgid "Rollback program was not found or failed to start."
 msgstr ""
 "Le programme de retour en arrière n'a pas été trouvé ou n'a pas pu démarrer."
 
-#: src/pages/other_utils/other_utils.cpp:149
+#: src/pages/other_utils/other_utils.cpp:150
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
@@ -49,10 +49,20 @@ msgstr ""
 "Steam a besoin d'être relancé pour que Bazzite Updater puisse apparaître "
 "dans votre bibliothèque."
 
-#: src/pages/other_utils/other_utils.cpp:156
+#: src/pages/other_utils/other_utils.cpp:157
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr ""
 "Le programme steamos-add-to-steam n'a pas été trouvé ou n'a pas pu démarrer."
+
+#: src/pages/other_utils/other_utils.cpp:188
+msgid "rpm-ostree failed to start or was not found."
+msgstr ""
+
+#: src/pages/other_utils/other_utils.cpp:220
+#, fuzzy
+msgid "rpm-ostree was not found or failed to start."
+msgstr ""
+"Le programme de retour en arrière n'a pas été trouvé ou n'a pas pu démarrer."
 
 #: src/pages/system_update/system_update.cpp:118
 msgid "There is not enough free space available for system updates."
@@ -141,18 +151,22 @@ msgid "You currently have nvidia-open installed."
 msgstr "Le pilote NVIDIA Open est déjà installé."
 
 #: src/components/customFormcards/FCSystemInfo.qml:107
+#: src/pages/other_utils/FCLayeredPackages.qml:78
 msgid "Close layered packages view"
 msgstr "Fermer la vue des paquets superposés"
 
 #: src/components/customFormcards/FCSystemInfo.qml:107
+#: src/pages/other_utils/FCLayeredPackages.qml:78
 msgid "View layered packages (%1)"
 msgstr "Voir les paquets superposés (%1)"
 
 #: src/components/customFormcards/FCSystemInfo.qml:110
+#: src/pages/other_utils/FCLayeredPackages.qml:81
 msgid "Layered Packages (%1):"
 msgstr "Paquets superposés (%1):"
 
 #: src/components/customFormcards/FCSystemInfo.qml:113
+#: src/pages/other_utils/FCLayeredPackages.qml:84
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -344,17 +358,27 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Quitter"
 
+#: src/pages/other_utils/FCLayeredPackages.qml:107
+#, fuzzy
+msgid "Remove all layered packages"
+msgstr "Fermer la vue des paquets superposés"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:120
+#, fuzzy
+msgid "Remove selected packages"
+msgstr "Fermer la vue des paquets superposés"
+
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
 #: src/pages/system_update/SystemUpdate.qml:86
 msgid "Toggle Console"
 msgstr "Afficher/masquer la console"
 
-#: src/pages/other_utils/OtherUtils.qml:42
+#: src/pages/other_utils/OtherUtils.qml:187
 msgid "Rollback Last Update"
 msgstr "Retour arrière à une version antérieure"
 
-#: src/pages/other_utils/OtherUtils.qml:52
+#: src/pages/other_utils/OtherUtils.qml:197
 msgid ""
 "This will revert the last update to your system. Your user-level files such "
 "as documents and games will not be affected."
@@ -362,45 +386,70 @@ msgstr ""
 "Cela va annuler votre dernière mise à jour système. Vos fichiers "
 "utilisateurs comme vos documents et vos jeux ne seront pas affectés."
 
-#: src/pages/other_utils/OtherUtils.qml:60
+#: src/pages/other_utils/OtherUtils.qml:205
 msgid "Confirm"
 msgstr "Confirmer"
 
-#: src/pages/other_utils/OtherUtils.qml:68
+#: src/pages/other_utils/OtherUtils.qml:213
 msgid "Initiate Rollback"
 msgstr "Commencer le retour arrière"
 
-#: src/pages/other_utils/OtherUtils.qml:72
+#: src/pages/other_utils/OtherUtils.qml:217
 msgid "Rollback Started"
 msgstr "Début du retour arrière"
 
-#: src/pages/other_utils/OtherUtils.qml:75
+#: src/pages/other_utils/OtherUtils.qml:220
 msgid "Rollback Failed."
 msgstr "Échec du retour arrière."
 
-#: src/pages/other_utils/OtherUtils.qml:75
-#: src/pages/other_utils/OtherUtils.qml:116
+#: src/pages/other_utils/OtherUtils.qml:220
+#: src/pages/other_utils/OtherUtils.qml:251
+#: src/pages/other_utils/OtherUtils.qml:262
+#: src/pages/other_utils/OtherUtils.qml:295
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr "Ouvrir la console"
 
-#: src/pages/other_utils/OtherUtils.qml:77
+#: src/pages/other_utils/OtherUtils.qml:222
 msgid "Rollback Succeeded!"
 msgstr "Retour arrière réussi !"
 
-#: src/pages/other_utils/OtherUtils.qml:91
+#: src/pages/other_utils/OtherUtils.qml:236
+#, fuzzy
+msgid "Layered Packages"
+msgstr "Paquets superposés (%1):"
+
+#: src/pages/other_utils/OtherUtils.qml:249
+msgid ""
+"If those layered packages caused updates to fail, you should now be able to "
+"update successfully."
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:251
+#: src/pages/other_utils/OtherUtils.qml:262
+#, fuzzy
+msgid "Removing layered packages failed. Check console for more details."
+msgstr "La mise à jour a échouée. Veuillez utiliser."
+
+#: src/pages/other_utils/OtherUtils.qml:260
+msgid ""
+"If layered packages caused updates to fail, you should now be able to update "
+"successfully."
+msgstr ""
+
+#: src/pages/other_utils/OtherUtils.qml:270
 msgid "System Image Information"
 msgstr "Informations sur l'image système"
 
-#: src/pages/other_utils/OtherUtils.qml:97
+#: src/pages/other_utils/OtherUtils.qml:276
 msgid "General Utilities"
 msgstr "Outils communs"
 
-#: src/pages/other_utils/OtherUtils.qml:107
+#: src/pages/other_utils/OtherUtils.qml:286
 msgid "Add Bazzite Updater to your Steam library"
 msgstr "Ajouter Bazzite Updater à votre bibliothèque Steam"
 
-#: src/pages/other_utils/OtherUtils.qml:108
+#: src/pages/other_utils/OtherUtils.qml:287
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
@@ -408,15 +457,15 @@ msgstr ""
 "Vous aurez besoin de redémarrer Steam pour que Bazzite Updater puisse "
 "apparaître dans votre bibliothèque."
 
-#: src/pages/other_utils/OtherUtils.qml:116
+#: src/pages/other_utils/OtherUtils.qml:295
 msgid "Adding Bazzite Updater to Steam Failed."
 msgstr "Échec de l'ajout de Bazzite Updater à Steam."
 
-#: src/pages/other_utils/OtherUtils.qml:118
+#: src/pages/other_utils/OtherUtils.qml:297
 msgid "Adding Bazzite Updater to Steam Succeeded!"
 msgstr "Bazzite Updater a été ajouté à Steam avec succès ! "
 
-#: src/pages/other_utils/OtherUtils.qml:132
+#: src/pages/other_utils/OtherUtils.qml:311
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr "Informations supplémentaires"
@@ -736,4 +785,3 @@ msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 paquet superposé"
 msgstr[1] "%1 paquets superposés"
-

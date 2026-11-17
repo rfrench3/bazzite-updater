@@ -30,9 +30,154 @@ AppPage {
         }
     ]
 
-    GP.PageNavigation {
-        targetScrollbar: page.scrollBar
+    GP.ScrollHandler {
+        target: page.focusedViewCard ? getScrollbar(page.focusedViewCard) : page.scrollBar
         active: !globalDrawer.drawerOpen && !consoleDrawer.drawerOpen
+
+        function getScrollbar(item) {
+            if (!item)
+                return page.scrollBar;
+            if (item instanceof ListView)
+                return item.scrollbar;
+            if (item.parent)
+                return getScrollbar(item.parent);
+        }
+    }
+
+    // If a ScrollView of a FCSystemImage is focused, it is stored here
+    property Item focusedViewCard: null
+
+    // TODO: Fully replace this when possible
+    Item {
+        id: gamepadRoot
+
+        property bool active: visible
+
+        Connections {
+            target: GP.Gamepad
+
+            function keyEvent(button_down, key) {
+                let item = gamepadRoot.Window.window.activeFocusItem;
+                if (button_down == true) {
+                    // console.log("button down");
+                    GP.Gamepad.sendButtonPressed(item, key);
+                } else {
+                    // console.log("button up");
+                    GP.Gamepad.sendButtonReleased(item, key);
+                }
+            }
+
+            function mouseEvent(button_down, item = gamepadRoot.Window.window.activeFocusItem) {
+                if (button_down == true) {
+                    GP.Gamepad.sendMousePressed(item);
+                    // console.log("mouse down");
+                } else {
+                    GP.Gamepad.sendMouseReleased(item);
+                    // console.log("mouse up");
+                }
+            }
+
+            function onButtonEvent(buttonId, pressed) {
+                if (!gamepadRoot.active)
+                    return;
+
+                if (globalDrawer.drawerOpen || consoleDrawer.drawerOpen)
+                    return;
+
+                let item = gamepadRoot.Window.window.activeFocusItem;
+
+                switch (buttonId) {
+                case 0: // A
+                    mouseEvent(pressed);
+                    break;
+                }
+            }
+        }
+
+        function __descendantOfParent(item) {
+            let cursor = item;
+            while (cursor) {
+                if (cursor === gamepadRoot.parent)
+                    return true;
+                cursor = cursor.parent;
+            }
+            return false;
+        }
+
+        function __nextItemInScope(item, forward) {
+            if (!item)
+                return null;
+
+            let next = item.nextItemInFocusChain(forward);
+
+            for (let i = 0; i < 512; i++) {
+                if (__descendantOfParent(next))
+                    return next;
+                next = next.nextItemInFocusChain(forward);
+            }
+
+            console.log("Next item in focus scope not found after 512 tries, returning original item.");
+
+            return item;
+        }
+    }
+
+    function moreHandleInput(buttonId: int, button_down: bool): bool {
+        if (!button_down)
+            return false;
+
+        if (globalDrawer.drawerOpen || consoleDrawer.drawerOpen)
+            return false;
+
+        const focused = Window.activeFocusItem;
+        let card = QmlUtils.getParentOfType(focused, FC.FormCard);
+        if (typeof card?.closeActiveListView !== "function")
+            card = null;
+
+        switch (buttonId) {
+        case 1: // B
+            return card ? card.closeActiveListView() : false;
+        case 11: // Dpad Up
+        case 12:
+            { // Dpad Down
+                const down = buttonId === 12;
+                if (card && (down ? card.incrementListView() : card.decrementListView()))
+                    return true;
+
+                const grid = QmlUtils.getParentOfType(focused, NavGrid);
+                let start = focused;
+                if (grid) {
+                    if (grid.moveVertical(focused, down))
+                        return true;
+                    // Start the focus-chain search from the grid's first/last button so we
+                    // exit the grid instead of stepping to the next button in the same row
+                    start = grid.edgeChild(down);
+                }
+
+                // List absent or at its end: move focus normally
+                const next = gamepadRoot.__nextItemInScope(start, down);
+                if (next)
+                    next.forceActiveFocus(Qt.TabFocusReason);
+                return true;
+            }
+        case 13:
+        case 14:
+            { // Dpad left/right
+                const right = buttonId === 14;
+
+                const grid = QmlUtils.getParentOfType(focused, NavGrid);
+                if (grid) {
+                    grid.moveHorizontal(focused, right);
+                    return true;
+                }
+
+                const next = gamepadRoot.__nextItemInScope(focused, right);
+                if (next)
+                    next.forceActiveFocus(Qt.TabFocusReason);
+                return true;
+            }
+        }
+        return false;
     }
 
     AsyncLoader {
@@ -84,6 +229,40 @@ AppPage {
                         running: AppState.rollbackRunning
                     }
                     trailingLogo.visible: !rollbackBusyIndicator.running
+                }
+            }
+
+            FC.FormHeader {
+                title: i18n("Layered Packages")
+                visible: layeredPackagesFC.visible
+            }
+            FCLayeredPackages {
+                id: layeredPackagesFC
+
+                onListViewFocused: item => {
+                    page.focusedViewCard = item;
+                }
+
+                onRpmOstreeRemoveClicked: packages => {
+                    OtherUtilsBackend.rpmOstreeRemove(packages, exit => {
+                        if (exit === 0)
+                            showPassiveNotification(i18n("If those layered packages caused updates to fail, you should now be able to update successfully."), Kirigami.short);
+                        else
+                            showPassiveNotification(i18n("Removing layered packages failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
+                                toggleConsole.trigger();
+                            });
+                    });
+                }
+
+                onRpmOstreeResetClicked: {
+                    OtherUtilsBackend.rpmOstreeReset(exit => {
+                        if (exit === 0)
+                            showPassiveNotification(i18n("If layered packages caused updates to fail, you should now be able to update successfully."), Kirigami.short);
+                        else
+                            showPassiveNotification(i18n("Removing layered packages failed. Check console for more details."), Kirigami.long, i18n("Open console") + GP.Labels.spacer + GP.Labels.north, () => {
+                                toggleConsole.trigger();
+                            });
+                    });
                 }
             }
 
