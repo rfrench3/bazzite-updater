@@ -140,6 +140,11 @@ public:
     }
     bool commandSucceeded() const
     {
+        /*
+         TODO: should it track one "major" rpm-ostree command per session at all?
+         One command at a time per visible console instance would be MUCH easier,
+         and rpm-ostree itself will just error if conflicting commands are run anyways.
+         */
         return m_commandSucceeded;
     }
     bool allowCommands() const

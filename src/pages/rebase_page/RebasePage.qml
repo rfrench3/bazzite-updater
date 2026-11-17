@@ -194,6 +194,25 @@ AppPage {
         sourceComponent: PageContentLayout {
             id: content
 
+            Item {
+                visible: AppState.isGamescopeSession
+                implicitHeight: Kirigami.Units.largeSpacing * 4
+            }
+
+            Loader {
+                active: AppState.isGamescopeSession
+                visible: active
+                Layout.fillWidth: true
+                sourceComponent: FC.FormCard {
+                    visible: AppState.isGamescopeSession
+                    FC.FormTextDelegate {
+                        textItem.font.bold: true
+                        textItem.wrapMode: Text.WordWrap
+                        text: i18n("Certain features, such as managing layered packages and rebasing, require your password and are only available in desktop mode. Plese open Bazzite Updater in desktop mode to access these features.")
+                    }
+                }
+            }
+
             FC.FormHeader {
                 title: i18n("Current System Image")
             }

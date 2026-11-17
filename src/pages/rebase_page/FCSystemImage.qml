@@ -172,7 +172,7 @@ FC.FormCard {
                     id: fetchTagsButton
                     FC.FormButtonDelegate {
                         text: root.fetchTagsButtonText
-                        enabled: !root.hasFetched && !root.fetching
+                        enabled: !root.hasFetched && !root.fetching && !AppState.isGamescopeSession
                         onClicked: root.fetchAllTags()
                         description: i18n("Tags marked with a date or version will not receive security or feature updates. You should only use them temporarily if you are waiting for a critical bug to be fixed in the latest version.")
                     }
@@ -183,7 +183,7 @@ FC.FormCard {
                     FC.FormButtonDelegate {
                         readonly property bool isCurrent: delegateRoot.groupTag === root.currentTag
                         text: isCurrent ? i18n("%1 (Current Tag)", delegateRoot.groupTag) : delegateRoot.groupTag
-                        enabled: AppState.allowCommands && !isCurrent
+                        enabled: AppState.allowCommands && !isCurrent && !AppState.isGamescopeSession
                         onClicked: root.tagClicked(delegateRoot.groupTag)
                     }
                 }
@@ -243,7 +243,7 @@ FC.FormCard {
 
                                 width: tagsView.width - tagsView.scrollbarWidth
                                 text: isCurrent ? i18n("%1 (Current Tag)", modelData) : modelData
-                                enabled: AppState.allowCommands && !isCurrent
+                                enabled: AppState.allowCommands && !isCurrent && !AppState.isGamescopeSession
 
                                 // The ListView owns focus
                                 focusPolicy: Qt.NoFocus

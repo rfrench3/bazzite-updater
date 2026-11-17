@@ -58,7 +58,7 @@ msgstr ""
 msgid "rpm-ostree failed to start or was not found."
 msgstr ""
 
-#: src/pages/other_utils/other_utils.cpp:235
+#: src/pages/other_utils/other_utils.cpp:220
 #, fuzzy
 msgid "rpm-ostree was not found or failed to start."
 msgstr ""
@@ -116,124 +116,98 @@ msgstr ""
 msgid "Current Image"
 msgstr "Image actuelle"
 
-#: src/components/customFormcards/FCSystemInfo.qml:42
+#: src/components/customFormcards/FCSystemInfo.qml:62
 msgid "Last Update"
 msgstr "Dernière mise à jour"
 
-#: src/components/customFormcards/FCSystemInfo.qml:56
+#: src/components/customFormcards/FCSystemInfo.qml:76
 msgid "The best drivers for your GPU are provided by the Linux kernel."
 msgstr ""
 "Les meilleurs pilotes pour votre carte graphique sont issus du noyau Linux."
 
-#: src/components/customFormcards/FCSystemInfo.qml:58
-#: src/components/customFormcards/FCSystemInfo.qml:60
+#: src/components/customFormcards/FCSystemInfo.qml:78
+#: src/components/customFormcards/FCSystemInfo.qml:80
 msgid "The best drivers for your GPU are "
 msgstr "Les meilleurs pilotes pour votre carte graphique sont "
 
-#: src/components/customFormcards/FCSystemInfo.qml:62
+#: src/components/customFormcards/FCSystemInfo.qml:82
 msgid "Your GPU is unsupported."
 msgstr "Votre carte graphique n'est pas prise en charge."
 
-#: src/components/customFormcards/FCSystemInfo.qml:82
+#: src/components/customFormcards/FCSystemInfo.qml:102
 msgid "You have the best drivers installed."
 msgstr "Les meilleurs pilotes sont déjà installés."
 
-#: src/components/customFormcards/FCSystemInfo.qml:86
+#: src/components/customFormcards/FCSystemInfo.qml:106
 msgid "You do not have any nvidia drivers installed."
 msgstr "Aucun pilote NVIDIA n'est installé."
 
-#: src/components/customFormcards/FCSystemInfo.qml:88
+#: src/components/customFormcards/FCSystemInfo.qml:108
 msgid "You currently have nvidia installed."
 msgstr "Le pilote NVIDIA est déjà installé."
 
-#: src/components/customFormcards/FCSystemInfo.qml:90
+#: src/components/customFormcards/FCSystemInfo.qml:110
 msgid "You currently have nvidia-open installed."
 msgstr "Le pilote NVIDIA Open est déjà installé."
 
-#: src/components/customFormcards/FCSystemInfo.qml:107
-#: src/pages/other_utils/FCLayeredPackages.qml:78
-msgid "Close layered packages view"
-msgstr "Fermer la vue des paquets superposés"
-
-#: src/components/customFormcards/FCSystemInfo.qml:107
-#: src/pages/other_utils/FCLayeredPackages.qml:78
-msgid "View layered packages (%1)"
-msgstr "Voir les paquets superposés (%1)"
-
-#: src/components/customFormcards/FCSystemInfo.qml:110
-#: src/pages/other_utils/FCLayeredPackages.qml:81
-msgid "Layered Packages (%1):"
-msgstr "Paquets superposés (%1):"
-
-#: src/components/customFormcards/FCSystemInfo.qml:113
-#: src/pages/other_utils/FCLayeredPackages.qml:84
-msgid ""
-"Layering packages is a last-resort for when there is no other way to install "
-"a package. Avoid layering packages whenever possible, as it can cause system "
-"updates to fail."
-msgstr ""
-"La superposition de paquets (layering) est un dernier recours quand il n'y a "
-"pas d'autres moyens d'installer un paquet. C'est une pratique à éviter, cela "
-"peut faire échouer des mises à jour système."
-
-#: src/components/customFormcards/FCSystemInfo.qml:124
+#: src/components/customFormcards/FCSystemInfo.qml:123
 msgid "Display less information"
 msgstr "Afficher moins d'informations"
 
-#: src/components/customFormcards/FCSystemInfo.qml:124
+#: src/components/customFormcards/FCSystemInfo.qml:123
 msgid "Display more information"
 msgstr "Afficher plus d'informations"
 
-#: src/components/customFormcards/FCSystemInfo.qml:127
-#: src/components/customFormcards/FCSystemInfo.qml:134
-#: src/components/customFormcards/FCSystemInfo.qml:141
-#: src/components/customFormcards/FCSystemInfo.qml:148
-#: src/components/customFormcards/FCSystemInfo.qml:155
-#: src/components/customFormcards/FCSystemInfo.qml:162
-#: src/components/customFormcards/FCSystemInfo.qml:169
-#: src/components/customFormcards/FCSystemInfo.qml:176
-#: src/components/customFormcards/FCSystemInfo.qml:183
-#: src/components/customFormcards/FCSystemInfo.qml:190
+#: src/components/customFormcards/FCSystemInfo.qml:126
+#: src/components/customFormcards/FCSystemInfo.qml:133
+#: src/components/customFormcards/FCSystemInfo.qml:140
+#: src/components/customFormcards/FCSystemInfo.qml:147
+#: src/components/customFormcards/FCSystemInfo.qml:154
+#: src/components/customFormcards/FCSystemInfo.qml:161
+#: src/components/customFormcards/FCSystemInfo.qml:168
+#: src/components/customFormcards/FCSystemInfo.qml:175
+#: src/components/customFormcards/FCSystemInfo.qml:182
+#: src/components/customFormcards/FCSystemInfo.qml:189
 msgid "loading..."
 msgstr "chargement…"
 
-#: src/components/customFormcards/FCSystemInfo.qml:128
+#: src/components/customFormcards/FCSystemInfo.qml:127
 msgid "Image"
 msgstr "Image"
 
-#: src/components/customFormcards/FCSystemInfo.qml:135
+#: src/components/customFormcards/FCSystemInfo.qml:134
 msgid "Vendor"
 msgstr "Fournisseur"
 
-#: src/components/customFormcards/FCSystemInfo.qml:142
+#: src/components/customFormcards/FCSystemInfo.qml:141
 msgid "Ref"
 msgstr "Ref"
 
-#: src/components/customFormcards/FCSystemInfo.qml:149
+#: src/components/customFormcards/FCSystemInfo.qml:148
 msgid "Tag"
 msgstr "Étiquette"
 
-#: src/components/customFormcards/FCSystemInfo.qml:156
+#: src/components/customFormcards/FCSystemInfo.qml:155
 msgid "Branch"
 msgstr "Branche"
 
-#: src/components/customFormcards/FCSystemInfo.qml:163
+#: src/components/customFormcards/FCSystemInfo.qml:162
 msgid "Base Name"
 msgstr "Nom de la base"
 
-#: src/components/customFormcards/FCSystemInfo.qml:170
+#: src/components/customFormcards/FCSystemInfo.qml:169
 msgid "Fedora Version"
 msgstr "Version de Fedora"
 
-#: src/components/customFormcards/FCSystemInfo.qml:177
+#: src/components/customFormcards/FCSystemInfo.qml:176
 msgid "Version"
 msgstr "Version"
 
-#: src/components/customFormcards/FCSystemInfo.qml:184
+#: src/components/customFormcards/FCSystemInfo.qml:183
 msgid "Version (Pretty)"
 msgstr "Version (Pretty)"
 
-#: src/components/customFormcards/FCSystemInfo.qml:191
+#: src/components/customFormcards/FCSystemInfo.qml:190
 msgid "Release Date"
 msgstr "Date de sortie"
 
@@ -307,7 +281,7 @@ msgid "Reboot"
 msgstr "Redémarrer"
 
 #: src/pages/Main.qml:341 src/pages/Main.qml:422
-#: src/pages/rebase_page/RebasePage.qml:340
+#: src/pages/rebase_page/RebasePage.qml:359
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -358,12 +332,42 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Quitter"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:107
+#: src/pages/other_utils/FCLayeredPackages.qml:86
+msgid "Close layered packages view"
+msgstr "Fermer la vue des paquets superposés"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:86
+msgid "View layered packages (%1)"
+msgstr "Voir les paquets superposés (%1)"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:89
+msgid "Layered Packages (%1):"
+msgstr "Paquets superposés (%1):"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:92
+msgid ""
+"Layering packages is a last-resort for when there is no other way to install "
+"a package. Avoid layering packages whenever possible, as it can cause system "
+"updates to fail."
+msgstr ""
+"La superposition de paquets (layering) est un dernier recours quand il n'y a "
+"pas d'autres moyens d'installer un paquet. C'est une pratique à éviter, cela "
+"peut faire échouer des mises à jour système."
+
+#: src/pages/other_utils/FCLayeredPackages.qml:102
+#: src/pages/rebase_page/RebasePage.qml:211
+msgid ""
+"Certain features, such as managing layered packages and rebasing, require "
+"your password and are only available in desktop mode. Plese open Bazzite "
+"Updater in desktop mode to access these features."
+msgstr ""
+
+#: src/pages/other_utils/FCLayeredPackages.qml:127
 #, fuzzy
 msgid "Remove all layered packages"
 msgstr "Fermer la vue des paquets superposés"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:120
+#: src/pages/other_utils/FCLayeredPackages.qml:146
 #, fuzzy
 msgid "Remove selected packages"
 msgstr "Fermer la vue des paquets superposés"
@@ -403,9 +407,9 @@ msgid "Rollback Failed."
 msgstr "Échec du retour arrière."
 
 #: src/pages/other_utils/OtherUtils.qml:220
-#: src/pages/other_utils/OtherUtils.qml:251
-#: src/pages/other_utils/OtherUtils.qml:262
-#: src/pages/other_utils/OtherUtils.qml:295
+#: src/pages/other_utils/OtherUtils.qml:255
+#: src/pages/other_utils/OtherUtils.qml:274
+#: src/pages/other_utils/OtherUtils.qml:308
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr "Ouvrir la console"
@@ -419,37 +423,37 @@ msgstr "Retour arrière réussi !"
 msgid "Layered Packages"
 msgstr "Paquets superposés (%1):"
 
-#: src/pages/other_utils/OtherUtils.qml:249
+#: src/pages/other_utils/OtherUtils.qml:253
 msgid ""
 "If those layered packages caused updates to fail, you should now be able to "
 "update successfully."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:251
-#: src/pages/other_utils/OtherUtils.qml:262
+#: src/pages/other_utils/OtherUtils.qml:255
+#: src/pages/other_utils/OtherUtils.qml:274
 #, fuzzy
 msgid "Removing layered packages failed. Check console for more details."
 msgstr "La mise à jour a échouée. Veuillez utiliser."
 
-#: src/pages/other_utils/OtherUtils.qml:260
+#: src/pages/other_utils/OtherUtils.qml:272
 msgid ""
 "If layered packages caused updates to fail, you should now be able to update "
 "successfully."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:270
+#: src/pages/other_utils/OtherUtils.qml:283
 msgid "System Image Information"
 msgstr "Informations sur l'image système"
 
-#: src/pages/other_utils/OtherUtils.qml:276
+#: src/pages/other_utils/OtherUtils.qml:289
 msgid "General Utilities"
 msgstr "Outils communs"
 
-#: src/pages/other_utils/OtherUtils.qml:286
+#: src/pages/other_utils/OtherUtils.qml:299
 msgid "Add Bazzite Updater to your Steam library"
 msgstr "Ajouter Bazzite Updater à votre bibliothèque Steam"
 
-#: src/pages/other_utils/OtherUtils.qml:287
+#: src/pages/other_utils/OtherUtils.qml:300
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
@@ -457,15 +461,15 @@ msgstr ""
 "Vous aurez besoin de redémarrer Steam pour que Bazzite Updater puisse "
 "apparaître dans votre bibliothèque."
 
-#: src/pages/other_utils/OtherUtils.qml:295
+#: src/pages/other_utils/OtherUtils.qml:308
 msgid "Adding Bazzite Updater to Steam Failed."
 msgstr "Échec de l'ajout de Bazzite Updater à Steam."
 
-#: src/pages/other_utils/OtherUtils.qml:297
+#: src/pages/other_utils/OtherUtils.qml:310
 msgid "Adding Bazzite Updater to Steam Succeeded!"
 msgstr "Bazzite Updater a été ajouté à Steam avec succès ! "
 
-#: src/pages/other_utils/OtherUtils.qml:311
+#: src/pages/other_utils/OtherUtils.qml:324
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr "Informations supplémentaires"
@@ -508,27 +512,27 @@ msgctxt "List of tags classified as stable, testing, etc"
 msgid "List of %1 tags"
 msgstr "Liste de %1 étiquettes"
 
-#: src/pages/rebase_page/RebasePage.qml:198
+#: src/pages/rebase_page/RebasePage.qml:217
 msgid "Current System Image"
 msgstr "Image système actuelle"
 
-#: src/pages/rebase_page/RebasePage.qml:225
+#: src/pages/rebase_page/RebasePage.qml:244
 msgid "Available System Images"
 msgstr "Image système disponible"
 
-#: src/pages/rebase_page/RebasePage.qml:242
+#: src/pages/rebase_page/RebasePage.qml:261
 msgid "Filter by Features"
 msgstr "Filtrer par fonction"
 
-#: src/pages/rebase_page/RebasePage.qml:282
+#: src/pages/rebase_page/RebasePage.qml:301
 msgid "Results (%1)"
 msgstr "Résultats (%1)"
 
-#: src/pages/rebase_page/RebasePage.qml:319
+#: src/pages/rebase_page/RebasePage.qml:338
 msgid "Confirm rebase"
 msgstr "Confirmer le rebase"
 
-#: src/pages/rebase_page/RebasePage.qml:320
+#: src/pages/rebase_page/RebasePage.qml:339
 msgid ""
 "This will take a long time, and you will need to restart afterwards to apply "
 "the changes.\n"
@@ -547,19 +551,19 @@ msgstr ""
 "un numéro de version, vous n'aurez plus de mise à jour jusqu'à ce que vous "
 "rebasez sur une étiquette de base."
 
-#: src/pages/rebase_page/RebasePage.qml:326
+#: src/pages/rebase_page/RebasePage.qml:345
 msgid "The rebase succeeded! Restart to apply changes."
 msgstr ""
 "Le rebase s'est achevé sans soucis. Vous pouvez redémarrer pour appliquer "
 "les changements."
 
-#: src/pages/rebase_page/RebasePage.qml:328
+#: src/pages/rebase_page/RebasePage.qml:347
 msgid "The rebase failed. Check the console for more information."
 msgstr ""
 "Le rebase a échoué. Vous pouvez consulter la console pour avoir plus "
 "d'informations."
 
-#: src/pages/rebase_page/RebasePage.qml:335
+#: src/pages/rebase_page/RebasePage.qml:354
 msgctxt "Dialog confirmation"
 msgid "Ok"
 msgstr "Ok"
