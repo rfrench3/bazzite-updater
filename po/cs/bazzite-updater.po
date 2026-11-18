@@ -55,12 +55,11 @@ msgstr ""
 
 #: src/pages/other_utils/other_utils.cpp:188
 msgid "rpm-ostree failed to start or was not found."
-msgstr ""
+msgstr "rpm-ostree se nepodařilo spustit nebo nebyl nalezen."
 
 #: src/pages/other_utils/other_utils.cpp:220
-#, fuzzy
 msgid "rpm-ostree was not found or failed to start."
-msgstr "Program pro vrácení změn nebyl nalezen nebo se jej nepodařilo spustit."
+msgstr "rpm-ostree nebyl nalezen nebo se jej nepodařilo spustit."
 
 #: src/pages/system_update/system_update.cpp:118
 msgid "There is not enough free space available for system updates."
@@ -356,16 +355,17 @@ msgid ""
 "your password and are only available in desktop mode. Plese open Bazzite "
 "Updater in desktop mode to access these features."
 msgstr ""
+"Některé funkce, jako je správa vrstvených balíčků a rebase, vyžadují zadání "
+"hesla a jsou dostupné pouze v režimu plochy. Pro přístup k těmto funkcím "
+"prosím otevřete Aktualizátor Bazzite v režimu plochy."
 
 #: src/pages/other_utils/FCLayeredPackages.qml:127
-#, fuzzy
 msgid "Remove all layered packages"
-msgstr "Zavřít zobrazení vrstvených balíčků"
+msgstr "Odstranit všechny vrstvené balíčky"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:146
-#, fuzzy
 msgid "Remove selected packages"
-msgstr "Zavřít zobrazení vrstvených balíčků"
+msgstr "Odstranit vybrané balíčky"
 
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
@@ -414,27 +414,30 @@ msgid "Rollback Succeeded!"
 msgstr "Vrácení změn proběhlo úspěšně!"
 
 #: src/pages/other_utils/OtherUtils.qml:236
-#, fuzzy
 msgid "Layered Packages"
-msgstr "Vrstvené balíčky (%1):"
+msgstr "Vrstvené balíčky"
 
 #: src/pages/other_utils/OtherUtils.qml:253
 msgid ""
 "If those layered packages caused updates to fail, you should now be able to "
 "update successfully."
 msgstr ""
+"Pokud tyto vrstvené balíčky způsobovaly selhání aktualizací, nyní byste měli "
+"být schopni aktualizaci úspěšně provést."
 
 #: src/pages/other_utils/OtherUtils.qml:255
 #: src/pages/other_utils/OtherUtils.qml:274
-#, fuzzy
 msgid "Removing layered packages failed. Check console for more details."
-msgstr "Aktualizace selhala. Další podrobnosti naleznete v konzoli."
+msgstr ""
+"Odstranění vrstvených balíčků selhalo. Další podrobnosti naleznete v konzoli."
 
 #: src/pages/other_utils/OtherUtils.qml:272
 msgid ""
 "If layered packages caused updates to fail, you should now be able to update "
 "successfully."
 msgstr ""
+"Pokud vrstvené balíčky způsobovaly selhání aktualizací, nyní byste měli být "
+"schopni aktualizaci úspěšně provést."
 
 #: src/pages/other_utils/OtherUtils.qml:283
 msgid "System Image Information"
