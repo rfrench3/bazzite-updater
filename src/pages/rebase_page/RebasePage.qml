@@ -190,9 +190,13 @@ AppPage {
 
     drawer: consoleDrawer
 
-    AsyncLoader {
-        sourceComponent: PageContentLayout {
+    Loader {
+        asynchronous: true
+        Layout.fillWidth: true
+
+        sourceComponent: ColumnLayout {
             id: content
+            spacing: 0
 
             Item {
                 visible: AppState.isGamescopeSession

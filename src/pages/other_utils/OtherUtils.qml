@@ -180,8 +180,12 @@ AppPage {
         return false;
     }
 
-    AsyncLoader {
-        sourceComponent: PageContentLayout {
+    Loader {
+        asynchronous: true
+        Layout.fillWidth: true
+
+        sourceComponent: ColumnLayout {
+            spacing: 0
 
             FC.FormHeader {
                 title: i18n("Rollback Last Update")

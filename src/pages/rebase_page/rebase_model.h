@@ -23,7 +23,6 @@
  * - rpm-ostree not yet tested
  * - uses pkexec, run0 would be greatly preferable
  * - creates multiple password prompts (check bootc status for bootc compatibility, runs bootc/rpm-ostree rebase which need another)
- * - controllers need to navigate up/down to go between the left/right elements in the filters list
  */
 
 // Required for QVariantSet.contains(other QVariantSet) to work
