@@ -48,7 +48,7 @@ msgid ""
 "your library."
 msgstr ""
 "Якщо Steam відкрито, перезапустіть його, щоб Центр оновлень Bazzite з'явився "
-"у Вашій бібліотеці."
+"у вашій бібліотеці."
 
 #: src/pages/other_utils/other_utils.cpp:157
 msgid "steamos-add-to-steam program was not found or failed to start."
@@ -56,12 +56,11 @@ msgstr "Програму steamos-add-to-steam не знайдено або не 
 
 #: src/pages/other_utils/other_utils.cpp:188
 msgid "rpm-ostree failed to start or was not found."
-msgstr ""
+msgstr "Не вдалося запустити програму rpm-ostree або її не знайдено."
 
 #: src/pages/other_utils/other_utils.cpp:220
-#, fuzzy
 msgid "rpm-ostree was not found or failed to start."
-msgstr "Програму для відкату не знайдено або не вдалося запустити."
+msgstr "Програму rpm-ostree не знайдено або не вдалося запустити."
 
 #: src/pages/system_update/system_update.cpp:118
 msgid "There is not enough free space available for system updates."
@@ -69,7 +68,7 @@ msgstr "Недостатньо вільного місця для оновлен
 
 #: src/components/console/ConsoleDrawer.qml:69
 msgid "Copy to Clipboard"
-msgstr "Копіювати"
+msgstr "Скопіювати до буфера"
 
 #: src/components/console/ConsoleDrawer.qml:72
 msgid "Text Copied"
@@ -89,7 +88,7 @@ msgstr "Помилка: "
 
 #: src/components/console/ConsoleView.qml:85
 msgid "Debug: "
-msgstr "Зневадження: "
+msgstr "Діагностика: "
 
 #: src/components/console/ConsoleView.qml:89
 msgid "Critical Error: "
@@ -98,18 +97,18 @@ msgstr "Критична помилка: "
 #: src/components/customFormcards/FCOsRelease.qml:19
 msgctxt "button label"
 msgid "Hide os-release"
-msgstr "Сховати дані про випуск"
+msgstr "Сховати відомості про випуск"
 
 #: src/components/customFormcards/FCOsRelease.qml:19
 msgctxt "button label"
 msgid "Display os-release"
-msgstr "Показати дані про випуск"
+msgstr "Показати відомості про випуск"
 
 #: src/components/customFormcards/FCSystemInfo.qml:22
 msgid "There is a pending system update. You must reboot to apply it."
 msgstr ""
-"Є незастосоване оновлення системи. Ви мусите перезапустити систему, щоб "
-"застосувати його."
+"Є незастосоване оновлення системи. Щоб застосувати його, перезавантажте "
+"систему."
 
 #: src/components/customFormcards/FCSystemInfo.qml:33
 msgid "Current Image"
@@ -121,12 +120,12 @@ msgstr "Останнє оновлення"
 
 #: src/components/customFormcards/FCSystemInfo.qml:76
 msgid "The best drivers for your GPU are provided by the Linux kernel."
-msgstr "Найліпші драйвери для Вашого графічного процесора надані ядром Linux."
+msgstr "Найкращі драйвери для вашого графічного процесора надає ядро Linux."
 
 #: src/components/customFormcards/FCSystemInfo.qml:78
 #: src/components/customFormcards/FCSystemInfo.qml:80
 msgid "The best drivers for your GPU are "
-msgstr "Найліпшими драйверами для Вашого графічного процесора є "
+msgstr "Найкращі драйвери для вашого графічного процесора: "
 
 #: src/components/customFormcards/FCSystemInfo.qml:82
 msgid "Your GPU is unsupported."
@@ -134,7 +133,7 @@ msgstr "Ваш графічний процесор не підтримуєтьс
 
 #: src/components/customFormcards/FCSystemInfo.qml:102
 msgid "You have the best drivers installed."
-msgstr "Ви маєте найліпші драйвери для Вашої системи."
+msgstr "Встановлено найкращі драйвери."
 
 #: src/components/customFormcards/FCSystemInfo.qml:106
 msgid "You do not have any nvidia drivers installed."
@@ -142,11 +141,11 @@ msgstr "Жодних драйверів Nvidia не було встановле�
 
 #: src/components/customFormcards/FCSystemInfo.qml:108
 msgid "You currently have nvidia installed."
-msgstr "Встановлено драйвер Nvidia."
+msgstr "Встановлено драйвер nvidia."
 
 #: src/components/customFormcards/FCSystemInfo.qml:110
 msgid "You currently have nvidia-open installed."
-msgstr "Встановлено вільний драйвер Nvidia."
+msgstr "Встановлено драйвер nvidia-open."
 
 #: src/components/customFormcards/FCSystemInfo.qml:123
 msgid "Display less information"
@@ -167,7 +166,7 @@ msgstr "Показати більше інформації"
 #: src/components/customFormcards/FCSystemInfo.qml:182
 #: src/components/customFormcards/FCSystemInfo.qml:189
 msgid "loading..."
-msgstr "завантажуємо…"
+msgstr "завантаження…"
 
 #: src/components/customFormcards/FCSystemInfo.qml:127
 msgid "Image"
@@ -175,7 +174,7 @@ msgstr "Образ"
 
 #: src/components/customFormcards/FCSystemInfo.qml:134
 msgid "Vendor"
-msgstr "Виробник"
+msgstr "Постачальник"
 
 #: src/components/customFormcards/FCSystemInfo.qml:141
 msgid "Ref"
@@ -183,7 +182,7 @@ msgstr "Джерело"
 
 #: src/components/customFormcards/FCSystemInfo.qml:148
 msgid "Tag"
-msgstr "Мітка"
+msgstr "Тег"
 
 #: src/components/customFormcards/FCSystemInfo.qml:155
 msgid "Branch"
@@ -203,7 +202,7 @@ msgstr "Версія"
 
 #: src/components/customFormcards/FCSystemInfo.qml:183
 msgid "Version (Pretty)"
-msgstr "Версія (гарно)"
+msgstr "Версія (повна)"
 
 #: src/components/customFormcards/FCSystemInfo.qml:190
 msgid "Release Date"
@@ -253,7 +252,7 @@ msgstr "Оголошення"
 
 #: src/pages/Main.qml:207 src/pages/settings/Settings.qml:17
 msgid "Settings"
-msgstr "Налаштування"
+msgstr "Параметри"
 
 #: src/pages/Main.qml:225
 msgid "About Bazzite Updater"
@@ -261,7 +260,7 @@ msgstr "Про Центр оновлень Bazzite"
 
 #: src/pages/Main.qml:238
 msgid "Reboot System"
-msgstr "Перезапустити систему"
+msgstr "Перезавантажити систему"
 
 #: src/pages/Main.qml:249
 msgid "Quit"
@@ -270,15 +269,15 @@ msgstr "Вийти"
 #: src/pages/Main.qml:325
 msgctxt "@title:window"
 msgid "Reboot System"
-msgstr "Перезапустити систему"
+msgstr "Перезавантажити систему"
 
 #: src/pages/Main.qml:330 src/pages/system_update/SystemUpdate.qml:106
 msgid "This will reboot the system."
-msgstr "Це перезапустить систему."
+msgstr "Систему буде перезавантажено."
 
 #: src/pages/Main.qml:335
 msgid "Reboot"
-msgstr "Перезапустити"
+msgstr "Перезавантажити"
 
 #: src/pages/Main.qml:341 src/pages/Main.qml:422
 #: src/pages/rebase_page/RebasePage.qml:359
@@ -290,8 +289,8 @@ msgid ""
 "The app was unable to reboot. Reboot through your system menu to apply "
 "changes."
 msgstr ""
-"Не вдалося перезапустити систему. Здійсніть перезапуск самостійно для "
-"застосування змін."
+"Не вдалося перезавантажити систему. Щоб застосувати зміни, перезавантажте її "
+"через системне меню."
 
 #: src/pages/Main.qml:377
 msgid "Exit Application"
@@ -299,7 +298,7 @@ msgstr "Вийти із застосунку"
 
 #: src/pages/Main.qml:382
 msgid "You must reboot to apply system updates."
-msgstr "Ви мусите перезапустити систему, щоб застосувати оновлення."
+msgstr "Щоб застосувати оновлення, перезавантажте систему."
 
 #: src/pages/Main.qml:382
 msgid "No command is running, you may exit safely."
@@ -310,20 +309,20 @@ msgid ""
 "You should not exit the application until the running command completes. If "
 "you exit early, it may break your system."
 msgstr ""
-"Не варто виходити із застосунку до завершення поточних команд. Якщо вийти "
-"зарано, це може зламати Вашу систему."
+"Не варто виходити із застосунку до завершення поточної команди. Якщо вийти "
+"зарано, це може зламати вашу систему."
 
 #: src/pages/Main.qml:387
 msgid ""
 "If you exit the application before the running command completes, it may not "
 "apply its changes."
 msgstr ""
-"Якщо вийти із застосунку до завершення поточної команди, він може не "
+"Якщо вийти із застосунку до завершення поточної команди, команда може не "
 "застосувати зміни."
 
 #: src/pages/Main.qml:397
 msgid "Do not show this again"
-msgstr "Не показувати це знову"
+msgstr "Більше не показувати"
 
 #: src/pages/Main.qml:415
 msgctxt "dialog to exit the application"
@@ -359,16 +358,17 @@ msgid ""
 "your password and are only available in desktop mode. Plese open Bazzite "
 "Updater in desktop mode to access these features."
 msgstr ""
+"Деякі функції, як-от керування накладеними пакунками й перебазування, "
+"потребують пароля й доступні лише в режимі робочого столу. Відкрийте Центр "
+"оновлень Bazzite у режимі робочого столу, щоб скористатися ними."
 
 #: src/pages/other_utils/FCLayeredPackages.qml:127
-#, fuzzy
 msgid "Remove all layered packages"
-msgstr "Закрити перелік накладених пакунків"
+msgstr "Видалити всі накладені пакунки"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:146
-#, fuzzy
 msgid "Remove selected packages"
-msgstr "Закрити перелік накладених пакунків"
+msgstr "Видалити вибрані пакунки"
 
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
@@ -378,7 +378,7 @@ msgstr "Перемкнути консоль"
 
 #: src/pages/other_utils/OtherUtils.qml:187
 msgid "Rollback Last Update"
-msgstr "Відкотити попереднє оновлення"
+msgstr "Відкотити останнє оновлення"
 
 #: src/pages/other_utils/OtherUtils.qml:197
 msgid ""
@@ -402,7 +402,7 @@ msgstr "Відкат розпочато"
 
 #: src/pages/other_utils/OtherUtils.qml:220
 msgid "Rollback Failed."
-msgstr "Не вдалося відкотити"
+msgstr "Не вдалося відкотити."
 
 #: src/pages/other_utils/OtherUtils.qml:220
 #: src/pages/other_utils/OtherUtils.qml:255
@@ -417,31 +417,35 @@ msgid "Rollback Succeeded!"
 msgstr "Відкат завершено!"
 
 #: src/pages/other_utils/OtherUtils.qml:236
-#, fuzzy
 msgid "Layered Packages"
-msgstr "Накладені пакунки (%1):"
+msgstr "Накладені пакунки"
 
 #: src/pages/other_utils/OtherUtils.qml:253
 msgid ""
 "If those layered packages caused updates to fail, you should now be able to "
 "update successfully."
 msgstr ""
+"Якщо оновлення не вдавалися через ці накладені пакунки, тепер вони мають "
+"проходити успішно."
 
 #: src/pages/other_utils/OtherUtils.qml:255
 #: src/pages/other_utils/OtherUtils.qml:274
-#, fuzzy
 msgid "Removing layered packages failed. Check console for more details."
-msgstr "Не вдалося оновити. Перевірте консоль для докладнощів."
+msgstr ""
+"Не вдалося видалити накладені пакунки. Докладнішу інформацію можна знайти в "
+"консолі."
 
 #: src/pages/other_utils/OtherUtils.qml:272
 msgid ""
 "If layered packages caused updates to fail, you should now be able to update "
 "successfully."
 msgstr ""
+"Якщо оновлення не вдавалися через накладені пакунки, тепер вони мають "
+"проходити успішно."
 
 #: src/pages/other_utils/OtherUtils.qml:283
 msgid "System Image Information"
-msgstr "Дані про образ системи"
+msgstr "Відомості про образ системи"
 
 #: src/pages/other_utils/OtherUtils.qml:289
 msgid "General Utilities"
@@ -457,7 +461,7 @@ msgid ""
 "appear in your library."
 msgstr ""
 "Якщо Steam запущено, його потрібно буде перезапустити, щоб Центр оновлень "
-"Bazzite з'явився у Вашій бібліотеці."
+"Bazzite з'явився у вашій бібліотеці."
 
 #: src/pages/other_utils/OtherUtils.qml:308
 msgid "Adding Bazzite Updater to Steam Failed."
@@ -470,7 +474,7 @@ msgstr "Центр оновлень Bazzite успішно додано до Ste
 #: src/pages/other_utils/OtherUtils.qml:324
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
-msgstr "Додаткові дані"
+msgstr "Додаткові відомості"
 
 #: src/pages/rebase_page/FCSystemImage.qml:25
 msgid "Fetch all tags"
@@ -478,7 +482,7 @@ msgstr "Отримати всі теги"
 
 #: src/pages/rebase_page/FCSystemImage.qml:96
 msgid "Fetching tags"
-msgstr "Отримуємо теги"
+msgstr "Отримання тегів"
 
 #: src/pages/rebase_page/FCSystemImage.qml:102
 msgid "Failed to fetch tags."
@@ -549,11 +553,12 @@ msgstr ""
 
 #: src/pages/rebase_page/RebasePage.qml:345
 msgid "The rebase succeeded! Restart to apply changes."
-msgstr "Перебазування успішне! Перезапустіть систему, щоб застосувати зміни."
+msgstr ""
+"Перебазування завершено! Щоб застосувати зміни, перезавантажте систему."
 
 #: src/pages/rebase_page/RebasePage.qml:347
 msgid "The rebase failed. Check the console for more information."
-msgstr "Не вдалося перебазувати. Перевірте консоль для докладнощів."
+msgstr "Не вдалося перебазувати. Докладнішу інформацію можна знайти в консолі."
 
 #: src/pages/rebase_page/RebasePage.qml:354
 msgctxt "Dialog confirmation"
@@ -623,7 +628,7 @@ msgstr "Переліку змін не надано."
 #: src/pages/rss_feed/RssPage.qml:42
 msgctxt "@info:placeholder"
 msgid "Loading changelog"
-msgstr "Завантажуємо перелік змін"
+msgstr "Завантаження переліку змін"
 
 #: src/pages/rss_feed/RssPage.qml:62
 msgctxt "@info:placeholder"
@@ -637,22 +642,23 @@ msgstr "Сталася помилка під час завантаження п�
 
 #: src/pages/settings/Settings.qml:36
 msgid "Interface Settings"
-msgstr "Налаштування інтерфейсу"
+msgstr "Параметри інтерфейсу"
 
 #: src/pages/settings/Settings.qml:41
 msgid "Reboot on exit reminder"
-msgstr "Нагадування про перезапуск"
+msgstr "Нагадування про перезавантаження"
 
 #: src/pages/settings/Settings.qml:42
 msgid ""
 "Display a popup when exiting the app after a command completes, reminding "
 "you to reboot to apply changes."
 msgstr ""
-"Показувати віконце з нагадуванням про перезапуск перед виходом із застосунку."
+"Після завершення команди показувати під час виходу із застосунку "
+"нагадування, що для застосування змін потрібно перезавантажити систему."
 
 #: src/pages/settings/Settings.qml:57
 msgid "Default fullscreen state"
-msgstr "Розмір вікна за замовчуванням"
+msgstr "Повноекранний режим за замовчуванням"
 
 #: src/pages/settings/Settings.qml:58
 msgid "Should the application launch in fullscreen mode?"
@@ -668,11 +674,11 @@ msgstr "Чи повинна панель із консоллю бути види
 
 #: src/pages/settings/Settings.qml:91
 msgid "Restore Defaults"
-msgstr "Скинути налаштування"
+msgstr "Відновити типові"
 
 #: src/pages/settings/Settings.qml:100
 msgid "OS Settings (read-only)"
-msgstr "Налаштування системи (лише для читання)"
+msgstr "Параметри системи (лише для читання)"
 
 #: src/pages/settings/Settings.qml:105
 msgid "No system update command is defined."
@@ -684,7 +690,7 @@ msgstr "Команда для оновлення системи"
 
 #: src/pages/settings/Settings.qml:112
 msgid "No system rollback command is defined."
-msgstr "Команди для відкату систему не визначено."
+msgstr "Команду відкату системи не визначено."
 
 #: src/pages/settings/Settings.qml:113
 msgid "System Rollback Command"
@@ -724,7 +730,7 @@ msgstr "Не вдалося оновити."
 
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Update Failed. Check console for more details."
-msgstr "Не вдалося оновити. Перевірте консоль для докладнощів."
+msgstr "Не вдалося оновити. Докладнішу інформацію можна знайти в консолі."
 
 #: src/pages/system_update/SystemUpdate.qml:68
 msgid "Update Succeeded!"
@@ -736,11 +742,11 @@ msgstr "Систему оновлено!"
 
 #: src/pages/system_update/SystemUpdate.qml:74
 msgid "You must reboot to apply changes."
-msgstr "Ви мусите перезапустити систему для застосування змін."
+msgstr "Щоб застосувати зміни, перезавантажте систему."
 
 #: src/pages/system_update/SystemUpdate.qml:76
 msgid "No reboot necessary."
-msgstr "Перезапуск не потрібен."
+msgstr "Перезавантаження не потрібне."
 
 #: src/pages/system_update/SystemUpdate.qml:103
 msgid "Update Error"
@@ -752,7 +758,7 @@ msgstr "Гаразд"
 
 #: src/pages/system_update/SystemUpdate.qml:171
 msgid "Click to update System Image and Software"
-msgstr "Натисніть, аби оновити застосунки та образ системи"
+msgstr "Натисніть, щоб оновити образ системи та застосунки"
 
 #: src/pages/system_update/SystemUpdate.qml:214
 msgctxt "label, last update to the system."
