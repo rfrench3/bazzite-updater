@@ -212,7 +212,7 @@ AppPage {
                     FC.FormTextDelegate {
                         textItem.font.bold: true
                         textItem.wrapMode: Text.WordWrap
-                        text: i18n("Certain features, such as managing layered packages and rebasing, require your password and are only available in desktop mode. Plese open Bazzite Updater in desktop mode to access these features.")
+                        text: i18n("Certain features, such as managing layered packages and rebasing, require your password and are only available in desktop mode. Please open Bazzite Updater in desktop mode to access these features.")
                     }
                 }
             }
