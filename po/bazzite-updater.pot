@@ -271,7 +271,7 @@ msgid "Reboot"
 msgstr ""
 
 #: src/pages/Main.qml:341 src/pages/Main.qml:422
-#: src/pages/rebase_page/RebasePage.qml:359
+#: src/pages/rebase_page/RebasePage.qml:363
 msgid "Cancel"
 msgstr ""
 
@@ -334,10 +334,10 @@ msgid ""
 msgstr ""
 
 #: src/pages/other_utils/FCLayeredPackages.qml:102
-#: src/pages/rebase_page/RebasePage.qml:211
+#: src/pages/rebase_page/RebasePage.qml:215
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
-"your password and are only available in desktop mode. Plese open Bazzite "
+"your password and are only available in desktop mode. Please open Bazzite "
 "Updater in desktop mode to access these features."
 msgstr ""
 
@@ -355,92 +355,92 @@ msgstr ""
 msgid "Toggle Console"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:187
+#: src/pages/other_utils/OtherUtils.qml:191
 msgid "Rollback Last Update"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:197
+#: src/pages/other_utils/OtherUtils.qml:201
 msgid ""
 "This will revert the last update to your system. Your user-level files such "
 "as documents and games will not be affected."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:205
+#: src/pages/other_utils/OtherUtils.qml:209
 msgid "Confirm"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:213
+#: src/pages/other_utils/OtherUtils.qml:217
 msgid "Initiate Rollback"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:217
+#: src/pages/other_utils/OtherUtils.qml:221
 msgid "Rollback Started"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:220
+#: src/pages/other_utils/OtherUtils.qml:224
 msgid "Rollback Failed."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:220
-#: src/pages/other_utils/OtherUtils.qml:255
-#: src/pages/other_utils/OtherUtils.qml:274
-#: src/pages/other_utils/OtherUtils.qml:308
+#: src/pages/other_utils/OtherUtils.qml:224
+#: src/pages/other_utils/OtherUtils.qml:259
+#: src/pages/other_utils/OtherUtils.qml:278
+#: src/pages/other_utils/OtherUtils.qml:312
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:222
+#: src/pages/other_utils/OtherUtils.qml:226
 msgid "Rollback Succeeded!"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:236
+#: src/pages/other_utils/OtherUtils.qml:240
 msgid "Layered Packages"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:253
+#: src/pages/other_utils/OtherUtils.qml:257
 msgid ""
 "If those layered packages caused updates to fail, you should now be able to "
 "update successfully."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:255
-#: src/pages/other_utils/OtherUtils.qml:274
+#: src/pages/other_utils/OtherUtils.qml:259
+#: src/pages/other_utils/OtherUtils.qml:278
 msgid "Removing layered packages failed. Check console for more details."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:272
+#: src/pages/other_utils/OtherUtils.qml:276
 msgid ""
 "If layered packages caused updates to fail, you should now be able to update "
 "successfully."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:283
+#: src/pages/other_utils/OtherUtils.qml:287
 msgid "System Image Information"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:289
+#: src/pages/other_utils/OtherUtils.qml:293
 msgid "General Utilities"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:299
+#: src/pages/other_utils/OtherUtils.qml:303
 msgid "Add Bazzite Updater to your Steam library"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:300
+#: src/pages/other_utils/OtherUtils.qml:304
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:308
+#: src/pages/other_utils/OtherUtils.qml:312
 msgid "Adding Bazzite Updater to Steam Failed."
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:310
+#: src/pages/other_utils/OtherUtils.qml:314
 msgid "Adding Bazzite Updater to Steam Succeeded!"
 msgstr ""
 
-#: src/pages/other_utils/OtherUtils.qml:324
+#: src/pages/other_utils/OtherUtils.qml:328
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr ""
@@ -479,27 +479,27 @@ msgctxt "List of tags classified as stable, testing, etc"
 msgid "List of %1 tags"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:217
+#: src/pages/rebase_page/RebasePage.qml:221
 msgid "Current System Image"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:244
+#: src/pages/rebase_page/RebasePage.qml:248
 msgid "Available System Images"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:261
+#: src/pages/rebase_page/RebasePage.qml:265
 msgid "Filter by Features"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:301
+#: src/pages/rebase_page/RebasePage.qml:305
 msgid "Results (%1)"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:338
+#: src/pages/rebase_page/RebasePage.qml:342
 msgid "Confirm rebase"
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:339
+#: src/pages/rebase_page/RebasePage.qml:343
 msgid ""
 "This will take a long time, and you will need to restart afterwards to apply "
 "the changes.\n"
@@ -510,15 +510,15 @@ msgid ""
 "feature updates until you return to a base tag."
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:345
+#: src/pages/rebase_page/RebasePage.qml:349
 msgid "The rebase succeeded! Restart to apply changes."
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:347
+#: src/pages/rebase_page/RebasePage.qml:351
 msgid "The rebase failed. Check the console for more information."
 msgstr ""
 
-#: src/pages/rebase_page/RebasePage.qml:354
+#: src/pages/rebase_page/RebasePage.qml:358
 msgctxt "Dialog confirmation"
 msgid "Ok"
 msgstr ""

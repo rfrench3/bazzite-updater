@@ -277,7 +277,7 @@ msgid "Reboot"
 msgstr "Restartovat"
 
 #: src/pages/Main.qml:341 src/pages/Main.qml:422
-#: src/pages/rebase_page/RebasePage.qml:359
+#: src/pages/rebase_page/RebasePage.qml:363
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -349,10 +349,11 @@ msgstr ""
 "vyhněte, protože může způsobit selhání aktualizací systému."
 
 #: src/pages/other_utils/FCLayeredPackages.qml:102
-#: src/pages/rebase_page/RebasePage.qml:211
+#: src/pages/rebase_page/RebasePage.qml:215
+#, fuzzy
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
-"your password and are only available in desktop mode. Plese open Bazzite "
+"your password and are only available in desktop mode. Please open Bazzite "
 "Updater in desktop mode to access these features."
 msgstr ""
 "Některé funkce, jako je správa vrstvených balíčků a rebase, vyžadují zadání "
@@ -373,11 +374,11 @@ msgstr "Odstranit vybrané balíčky"
 msgid "Toggle Console"
 msgstr "Přepnout konzoli"
 
-#: src/pages/other_utils/OtherUtils.qml:187
+#: src/pages/other_utils/OtherUtils.qml:191
 msgid "Rollback Last Update"
 msgstr "Vrátit zpět poslední aktualizaci"
 
-#: src/pages/other_utils/OtherUtils.qml:197
+#: src/pages/other_utils/OtherUtils.qml:201
 msgid ""
 "This will revert the last update to your system. Your user-level files such "
 "as documents and games will not be affected."
@@ -385,39 +386,39 @@ msgstr ""
 "Tímto vrátíte zpět poslední aktualizaci systému. Vaše uživatelské soubory, "
 "jako jsou dokumenty a hry, zůstanou nedotčeny."
 
-#: src/pages/other_utils/OtherUtils.qml:205
+#: src/pages/other_utils/OtherUtils.qml:209
 msgid "Confirm"
 msgstr "Potvrdit"
 
-#: src/pages/other_utils/OtherUtils.qml:213
+#: src/pages/other_utils/OtherUtils.qml:217
 msgid "Initiate Rollback"
 msgstr "Zahájit vrácení změn"
 
-#: src/pages/other_utils/OtherUtils.qml:217
+#: src/pages/other_utils/OtherUtils.qml:221
 msgid "Rollback Started"
 msgstr "Zahájeno vrácení změn"
 
-#: src/pages/other_utils/OtherUtils.qml:220
+#: src/pages/other_utils/OtherUtils.qml:224
 msgid "Rollback Failed."
 msgstr "Vrácení změn selhalo."
 
-#: src/pages/other_utils/OtherUtils.qml:220
-#: src/pages/other_utils/OtherUtils.qml:255
-#: src/pages/other_utils/OtherUtils.qml:274
-#: src/pages/other_utils/OtherUtils.qml:308
+#: src/pages/other_utils/OtherUtils.qml:224
+#: src/pages/other_utils/OtherUtils.qml:259
+#: src/pages/other_utils/OtherUtils.qml:278
+#: src/pages/other_utils/OtherUtils.qml:312
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr "Otevřít konzoli"
 
-#: src/pages/other_utils/OtherUtils.qml:222
+#: src/pages/other_utils/OtherUtils.qml:226
 msgid "Rollback Succeeded!"
 msgstr "Vrácení změn proběhlo úspěšně!"
 
-#: src/pages/other_utils/OtherUtils.qml:236
+#: src/pages/other_utils/OtherUtils.qml:240
 msgid "Layered Packages"
 msgstr "Vrstvené balíčky"
 
-#: src/pages/other_utils/OtherUtils.qml:253
+#: src/pages/other_utils/OtherUtils.qml:257
 msgid ""
 "If those layered packages caused updates to fail, you should now be able to "
 "update successfully."
@@ -425,13 +426,13 @@ msgstr ""
 "Pokud tyto vrstvené balíčky způsobovaly selhání aktualizací, nyní byste měli "
 "být schopni aktualizaci úspěšně provést."
 
-#: src/pages/other_utils/OtherUtils.qml:255
-#: src/pages/other_utils/OtherUtils.qml:274
+#: src/pages/other_utils/OtherUtils.qml:259
+#: src/pages/other_utils/OtherUtils.qml:278
 msgid "Removing layered packages failed. Check console for more details."
 msgstr ""
 "Odstranění vrstvených balíčků selhalo. Další podrobnosti naleznete v konzoli."
 
-#: src/pages/other_utils/OtherUtils.qml:272
+#: src/pages/other_utils/OtherUtils.qml:276
 msgid ""
 "If layered packages caused updates to fail, you should now be able to update "
 "successfully."
@@ -439,19 +440,19 @@ msgstr ""
 "Pokud vrstvené balíčky způsobovaly selhání aktualizací, nyní byste měli být "
 "schopni aktualizaci úspěšně provést."
 
-#: src/pages/other_utils/OtherUtils.qml:283
+#: src/pages/other_utils/OtherUtils.qml:287
 msgid "System Image Information"
 msgstr "Informace o obrazu systému"
 
-#: src/pages/other_utils/OtherUtils.qml:289
+#: src/pages/other_utils/OtherUtils.qml:293
 msgid "General Utilities"
 msgstr "Obecné nástroje"
 
-#: src/pages/other_utils/OtherUtils.qml:299
+#: src/pages/other_utils/OtherUtils.qml:303
 msgid "Add Bazzite Updater to your Steam library"
 msgstr "Přidat Aktualizátor Bazzite do své Steam knihovny"
 
-#: src/pages/other_utils/OtherUtils.qml:300
+#: src/pages/other_utils/OtherUtils.qml:304
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
@@ -459,15 +460,15 @@ msgstr ""
 "Pokud je Steam spuštěný, bude nutné jej restartovat, aby se Aktualizátor "
 "Bazzite zobrazil ve vaší knihovně."
 
-#: src/pages/other_utils/OtherUtils.qml:308
+#: src/pages/other_utils/OtherUtils.qml:312
 msgid "Adding Bazzite Updater to Steam Failed."
 msgstr "Přidání Aktualizátoru Bazzite do služby Steam selhalo."
 
-#: src/pages/other_utils/OtherUtils.qml:310
+#: src/pages/other_utils/OtherUtils.qml:314
 msgid "Adding Bazzite Updater to Steam Succeeded!"
 msgstr "Přidání Aktualizátoru Bazzite do služby Steam proběhlo úspěšně!"
 
-#: src/pages/other_utils/OtherUtils.qml:324
+#: src/pages/other_utils/OtherUtils.qml:328
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr "Další informace"
@@ -509,27 +510,27 @@ msgctxt "List of tags classified as stable, testing, etc"
 msgid "List of %1 tags"
 msgstr "Seznam štítků %1"
 
-#: src/pages/rebase_page/RebasePage.qml:217
+#: src/pages/rebase_page/RebasePage.qml:221
 msgid "Current System Image"
 msgstr "Aktuální obraz systému"
 
-#: src/pages/rebase_page/RebasePage.qml:244
+#: src/pages/rebase_page/RebasePage.qml:248
 msgid "Available System Images"
 msgstr "Dostupné obrazy systému"
 
-#: src/pages/rebase_page/RebasePage.qml:261
+#: src/pages/rebase_page/RebasePage.qml:265
 msgid "Filter by Features"
 msgstr "Filtrovat podle funkcí"
 
-#: src/pages/rebase_page/RebasePage.qml:301
+#: src/pages/rebase_page/RebasePage.qml:305
 msgid "Results (%1)"
 msgstr "Výsledky (%1)"
 
-#: src/pages/rebase_page/RebasePage.qml:338
+#: src/pages/rebase_page/RebasePage.qml:342
 msgid "Confirm rebase"
 msgstr "Potvrdit rebase"
 
-#: src/pages/rebase_page/RebasePage.qml:339
+#: src/pages/rebase_page/RebasePage.qml:343
 msgid ""
 "This will take a long time, and you will need to restart afterwards to apply "
 "the changes.\n"
@@ -548,15 +549,15 @@ msgstr ""
 "aktualizace ani aktualizace funkcí systému, dokud se nevrátíte na základní "
 "štítek."
 
-#: src/pages/rebase_page/RebasePage.qml:345
+#: src/pages/rebase_page/RebasePage.qml:349
 msgid "The rebase succeeded! Restart to apply changes."
 msgstr "Rebase proběhl úspěšně! Pro uplatnění změn proveďte restart."
 
-#: src/pages/rebase_page/RebasePage.qml:347
+#: src/pages/rebase_page/RebasePage.qml:351
 msgid "The rebase failed. Check the console for more information."
 msgstr "Rebase selhal. Další informace naleznete v konzoli."
 
-#: src/pages/rebase_page/RebasePage.qml:354
+#: src/pages/rebase_page/RebasePage.qml:358
 msgctxt "Dialog confirmation"
 msgid "Ok"
 msgstr "OK"

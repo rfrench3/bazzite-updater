@@ -280,7 +280,7 @@ msgid "Reboot"
 msgstr "Перезавантажити"
 
 #: src/pages/Main.qml:341 src/pages/Main.qml:422
-#: src/pages/rebase_page/RebasePage.qml:359
+#: src/pages/rebase_page/RebasePage.qml:363
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -352,10 +352,11 @@ msgstr ""
 "можуть завершуватися помилкою."
 
 #: src/pages/other_utils/FCLayeredPackages.qml:102
-#: src/pages/rebase_page/RebasePage.qml:211
+#: src/pages/rebase_page/RebasePage.qml:215
+#, fuzzy
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
-"your password and are only available in desktop mode. Plese open Bazzite "
+"your password and are only available in desktop mode. Please open Bazzite "
 "Updater in desktop mode to access these features."
 msgstr ""
 "Деякі функції, як-от керування накладеними пакунками й перебазування, "
@@ -376,11 +377,11 @@ msgstr "Видалити вибрані пакунки"
 msgid "Toggle Console"
 msgstr "Перемкнути консоль"
 
-#: src/pages/other_utils/OtherUtils.qml:187
+#: src/pages/other_utils/OtherUtils.qml:191
 msgid "Rollback Last Update"
 msgstr "Відкотити останнє оновлення"
 
-#: src/pages/other_utils/OtherUtils.qml:197
+#: src/pages/other_utils/OtherUtils.qml:201
 msgid ""
 "This will revert the last update to your system. Your user-level files such "
 "as documents and games will not be affected."
@@ -388,39 +389,39 @@ msgstr ""
 "Це відновить попередній стан системи. Ваші користувацькі файли, як-от "
 "документи та ігри, зачеплені не будуть."
 
-#: src/pages/other_utils/OtherUtils.qml:205
+#: src/pages/other_utils/OtherUtils.qml:209
 msgid "Confirm"
 msgstr "Підтвердити"
 
-#: src/pages/other_utils/OtherUtils.qml:213
+#: src/pages/other_utils/OtherUtils.qml:217
 msgid "Initiate Rollback"
 msgstr "Розпочати відкат"
 
-#: src/pages/other_utils/OtherUtils.qml:217
+#: src/pages/other_utils/OtherUtils.qml:221
 msgid "Rollback Started"
 msgstr "Відкат розпочато"
 
-#: src/pages/other_utils/OtherUtils.qml:220
+#: src/pages/other_utils/OtherUtils.qml:224
 msgid "Rollback Failed."
 msgstr "Не вдалося відкотити."
 
-#: src/pages/other_utils/OtherUtils.qml:220
-#: src/pages/other_utils/OtherUtils.qml:255
-#: src/pages/other_utils/OtherUtils.qml:274
-#: src/pages/other_utils/OtherUtils.qml:308
+#: src/pages/other_utils/OtherUtils.qml:224
+#: src/pages/other_utils/OtherUtils.qml:259
+#: src/pages/other_utils/OtherUtils.qml:278
+#: src/pages/other_utils/OtherUtils.qml:312
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr "Відкрити консоль"
 
-#: src/pages/other_utils/OtherUtils.qml:222
+#: src/pages/other_utils/OtherUtils.qml:226
 msgid "Rollback Succeeded!"
 msgstr "Відкат завершено!"
 
-#: src/pages/other_utils/OtherUtils.qml:236
+#: src/pages/other_utils/OtherUtils.qml:240
 msgid "Layered Packages"
 msgstr "Накладені пакунки"
 
-#: src/pages/other_utils/OtherUtils.qml:253
+#: src/pages/other_utils/OtherUtils.qml:257
 msgid ""
 "If those layered packages caused updates to fail, you should now be able to "
 "update successfully."
@@ -428,14 +429,14 @@ msgstr ""
 "Якщо оновлення не вдавалися через ці накладені пакунки, тепер вони мають "
 "проходити успішно."
 
-#: src/pages/other_utils/OtherUtils.qml:255
-#: src/pages/other_utils/OtherUtils.qml:274
+#: src/pages/other_utils/OtherUtils.qml:259
+#: src/pages/other_utils/OtherUtils.qml:278
 msgid "Removing layered packages failed. Check console for more details."
 msgstr ""
 "Не вдалося видалити накладені пакунки. Докладнішу інформацію можна знайти в "
 "консолі."
 
-#: src/pages/other_utils/OtherUtils.qml:272
+#: src/pages/other_utils/OtherUtils.qml:276
 msgid ""
 "If layered packages caused updates to fail, you should now be able to update "
 "successfully."
@@ -443,19 +444,19 @@ msgstr ""
 "Якщо оновлення не вдавалися через накладені пакунки, тепер вони мають "
 "проходити успішно."
 
-#: src/pages/other_utils/OtherUtils.qml:283
+#: src/pages/other_utils/OtherUtils.qml:287
 msgid "System Image Information"
 msgstr "Відомості про образ системи"
 
-#: src/pages/other_utils/OtherUtils.qml:289
+#: src/pages/other_utils/OtherUtils.qml:293
 msgid "General Utilities"
 msgstr "Загальні інструменти"
 
-#: src/pages/other_utils/OtherUtils.qml:299
+#: src/pages/other_utils/OtherUtils.qml:303
 msgid "Add Bazzite Updater to your Steam library"
 msgstr "Додати Центр оновлень Bazzite до бібліотеки Steam"
 
-#: src/pages/other_utils/OtherUtils.qml:300
+#: src/pages/other_utils/OtherUtils.qml:304
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
@@ -463,15 +464,15 @@ msgstr ""
 "Якщо Steam запущено, його потрібно буде перезапустити, щоб Центр оновлень "
 "Bazzite з'явився у вашій бібліотеці."
 
-#: src/pages/other_utils/OtherUtils.qml:308
+#: src/pages/other_utils/OtherUtils.qml:312
 msgid "Adding Bazzite Updater to Steam Failed."
 msgstr "Не вдалося додати Центр оновлень Bazzite до Steam."
 
-#: src/pages/other_utils/OtherUtils.qml:310
+#: src/pages/other_utils/OtherUtils.qml:314
 msgid "Adding Bazzite Updater to Steam Succeeded!"
 msgstr "Центр оновлень Bazzite успішно додано до Steam!"
 
-#: src/pages/other_utils/OtherUtils.qml:324
+#: src/pages/other_utils/OtherUtils.qml:328
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr "Додаткові відомості"
@@ -513,27 +514,27 @@ msgctxt "List of tags classified as stable, testing, etc"
 msgid "List of %1 tags"
 msgstr "Список тегів: %1"
 
-#: src/pages/rebase_page/RebasePage.qml:217
+#: src/pages/rebase_page/RebasePage.qml:221
 msgid "Current System Image"
 msgstr "Поточний образ системи"
 
-#: src/pages/rebase_page/RebasePage.qml:244
+#: src/pages/rebase_page/RebasePage.qml:248
 msgid "Available System Images"
 msgstr "Доступні образи системи"
 
-#: src/pages/rebase_page/RebasePage.qml:261
+#: src/pages/rebase_page/RebasePage.qml:265
 msgid "Filter by Features"
 msgstr "Фільтрувати за можливостями"
 
-#: src/pages/rebase_page/RebasePage.qml:301
+#: src/pages/rebase_page/RebasePage.qml:305
 msgid "Results (%1)"
 msgstr "Результати (%1)"
 
-#: src/pages/rebase_page/RebasePage.qml:338
+#: src/pages/rebase_page/RebasePage.qml:342
 msgid "Confirm rebase"
 msgstr "Підтвердити перебазування"
 
-#: src/pages/rebase_page/RebasePage.qml:339
+#: src/pages/rebase_page/RebasePage.qml:343
 msgid ""
 "This will take a long time, and you will need to restart afterwards to apply "
 "the changes.\n"
@@ -551,16 +552,16 @@ msgstr ""
 "датою або версією, Ви не отримуватимете оновлень безпеки й нових функцій "
 "системи, доки не повернетеся на основний тег."
 
-#: src/pages/rebase_page/RebasePage.qml:345
+#: src/pages/rebase_page/RebasePage.qml:349
 msgid "The rebase succeeded! Restart to apply changes."
 msgstr ""
 "Перебазування завершено! Щоб застосувати зміни, перезавантажте систему."
 
-#: src/pages/rebase_page/RebasePage.qml:347
+#: src/pages/rebase_page/RebasePage.qml:351
 msgid "The rebase failed. Check the console for more information."
 msgstr "Не вдалося перебазувати. Докладнішу інформацію можна знайти в консолі."
 
-#: src/pages/rebase_page/RebasePage.qml:354
+#: src/pages/rebase_page/RebasePage.qml:358
 msgctxt "Dialog confirmation"
 msgid "Ok"
 msgstr "Гаразд"
