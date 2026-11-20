@@ -46,8 +46,8 @@ msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
 msgstr ""
-"Steam a besoin d'être relancé pour que Bazzite Updater puisse apparaître "
-"dans votre bibliothèque."
+"Steam a besoin d'être relancé pour que Mises à jour puisse apparaître dans "
+"votre bibliothèque."
 
 #: src/pages/other_utils/other_utils.cpp:157
 msgid "steamos-add-to-steam program was not found or failed to start."
@@ -56,13 +56,11 @@ msgstr ""
 
 #: src/pages/other_utils/other_utils.cpp:188
 msgid "rpm-ostree failed to start or was not found."
-msgstr ""
+msgstr "rpm-ostree n'a pas été trouvé ou n'a pas pu démarrer."
 
 #: src/pages/other_utils/other_utils.cpp:220
-#, fuzzy
 msgid "rpm-ostree was not found or failed to start."
-msgstr ""
-"Le programme de retour en arrière n'a pas été trouvé ou n'a pas pu démarrer."
+msgstr "rpm-ostree n'a pas été trouvé ou n'a pas pu démarrer."
 
 #: src/pages/system_update/system_update.cpp:118
 msgid "There is not enough free space available for system updates."
@@ -245,7 +243,7 @@ msgstr "Autres outils"
 
 #: src/pages/Main.qml:183 src/pages/rebase_page/RebasePage.qml:165
 msgid "Rebase Helper"
-msgstr "Rebase Helper"
+msgstr "Aide au rebasage"
 
 #: src/pages/Main.qml:195 src/pages/rss_feed/RssPage.qml:23
 msgid "Announcements"
@@ -257,7 +255,7 @@ msgstr "Paramètres"
 
 #: src/pages/Main.qml:225
 msgid "About Bazzite Updater"
-msgstr "À propos de Bazzite Updater"
+msgstr "À propos de Mises à jour"
 
 #: src/pages/Main.qml:238
 msgid "Reboot System"
@@ -290,8 +288,8 @@ msgid ""
 "The app was unable to reboot. Reboot through your system menu to apply "
 "changes."
 msgstr ""
-"Bazzite Updater n'a pas pu redémarrer votre système. Veuillez redémarrer "
-"avec le menu système pour appliquer les changements."
+"Mises à jour n'a pas pu redémarrer votre système. Veuillez redémarrer avec "
+"le menu système pour appliquer les changements."
 
 #: src/pages/Main.qml:377
 msgid "Exit Application"
@@ -361,16 +359,18 @@ msgid ""
 "your password and are only available in desktop mode. Plese open Bazzite "
 "Updater in desktop mode to access these features."
 msgstr ""
+"Certaines fonctionnalités, telles que la gestion de paquets superposés ou le "
+"rebasage, ont besoin votre mot de passe et ne sont disponible que sur le "
+"mode bureau. Veuillez alors ouvrir Mises à jour sur le mode bureau pour y "
+"avoir accès."
 
 #: src/pages/other_utils/FCLayeredPackages.qml:127
-#, fuzzy
 msgid "Remove all layered packages"
-msgstr "Fermer la vue des paquets superposés"
+msgstr "Enlever tous les paquets superposés"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:146
-#, fuzzy
 msgid "Remove selected packages"
-msgstr "Fermer la vue des paquets superposés"
+msgstr "Enlever les paquets sélectionnés"
 
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
@@ -419,27 +419,31 @@ msgid "Rollback Succeeded!"
 msgstr "Retour arrière réussi !"
 
 #: src/pages/other_utils/OtherUtils.qml:236
-#, fuzzy
 msgid "Layered Packages"
-msgstr "Paquets superposés (%1):"
+msgstr "Paquets superposés"
 
 #: src/pages/other_utils/OtherUtils.qml:253
 msgid ""
 "If those layered packages caused updates to fail, you should now be able to "
 "update successfully."
 msgstr ""
+"Si ces paquets superposés ont causé l'échec de mises à jour, vous pourrez "
+"dorénavant mettre à jour votre système en toute tranquillité. "
 
 #: src/pages/other_utils/OtherUtils.qml:255
 #: src/pages/other_utils/OtherUtils.qml:274
-#, fuzzy
 msgid "Removing layered packages failed. Check console for more details."
-msgstr "La mise à jour a échouée. Veuillez utiliser."
+msgstr ""
+"Échec de la suppression des paquets superposés. Consultez la console pour "
+"plus de détails."
 
 #: src/pages/other_utils/OtherUtils.qml:272
 msgid ""
 "If layered packages caused updates to fail, you should now be able to update "
 "successfully."
 msgstr ""
+"Si les paquets superposés ont causé l'échec de mises à jour, vous pourrez "
+"dorénavant mettre à jour votre système en toute tranquillité. "
 
 #: src/pages/other_utils/OtherUtils.qml:283
 msgid "System Image Information"
@@ -451,23 +455,23 @@ msgstr "Outils communs"
 
 #: src/pages/other_utils/OtherUtils.qml:299
 msgid "Add Bazzite Updater to your Steam library"
-msgstr "Ajouter Bazzite Updater à votre bibliothèque Steam"
+msgstr "Ajouter Mises à jour à votre bibliothèque Steam"
 
 #: src/pages/other_utils/OtherUtils.qml:300
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
 msgstr ""
-"Vous aurez besoin de redémarrer Steam pour que Bazzite Updater puisse "
+"Vous aurez besoin de redémarrer Steam pour que Mises à jour puisse "
 "apparaître dans votre bibliothèque."
 
 #: src/pages/other_utils/OtherUtils.qml:308
 msgid "Adding Bazzite Updater to Steam Failed."
-msgstr "Échec de l'ajout de Bazzite Updater à Steam."
+msgstr "Échec de l'ajout de Mises à jour à Steam."
 
 #: src/pages/other_utils/OtherUtils.qml:310
 msgid "Adding Bazzite Updater to Steam Succeeded!"
-msgstr "Bazzite Updater a été ajouté à Steam avec succès ! "
+msgstr "Mises à jour a été ajouté à Steam avec succès ! "
 
 #: src/pages/other_utils/OtherUtils.qml:324
 msgctxt "card to display info from os-release"
@@ -500,7 +504,7 @@ msgstr ""
 "Les étiquettes marquées avec une date ou un numéro de version ne vont pas "
 "recevoir de mise à jour. Elles ne devraient être utilisées que "
 "temporairement, le temps qu'un bug vous importunant soit corrigé dans la "
-"toute dernière version.  "
+"toute dernière version."
 
 #: src/pages/rebase_page/FCSystemImage.qml:185
 #: src/pages/rebase_page/FCSystemImage.qml:245
@@ -730,7 +734,7 @@ msgstr "La mise à jour a échouée."
 
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Update Failed. Check console for more details."
-msgstr "La mise à jour a échouée. Veuillez utiliser."
+msgstr "Échec de la mise à jour. Consultez la console pour plus de détails."
 
 #: src/pages/system_update/SystemUpdate.qml:68
 msgid "Update Succeeded!"
