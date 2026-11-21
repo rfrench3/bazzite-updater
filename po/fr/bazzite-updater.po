@@ -354,7 +354,6 @@ msgstr ""
 
 #: src/pages/other_utils/FCLayeredPackages.qml:102
 #: src/pages/rebase_page/RebasePage.qml:215
-#, fuzzy
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
 "your password and are only available in desktop mode. Please open Bazzite "
