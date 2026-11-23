@@ -12,9 +12,9 @@ build:
 
 # devcontainer
 install-controllable:
+    #!/usr/bin/env bash
     cd /workspaces/bazzite-updater/src/components/controllable
-    just build
-    sudo cmake --install build
+    just install-pkgbuild
     cd /workspaces/bazzite-updater
 
 # devcontainer
