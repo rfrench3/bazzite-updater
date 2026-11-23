@@ -32,6 +32,7 @@
 #include <qcontainerfwd.h>
 #include <qfuture.h>
 #include <qjsondocument.h>
+#include <qjsonobject.h>
 #include <qjsvalue.h>
 #include <qlogging.h>
 #include <qnumeric.h>
@@ -113,25 +114,44 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue mes
         if (const QJsonValue exitVal = json.value(u"exit_code"_s); exitVal.isDouble())
             status = exitVal.toInt() == 0 ? UpdateStepsNS::ExitStatus::SUCCESS : UpdateStepsNS::ExitStatus::ERROR;
 
+        int progress_current = UpdateStepsNS::ProgressNoChange;
+        int progress_total = UpdateStepsNS::ProgressNoChange;
+
         if (module == u"system"_s) {
             if (output.contains(u"Insufficient free space"_s) || output.contains(u"min-free-space-percent"_s)) {
                 messageCallback.call({i18n("There is not enough free space available for system updates.")});
                 m_updateStepsModel->updateData(module, -2, -2, UpdateStepsNS::ExitStatus::NO_CHANGE, false);
             }
-        }
 
-        {
-            int progress_current = UpdateStepsNS::ProgressNoChange;
-            int progress_total = UpdateStepsNS::ProgressNoChange;
+            // If the output is more Json, assume it is coming from bootc
+            if (const QJsonObject jsonObj = QJsonDocument::fromJson(output.toUtf8()).object(); !jsonObj.isEmpty()) {
+                const QString type = jsonObj.value(u"type"_s).toString();
+                const QString description = jsonObj.value(u"description"_s).toString();
 
-            static const QRegularExpression regex(QStringLiteral(R"(\[(\d+)/(\d+)\])"));
-            auto match = regex.match(output);
-            if (match.hasMatch()) {
-                progress_current = match.captured(1).toInt();
-                progress_total = match.captured(2).toInt();
+                // bootc has more readable output stored in description, so send that to the console output
+                if (!description.isEmpty())
+                    consoleOutput = description;
+
+                if (type == u"ProgressBytes"_s) {
+                    // avoid integer limits, exact numbers aren't needed
+                    double bytes = jsonObj.value(u"bytes"_s).toDouble();
+                    double bytesTotal = jsonObj.value(u"bytesTotal"_s).toDouble();
+
+                    if (bytesTotal > 0) {
+                        progress_current = static_cast<int>(100 * (bytes / bytesTotal));
+                        progress_total = 100;
+                    }
+                }
             }
-            m_updateStepsModel->updateData(module, progress_current, progress_total, status);
         }
+
+        static const QRegularExpression regex(QStringLiteral(R"(\[(\d+)/(\d+)\])"));
+        auto match = regex.match(output);
+        if (match.hasMatch()) {
+            progress_current = match.captured(1).toInt();
+            progress_total = match.captured(2).toInt();
+        }
+        m_updateStepsModel->updateData(module, progress_current, progress_total, status);
 
         using namespace Console;
         LogLevel log_level = LogLevel::Warn;
