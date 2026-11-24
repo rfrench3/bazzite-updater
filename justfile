@@ -7,7 +7,7 @@ potfile:
 
 # devcontainer
 build:
-    cmake -B build -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=$PWD/build/install-root -D_USE_XDG_CONFIG=ON
+    cmake -B build -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=$PWD/build/install-root -D_USE_XDG_CONFIG=ON -G Ninja
     cmake --build build --target install
 
 # devcontainer
