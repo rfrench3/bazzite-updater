@@ -18,7 +18,9 @@ FC.FormCard {
 
     // TODO: Layered package information should probably come from the staged image in certain places,
     //       so that it properly updates when you remove layered packages
-    readonly property ostreeDeployment currentImage: AppData.ostree.deployments.find(img => img.isCurrent) || {}
+    readonly property ostreeDeployment stagedImage: AppData.ostree.stagedDeployment
+
+    readonly property ostreeDeployment currentImage: AppData.ostree.currentDeployment
     readonly property list<string> layeredPackages: currentImage.layeredPackages || []
 
     property list<string> selectedPackages: []

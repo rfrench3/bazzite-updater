@@ -330,7 +330,7 @@ Kirigami.Page {
         id: consoleDrawer
         model: SystemUpdateBackend.consoleModel
 
-        readonly property ostreeDeployment __img: AppData.ostree.deployments.find(img => img.isCurrent)
+        readonly property ostreeDeployment __img: AppData.ostree.currentDeployment
         readonly property int __layeredCount: __img.layeredPackages?.length || 0
 
         includeAtStart: {

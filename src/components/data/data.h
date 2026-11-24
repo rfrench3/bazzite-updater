@@ -63,12 +63,12 @@ public:
     {
         return layeredPackages;
     }
-    bool isCurrent;
+    bool isCurrent = false;
     bool getIsCurrent() const
     {
         return isCurrent;
     }
-    bool isStaged;
+    bool isStaged = false;
     bool getIsStaged() const
     {
         return isStaged;
@@ -86,6 +86,8 @@ struct Ostree {
 public:
     QList<OstreeDeployment> deployments;
     Q_PROPERTY(QList<OstreeDeployment> deployments READ getDeployments CONSTANT)
+    Q_PROPERTY(OstreeDeployment currentDeployment READ getCurrentDeployment CONSTANT)
+    Q_PROPERTY(OstreeDeployment stagedDeployment READ getStagedDeployment CONSTANT)
     const QList<OstreeDeployment> &getDeployments() const
     {
         return deployments;
@@ -95,6 +97,22 @@ public:
         if (deployments.isEmpty())
             return false;
         return deployments.first().isCurrent;
+    }
+    const OstreeDeployment getCurrentDeployment() const
+    {
+        for (const auto &dep : deployments) {
+            if (dep.isCurrent)
+                return dep;
+        }
+        return {};
+    }
+    const OstreeDeployment getStagedDeployment() const
+    {
+        for (const auto &dep : deployments) {
+            if (dep.isStaged)
+                return dep;
+        }
+        return {};
     }
 
     static Ostree load();
