@@ -342,8 +342,7 @@ Kirigami.Page {
             if (OtherUtilsBackend.currentImage.version)
                 list.push(OtherUtilsBackend.currentImage.version);
 
-            if (__layeredCount !== 0)
-                list.push(i18np("%1 Layered package", "%1 Layered packages", __layeredCount));
+            list.push(i18np("%1 Layered package", "%1 Layered packages", __layeredCount));
 
             return list.join('\n');
         }
