@@ -1,0 +1,79 @@
+Starting uupd-manual.service - Universal Blue Update Oneshot Service - Manual Activation...
+Fetching ostree-image-signed:docker://ghcr.io/ublue-os/bazzite-dx:stable
+{"level":"DEBUG","msg":"Executed update check","module":"system","output":"No changes in: ostree-image-signed:docker://ghcr.io/ublue-os/bazzite-dx:stable\n","update":false}
+{"level":"DEBUG","msg":"System Updater module status","enabled":true,"disabled_by_config":false,"driver_enabled":true,"update_available":false}
+{"level":"DEBUG","msg":"System update check reported no updates, running the system update to verify","module":"system"}
+{"level":"DEBUG","msg":"System module","module":"system","module_configuration":{"Title":"System","Description":"Bootc","Enabled":true,"MultiUser":false,"DryRun":false,"UserDescription":null}}
+{"level":"INFO","msg":"Updating","module":"system","status":"starting","output":"System module is starting.","title":"System","description":"Bootc","progress":0,"total":4,"step_progress":0,"overall":0}
+{"level":"DEBUG","msg":"Executing update","module":"system","cli":["/usr/bin/bootc","upgrade","--quiet","--progress-fd","3"]}
+Fetching ostree-image-signed:docker://ghcr.io/ublue-os/bazzite-dx:stable
+{"level":"INFO","msg":"System module has completed.","module":"system","status":"finished","exit_code":0,"output":"System module has completed."}
+{"level":"DEBUG","msg":"Brew module","module":"brew","module_configuration":{"Title":"Brew","Description":"CLI Apps","Enabled":true,"MultiUser":false,"DryRun":false,"UserDescription":null}}
+{"level":"INFO","msg":"Updating","module":"brew","status":"starting","output":"Brew module is starting.","title":"Brew","description":"CLI Apps","progress":1,"total":4,"step_progress":0,"overall":25}
+{"level":"INFO","msg":"Command output","module":"brew","status":"running","output":"==> Updating Homebrew..."}
+{"level":"INFO","msg":"Command output","module":"brew","status":"running","output":"Updated 1 tap (homebrew/cask)."}
+{"level":"INFO","msg":"Brew module has completed.","module":"brew","status":"finished","exit_code":0,"output":"Brew module has completed."}
+{"level":"DEBUG","msg":"Flatpak module","module":"flatpak","module_configuration":{"Title":"Flatpak","Description":"System Apps","Enabled":true,"MultiUser":true,"DryRun":false,"UserDescription":"Apps for User:"}}
+{"level":"INFO","msg":"Updating","module":"flatpak","status":"starting","output":"Flatpak module is starting.","title":"Flatpak","description":"System Apps","progress":2,"total":4,"step_progress":0,"overall":50}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk.Locale is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk.Locale is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Sdk is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Sdk.Locale is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Platform.GL.default is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Platform.GL.default is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Updating runtime/org.gnome.Platform.Locale/x86_64/51"}
+libostree pull from 'flathub' for runtime/org.gnome.Platform.Locale/x86_64/51 complete
+                                               security: GPG: summary+commit 
+                                               security: SIGN: disabled http: TLS
+                                               non-delta: meta: 2 content: 0
+                                               transfer: secs: 0 size: 1.5 kB
+system: Pulled runtime/org.gnome.Platform.Locale/x86_64/51 from flathub
+system: Updated runtime/org.gnome.Platform.Locale/x86_64/51 from flathub
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Updating runtime/org.gnome.Platform/x86_64/51"}
+libostree pull from 'flathub' for runtime/org.gnome.Platform/x86_64/51 complete
+                                               security: GPG: summary+commit 
+                                               security: SIGN: disabled http: TLS
+                                               delta: parts: 1 loose: 3
+                                               transfer: secs: 0 size: 5.9 kB
+system: Pulled runtime/org.gnome.Platform/x86_64/51 from flathub
+system: Updated runtime/org.gnome.Platform/x86_64/51 from flathub
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Updating runtime/page.codeberg.JakobDev.jdAppStreamEdit.Locale/x86_64/stable"}
+libostree pull from 'flathub' for runtime/page.codeberg.JakobDev.jdAppStreamEdit.Locale/x86_64/stable complete
+                                               security: GPG: summary+commit 
+                                               security: SIGN: disabled http: TLS
+                                               non-delta: meta: 2 content: 0
+                                               transfer: secs: 0 size: 1.7 kB
+system: Pulled runtime/page.codeberg.JakobDev.jdAppStreamEdit.Locale/x86_64/stable from flathub
+system: Updated runtime/page.codeberg.JakobDev.jdAppStreamEdit.Locale/x86_64/stable from flathub
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Updating app/page.codeberg.JakobDev.jdAppStreamEdit/x86_64/stable"}
+libostree pull from 'flathub' for app/page.codeberg.JakobDev.jdAppStreamEdit/x86_64/stable complete
+                                               security: GPG: summary+commit 
+                                               security: SIGN: disabled http: TLS
+                                               delta: parts: 1 loose: 3
+                                               transfer: secs: 0 size: 126.4 kB
+system: Pulled app/page.codeberg.JakobDev.jdAppStreamEdit/x86_64/stable from flathub
+system: Updated app/page.codeberg.JakobDev.jdAppStreamEdit/x86_64/stable from flathub
+libostree pull from 'flathub' for appstream2/x86_64 complete
+                                               security: GPG: summary+commit 
+                                               security: SIGN: disabled http: TLS
+                                               non-delta: meta: 7 content: 87
+                                               transfer: secs: 0 size: 12.4 MB
+system: Pulled appstream2/x86_64 from flathub
+{"level":"INFO","msg":"Updating","module":"flatpak","status":"running","output":"Updating Flatpak (Apps for User: rfrench)","title":"Flatpak","description":"Apps for User: rfrench","progress":2,"total":4,"step_progress":0,"overall":50}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk.Locale is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.kde.Sdk.Locale is end-of-life, with reason: We strongly recommend moving to the latest stable version of the Platform and SDK"}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Sdk is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Sdk.Locale is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Platform.GL.default is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Info: org.freedesktop.Platform.GL.default is end-of-life, with reason: org.freedesktop.Platform 24.08 is no longer receiving fixes and security updates. Please update to a supported runtime version."}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":""}
+{"level":"INFO","msg":"Command output","module":"flatpak","status":"running","output":"Nothing to update."}
+{"level":"INFO","msg":"Flatpak module has completed.","module":"flatpak","status":"finished","exit_code":0,"output":"Flatpak module has completed."}
+{"level":"INFO","msg":"Updates Completed Successfully"}
+uupd-manual.service: Deactivated successfully.
+Finished uupd-manual.service - Universal Blue Update Oneshot Service - Manual Activation.
+uupd-manual.service: Consumed 9.113s CPU time over 23.770s wall clock time, 499M memory peak.

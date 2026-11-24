@@ -170,10 +170,15 @@ QJsonObject runJson(const QString &program, const QStringList &args)
 
 Ostree loadRpmOstree()
 {
-    Ostree result;
     const QJsonObject root = runJson(u"rpm-ostree"_s, {u"status"_s, u"--json"_s});
+    const auto arr = root.value(u"deployments"_s).toArray();
 
-    for (const QJsonValue &v : root.value(u"deployments"_s).toArray()) {
+    if (arr.isEmpty())
+        return {};
+
+    Ostree result;
+    result.valid = true;
+    for (const QJsonValue &v : arr) {
         const QJsonObject d = v.toObject();
         OstreeDeployment dep;
         dep.isCurrent = d.value(u"booted"_s).toBool();

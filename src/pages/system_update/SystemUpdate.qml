@@ -70,7 +70,9 @@ Kirigami.Page {
                     sessionStorage.mainText = i18n("System Updated!");
 
                     AppData.reloadOstree(() => {
-                        if (!AppData.ostree.onLatestDeployment())
+                        if (!AppData.ostree.valid)
+                            return;
+                        else if (!AppData.ostree.onLatestDeployment())
                             showPassiveNotification(i18n("You must reboot to apply changes."), Kirigami.short);
                         else
                             showPassiveNotification(i18n("No reboot necessary."), Kirigami.short);

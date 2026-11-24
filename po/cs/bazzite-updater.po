@@ -61,7 +61,7 @@ msgstr "rpm-ostree se nepodařilo spustit nebo nebyl nalezen."
 msgid "rpm-ostree was not found or failed to start."
 msgstr "rpm-ostree nebyl nalezen nebo se jej nepodařilo spustit."
 
-#: src/pages/system_update/system_update.cpp:118
+#: src/pages/system_update/system_update.cpp:122
 msgid "There is not enough free space available for system updates."
 msgstr "Pro aktualizace systému není k dispozici dostatek volného místa."
 
@@ -103,107 +103,107 @@ msgctxt "button label"
 msgid "Display os-release"
 msgstr "Zobrazit os-release"
 
-#: src/components/customFormcards/FCSystemInfo.qml:22
+#: src/components/customFormcards/FCSystemInfo.qml:23
 msgid "There is a pending system update. You must reboot to apply it."
 msgstr ""
 "Je k dispozici čekající aktualizace systému. K jejímu použití je nutné "
 "provést restart."
 
-#: src/components/customFormcards/FCSystemInfo.qml:33
+#: src/components/customFormcards/FCSystemInfo.qml:34
 msgid "Current Image"
 msgstr "Aktuální obraz"
 
-#: src/components/customFormcards/FCSystemInfo.qml:62
+#: src/components/customFormcards/FCSystemInfo.qml:63
 msgid "Last Update"
 msgstr "Poslední aktualizace"
 
-#: src/components/customFormcards/FCSystemInfo.qml:76
+#: src/components/customFormcards/FCSystemInfo.qml:77
 msgid "The best drivers for your GPU are provided by the Linux kernel."
 msgstr "Nejlepší ovladače pro vaši grafickou kartu poskytuje jádro Linuxu."
 
-#: src/components/customFormcards/FCSystemInfo.qml:78
-#: src/components/customFormcards/FCSystemInfo.qml:80
+#: src/components/customFormcards/FCSystemInfo.qml:79
+#: src/components/customFormcards/FCSystemInfo.qml:81
 msgid "The best drivers for your GPU are "
 msgstr "Nejlepší ovladače pro vaši grafickou kartu jsou "
 
-#: src/components/customFormcards/FCSystemInfo.qml:82
+#: src/components/customFormcards/FCSystemInfo.qml:83
 msgid "Your GPU is unsupported."
 msgstr "Vaše grafická karta není podporována."
 
-#: src/components/customFormcards/FCSystemInfo.qml:102
+#: src/components/customFormcards/FCSystemInfo.qml:103
 msgid "You have the best drivers installed."
 msgstr "Máte nainstalovány nejlepší ovladače."
 
-#: src/components/customFormcards/FCSystemInfo.qml:106
+#: src/components/customFormcards/FCSystemInfo.qml:107
 msgid "You do not have any nvidia drivers installed."
 msgstr "Nemáte nainstalovány žádné ovladače nvidia."
 
-#: src/components/customFormcards/FCSystemInfo.qml:108
+#: src/components/customFormcards/FCSystemInfo.qml:109
 msgid "You currently have nvidia installed."
 msgstr "Momentálně máte nainstalovány ovladače nvidia."
 
-#: src/components/customFormcards/FCSystemInfo.qml:110
+#: src/components/customFormcards/FCSystemInfo.qml:111
 msgid "You currently have nvidia-open installed."
 msgstr "Momentálně máte nainstalovány ovladače nvidia-open."
 
-#: src/components/customFormcards/FCSystemInfo.qml:123
+#: src/components/customFormcards/FCSystemInfo.qml:124
 msgid "Display less information"
 msgstr "Zobrazit méně informací"
 
-#: src/components/customFormcards/FCSystemInfo.qml:123
+#: src/components/customFormcards/FCSystemInfo.qml:124
 msgid "Display more information"
 msgstr "Zobrazit více informací"
 
-#: src/components/customFormcards/FCSystemInfo.qml:126
-#: src/components/customFormcards/FCSystemInfo.qml:133
-#: src/components/customFormcards/FCSystemInfo.qml:140
-#: src/components/customFormcards/FCSystemInfo.qml:147
-#: src/components/customFormcards/FCSystemInfo.qml:154
-#: src/components/customFormcards/FCSystemInfo.qml:161
-#: src/components/customFormcards/FCSystemInfo.qml:168
-#: src/components/customFormcards/FCSystemInfo.qml:175
-#: src/components/customFormcards/FCSystemInfo.qml:182
-#: src/components/customFormcards/FCSystemInfo.qml:189
+#: src/components/customFormcards/FCSystemInfo.qml:127
+#: src/components/customFormcards/FCSystemInfo.qml:134
+#: src/components/customFormcards/FCSystemInfo.qml:141
+#: src/components/customFormcards/FCSystemInfo.qml:148
+#: src/components/customFormcards/FCSystemInfo.qml:155
+#: src/components/customFormcards/FCSystemInfo.qml:162
+#: src/components/customFormcards/FCSystemInfo.qml:169
+#: src/components/customFormcards/FCSystemInfo.qml:176
+#: src/components/customFormcards/FCSystemInfo.qml:183
+#: src/components/customFormcards/FCSystemInfo.qml:190
 msgid "loading..."
 msgstr "načítání..."
 
-#: src/components/customFormcards/FCSystemInfo.qml:127
+#: src/components/customFormcards/FCSystemInfo.qml:128
 msgid "Image"
 msgstr "Obraz"
 
-#: src/components/customFormcards/FCSystemInfo.qml:134
+#: src/components/customFormcards/FCSystemInfo.qml:135
 msgid "Vendor"
 msgstr "Výrobce"
 
-#: src/components/customFormcards/FCSystemInfo.qml:141
+#: src/components/customFormcards/FCSystemInfo.qml:142
 msgid "Ref"
 msgstr "Ref"
 
-#: src/components/customFormcards/FCSystemInfo.qml:148
+#: src/components/customFormcards/FCSystemInfo.qml:149
 msgid "Tag"
 msgstr "Štítek"
 
-#: src/components/customFormcards/FCSystemInfo.qml:155
+#: src/components/customFormcards/FCSystemInfo.qml:156
 msgid "Branch"
 msgstr "Větev"
 
-#: src/components/customFormcards/FCSystemInfo.qml:162
+#: src/components/customFormcards/FCSystemInfo.qml:163
 msgid "Base Name"
 msgstr "Název základu"
 
-#: src/components/customFormcards/FCSystemInfo.qml:169
+#: src/components/customFormcards/FCSystemInfo.qml:170
 msgid "Fedora Version"
 msgstr "Verze Fedory"
 
-#: src/components/customFormcards/FCSystemInfo.qml:176
+#: src/components/customFormcards/FCSystemInfo.qml:177
 msgid "Version"
 msgstr "Verze"
 
-#: src/components/customFormcards/FCSystemInfo.qml:183
+#: src/components/customFormcards/FCSystemInfo.qml:184
 msgid "Version (Pretty)"
 msgstr "Verze (hezčí)"
 
-#: src/components/customFormcards/FCSystemInfo.qml:190
+#: src/components/customFormcards/FCSystemInfo.qml:191
 msgid "Release Date"
 msgstr "Datum vydání"
 
@@ -326,19 +326,19 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Ukončit"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:86
+#: src/pages/other_utils/FCLayeredPackages.qml:92
 msgid "Close layered packages view"
 msgstr "Zavřít zobrazení vrstvených balíčků"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:86
+#: src/pages/other_utils/FCLayeredPackages.qml:92
 msgid "View layered packages (%1)"
 msgstr "Zobrazit vrstvené balíčky (%1)"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:89
+#: src/pages/other_utils/FCLayeredPackages.qml:95
 msgid "Layered Packages (%1):"
 msgstr "Vrstvené balíčky (%1):"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:92
+#: src/pages/other_utils/FCLayeredPackages.qml:98
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -348,7 +348,7 @@ msgstr ""
 "nainstalovat žádným jiným způsobem. Pokud je to možné, vrstvení balíčků se "
 "vyhněte, protože může způsobit selhání aktualizací systému."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:102
+#: src/pages/other_utils/FCLayeredPackages.qml:108
 #: src/pages/rebase_page/RebasePage.qml:215
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
@@ -359,11 +359,11 @@ msgstr ""
 "hesla a jsou dostupné pouze v režimu plochy. Pro přístup k těmto funkcím "
 "prosím otevřete Aktualizátor Bazzite v režimu plochy."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:127
+#: src/pages/other_utils/FCLayeredPackages.qml:133
 msgid "Remove all layered packages"
 msgstr "Odstranit všechny vrstvené balíčky"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:146
+#: src/pages/other_utils/FCLayeredPackages.qml:152
 msgid "Remove selected packages"
 msgstr "Odstranit vybrané balíčky"
 
@@ -780,7 +780,7 @@ msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
 msgstr "Využití systémového disku (%1)"
 
-#: src/pages/system_update/SystemUpdate.qml:346
+#: src/pages/system_update/SystemUpdate.qml:345
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 vrstvený balíček"

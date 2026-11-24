@@ -84,10 +84,12 @@ struct Ostree {
     QML_VALUE_TYPE(ostree);
 
 public:
+    bool valid = false;
     QList<OstreeDeployment> deployments;
     Q_PROPERTY(QList<OstreeDeployment> deployments READ getDeployments CONSTANT)
     Q_PROPERTY(OstreeDeployment currentDeployment READ getCurrentDeployment CONSTANT)
     Q_PROPERTY(OstreeDeployment stagedDeployment READ getStagedDeployment CONSTANT)
+    Q_PROPERTY(bool valid MEMBER valid CONSTANT)
     const QList<OstreeDeployment> &getDeployments() const
     {
         return deployments;

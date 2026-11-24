@@ -62,7 +62,7 @@ msgstr "Не вдалося запустити програму rpm-ostree аб�
 msgid "rpm-ostree was not found or failed to start."
 msgstr "Програму rpm-ostree не знайдено або не вдалося запустити."
 
-#: src/pages/system_update/system_update.cpp:118
+#: src/pages/system_update/system_update.cpp:122
 msgid "There is not enough free space available for system updates."
 msgstr "Недостатньо вільного місця для оновлення системи."
 
@@ -104,107 +104,107 @@ msgctxt "button label"
 msgid "Display os-release"
 msgstr "Показати відомості про випуск"
 
-#: src/components/customFormcards/FCSystemInfo.qml:22
+#: src/components/customFormcards/FCSystemInfo.qml:23
 msgid "There is a pending system update. You must reboot to apply it."
 msgstr ""
 "Є незастосоване оновлення системи. Щоб застосувати його, перезавантажте "
 "систему."
 
-#: src/components/customFormcards/FCSystemInfo.qml:33
+#: src/components/customFormcards/FCSystemInfo.qml:34
 msgid "Current Image"
 msgstr "Поточний образ"
 
-#: src/components/customFormcards/FCSystemInfo.qml:62
+#: src/components/customFormcards/FCSystemInfo.qml:63
 msgid "Last Update"
 msgstr "Останнє оновлення"
 
-#: src/components/customFormcards/FCSystemInfo.qml:76
+#: src/components/customFormcards/FCSystemInfo.qml:77
 msgid "The best drivers for your GPU are provided by the Linux kernel."
 msgstr "Найкращі драйвери для вашого графічного процесора надає ядро Linux."
 
-#: src/components/customFormcards/FCSystemInfo.qml:78
-#: src/components/customFormcards/FCSystemInfo.qml:80
+#: src/components/customFormcards/FCSystemInfo.qml:79
+#: src/components/customFormcards/FCSystemInfo.qml:81
 msgid "The best drivers for your GPU are "
 msgstr "Найкращі драйвери для вашого графічного процесора: "
 
-#: src/components/customFormcards/FCSystemInfo.qml:82
+#: src/components/customFormcards/FCSystemInfo.qml:83
 msgid "Your GPU is unsupported."
 msgstr "Ваш графічний процесор не підтримується."
 
-#: src/components/customFormcards/FCSystemInfo.qml:102
+#: src/components/customFormcards/FCSystemInfo.qml:103
 msgid "You have the best drivers installed."
 msgstr "Встановлено найкращі драйвери."
 
-#: src/components/customFormcards/FCSystemInfo.qml:106
+#: src/components/customFormcards/FCSystemInfo.qml:107
 msgid "You do not have any nvidia drivers installed."
 msgstr "Жодних драйверів Nvidia не було встановлено."
 
-#: src/components/customFormcards/FCSystemInfo.qml:108
+#: src/components/customFormcards/FCSystemInfo.qml:109
 msgid "You currently have nvidia installed."
 msgstr "Встановлено драйвер nvidia."
 
-#: src/components/customFormcards/FCSystemInfo.qml:110
+#: src/components/customFormcards/FCSystemInfo.qml:111
 msgid "You currently have nvidia-open installed."
 msgstr "Встановлено драйвер nvidia-open."
 
-#: src/components/customFormcards/FCSystemInfo.qml:123
+#: src/components/customFormcards/FCSystemInfo.qml:124
 msgid "Display less information"
 msgstr "Показати менше інформації"
 
-#: src/components/customFormcards/FCSystemInfo.qml:123
+#: src/components/customFormcards/FCSystemInfo.qml:124
 msgid "Display more information"
 msgstr "Показати більше інформації"
 
-#: src/components/customFormcards/FCSystemInfo.qml:126
-#: src/components/customFormcards/FCSystemInfo.qml:133
-#: src/components/customFormcards/FCSystemInfo.qml:140
-#: src/components/customFormcards/FCSystemInfo.qml:147
-#: src/components/customFormcards/FCSystemInfo.qml:154
-#: src/components/customFormcards/FCSystemInfo.qml:161
-#: src/components/customFormcards/FCSystemInfo.qml:168
-#: src/components/customFormcards/FCSystemInfo.qml:175
-#: src/components/customFormcards/FCSystemInfo.qml:182
-#: src/components/customFormcards/FCSystemInfo.qml:189
+#: src/components/customFormcards/FCSystemInfo.qml:127
+#: src/components/customFormcards/FCSystemInfo.qml:134
+#: src/components/customFormcards/FCSystemInfo.qml:141
+#: src/components/customFormcards/FCSystemInfo.qml:148
+#: src/components/customFormcards/FCSystemInfo.qml:155
+#: src/components/customFormcards/FCSystemInfo.qml:162
+#: src/components/customFormcards/FCSystemInfo.qml:169
+#: src/components/customFormcards/FCSystemInfo.qml:176
+#: src/components/customFormcards/FCSystemInfo.qml:183
+#: src/components/customFormcards/FCSystemInfo.qml:190
 msgid "loading..."
 msgstr "завантаження…"
 
-#: src/components/customFormcards/FCSystemInfo.qml:127
+#: src/components/customFormcards/FCSystemInfo.qml:128
 msgid "Image"
 msgstr "Образ"
 
-#: src/components/customFormcards/FCSystemInfo.qml:134
+#: src/components/customFormcards/FCSystemInfo.qml:135
 msgid "Vendor"
 msgstr "Постачальник"
 
-#: src/components/customFormcards/FCSystemInfo.qml:141
+#: src/components/customFormcards/FCSystemInfo.qml:142
 msgid "Ref"
 msgstr "Джерело"
 
-#: src/components/customFormcards/FCSystemInfo.qml:148
+#: src/components/customFormcards/FCSystemInfo.qml:149
 msgid "Tag"
 msgstr "Тег"
 
-#: src/components/customFormcards/FCSystemInfo.qml:155
+#: src/components/customFormcards/FCSystemInfo.qml:156
 msgid "Branch"
 msgstr "Гілка"
 
-#: src/components/customFormcards/FCSystemInfo.qml:162
+#: src/components/customFormcards/FCSystemInfo.qml:163
 msgid "Base Name"
 msgstr "Назва основи"
 
-#: src/components/customFormcards/FCSystemInfo.qml:169
+#: src/components/customFormcards/FCSystemInfo.qml:170
 msgid "Fedora Version"
 msgstr "Версія Fedora"
 
-#: src/components/customFormcards/FCSystemInfo.qml:176
+#: src/components/customFormcards/FCSystemInfo.qml:177
 msgid "Version"
 msgstr "Версія"
 
-#: src/components/customFormcards/FCSystemInfo.qml:183
+#: src/components/customFormcards/FCSystemInfo.qml:184
 msgid "Version (Pretty)"
 msgstr "Версія (повна)"
 
-#: src/components/customFormcards/FCSystemInfo.qml:190
+#: src/components/customFormcards/FCSystemInfo.qml:191
 msgid "Release Date"
 msgstr "Дата випуску"
 
@@ -329,19 +329,19 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Вийти"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:86
+#: src/pages/other_utils/FCLayeredPackages.qml:92
 msgid "Close layered packages view"
 msgstr "Закрити перелік накладених пакунків"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:86
+#: src/pages/other_utils/FCLayeredPackages.qml:92
 msgid "View layered packages (%1)"
 msgstr "Переглянути накладені пакунки (%1)"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:89
+#: src/pages/other_utils/FCLayeredPackages.qml:95
 msgid "Layered Packages (%1):"
 msgstr "Накладені пакунки (%1):"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:92
+#: src/pages/other_utils/FCLayeredPackages.qml:98
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -351,7 +351,7 @@ msgstr ""
 "способом. Уникайте накладання пакунків, бо через нього оновлення системи "
 "можуть завершуватися помилкою."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:102
+#: src/pages/other_utils/FCLayeredPackages.qml:108
 #: src/pages/rebase_page/RebasePage.qml:215
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
@@ -362,11 +362,11 @@ msgstr ""
 "потребують пароля й доступні лише в режимі робочого столу. Відкрийте Центр "
 "оновлень Bazzite у режимі робочого столу, щоб скористатися ними."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:127
+#: src/pages/other_utils/FCLayeredPackages.qml:133
 msgid "Remove all layered packages"
 msgstr "Видалити всі накладені пакунки"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:146
+#: src/pages/other_utils/FCLayeredPackages.qml:152
 msgid "Remove selected packages"
 msgstr "Видалити вибрані пакунки"
 
@@ -783,7 +783,7 @@ msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
 msgstr "Використано системного диска (%1)"
 
-#: src/pages/system_update/SystemUpdate.qml:346
+#: src/pages/system_update/SystemUpdate.qml:345
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 накладений пакунок"

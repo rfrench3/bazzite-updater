@@ -10,7 +10,8 @@ import org.kde.kirigamiaddons.formcard as FC
 import io.github.rfrench3.bazzite_updater
 
 Loader {
-    active: OtherUtilsBackend.currentImage.load_successful
+    // TODO: don't rely so heavily on ublue-specific information
+    active: OtherUtilsBackend.currentImage.load_successful && AppData.ostree.valid
     visible: active
 
     Layout.fillWidth: true

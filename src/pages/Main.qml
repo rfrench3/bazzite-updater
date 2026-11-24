@@ -17,6 +17,14 @@ import io.github.rfrench3.controllable as GP
 StatefulApp.StatefulWindow {
     id: root
 
+    // TODO: improve logic for non-atomic systems
+    readonly property bool rebootNeeded: {
+        if (AppData.ostree.valid)
+            return !AppData.ostree.onLatestDeployment();
+
+        return AppState.commandSucceeded;
+    }
+
     title: i18nc("@title:window", "Bazzite Updater")
 
     windowName: "Bazzite Updater"
@@ -251,8 +259,7 @@ StatefulApp.StatefulWindow {
                 shortcut: StandardKey.Quit
                 onTriggered: {
                     // A running command is always worth warning about, only the reminder is optional.
-                    // TODO: improve logic for non-atomic systems
-                    if (AppState.commandRunning || (!AppData.ostree.onLatestDeployment() && UserSettings.showRebootReminder)) {
+                    if (AppState.commandRunning || (root.rebootNeeded && UserSettings.showRebootReminder)) {
                         AppDialogManager.show(exitDialog);
                     } else
                         Qt.quit();
@@ -379,7 +386,7 @@ StatefulApp.StatefulWindow {
 
         subtitle: {
             if (!AppState.commandRunning)
-                return !AppData.ostree.onLatestDeployment() ? i18n("You must reboot to apply system updates.") : i18n("No command is running, you may exit safely.");
+                return root.rebootNeeded ? i18n("You must reboot to apply system updates.") : i18n("No command is running, you may exit safely.");
 
             if (AppConfig.ini.Commands?.allowEarlyExit !== "true")
                 return i18n("You should not exit the application until the running command completes. If you exit early, it may break your system.");
