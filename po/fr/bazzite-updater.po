@@ -222,68 +222,68 @@ msgctxt "@title"
 msgid "About Application"
 msgstr "À propos"
 
-#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:216
+#: src/pages/AboutDataOS.qml:9 src/pages/Main.qml:224
 msgctxt "About (user's OS)"
 msgid "About %1"
 msgstr "À propos de %1"
 
-#: src/pages/Main.qml:20
+#: src/pages/Main.qml:28
 msgctxt "@title:window"
 msgid "Bazzite Updater"
 msgstr "Mises à jour"
 
-#: src/pages/Main.qml:159 src/pages/system_update/SystemUpdate.qml:20
-#: src/pages/system_update/SystemUpdate.qml:158
+#: src/pages/Main.qml:167 src/pages/system_update/SystemUpdate.qml:20
+#: src/pages/system_update/SystemUpdate.qml:160
 msgid "System Update"
 msgstr "Mises à jour système"
 
-#: src/pages/Main.qml:171 src/pages/other_utils/OtherUtils.qml:19
+#: src/pages/Main.qml:179 src/pages/other_utils/OtherUtils.qml:19
 msgid "Other Utilities"
 msgstr "Autres outils"
 
-#: src/pages/Main.qml:183 src/pages/rebase_page/RebasePage.qml:165
+#: src/pages/Main.qml:191 src/pages/rebase_page/RebasePage.qml:165
 msgid "Rebase Helper"
 msgstr "Aide au rebasage"
 
-#: src/pages/Main.qml:195 src/pages/rss_feed/RssPage.qml:23
+#: src/pages/Main.qml:203 src/pages/rss_feed/RssPage.qml:23
 msgid "Announcements"
 msgstr "Actualité"
 
-#: src/pages/Main.qml:207 src/pages/settings/Settings.qml:17
+#: src/pages/Main.qml:215 src/pages/settings/Settings.qml:17
 msgid "Settings"
 msgstr "Paramètres"
 
-#: src/pages/Main.qml:225
+#: src/pages/Main.qml:233
 msgid "About Bazzite Updater"
 msgstr "À propos de Mises à jour"
 
-#: src/pages/Main.qml:238
+#: src/pages/Main.qml:246
 msgid "Reboot System"
 msgstr "Redémarrer le système"
 
-#: src/pages/Main.qml:249
+#: src/pages/Main.qml:257
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/pages/Main.qml:325
+#: src/pages/Main.qml:332
 msgctxt "@title:window"
 msgid "Reboot System"
 msgstr "Redémarrer le système"
 
-#: src/pages/Main.qml:330 src/pages/system_update/SystemUpdate.qml:106
+#: src/pages/Main.qml:337 src/pages/system_update/SystemUpdate.qml:108
 msgid "This will reboot the system."
 msgstr "Cela va redémarrer votre appareil."
 
-#: src/pages/Main.qml:335
+#: src/pages/Main.qml:342
 msgid "Reboot"
 msgstr "Redémarrer"
 
-#: src/pages/Main.qml:341 src/pages/Main.qml:422
+#: src/pages/Main.qml:348 src/pages/Main.qml:429
 #: src/pages/rebase_page/RebasePage.qml:363
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/pages/Main.qml:358
+#: src/pages/Main.qml:365
 msgid ""
 "The app was unable to reboot. Reboot through your system menu to apply "
 "changes."
@@ -291,21 +291,21 @@ msgstr ""
 "Mises à jour n'a pas pu redémarrer votre système. Veuillez redémarrer avec "
 "le menu système pour appliquer les changements."
 
-#: src/pages/Main.qml:377
+#: src/pages/Main.qml:384
 msgid "Exit Application"
 msgstr "Fermer l'application"
 
-#: src/pages/Main.qml:382
+#: src/pages/Main.qml:389
 msgid "You must reboot to apply system updates."
 msgstr "Un redémarrage est nécessaire pour appliquer les changements."
 
-#: src/pages/Main.qml:382
+#: src/pages/Main.qml:389
 msgid "No command is running, you may exit safely."
 msgstr ""
 "Aucune commande n'est en cours d'exécution, vous pouvez quitter "
 "l'application."
 
-#: src/pages/Main.qml:385
+#: src/pages/Main.qml:392
 msgid ""
 "You should not exit the application until the running command completes. If "
 "you exit early, it may break your system."
@@ -313,7 +313,7 @@ msgstr ""
 "Quitter l'application avant que les commandes ne soient achevées pourrait "
 "casser votre système."
 
-#: src/pages/Main.qml:387
+#: src/pages/Main.qml:394
 msgid ""
 "If you exit the application before the running command completes, it may not "
 "apply its changes."
@@ -321,28 +321,28 @@ msgstr ""
 "Si vous quitter l'application avant que les commandes soient achevées, ses "
 "changements ne seront pas appliqués."
 
-#: src/pages/Main.qml:397
+#: src/pages/Main.qml:404
 msgid "Do not show this again"
 msgstr "Ne plus afficher ce message"
 
-#: src/pages/Main.qml:415
+#: src/pages/Main.qml:422
 msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Quitter"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:92
+#: src/pages/other_utils/FCLayeredPackages.qml:88
 msgid "Close layered packages view"
 msgstr "Fermer la vue des paquets superposés"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:92
+#: src/pages/other_utils/FCLayeredPackages.qml:88
 msgid "View layered packages (%1)"
 msgstr "Voir les paquets superposés (%1)"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:95
+#: src/pages/other_utils/FCLayeredPackages.qml:91
 msgid "Layered Packages (%1):"
 msgstr "Paquets superposés (%1):"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:98
+#: src/pages/other_utils/FCLayeredPackages.qml:94
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -352,7 +352,7 @@ msgstr ""
 "pas d'autres moyens d'installer un paquet. C'est une pratique à éviter, cela "
 "peut faire échouer des mises à jour système."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:108
+#: src/pages/other_utils/FCLayeredPackages.qml:104
 #: src/pages/rebase_page/RebasePage.qml:215
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
@@ -364,17 +364,17 @@ msgstr ""
 "mode bureau. Veuillez alors ouvrir Mises à jour sur le mode bureau pour y "
 "avoir accès."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:133
+#: src/pages/other_utils/FCLayeredPackages.qml:129
 msgid "Remove all layered packages"
 msgstr "Enlever tous les paquets superposés"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:152
+#: src/pages/other_utils/FCLayeredPackages.qml:148
 msgid "Remove selected packages"
 msgstr "Enlever les paquets sélectionnés"
 
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
-#: src/pages/system_update/SystemUpdate.qml:86
+#: src/pages/system_update/SystemUpdate.qml:88
 msgid "Toggle Console"
 msgstr "Afficher/masquer la console"
 
@@ -409,7 +409,7 @@ msgstr "Échec du retour arrière."
 #: src/pages/other_utils/OtherUtils.qml:224
 #: src/pages/other_utils/OtherUtils.qml:259
 #: src/pages/other_utils/OtherUtils.qml:278
-#: src/pages/other_utils/OtherUtils.qml:312
+#: src/pages/other_utils/OtherUtils.qml:314
 #: src/pages/system_update/SystemUpdate.qml:60
 msgid "Open console"
 msgstr "Ouvrir la console"
@@ -449,15 +449,15 @@ msgstr ""
 msgid "System Image Information"
 msgstr "Informations sur l'image système"
 
-#: src/pages/other_utils/OtherUtils.qml:293
+#: src/pages/other_utils/OtherUtils.qml:295
 msgid "General Utilities"
 msgstr "Outils communs"
 
-#: src/pages/other_utils/OtherUtils.qml:303
+#: src/pages/other_utils/OtherUtils.qml:305
 msgid "Add Bazzite Updater to your Steam library"
 msgstr "Ajouter Mises à jour à votre bibliothèque Steam"
 
-#: src/pages/other_utils/OtherUtils.qml:304
+#: src/pages/other_utils/OtherUtils.qml:306
 msgid ""
 "You will need to restart Steam if it is running for Bazzite Updater to "
 "appear in your library."
@@ -465,15 +465,15 @@ msgstr ""
 "Vous aurez besoin de redémarrer Steam pour que Mises à jour puisse "
 "apparaître dans votre bibliothèque."
 
-#: src/pages/other_utils/OtherUtils.qml:312
+#: src/pages/other_utils/OtherUtils.qml:314
 msgid "Adding Bazzite Updater to Steam Failed."
 msgstr "Échec de l'ajout de Mises à jour à Steam."
 
-#: src/pages/other_utils/OtherUtils.qml:314
+#: src/pages/other_utils/OtherUtils.qml:316
 msgid "Adding Bazzite Updater to Steam Succeeded!"
 msgstr "Mises à jour a été ajouté à Steam avec succès ! "
 
-#: src/pages/other_utils/OtherUtils.qml:328
+#: src/pages/other_utils/OtherUtils.qml:330
 msgctxt "card to display info from os-release"
 msgid "Additional Information"
 msgstr "Informations supplémentaires"
@@ -744,51 +744,51 @@ msgstr "Mise à jour réussie !"
 msgid "System Updated!"
 msgstr "Système mis à jour !"
 
-#: src/pages/system_update/SystemUpdate.qml:74
+#: src/pages/system_update/SystemUpdate.qml:76
 msgid "You must reboot to apply changes."
 msgstr "Un redémarrage est nécessaire pour appliquer les changements."
 
-#: src/pages/system_update/SystemUpdate.qml:76
+#: src/pages/system_update/SystemUpdate.qml:78
 msgid "No reboot necessary."
 msgstr "Aucun redémarrage nécessaire."
 
-#: src/pages/system_update/SystemUpdate.qml:103
+#: src/pages/system_update/SystemUpdate.qml:105
 msgid "Update Error"
 msgstr "Erreur de mise à jour"
 
-#: src/pages/system_update/SystemUpdate.qml:111
+#: src/pages/system_update/SystemUpdate.qml:113
 msgid "Ok"
 msgstr "Ok"
 
-#: src/pages/system_update/SystemUpdate.qml:171
+#: src/pages/system_update/SystemUpdate.qml:173
 msgid "Click to update System Image and Software"
 msgstr "Mettre à jour l'image système et les logiciels"
 
-#: src/pages/system_update/SystemUpdate.qml:214
+#: src/pages/system_update/SystemUpdate.qml:216
 msgctxt "label, last update to the system."
 msgid "Last Update"
 msgstr "Dernière mise à jour"
 
-#: src/pages/system_update/SystemUpdate.qml:216
+#: src/pages/system_update/SystemUpdate.qml:218
 msgid "Right now!"
 msgstr "Maintenant !"
 
-#: src/pages/system_update/SystemUpdate.qml:257
+#: src/pages/system_update/SystemUpdate.qml:259
 msgid "The System Update command is not defined."
 msgstr "La commande de mise à jour système n'est pas définie."
 
-#: src/pages/system_update/SystemUpdate.qml:258
+#: src/pages/system_update/SystemUpdate.qml:260
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
 "Veuillez vérifier que le fichier de configuration (/etc/bazzite-updater/"
 "config.ini) est présent."
 
-#: src/pages/system_update/SystemUpdate.qml:276
+#: src/pages/system_update/SystemUpdate.qml:278
 msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
 msgstr "Lecteur système utilisé (%1)"
 
-#: src/pages/system_update/SystemUpdate.qml:345
+#: src/pages/system_update/SystemUpdate.qml:347
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 paquet superposé"

@@ -285,9 +285,11 @@ AppPage {
 
             FC.FormHeader {
                 title: i18n("System Image Information")
-                visible: OtherUtilsBackend.currentImage.load_successful
+                visible: imageCard.visible
             }
-            FCSystemInfo {}
+            FCSystemInfo {
+                id: imageCard
+            }
 
             FC.FormHeader {
                 title: i18n("General Utilities")

@@ -18,6 +18,18 @@ install-controllable:
     cd /workspaces/bazzite-updater
 
 # devcontainer
+install-fake-pkexec:
+    sudo ln -s /workspaces/bazzite-updater/tests/fake-pkexec.sh /usr/bin/pkexec
+
+# devcontainer
+install-fake-rpmostree:
+    sudo ln -s /workspaces/bazzite-updater/tests/fake-rpm-ostree.py /usr/bin/rpm-ostree
+
+# devcontainer
+install-fake-bootc:
+    sudo ln -s /workspaces/bazzite-updater/tests/fake-bootc.py /usr/bin/bootc
+
+# devcontainer
 brun:
     #!/usr/bin/env bash
     set -eo pipefail
