@@ -98,8 +98,14 @@ FC.FormCard {
             id: activeTextArea
             label: i18n("Active Layered Packages (%1):", root.currentLayered.length)
             readOnly: true
-            text: root.currentLayered.join(", ") || i18nc("Displayed when a list of layered packages is empty", "None")
-            description: stagedTextArea.visible ? i18n("Active Layered Packages are present on your running system, while Staged Layered Packages will become active only after you reboot. The controls apply to Staged Layered Packages") : stagedTextArea.description
+            focusPolicy: Qt.NoFocus
+            description: stagedTextArea.visible ? i18n("Active layered packages are present on your running system, while Staged layered packages will become active only after you reboot. The controls apply to Staged layered packages.") : stagedTextArea.description
+
+            Binding {
+                target: activeTextArea
+                property: "text"
+                value: root.currentLayered.join(", ") || i18nc("Displayed when a list of layered packages is empty", "None")
+            }
         }
 
         FC.FormTextAreaDelegate {
@@ -107,8 +113,15 @@ FC.FormCard {
             visible: root.stagedImage.isValid
             label: i18n("Staged Layered Packages (%1):", root.stagedLayered.length)
             readOnly: true
-            text: root.stagedLayered.join(", ") || i18nc("Displayed when a list of layered packages is empty", "None")
+            focusPolicy: Qt.NoFocus
             description: i18n("Layering packages is a last-resort for when there is no other way to install a package. Avoid layering packages whenever possible, as it can cause system updates to fail.")
+
+            // Binding is used because normally assigning the property was not reliable
+            Binding {
+                target: stagedTextArea
+                property: "text"
+                value: root.stagedLayered.join(", ") || i18nc("Displayed when a list of layered packages is empty", "None")
+            }
         }
 
         FormDelegateSeparatorFixed {}

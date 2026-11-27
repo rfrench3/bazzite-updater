@@ -45,7 +45,7 @@ run:
 # host (Requires Fedora44 distrobox with all necessary dependencies)
 build-f45:
     distrobox enter f45 -- bash -c "\
-        cmake -B build_bazzite -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=\$PWD/build_bazzite/install-root -D_USE_XDG_CONFIG=ON && \
+        cmake -B build_bazzite -S . -D_INCLUDE_SUBMODULES=OFF -DCMAKE_INSTALL_PREFIX=\$PWD/build_bazzite/install-root -D_USE_XDG_CONFIG=ON -G Ninja && \
         cmake --build build_bazzite --target install"
 
 # host (Bazzite)
