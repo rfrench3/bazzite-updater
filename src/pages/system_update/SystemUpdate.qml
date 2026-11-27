@@ -78,8 +78,10 @@ Kirigami.Page {
                             showPassiveNotification(i18n("No reboot necessary."), Kirigami.short);
                     });
                 }, errorMessage => {
-                    errorDialog.subtitle = errorMessage;
-                    AppDialogManager.show(errorDialog);
+                    const dialog = errorDialogComponent.createObject(page, {
+                        subtitle: errorMessage
+                    });
+                    AppDialogManager.show(dialog);
                 });
             }
         },
@@ -100,32 +102,36 @@ Kirigami.Page {
         }
     ]
 
-    AppDialog {
-        id: errorDialog
-        titleStart: i18n("Update Error")
-        standardButtons: Kirigami.Dialog.NoButton
+    Component {
+        id: errorDialogComponent
 
-        subtitle: i18n("This will reboot the system.")
+        AppDialog {
+            id: errorDialog
+            titleStart: i18n("Update Error")
+            standardButtons: Kirigami.Dialog.NoButton
 
-        customFooterActions: [
-            Kirigami.Action {
-                id: errorDialogConfirm
-                text: i18n("Ok") + GP.Labels.spacer + GP.Labels.south
+            customFooterActions: [
+                Kirigami.Action {
+                    id: errorDialogConfirm
+                    text: i18n("Ok") + GP.Labels.spacer + GP.Labels.south
 
-                onTriggered: errorDialog.accept()
-            }
-        ]
+                    onTriggered: errorDialog.accept()
+                }
+            ]
 
-        function handleInput(buttonId, button_down) {
-            if (!button_down)
-                return;
-            switch (buttonId) {
-            case 0: // A
-                errorDialogConfirm.triggered();
-                break;
-            case 1: // B
-                errorDialogConfirm.triggered();
-                break;
+            onClosed: destroy()
+
+            function handleInput(buttonId, button_down) {
+                if (!button_down)
+                    return;
+                switch (buttonId) {
+                case 0: // A
+                    errorDialogConfirm.triggered();
+                    break;
+                case 1: // B
+                    errorDialogConfirm.triggered();
+                    break;
+                }
             }
         }
     }

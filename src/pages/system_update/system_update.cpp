@@ -122,7 +122,16 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue mes
         if (module == u"system"_s) {
             if (output.contains(u"Insufficient free space"_s) || output.contains(u"min-free-space-percent"_s)) {
                 messageCallback.call({i18n("There is not enough free space available for system updates.")});
-                m_updateStepsModel->updateData(module, -2, -2, UpdateStepsNS::ExitStatus::NO_CHANGE, false);
+            }
+
+            // Warn users when layered packages are not found (e.g. coolercontrol after it was moved from layered package to podman)
+            if (const auto prefix = u"error: Packages not found: "_s; output.startsWith(prefix)) {
+                if (const auto packages = output.sliced(prefix.size()).trimmed(); !packages.isEmpty()) {
+                    messageCallback.call(
+                        {i18n("The following layered packages are preventing the system update from succeeding: %1\n\nThey can be removed on the Other "
+                              "Utilities page.",
+                              packages)});
+                }
             }
 
             // If the output is more Json, assume it is coming from bootc
