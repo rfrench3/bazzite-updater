@@ -20,6 +20,7 @@
 #include <KLocalizedString>
 
 #include "console.h"
+#include "data.h"
 #include "k_config.h"
 #include "system_update.h"
 #include "update_steps_model.h"
@@ -67,6 +68,7 @@ void SystemUpdateBackend::runUpdate(QJSValue callback = QJSValue(), QJSValue mes
 
         // Ensure modules are not left as "running", an exit status of error will not be overwritten
         m_updateStepsModel->setAllRunningExitStatus(UpdateStepsNS::ExitStatus::SUCCESS);
+        appData->reloadOstree();
 
         // Check for errors
         if (exit_code != 0 || moduleFail == true) {

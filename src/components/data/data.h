@@ -73,9 +73,15 @@ public:
     {
         return isStaged;
     }
+    bool isValid = false;
+    bool getIsValid() const
+    {
+        return isValid;
+    }
     Q_PROPERTY(QStringList layeredPackages READ getLayeredPackages CONSTANT)
     Q_PROPERTY(bool isCurrent READ getIsCurrent CONSTANT)
     Q_PROPERTY(bool isStaged READ getIsStaged CONSTANT)
+    Q_PROPERTY(bool isValid READ getIsValid CONSTANT)
     bool operator==(const OstreeDeployment &) const = default;
 };
 

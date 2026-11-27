@@ -181,6 +181,7 @@ Ostree loadRpmOstree()
     for (const QJsonValue &v : arr) {
         const QJsonObject d = v.toObject();
         OstreeDeployment dep;
+        dep.isValid = true;
         dep.isCurrent = d.value(u"booted"_s).toBool();
         dep.isStaged = d.value(u"staged"_s).toBool();
         for (const QJsonValue &p : d.value(u"requested-packages"_s).toArray())

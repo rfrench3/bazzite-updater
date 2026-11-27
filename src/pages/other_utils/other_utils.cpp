@@ -3,6 +3,7 @@
 
 #include "other_utils.h"
 #include "console.h"
+#include "data.h"
 #include "k_config.h"
 #include "utils.h"
 
@@ -174,12 +175,13 @@ void OtherUtilsBackend::rpmOstreeRemove(QStringList packages, QJSValue callback)
         return;
     }
 
-    QStringList cmd = {u"pkexec"_s, u"rpm-ostree"_s, u"remove"_s};
+    QStringList cmd = {u"pkexec"_s, u"rpm-ostree"_s, u"remove"_s, u"--idempotent"_s};
     cmd.append(packages);
 
     // Don't set commandSucceeded because a user would run this when an update fails and then start an update again
     auto onFinish = [=](int exit_code) {
         appState.setRemoveRunning(false);
+        appData->reloadOstree();
         callback.call({exit_code});
     };
 
@@ -211,8 +213,9 @@ void OtherUtilsBackend::rpmOstreeReset(QJSValue callback)
 
     // Don't set commandSucceeded because a user would run this when an update fails and then start an update again
     auto onFinish = [=](int exit_code) {
-        callback.call({exit_code});
         appState.setResetRunning(false);
+        appData->reloadOstree();
+        callback.call({exit_code});
     };
 
     auto onError = [=, this](QProcess::ProcessError error) {
