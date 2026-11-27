@@ -244,7 +244,7 @@ StatefulApp.StatefulWindow {
             Kirigami.Action {
                 id: actionReboot
                 text: i18n("Reboot System") + GP.Labels.spacer + GP.Labels.north
-                icon.name: AppState.commandSucceeded ? "system-shutdown-update-symbolic" : "system-shutdown-symbolic"
+                icon.name: root.rebootNeeded ? "system-shutdown-update-symbolic" : "system-shutdown-symbolic"
 
                 enabled: !AppState.commandRunning
 
