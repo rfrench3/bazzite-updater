@@ -72,6 +72,10 @@ msgid ""
 "\n"
 "They can be removed on the Other Utilities page."
 msgstr ""
+"Následující vrstvené balíčky brání úspěšnému provedení aktualizace systému: "
+"%1\n"
+"\n"
+"Lze je odebrat na stránce Další nástroje."
 
 #: src/components/console/ConsoleDrawer.qml:69
 msgid "Copy to Clipboard"
@@ -339,20 +343,18 @@ msgid "Close layered packages view"
 msgstr "Zavřít zobrazení vrstvených balíčků"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:95
-#, fuzzy
 msgid "View layered packages"
-msgstr "Zobrazit vrstvené balíčky (%1)"
+msgstr "Zobrazit vrstvené balíčky"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:99
-#, fuzzy
 msgid "Active Layered Packages (%1):"
-msgstr "Vrstvené balíčky"
+msgstr "Aktivní vrstvené balíčky (%1):"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:101
 #: src/pages/other_utils/FCLayeredPackages.qml:110
 msgctxt "Displayed when a list of layered packages is empty"
 msgid "None"
-msgstr ""
+msgstr "Žádné"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:102
 msgid ""
@@ -360,11 +362,13 @@ msgid ""
 "Layered Packages will become active only after you reboot. The controls "
 "apply to Staged Layered Packages"
 msgstr ""
+"Ve vašem běžícím systému jsou přítomny aktivní vrstvené balíčky, zatímco "
+"připravené vrstvené balíčky se stanou aktivními až po restartu. Ovládací "
+"prvky se vztahují na připravené vrstvené balíčky"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:108
-#, fuzzy
 msgid "Staged Layered Packages (%1):"
-msgstr "Vrstvené balíčky (%1):"
+msgstr "Připravené vrstvené balíčky (%1):"
 
 #: src/pages/other_utils/FCLayeredPackages.qml:111
 msgid ""
@@ -814,19 +818,3 @@ msgid_plural "%1 Layered packages"
 msgstr[0] "%1 vrstvený balíček"
 msgstr[1] "%1 vrstvené balíčky"
 msgstr[2] "%1 vrstvených balíčků"
-
-#, fuzzy
-#~ msgid "Layered Packages (%1 Active):"
-#~ msgstr "Vrstvené balíčky (%1):"
-
-#, fuzzy
-#~ msgid "Layered Packages (%1 Next Boot):"
-#~ msgstr "Vrstvené balíčky (%1):"
-
-#, fuzzy
-#~ msgid "Incoming Layered Packages:"
-#~ msgstr "Vrstvené balíčky"
-
-#, fuzzy
-#~ msgid "Layered Packages after reboot (%1):"
-#~ msgstr "Vrstvené balíčky (%1):"
