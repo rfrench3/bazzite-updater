@@ -36,12 +36,12 @@ msgstr ""
 "Cette application peut être utilisée avec une manette ou un clavier pour "
 "effectuer des tâches de mises à jour système !"
 
-#: src/pages/other_utils/other_utils.cpp:125
+#: src/pages/other_utils/other_utils.cpp:126
 msgid "Rollback program was not found or failed to start."
 msgstr ""
 "Le programme de retour en arrière n'a pas été trouvé ou n'a pas pu démarrer."
 
-#: src/pages/other_utils/other_utils.cpp:150
+#: src/pages/other_utils/other_utils.cpp:151
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
@@ -49,22 +49,30 @@ msgstr ""
 "Steam a besoin d'être relancé pour que Mises à jour puisse apparaître dans "
 "votre bibliothèque."
 
-#: src/pages/other_utils/other_utils.cpp:157
+#: src/pages/other_utils/other_utils.cpp:158
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr ""
 "Le programme steamos-add-to-steam n'a pas été trouvé ou n'a pas pu démarrer."
 
-#: src/pages/other_utils/other_utils.cpp:188
+#: src/pages/other_utils/other_utils.cpp:190
 msgid "rpm-ostree failed to start or was not found."
 msgstr "rpm-ostree n'a pas été trouvé ou n'a pas pu démarrer."
 
-#: src/pages/other_utils/other_utils.cpp:220
+#: src/pages/other_utils/other_utils.cpp:223
 msgid "rpm-ostree was not found or failed to start."
 msgstr "rpm-ostree n'a pas été trouvé ou n'a pas pu démarrer."
 
-#: src/pages/system_update/system_update.cpp:122
+#: src/pages/system_update/system_update.cpp:124
 msgid "There is not enough free space available for system updates."
 msgstr "Il n'y a pas assez d'espace disponible pour des mises à jour système."
+
+#: src/pages/system_update/system_update.cpp:131
+msgid ""
+"The following layered packages are preventing the system update from "
+"succeeding: %1\n"
+"\n"
+"They can be removed on the Other Utilities page."
+msgstr ""
 
 #: src/components/console/ConsoleDrawer.qml:69
 msgid "Copy to Clipboard"
@@ -233,7 +241,7 @@ msgid "Bazzite Updater"
 msgstr "Mises à jour"
 
 #: src/pages/Main.qml:167 src/pages/system_update/SystemUpdate.qml:20
-#: src/pages/system_update/SystemUpdate.qml:160
+#: src/pages/system_update/SystemUpdate.qml:166
 msgid "System Update"
 msgstr "Mises à jour système"
 
@@ -270,7 +278,7 @@ msgctxt "@title:window"
 msgid "Reboot System"
 msgstr "Redémarrer le système"
 
-#: src/pages/Main.qml:337 src/pages/system_update/SystemUpdate.qml:108
+#: src/pages/Main.qml:337
 msgid "This will reboot the system."
 msgstr "Cela va redémarrer votre appareil."
 
@@ -330,19 +338,39 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Quitter"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:88
+#: src/pages/other_utils/FCLayeredPackages.qml:95
 msgid "Close layered packages view"
 msgstr "Fermer la vue des paquets superposés"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:88
-msgid "View layered packages (%1)"
+#: src/pages/other_utils/FCLayeredPackages.qml:95
+#, fuzzy
+msgid "View layered packages"
 msgstr "Voir les paquets superposés (%1)"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:91
-msgid "Layered Packages (%1):"
+#: src/pages/other_utils/FCLayeredPackages.qml:99
+#, fuzzy
+msgid "Active Layered Packages (%1):"
+msgstr "Paquets superposés"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:101
+#: src/pages/other_utils/FCLayeredPackages.qml:110
+msgctxt "Displayed when a list of layered packages is empty"
+msgid "None"
+msgstr ""
+
+#: src/pages/other_utils/FCLayeredPackages.qml:102
+msgid ""
+"Active Layered Packages are present on your running system, while Staged "
+"Layered Packages will become active only after you reboot. The controls "
+"apply to Staged Layered Packages"
+msgstr ""
+
+#: src/pages/other_utils/FCLayeredPackages.qml:108
+#, fuzzy
+msgid "Staged Layered Packages (%1):"
 msgstr "Paquets superposés (%1):"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:94
+#: src/pages/other_utils/FCLayeredPackages.qml:111
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -352,7 +380,7 @@ msgstr ""
 "pas d'autres moyens d'installer un paquet. C'est une pratique à éviter, cela "
 "peut faire échouer des mises à jour système."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:104
+#: src/pages/other_utils/FCLayeredPackages.qml:121
 #: src/pages/rebase_page/RebasePage.qml:215
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
@@ -364,17 +392,17 @@ msgstr ""
 "mode bureau. Veuillez alors ouvrir Mises à jour sur le mode bureau pour y "
 "avoir accès."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:129
+#: src/pages/other_utils/FCLayeredPackages.qml:146
 msgid "Remove all layered packages"
 msgstr "Enlever tous les paquets superposés"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:148
+#: src/pages/other_utils/FCLayeredPackages.qml:165
 msgid "Remove selected packages"
 msgstr "Enlever les paquets sélectionnés"
 
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
-#: src/pages/system_update/SystemUpdate.qml:88
+#: src/pages/system_update/SystemUpdate.qml:90
 msgid "Toggle Console"
 msgstr "Afficher/masquer la console"
 
@@ -752,44 +780,60 @@ msgstr "Un redémarrage est nécessaire pour appliquer les changements."
 msgid "No reboot necessary."
 msgstr "Aucun redémarrage nécessaire."
 
-#: src/pages/system_update/SystemUpdate.qml:105
+#: src/pages/system_update/SystemUpdate.qml:110
 msgid "Update Error"
 msgstr "Erreur de mise à jour"
 
-#: src/pages/system_update/SystemUpdate.qml:113
+#: src/pages/system_update/SystemUpdate.qml:116
 msgid "Ok"
 msgstr "Ok"
 
-#: src/pages/system_update/SystemUpdate.qml:173
+#: src/pages/system_update/SystemUpdate.qml:179
 msgid "Click to update System Image and Software"
 msgstr "Mettre à jour l'image système et les logiciels"
 
-#: src/pages/system_update/SystemUpdate.qml:216
+#: src/pages/system_update/SystemUpdate.qml:222
 msgctxt "label, last update to the system."
 msgid "Last Update"
 msgstr "Dernière mise à jour"
 
-#: src/pages/system_update/SystemUpdate.qml:218
+#: src/pages/system_update/SystemUpdate.qml:224
 msgid "Right now!"
 msgstr "Maintenant !"
 
-#: src/pages/system_update/SystemUpdate.qml:259
+#: src/pages/system_update/SystemUpdate.qml:265
 msgid "The System Update command is not defined."
 msgstr "La commande de mise à jour système n'est pas définie."
 
-#: src/pages/system_update/SystemUpdate.qml:260
+#: src/pages/system_update/SystemUpdate.qml:266
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
 "Veuillez vérifier que le fichier de configuration (/etc/bazzite-updater/"
 "config.ini) est présent."
 
-#: src/pages/system_update/SystemUpdate.qml:278
+#: src/pages/system_update/SystemUpdate.qml:284
 msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
 msgstr "Lecteur système utilisé (%1)"
 
-#: src/pages/system_update/SystemUpdate.qml:347
+#: src/pages/system_update/SystemUpdate.qml:353
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 paquet superposé"
 msgstr[1] "%1 paquets superposés"
+
+#, fuzzy
+#~ msgid "Layered Packages (%1 Active):"
+#~ msgstr "Paquets superposés (%1):"
+
+#, fuzzy
+#~ msgid "Layered Packages (%1 Next Boot):"
+#~ msgstr "Paquets superposés (%1):"
+
+#, fuzzy
+#~ msgid "Incoming Layered Packages:"
+#~ msgstr "Paquets superposés"
+
+#, fuzzy
+#~ msgid "Layered Packages after reboot (%1):"
+#~ msgstr "Paquets superposés (%1):"

@@ -36,11 +36,11 @@ msgstr ""
 "Tuto aplikaci lze ovládat pomocí ovladače nebo klávesnice a provádět v ní "
 "různé systémové úlohy související s aktualizacemi!"
 
-#: src/pages/other_utils/other_utils.cpp:125
+#: src/pages/other_utils/other_utils.cpp:126
 msgid "Rollback program was not found or failed to start."
 msgstr "Program pro vrácení změn nebyl nalezen nebo se jej nepodařilo spustit."
 
-#: src/pages/other_utils/other_utils.cpp:150
+#: src/pages/other_utils/other_utils.cpp:151
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
@@ -48,22 +48,30 @@ msgstr ""
 "Pokud je Steam spuštěný, musíte jej restartovat, aby se Aktualizátor Bazzite "
 "zobrazil ve vaší knihovně."
 
-#: src/pages/other_utils/other_utils.cpp:157
+#: src/pages/other_utils/other_utils.cpp:158
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr ""
 "Program steamos-add-to-steam nebyl nalezen nebo se jej nepodařilo spustit."
 
-#: src/pages/other_utils/other_utils.cpp:188
+#: src/pages/other_utils/other_utils.cpp:190
 msgid "rpm-ostree failed to start or was not found."
 msgstr "rpm-ostree se nepodařilo spustit nebo nebyl nalezen."
 
-#: src/pages/other_utils/other_utils.cpp:220
+#: src/pages/other_utils/other_utils.cpp:223
 msgid "rpm-ostree was not found or failed to start."
 msgstr "rpm-ostree nebyl nalezen nebo se jej nepodařilo spustit."
 
-#: src/pages/system_update/system_update.cpp:122
+#: src/pages/system_update/system_update.cpp:124
 msgid "There is not enough free space available for system updates."
 msgstr "Pro aktualizace systému není k dispozici dostatek volného místa."
+
+#: src/pages/system_update/system_update.cpp:131
+msgid ""
+"The following layered packages are preventing the system update from "
+"succeeding: %1\n"
+"\n"
+"They can be removed on the Other Utilities page."
+msgstr ""
 
 #: src/components/console/ConsoleDrawer.qml:69
 msgid "Copy to Clipboard"
@@ -231,7 +239,7 @@ msgid "Bazzite Updater"
 msgstr "Aktualizátor Bazzite"
 
 #: src/pages/Main.qml:167 src/pages/system_update/SystemUpdate.qml:20
-#: src/pages/system_update/SystemUpdate.qml:160
+#: src/pages/system_update/SystemUpdate.qml:166
 msgid "System Update"
 msgstr "Aktualizace systému"
 
@@ -268,7 +276,7 @@ msgctxt "@title:window"
 msgid "Reboot System"
 msgstr "Restartovat systém"
 
-#: src/pages/Main.qml:337 src/pages/system_update/SystemUpdate.qml:108
+#: src/pages/Main.qml:337
 msgid "This will reboot the system."
 msgstr "Toto restartuje váš systém."
 
@@ -326,19 +334,39 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Ukončit"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:88
+#: src/pages/other_utils/FCLayeredPackages.qml:95
 msgid "Close layered packages view"
 msgstr "Zavřít zobrazení vrstvených balíčků"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:88
-msgid "View layered packages (%1)"
+#: src/pages/other_utils/FCLayeredPackages.qml:95
+#, fuzzy
+msgid "View layered packages"
 msgstr "Zobrazit vrstvené balíčky (%1)"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:91
-msgid "Layered Packages (%1):"
+#: src/pages/other_utils/FCLayeredPackages.qml:99
+#, fuzzy
+msgid "Active Layered Packages (%1):"
+msgstr "Vrstvené balíčky"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:101
+#: src/pages/other_utils/FCLayeredPackages.qml:110
+msgctxt "Displayed when a list of layered packages is empty"
+msgid "None"
+msgstr ""
+
+#: src/pages/other_utils/FCLayeredPackages.qml:102
+msgid ""
+"Active Layered Packages are present on your running system, while Staged "
+"Layered Packages will become active only after you reboot. The controls "
+"apply to Staged Layered Packages"
+msgstr ""
+
+#: src/pages/other_utils/FCLayeredPackages.qml:108
+#, fuzzy
+msgid "Staged Layered Packages (%1):"
 msgstr "Vrstvené balíčky (%1):"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:94
+#: src/pages/other_utils/FCLayeredPackages.qml:111
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -348,7 +376,7 @@ msgstr ""
 "nainstalovat žádným jiným způsobem. Pokud je to možné, vrstvení balíčků se "
 "vyhněte, protože může způsobit selhání aktualizací systému."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:104
+#: src/pages/other_utils/FCLayeredPackages.qml:121
 #: src/pages/rebase_page/RebasePage.qml:215
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
@@ -359,17 +387,17 @@ msgstr ""
 "hesla a jsou dostupné pouze v režimu plochy. Pro přístup k těmto funkcím "
 "prosím otevřete Aktualizátor Bazzite v režimu plochy."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:129
+#: src/pages/other_utils/FCLayeredPackages.qml:146
 msgid "Remove all layered packages"
 msgstr "Odstranit všechny vrstvené balíčky"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:148
+#: src/pages/other_utils/FCLayeredPackages.qml:165
 msgid "Remove selected packages"
 msgstr "Odstranit vybrané balíčky"
 
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
-#: src/pages/system_update/SystemUpdate.qml:88
+#: src/pages/system_update/SystemUpdate.qml:90
 msgid "Toggle Console"
 msgstr "Přepnout konzoli"
 
@@ -744,45 +772,61 @@ msgstr "Pro uplatnění změn je nutné provést restart."
 msgid "No reboot necessary."
 msgstr "Není nutný restart."
 
-#: src/pages/system_update/SystemUpdate.qml:105
+#: src/pages/system_update/SystemUpdate.qml:110
 msgid "Update Error"
 msgstr "Chyba při aktualizaci"
 
-#: src/pages/system_update/SystemUpdate.qml:113
+#: src/pages/system_update/SystemUpdate.qml:116
 msgid "Ok"
 msgstr "OK"
 
-#: src/pages/system_update/SystemUpdate.qml:173
+#: src/pages/system_update/SystemUpdate.qml:179
 msgid "Click to update System Image and Software"
 msgstr "Kliknutím aktualizujete obraz systému a software"
 
-#: src/pages/system_update/SystemUpdate.qml:216
+#: src/pages/system_update/SystemUpdate.qml:222
 msgctxt "label, last update to the system."
 msgid "Last Update"
 msgstr "Poslední aktualizace"
 
-#: src/pages/system_update/SystemUpdate.qml:218
+#: src/pages/system_update/SystemUpdate.qml:224
 msgid "Right now!"
 msgstr "Právě teď!"
 
-#: src/pages/system_update/SystemUpdate.qml:259
+#: src/pages/system_update/SystemUpdate.qml:265
 msgid "The System Update command is not defined."
 msgstr "Není definován příkaz System Update."
 
-#: src/pages/system_update/SystemUpdate.qml:260
+#: src/pages/system_update/SystemUpdate.qml:266
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
 "Ujistěte se, že konfigurační soubor (/etc/bazzite-updater/config.ini) "
 "existuje."
 
-#: src/pages/system_update/SystemUpdate.qml:278
+#: src/pages/system_update/SystemUpdate.qml:284
 msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
 msgstr "Využití systémového disku (%1)"
 
-#: src/pages/system_update/SystemUpdate.qml:347
+#: src/pages/system_update/SystemUpdate.qml:353
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 vrstvený balíček"
 msgstr[1] "%1 vrstvené balíčky"
 msgstr[2] "%1 vrstvených balíčků"
+
+#, fuzzy
+#~ msgid "Layered Packages (%1 Active):"
+#~ msgstr "Vrstvené balíčky (%1):"
+
+#, fuzzy
+#~ msgid "Layered Packages (%1 Next Boot):"
+#~ msgstr "Vrstvené balíčky (%1):"
+
+#, fuzzy
+#~ msgid "Incoming Layered Packages:"
+#~ msgstr "Vrstvené balíčky"
+
+#, fuzzy
+#~ msgid "Layered Packages after reboot (%1):"
+#~ msgstr "Vrstvené balíčky (%1):"

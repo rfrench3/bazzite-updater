@@ -38,11 +38,11 @@ msgstr ""
 "Цим застосунком можна керувати за допомогою контролера або клавіатури, щоб "
 "виконувати різні системні завдання, пов'язані з оновленням!"
 
-#: src/pages/other_utils/other_utils.cpp:125
+#: src/pages/other_utils/other_utils.cpp:126
 msgid "Rollback program was not found or failed to start."
 msgstr "Програму для відкату не знайдено або не вдалося запустити."
 
-#: src/pages/other_utils/other_utils.cpp:150
+#: src/pages/other_utils/other_utils.cpp:151
 msgid ""
 "If steam is open, you must restart it before Bazzite Updater will appear in "
 "your library."
@@ -50,21 +50,29 @@ msgstr ""
 "Якщо Steam відкрито, перезапустіть його, щоб Центр оновлень Bazzite з'явився "
 "у вашій бібліотеці."
 
-#: src/pages/other_utils/other_utils.cpp:157
+#: src/pages/other_utils/other_utils.cpp:158
 msgid "steamos-add-to-steam program was not found or failed to start."
 msgstr "Програму steamos-add-to-steam не знайдено або не вдалося запустити."
 
-#: src/pages/other_utils/other_utils.cpp:188
+#: src/pages/other_utils/other_utils.cpp:190
 msgid "rpm-ostree failed to start or was not found."
 msgstr "Не вдалося запустити програму rpm-ostree або її не знайдено."
 
-#: src/pages/other_utils/other_utils.cpp:220
+#: src/pages/other_utils/other_utils.cpp:223
 msgid "rpm-ostree was not found or failed to start."
 msgstr "Програму rpm-ostree не знайдено або не вдалося запустити."
 
-#: src/pages/system_update/system_update.cpp:122
+#: src/pages/system_update/system_update.cpp:124
 msgid "There is not enough free space available for system updates."
 msgstr "Недостатньо вільного місця для оновлення системи."
+
+#: src/pages/system_update/system_update.cpp:131
+msgid ""
+"The following layered packages are preventing the system update from "
+"succeeding: %1\n"
+"\n"
+"They can be removed on the Other Utilities page."
+msgstr ""
 
 #: src/components/console/ConsoleDrawer.qml:69
 msgid "Copy to Clipboard"
@@ -234,7 +242,7 @@ msgid "Bazzite Updater"
 msgstr "Центр оновлень Bazzite"
 
 #: src/pages/Main.qml:167 src/pages/system_update/SystemUpdate.qml:20
-#: src/pages/system_update/SystemUpdate.qml:160
+#: src/pages/system_update/SystemUpdate.qml:166
 msgid "System Update"
 msgstr "Оновлення системи"
 
@@ -271,7 +279,7 @@ msgctxt "@title:window"
 msgid "Reboot System"
 msgstr "Перезавантажити систему"
 
-#: src/pages/Main.qml:337 src/pages/system_update/SystemUpdate.qml:108
+#: src/pages/Main.qml:337
 msgid "This will reboot the system."
 msgstr "Систему буде перезавантажено."
 
@@ -329,19 +337,39 @@ msgctxt "dialog to exit the application"
 msgid "Exit"
 msgstr "Вийти"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:88
+#: src/pages/other_utils/FCLayeredPackages.qml:95
 msgid "Close layered packages view"
 msgstr "Закрити перелік накладених пакунків"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:88
-msgid "View layered packages (%1)"
+#: src/pages/other_utils/FCLayeredPackages.qml:95
+#, fuzzy
+msgid "View layered packages"
 msgstr "Переглянути накладені пакунки (%1)"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:91
-msgid "Layered Packages (%1):"
+#: src/pages/other_utils/FCLayeredPackages.qml:99
+#, fuzzy
+msgid "Active Layered Packages (%1):"
+msgstr "Накладені пакунки"
+
+#: src/pages/other_utils/FCLayeredPackages.qml:101
+#: src/pages/other_utils/FCLayeredPackages.qml:110
+msgctxt "Displayed when a list of layered packages is empty"
+msgid "None"
+msgstr ""
+
+#: src/pages/other_utils/FCLayeredPackages.qml:102
+msgid ""
+"Active Layered Packages are present on your running system, while Staged "
+"Layered Packages will become active only after you reboot. The controls "
+"apply to Staged Layered Packages"
+msgstr ""
+
+#: src/pages/other_utils/FCLayeredPackages.qml:108
+#, fuzzy
+msgid "Staged Layered Packages (%1):"
 msgstr "Накладені пакунки (%1):"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:94
+#: src/pages/other_utils/FCLayeredPackages.qml:111
 msgid ""
 "Layering packages is a last-resort for when there is no other way to install "
 "a package. Avoid layering packages whenever possible, as it can cause system "
@@ -351,7 +379,7 @@ msgstr ""
 "способом. Уникайте накладання пакунків, бо через нього оновлення системи "
 "можуть завершуватися помилкою."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:104
+#: src/pages/other_utils/FCLayeredPackages.qml:121
 #: src/pages/rebase_page/RebasePage.qml:215
 msgid ""
 "Certain features, such as managing layered packages and rebasing, require "
@@ -362,17 +390,17 @@ msgstr ""
 "потребують пароля й доступні лише в режимі робочого столу. Відкрийте Центр "
 "оновлень Bazzite у режимі робочого столу, щоб скористатися ними."
 
-#: src/pages/other_utils/FCLayeredPackages.qml:129
+#: src/pages/other_utils/FCLayeredPackages.qml:146
 msgid "Remove all layered packages"
 msgstr "Видалити всі накладені пакунки"
 
-#: src/pages/other_utils/FCLayeredPackages.qml:148
+#: src/pages/other_utils/FCLayeredPackages.qml:165
 msgid "Remove selected packages"
 msgstr "Видалити вибрані пакунки"
 
 #: src/pages/other_utils/OtherUtils.qml:27
 #: src/pages/rebase_page/RebasePage.qml:171
-#: src/pages/system_update/SystemUpdate.qml:88
+#: src/pages/system_update/SystemUpdate.qml:90
 msgid "Toggle Console"
 msgstr "Перемкнути консоль"
 
@@ -748,42 +776,42 @@ msgstr "Щоб застосувати зміни, перезавантажте �
 msgid "No reboot necessary."
 msgstr "Перезавантаження не потрібне."
 
-#: src/pages/system_update/SystemUpdate.qml:105
+#: src/pages/system_update/SystemUpdate.qml:110
 msgid "Update Error"
 msgstr "Помилка оновлення"
 
-#: src/pages/system_update/SystemUpdate.qml:113
+#: src/pages/system_update/SystemUpdate.qml:116
 msgid "Ok"
 msgstr "Гаразд"
 
-#: src/pages/system_update/SystemUpdate.qml:173
+#: src/pages/system_update/SystemUpdate.qml:179
 msgid "Click to update System Image and Software"
 msgstr "Натисніть, щоб оновити образ системи та застосунки"
 
-#: src/pages/system_update/SystemUpdate.qml:216
+#: src/pages/system_update/SystemUpdate.qml:222
 msgctxt "label, last update to the system."
 msgid "Last Update"
 msgstr "Останнє оновлення"
 
-#: src/pages/system_update/SystemUpdate.qml:218
+#: src/pages/system_update/SystemUpdate.qml:224
 msgid "Right now!"
 msgstr "Щойно!"
 
-#: src/pages/system_update/SystemUpdate.qml:259
+#: src/pages/system_update/SystemUpdate.qml:265
 msgid "The System Update command is not defined."
 msgstr "Команду оновлення системи не визначено."
 
-#: src/pages/system_update/SystemUpdate.qml:260
+#: src/pages/system_update/SystemUpdate.qml:266
 msgid "Make sure the config file (/etc/bazzite-updater/config.ini) is present."
 msgstr ""
 "Переконайтеся, що файл налаштувань (/etc/bazzite-updater/config.ini) існує."
 
-#: src/pages/system_update/SystemUpdate.qml:278
+#: src/pages/system_update/SystemUpdate.qml:284
 msgctxt "progress bar displaying used storage space vs total available space"
 msgid "System Drive Used (%1)"
 msgstr "Використано системного диска (%1)"
 
-#: src/pages/system_update/SystemUpdate.qml:347
+#: src/pages/system_update/SystemUpdate.qml:353
 msgid "%1 Layered package"
 msgid_plural "%1 Layered packages"
 msgstr[0] "%1 накладений пакунок"

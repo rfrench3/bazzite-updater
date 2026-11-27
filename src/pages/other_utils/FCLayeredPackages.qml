@@ -16,16 +16,23 @@ FC.FormCard {
 
     property real maxListHeight: KG.Units.gridUnit * 16
 
-    // TODO: Layered package information should probably come from the staged image in certain places,
-    //       so that it properly updates when you remove layered packages
-    readonly property ostreeDeployment stagedImage: AppData.ostree.stagedDeployment
-
     readonly property ostreeDeployment currentImage: AppData.ostree.currentDeployment
-    readonly property list<string> layeredPackages: currentImage.layeredPackages || []
+    readonly property ostreeDeployment stagedImage: AppData.ostree.stagedDeployment
+    readonly property ostreeDeployment removeTarget: stagedImage.isValid ? stagedImage : currentImage
 
+    // target: `rpm-ostree remove` will use the staged image if it exists, and will use the booted image otherwise.
+
+    readonly property list<string> stagedLayered: stagedImage.layeredPackages
+    readonly property list<string> currentLayered: currentImage.layeredPackages
+    readonly property list<string> targetLayered: removeTarget.layeredPackages
     property list<string> selectedPackages: []
 
-    visible: layeredPackages.length !== 0
+    onTargetLayeredChanged: {
+        root.selectedPackages = [];
+        root.removeCompleted = false;
+    }
+
+    visible: currentLayered.length !== 0 || stagedLayered.length !== 0
 
     signal listViewFocused(Item item)
 
@@ -77,7 +84,7 @@ FC.FormCard {
             return null;
 
         if (item instanceof ListView)
-            return item;
+            return item as ListView;
 
         return QmlUtils.getParentOfType(item, ListView);
     }
@@ -85,12 +92,22 @@ FC.FormCard {
     FormDelegateCollapsible {
         id: layeredPackagesInfo
 
-        text: expanded ? i18n("Close layered packages view") : i18n("View layered packages (%1)", root.layeredPackages.length)
+        text: expanded ? i18n("Close layered packages view") : i18n("View layered packages")
 
         FC.FormTextAreaDelegate {
-            label: i18n("Layered Packages (%1):", root.layeredPackages.length)
+            id: activeTextArea
+            label: i18n("Active Layered Packages (%1):", root.currentLayered.length)
             readOnly: true
-            text: root.currentImage.layeredPackages.join(", ") ?? ""
+            text: root.currentLayered.join(", ") || i18nc("Displayed when a list of layered packages is empty", "None")
+            description: stagedTextArea.visible ? i18n("Active Layered Packages are present on your running system, while Staged Layered Packages will become active only after you reboot. The controls apply to Staged Layered Packages") : stagedTextArea.description
+        }
+
+        FC.FormTextAreaDelegate {
+            id: stagedTextArea
+            visible: root.stagedImage.isValid
+            label: i18n("Staged Layered Packages (%1):", root.stagedLayered.length)
+            readOnly: true
+            text: root.stagedLayered.join(", ") || i18nc("Displayed when a list of layered packages is empty", "None")
             description: i18n("Layering packages is a last-resort for when there is no other way to install a package. Avoid layering packages whenever possible, as it can cause system updates to fail.")
         }
 
@@ -112,7 +129,7 @@ FC.FormCard {
             id: tagsView
 
             // first two elements are just filler items to place first two DelegateChoices
-            model: ["index0", "index1"].concat(root.layeredPackages)
+            model: ["index0", "index1"].concat(root.targetLayered)
 
             onListViewFocused: x => root.listViewFocused(x)
 
@@ -125,7 +142,7 @@ FC.FormCard {
 
                         focusPolicy: Qt.NoFocus
 
-                        enabled: AppState.allowCommands && !AppState.isGamescopeSession && !root.resetCompleted
+                        enabled: AppState.allowCommands && !AppState.isGamescopeSession && !root.resetCompleted && root.targetLayered.length > 0
                         text: i18n("Remove all layered packages")
                         onClicked: root.rpmOstreeResetClicked()
 
@@ -166,6 +183,8 @@ FC.FormCard {
                         focusPolicy: Qt.NoFocus
 
                         enabled: !AppState.isGamescopeSession
+
+                        checked: root.selectedPackages.includes(modelData)
 
                         onClicked: {
                             if (checked)
